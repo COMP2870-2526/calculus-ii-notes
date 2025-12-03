@@ -1,0 +1,104 @@
+name: Quarto build and deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      site-dir: "_output"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Cache Quarto's Jupyter freeze directory to avoid re-executing notebooks
+      - name: Restore Quarto freeze cache
+        uses: actions/cache@v4
+        with:
+          path: .quarto/_freeze
+          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+          restore-keys: |
+            quarto-freeze-
+
+      # Install uv and Python
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      #  Cache uv virtual environment (optional but speeds up dependency install)
+      - name: Cache uv virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-
+
+      # Set up Quarto
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tinytex: true
+
+      #  Install dependencies using uv
+      - name: Install the project
+        run: uv sync --all-extras --dev --locked
+
+      #  Build the Quarto site
+      - name: Build site
+        run: uv run quarto render
+
+      #  Build Quarto slides separately
+      - name: Build slides
+        run: |
+          mkdir -p _output/slides
+          for q in slides/*.qmd; do
+            uv run quarto render "$q"
+            mv "${q/.qmd/.html}" _output/slides/
+            mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
+          done
+
+      # Save updated Quarto freeze cache
+      - name: Save Quarto freeze cache
+        uses: actions/cache@v4
+        with:
+          path: .quarto/_freeze
+          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+
+      # Upload built site as artifact
+      - name: Upload site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: _output
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: _output
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_output

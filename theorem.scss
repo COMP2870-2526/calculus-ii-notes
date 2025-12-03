@@ -1,0 +1,77 @@
+/*-- scss:defaults --*/
+// Default variables and settings
+$default-padding: 0.4rem;
+$default-border-color: #ccc;
+$default-background-color: #f9f9f9;
+
+$theorem-color: var(--bs-info);
+$definition-color: var(--bs-warning);
+$example-color: var(--bs-success);
+$exercise-color: var(--bs-danger);
+$remark-color: var(--bs-yellow);
+
+$theorem-bg-color: var(--bs-info-bg-subtle);
+$definition-bg-color: var(--bs-warning-bg-subtle);
+$example-bg-color: var(--bs-success-bg-subtle);
+$exercise-bg-color: var(--bs-danger-bg-subtle);
+$remark-bg-color: var(--bs-yellow-bg-subtle);
+
+/*-- scss:rules --*/
+.amsthm {
+ border: 1px solid;
+ border-left-width: 5px;
+ border-radius: 4px;
+ border-color: color-mix(in srgb, var(--bs-body-bg) 90%, var(--bs-body-color));
+ margin-bottom: 1rem;
+ display: block;
+ background-color: color-mix(in srgb, var(--bs-body-bg) 95%, var(--bs-body-color));
+}
+
+.amsthm p {
+ padding: $default-padding;
+}
+
+// Base styles for definition
+.theorem {
+ @extend .amsthm;
+}
+
+.theorem-title {
+ display: block;
+}
+
+.proof {
+ @extend .amsthm;
+}
+
+.proof::after {
+ content: "□";
+ text-align: right;
+ display: block;
+ padding: $default-padding;
+ padding-top: 0;
+}
+
+// .definition {
+//  border-color: $definition-color;
+// }
+
+// .example {
+//  border-color: $example-color;
+// }
+
+.exercise {
+ border: 1px solid;
+ border-left-width: 5px;
+ border-radius: 4px;
+ border-color: $exercise-color;
+ margin: $default-padding;
+}
+
+// .remark {
+//  border-color: $remark-color;
+// }
+
+.remark::after {
+ display: none;
+}

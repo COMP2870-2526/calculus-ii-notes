@@ -1,0 +1,40 @@
+[project]
+name = "COMP2870-Calculus-II-notes"
+author = "Thomas Ranner"
+version = "2025.0.0"
+description = "Notes for Calculus II part of COMP2870. School of Computer Science, University of Leeds"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter>=1.1.1",
+    "jupyter-cache>=1.0.1",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.2",
+    "pandas>=2.2.3",
+    "quarto>=0.1.0",
+    "scipy>=1.15.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "ruff>=0.9.3",
+]
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.lint]
+extend-select = [
+  "E",
+  "F",
+  "W",
+  "B",
+  "I",
+  "ARG",
+  "C4",
+  "PGH",
+  "PT",
+  "UP",
+  "PYI",
+]

@@ -1,0 +1,16 @@
+/.quarto/
+/_freeze/
+/_output/
+/src/*files/
+/src/.jupyter_cache/
+/slides/*files/
+/slides/.jupyter_cache/
+/slides/*.html
+index.aux
+index.log
+index.pdf
+index.tex
+index.toc
+index*files/
+.jupyter_cache/
+notes.html
