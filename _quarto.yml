@@ -12,12 +12,12 @@ book:
   author: "Thomas Ranner"
   date: today
   date-format: "D MMMM YYYY"
-  # site-url: https://comp2870-2526.github.io/linear-algebra-notes/
+  site-url: https://comp2870-2526.github.io/calculus-ii-notes/
   page-navigation: true
   search: true
   page-footer: "Copyright 2026, Thomas Ranner and University of Leeds, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) ![](https://mirrors.creativecommons.org/presskit/icons/cc.svg){height=1em width=1em} ![](https://mirrors.creativecommons.org/presskit/icons/by.svg){height=1em width=1em}."
   license: "CC BY"
-  # repo-url: https://github.com/COMP2870-2526/linear-algebra-notes
+  repo-url: https://github.com/COMP2870-2526/calculus-ii-notes
   repo-actions: [edit, source, issue]
   downloads: [pdf]
   language: "en-GB"
