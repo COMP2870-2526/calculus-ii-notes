@@ -23,6 +23,7 @@ book:
   language: "en-GB"
   chapters:
     - index.qmd
+    - src/lec01.qmd
 
 toc: true
 number-sections: true

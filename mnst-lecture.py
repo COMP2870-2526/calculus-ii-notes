@@ -150,10 +150,10 @@ def mse_loss(y_true, y_pred):
 for epoch in range(epochs):
     # Forward pass on the entire training set
     output = nn.forward(x_train)
-    
+
     # Backward pass and weight update
     nn.backward(x_train, y_train_oh, output, lr=learning_rate)
-    
+
     # Evaluate loss
     loss = mse_loss(y_train_oh, output)
     print(f"Epoch {epoch+1}, Loss: {loss:.4f}")
