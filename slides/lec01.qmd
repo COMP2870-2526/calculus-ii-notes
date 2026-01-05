@@ -1,0 +1,18 @@
+---
+echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: TODO
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ../mathjax.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+---
