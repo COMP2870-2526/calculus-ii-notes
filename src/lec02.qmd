@@ -1,0 +1,430 @@
+---
+echo: false
+---
+
+# Analysis of errors and systems of equations
+
+```{python}
+from collections import defaultdict
+
+import numpy as np
+import pandas as pd
+from IPython.display import Markdown
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
+
+## Exact derivatives and exact solutions
+
+In a small number of cases, it is possible to solve differential equations *exactly*. This is to write down a simple expression for the function which satisfies both the differential equation and its initial condition. This is rare in general and is the main reason why we have numerical methods. However, the special cases where we can find exact solutions are useful for testing our numerical methods.
+
+::: {#exm-derivative}
+Consider the function $y(t) = t^3$.
+
+We can find the derivative of $y(t)$:
+\begin{align*}
+y'(t) & = \lim_{h\to 0} \frac{y(t + h) - y(t)}{h} \\
+& = \lim_{h \to 0} \frac{(t + h)^3 - t^3}{h} \\
+& = \lim_{h \to 0} \frac{t^3 + 3 t^2 h + 3 t h^2 + h^3 - t^3}{h} \\
+& = \lim_{h \to 0} \frac{3 t^2 h + 3 t h^2 + h^3}{h} \\
+& = \lim_{h \to 0} {3 t^2 + 3 t h + h^2} \\
+& = 3 t^2.
+\end{align*}
+
+By working backwards, we can make up our own differential equation that has $y(t)$ as a known solution. When $y(t) = t^3$, we can compute that
+$$
+y'(t) = 3 t^2 = \frac{3 y(t)}{t}.
+$$
+Hence, we know the solution to the following equation:
+\begin{equation}
+\label{eq:diff-eq}
+y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
+\end{equation}
+If we solve this differential equation for $t$ between $1$ and $2$, say, then we know that the exact answer when $t=2$ is $y(2) = 8$.
+:::
+
+::: {#exr-euler-error}
+Compute two time steps of Euler's method to approximate the solution of \eqref{eq:diff-eq} at time $T=2$. What is the error between your computed solution and the exact solution?
+:::
+
+Let's use Euler's method to solve \eqref{eq:diff-eq}:
+
+```{python}
+# | echo: True
+data = {}
+
+for n in [10, 20, 40, 80, 160]:
+    # step up storage for all time steps
+    h = (2 - 1) / n
+    t, y = np.empty((n + 1,)), np.empty((n + 1,))
+
+    # perform time stepping
+    t[0], y[0] = 1.0, 1.0
+    for i in range(n):
+        t[i + 1], y[i + 1] = t[i] + h, y[i] + h * (3 * y[i]) / t[i]
+
+    # store data
+    data[n] = (t, y)
+```
+
+```{python}
+fig, axs = plt.subplots(1, 2)
+
+for n, (t, y) in data.items():
+    axs[0].plot(t, y, ".-", label=f"{n=}")
+    axs[1].plot(t, y, ".-")
+
+for ax in axs:
+    ax.set_xlabel("t")
+    ax.set_ylabel("y(t)")
+    ax.grid(True)
+
+axs[1].set_xlim([1.95, 2.0])
+axs[1].set_ylim([7.5, 8.0])
+axs[0].legend()
+
+plt.tight_layout()
+plt.show()
+
+```
+
+We can see that as we increase the number of steps $n$ (reduce the time step $h$), our solutions become better and better. We can also compute these values using the *absolute error*
+$$
+\text{absolute error} = |y^{(n)} - y(2)|.
+$$
+
+```{python}
+# | label: tbl-euler-errors
+# | tbl-cap: A convergence study for Euler's method
+error_table = defaultdict(list)
+
+for n, (_, y) in data.items():
+    h = (2 - 1) / n
+    solution = y[-1]
+    abs_error = abs(y[-1] - 8.0)
+
+    error_table["n"].append(n)
+    error_table["h"].append(h)
+    error_table["Solution"].append(solution)
+    error_table["Abs. error"].append(abs_error)
+
+df = pd.DataFrame(error_table)
+df["ratio"] = df["Abs. error"] / df["Abs. error"].shift()
+
+df  # noqa: B018
+```
+
+This table shows that indeed the absolute error is decreasing as $h \to 0$. We also compute the ratio between different errors. We see that each time $h$ is halved, that the error is approximately halved. In order words, the error is approximately proportional to $h$.
+
+::: {#exr-euler-ratio}
+What might we expect the computed solution to be if we halved $h$ one more time?
+:::
+
+Something strange happens when we plot $h$ against the absolute error for Euler's method - we see that the errors all fall on a straight line. Perhaps this is not too strange since we think that the error is approximately proportional to step size, so this line should be straight either on a linear or log scale.
+
+```{python}
+fig, axs = plt.subplots(1, 2)
+axs[0].semilogx(
+    error_table["h"], [8.0 for _ in error_table["h"]], label="exact"
+)
+
+axs[0].semilogx(
+    error_table["h"], error_table["Solution"], "C1.-", label="Euler"
+)
+axs[1].loglog(error_table["h"], error_table["Abs. error"], "C1.-")
+
+axs[0].set_xlabel("$h$")
+axs[0].set_ylabel("Solution")
+axs[1].set_xlabel("$h$")
+axs[1].set_ylabel("Abs. error")
+
+axs[0].grid(True)
+axs[1].grid(True)
+
+axs[0].legend()
+
+plt.tight_layout()
+plt.show()
+
+```
+
+::: {#rem-log-scale}
+Using log scales is really important when considering variables like $h$ or error. Contrast the above nice plot, with nice evenly spread data points, with these linear scaled plots:
+
+
+```{python}
+fig, axs = plt.subplots(1, 2)
+axs[0].semilogx(
+    error_table["h"], [8.0 for _ in error_table["h"]], label="exact"
+)
+axs[0].plot(error_table["h"], error_table["Solution"], "C1.-", label="Euler")
+axs[1].plot(error_table["h"], error_table["Abs. error"], "C1.-")
+
+axs[0].set_xlabel("$h$")
+axs[0].set_ylabel("Solution")
+axs[1].set_xlabel("$h$")
+axs[1].set_ylabel("Abs. error")
+
+axs[0].grid(True)
+axs[1].grid(True)
+
+axs[0].legend()
+
+plt.tight_layout()
+plt.show()
+
+```
+
+::: {#exr-log-scale}
+Why don't we use a log scale for solution too?
+:::
+:::
+
+## Big $O$ notation
+
+TODO examples from the rest of the module. check this bit with Haiko
+
+When considering algorithm complexity, you have already seen big $O$ notation. For example:
+
+- Gaussian elimination requires $O(n^3)$ operations when $n$ is large,
+- Backward substitution requires $O(n^2)$ operations when $n$ is large.
+
+For large values of $n$ the *highest* powers of $n$ are the *most* significant. For smaller values of $h$, it is the *lowest* powers of $h$ that are the most significant. When $h = 0.001$, $h$ is much bigger than $h^2$, for example.
+
+When can make use of the big $O$ notation in either case.
+
+::: {#exm-bigO}
+Let $f(x) = 2x^2 + 4x^3 + x^5 + 2x^6$,
+
+- then $f(x) = O(x^6)$ as $x \to \infty$,
+- and $f(x) = O(x^2)$ as $x \to 0$.
+:::
+
+In this notation, we can say that **the error in Euler's method is $O(h)$.**
+
+## The midpoint method -- an improvement in Euler's method
+
+We want to derive a new improve method for solving differential equations. We aim to produce a method with a smaller error for a similar amount of work.
+
+Let's assume that the error in Euler's method is exactly proportional to $h$. In this case, if we half $h$, we half the error. In this derivation, we will start from the initial condition and want to approximate the solution after a time $h$. We will label the exact solution at $t=h$ by $y_{\text{exact}}$.
+
+- Then, we continue by computing one time step from $y^{(0)}$ with time step $h$ - we call this solution $z_1$. We label error between the exact solution and $m_1$ by $E_1$.
+- We then take two time steps from $y^{(0)}$ now with time step $h/2$ - we call this solution $z_2$. We label the error between the exact solution $E_2$. Since in this derivation, the error is exactly proportional to the time step, we can see that $E_2 = \frac{E_1}{2}$.
+
+In equations, we can express these relations as:
+\begin{align*}
+z_1 - y_{\text{exact}} & = E_1 \\
+z_2 - y_{\text{exact}} & = E_2 = \frac{E_1}{2}.
+\end{align*}
+Subtracting twice the second equation from the first equation gives:
+$$
+y_{\text{exact}} = 2 z_2 - z_1.
+$$
+If our assumption that the Euler's method is exactly proportional to $h$, combining $z_1$ and $z_2$ would give a solution with zero error! However, our assumption is in fact approximately true as we found in @tbl-euler-errors. So we might hope that we have found a method with smaller error than Euler's method with three times the cost of Euler's method (i.e. 3 Euler steps per one step of this method).
+
+We can even formulate this method more compactly. Writing our new scheme in full, for a general time step $i$, we have
+for the one step approach:
+\begin{align*}
+z_1 & = y^{(i)} + h f(t^{(i)}, y^{(i)}),
+\end{align*}
+and for the two step approach:
+\begin{align*}
+k & = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)}) \\
+m & = t^{(i)} + \frac{h}{2} \\
+z_2 & = k + \frac{h}{2} f(m, k).
+\end{align*}
+Combining $z_1$ and $z_2$ as suggested above we see:
+\begin{align*}
+y^{(i+1)}
+& = 2 z_2 - z_1 \\
+& = 2 \left(k + \frac{h}{2} f(m, k)\right) - \left(y^{(i)} + h f(t^{(i)}, y^{(i)})\right)
+&& \text{(substitute for $z_1$ and $z_2$)} \\
+& = 2 k - y^{(i)} + h \left( f(m, k) - f(t^{(i)}, y^{(i)}) \right)
+&& \text{(rearrange)} \\
+& = 2 \left(y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{i}) \right) - y^{(i)} + h \left( f(m, k) - f(t^{(i)}, y^{(i)}) \right)
+&& \text{(substitute for $k$)} \\
+& = 2 y^{(i)} - y^{(i)} + h \left( f(t^{(i)}, y^{i}) + f(m, k) - f(t^{(i)}, y^{i}) \right) \\
+& = y^{(i)} + h f(m, k).
+\end{align*}
+
+The midpoint method for solving differential equations is then as follows:
+
+1. Initialise starting values $t^{(0)}$ and $y^{(0)}$.
+2. Loop over all time steps, until the final time, updating using the formulae:
+   \begin{align*}
+k & = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)}) \\
+m & = t^{(i)} + \frac{h}{2} \\
+y^{(i+1)} & = y^{(i)} + h f(m, k) \\
+t^{(i+1)} & = t^{(i)} + h.
+   \end{align*}
+
+::: {#exm-midpoint}
+Take two steps of the midpoint rule to approximate the solution of
+$$
+y'(t) = -y(t)^2 \quad\text{subject to the initial condition} \quad y(0) = 2,
+$$
+for $0 \le t \le 2$.
+
+```{python}
+t0 = 0
+y0 = 2
+T = 2
+
+n = 2
+h = (T - t0) / n
+
+
+def f(_, y):
+    return -(y**2)
+
+
+s = f"""
+In this example we have:
+
+- $n={n}$
+- $t_0 = {t0}$
+- $y_0 = {y0}$
+- $T = {T}$
+- $h = ({T} - {t0})/{n} = {h}$
+- $f(t, y) = -y^2$.
+
+We start with $t^{{(0)}} = {t0}$ and $y^{{(0)}} = {y0}$.
+
+"""
+
+t, y = t0, y0
+
+for step in range(n):
+    k = y + (h / 2) * f(t, y)
+    m = t + h / 2
+    ynew = y + h * f(m, k)
+    tnew = t + h
+
+    s_step = f"""
+- Step {step + 1}:
+    \\begin{{align*}}
+      k & = y^{{({step})}} + \\frac{{h}}{{2}} f(t^{{({step})}}, y^{{({step})}})
+      \\\\
+      & = {y} + \\frac{{{h}}}{{2}} \\times (-({y})^2) \\\\
+      & = {y} + {h / 2} \\times {f(t, y)} = {k} \\\\
+      m & = t^{{({step})}} + \\frac{{h}}{{2}} \\\\
+      & = {t} + \\frac{{{h}}}{{2}} = {m} \\\\
+      y^{{({step + 1})}} & = y^{{({step})}} + h
+       f(m, k) \\\\
+      & = {y} + {h} (-({k})^2) \\\\
+      & = {y} + {h} \\times {f(m, k)} = {ynew} \\\\
+      t^{{({step + 1})}} & = t^{{({step})}} + h \\\\
+      & = {t} + {h} = {tnew}.
+    \\end{{align*}}
+    """
+    s += s_step
+
+    t, y = tnew, ynew
+
+
+Markdown(s)
+```
+
+:::
+
+### Numerical results
+
+We can also implement the method in code and explore how the error changes as we change the number of steps. For this test we use the same test as we did for Euler's method \eqref{eq:diff-eq}.
+
+```{python}
+data_mp = {}
+
+for n in [10, 20, 40, 80, 160]:
+    h = (2 - 1) / n
+    t, y = np.empty((n + 1,)), np.empty((n + 1,))
+
+    t[0], y[0] = 1.0, 1.0
+    for i in range(n):
+        m, k = t[i] + h / 2, y[i] + (h / 2) * (3 * y[i]) / t[i]
+        t[i + 1], y[i + 1] = t[i] + h, y[i] + h * (3 * k) / m
+
+    data_mp[n] = (t, y)
+```
+
+```{python}
+fig, axs = plt.subplots(1, 2)
+
+for n, (t, y) in data_mp.items():
+    axs[0].plot(t, y, ".-", label=f"{n=}")
+    axs[1].plot(t, y, ".-")
+
+for ax in axs:
+    ax.set_xlabel("t")
+    ax.set_ylabel("y(t)")
+    ax.grid(True)
+
+axs[1].set_xlim([1.95, 2.0])
+axs[1].set_ylim([7.5, 8.0])
+axs[0].legend()
+
+plt.tight_layout()
+plt.show()
+
+```
+
+We already see that we are much closer to the solution.
+
+Let's compute the errors:
+
+```{python}
+# | label: tbl-midpoint-errors
+# | tbl-cap: A convergence study for the midpoint method
+error_table_mp = defaultdict(list)
+
+for n, (_, y) in data_mp.items():
+    h = (2 - 1) / n
+    solution = y[-1]
+    abs_error = abs(y[-1] - 8.0)
+
+    error_table_mp["n"].append(n)
+    error_table_mp["h"].append(h)
+    error_table_mp["Solution"].append(solution)
+    error_table_mp["Abs. error"].append(abs_error)
+
+df_mp = pd.DataFrame(error_table_mp)
+df_mp["ratio"] = df_mp["Abs. error"] / df_mp["Abs. error"].shift()
+
+df_mp  # noqa: B018
+```
+
+We now see that the error reduces by a *quarter* each time we reduce $h$ by half. This means that the error is approximately proportional to $h^2$, or equivalently, we can say that the error is $O(h^2)$ as $h \to 0$.
+
+This is a significant improvement on Euler's method. We say that the midpoint method is **second order**, whereas Euler's method is just **first order**.
+
+We can see the significant reduction in error by plotting the errors for both methods:
+
+```{python}
+fig, axs = plt.subplots(1, 2)
+
+axs[0].plot(error_table["h"], [8.0 for _ in error_table["h"]], label="exact")
+
+axs[0].semilogx(
+    error_table["h"], error_table["Solution"], "C1.-", label="Euler"
+)
+axs[1].loglog(error_table["h"], error_table["Abs. error"], "C1.-")
+
+axs[0].semilogx(
+    error_table_mp["h"], error_table_mp["Solution"], "C2.-", label="midpoint"
+)
+axs[1].loglog(error_table_mp["h"], error_table_mp["Abs. error"], "C2.-")
+
+axs[0].set_xlabel("$h$")
+axs[0].set_ylabel("Solution")
+axs[1].set_xlabel("$h$")
+axs[1].set_ylabel("Abs. error")
+
+axs[0].grid(True)
+axs[1].grid(True)
+
+axs[0].legend()
+
+plt.tight_layout()
+plt.show()
+
+```
