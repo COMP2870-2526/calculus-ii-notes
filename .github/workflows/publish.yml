@@ -59,15 +59,17 @@ jobs:
       - name: Build site
         run: uv run quarto render
 
-      #  Build Quarto slides separately
+      # #  Build Quarto slides separately
+      # - name: Build slides
+      #   run: |
+      #     mkdir -p _output/slides
+      #     for q in slides/*.qmd; do
+      #       uv run quarto render "$q"
+      #       mv "${q/.qmd/.html}" _output/slides/
+      #       mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
+      #     done
       - name: Build slides
-        run: |
-          mkdir -p _output/slides
-          for q in slides/*.qmd; do
-            uv run quarto render "$q"
-            mv "${q/.qmd/.html}" _output/slides/
-            mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
-          done
+        run: echo "Not building slides"
 
       # Save updated Quarto freeze cache
       - name: Save Quarto freeze cache
