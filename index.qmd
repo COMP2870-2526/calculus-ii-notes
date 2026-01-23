@@ -128,7 +128,7 @@ def get_version():
 
         # Check for uncommitted changes
         dirty = (
-            subprocess.check_output(["git", "status", "--porcelain"])
+            subprocess.check_output(["git", "status", "--porcelain", "-uno"])
             .decode()
             .strip()
         )

@@ -249,3 +249,13 @@ Markdown(s)
 
 ```
 :::
+
+## Summary
+
+We have seen that Euler's method can be applied to systems of differential equation.
+The same ideas as here can be used to apply the midpoint method to systems of differential equations.
+Systems of differential equations based on Newton's laws are extremely common in many applications including computer games and robotics.
+
+The methods that we have learnt during this week are a small submit of the many methods available.
+There are a whole zoo of methods which have specialist properties such as even higher order convergence or preserve physical properties better.
+You will meet some on the lab sheet this week.

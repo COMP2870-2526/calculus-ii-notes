@@ -660,6 +660,6 @@ We see now that whichever way you want to measure cost, you see that for a fixed
 Although the midpoint method costs about twice as much per time step, its higher order accuracy means we need far fewer steps to reach a desired accuracy.
 So the best way to think is that if you have a budget of, say, right-hand side evaluations, $N$, you can afford for your computations, then in general, you should choose to use the midpoint method with $n=N/2$ time steps in order to minimise the error.
 
-# Summary
+## Summary
 
 We have found different ways to computationally measure the quality of an algorithm to solve differential equations. We have used one way of measuring errors to derive an improvement to Euler's method called the midpoint method. We see that Euler's method is a first order accurate method and the midpoint method is second order accurate. The computational cost of the midpoint method is twice as high as Euler's method, but the higher order accuracy outweighs the higher computational cost in general.
