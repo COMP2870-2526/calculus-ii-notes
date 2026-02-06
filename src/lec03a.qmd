@@ -1,0 +1,17 @@
+---
+echo: false
+---
+
+# Methods for finding minima of scalar domain functions
+
+```{python}
+
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+```
+
+Newton's method
+secant?
+bisection?
