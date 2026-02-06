@@ -255,7 +255,7 @@ Let $f(x) = 2x^2 + 4x^3 + x^5 + 2x^6$,
 
 In this notation, we can say that **the error in Euler's method is $O(h)$.**
 
-## The midpoint method -- an improvement in Euler's method
+## The midpoint method -- an improvement on Euler's method
 
 We want to derive a new improved method for solving differential equations. We aim to produce a method with a smaller error for a similar amount of work per time step.
 

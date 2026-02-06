@@ -26,6 +26,7 @@ book:
     - src/lec01.qmd
     - src/lec02.qmd
     - src/lec02a.qmd
+    - src/lec03.qmd
 
 toc: true
 number-sections: true

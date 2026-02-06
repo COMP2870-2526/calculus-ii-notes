@@ -1,0 +1,528 @@
+---
+echo: false
+---
+
+# Introduction to optimisation
+
+```{python}
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+def array_to_latex(array):
+    s = ""
+
+    s += "\\begin{pmatrix} "
+    s += " \\\\ ".join([" & ".join([str(v) for v in row]) for row in array])
+    s += " \\end{pmatrix}"
+
+    return s
+
+
+```
+
+Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:
+
+1. When making business decisions, we often want to find a solution which maximises our financial returns;
+2. When doing medical procedures, we may want to maximise the effectiveness of the procedure or minimise any potential side effects;
+3. When writing computer code, we (normally) want our code to run as fast as possible;
+4. When scheduling a train timetable, we may want to maximise the usage of the network, or minimise the cost of running the network, or maximise the robustness to delays of our timetable.
+5. When designing the a social media app, we want to find the algorithm that encourages people to stay on the app the longest.
+6. When controlling a robotic arm, we may want to minimise the time or energy the solution takes.
+7. When doing any problem with data, we want to find the model or parameters that best fits the data.
+8. When training a neural network, we want to find the parameters of the network to best match the training data.
+
+We make a distinction between problems where set of possible solutions (admissible states) are continuous or discrete. For example:
+
+1. Choosing between distinct medical procedures is a discrete optimisastion problem.
+2. Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.
+
+This part of the module will deal with **continuous optimisation problems**.
+
+All of the continuous optimisations problems above can be expressed in a general mathematical form.
+
+We first need a set $\mathcal{A}$ of admissible states (think of the amount of drug to be delivered or how it is delivered).
+For continuous problems $\mathcal{A}$ will also be either an interval of the real-line $\mathbb{R}$ or a nice subset of the higher dimensional space $\mathbb{R}^n$.
+Then we can ask what the outcome of that choice is; we model the outcome through a *cost function* (also called potential or loss function), which we label $F \colon \mathcal{A} \to \mathbb{R}$.
+
+::: {.remark}
+In our examples where we compute things we will also have $\mathcal{A} = \mathbb{R}$ or $\mathbb{R}^n$.
+:::
+
+The idea of optimisation is to find the best value $x^*$ in $\mathcal{A}$ which minimises $F$ and the value of $F^* = F(x^*)$ of the minimal cost.
+
+::: {#def-global-minimiser}
+We will write:
+\begin{equation}
+\label{eq:global-minimiser}
+\begin{aligned}
+F^* = \min_{x \in \mathcal{A}} F(x) \\
+x^* = \argmin_{x \in \mathcal{A}} F(x).
+\end{aligned}
+\end{equation}
+:::
+
+## Some interesting examples
+
+It is sometimes easy to see where the minima of a function is by plotting the function.
+
+In one dimension, we can simply plot the graph of the function.
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be given by
+$$
+F(x) = x^2 - 2x + 2.
+$$
+
+```{python}
+def F1(x):
+    return x**2 - 2 * x + 2
+
+
+x = np.linspace(0, 2)
+F = F1(x)
+
+plt.plot(x, F)
+
+plt.plot(1, 1, "ro")
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+We can see that the minimum is $F^* = 1$ at $x^* = 1$.
+
+In two dimensions, we can make an isocolour plot of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value.
+Let $F \colon \mathbb{R}^2 \to \mathbb{R}$ be given by
+$$
+F(\vec{x}) = F(x_1, x_2)
+= (x_1-1)^2 (x_1+1)^2 + 4x_1^2 + (x_1 +1)^2
+$$
+
+```{python}
+def F2(x, y):
+    return (x - 1) ** 2 * (x + 1) ** 2 + 4 * y**2 + (x + 1) ** 2
+
+
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+F = F2(X, Y)
+
+plt.pcolormesh(X, Y, F)
+plt.contourf(X, Y, F, levels=100)
+plt.colorbar(label="$F(x_1, x_2)$")
+
+plt.plot([-1], [0], "ro")
+
+plt.xlabel("$x_1$")
+plt.ylabel("$x_2$")
+
+plt.grid()
+plt.show()
+
+
+```
+Here we can see a minimum at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
+
+It is hard to visualise functions in higher dimension. Often the key idea is to plot slices, where we fix one or more variables at a time to leave a one or two dimensional function. However, this is not often a useful way to help find minimisers.
+
+Before we come to some useful ways to find minimisers, we want to explore some other interesting cases.
+
+Sometimes minimisers are not unique.
+We can have two values which both have the same minimal value.
+For
+$$
+F(x) = (x-1)^2 + (x+1)^2,
+$$
+we have two minima at $x^* = -1$ and $1$ which both have $F^* = 0$.
+```{python}
+def F3(x):
+    return ((x - 1) * (x + 1)) ** 2
+
+
+x = np.linspace(-1.5, 1.5)
+F = F3(x)
+
+plt.plot(x, F)
+
+plt.plot([-1, 1], [F3(-1), F3(-1)], "ro")
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+Sometimes we can have infinitely many minimisers. Consider
+$$
+F(x) = 1 + \sin^2(x).
+$$
+```{python}
+def F4(x):
+    return 1 + np.sin(x) ** 2
+
+
+x = np.linspace(-2.5 * np.pi, 2.5 * np.pi, 1000)
+F = F4(x)
+
+plt.plot(x, F)
+
+plt.plot(
+    [p * np.pi for p in range(-2, 3)],
+    [F4(p * np.pi) for p in range(-2, 3)],
+    "ro",
+)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+Here, $x* = m \pi$ for any $m \in \mathbb{Z}$ which all have $F^*=1$.
+
+Sometimes, we can have no minimisers at all!
+For
+$$
+F(x) = -x^2,
+$$
+there is no minimiser in $\mathbb{R}$:
+```{python}
+def F5(x):
+    return -(x**2)
+
+
+x = np.linspace(-1.2, 1.2)
+F = F5(x)
+
+plt.plot(x, F)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.xlim(-1 - 0.05, 1 + 0.05)
+plt.ylim(-1 - 0.05, 0.05)
+
+plt.grid()
+plt.show()
+
+
+```
+In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve:
+For example for $F(x_1, x_2) = (x_1 - x_2^2)^2$ the minimisers lie on the curve $x = y^2$ with $F^* = 0$.
+```{python}
+def F6(x, y):
+    return (x - y**2) ** 2
+
+
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.5, 1.5, 200)
+X, Y = np.meshgrid(x, y)
+F = F6(X, Y)
+
+plt.pcolormesh(X, Y, F)
+plt.contourf(X, Y, F, levels=100)
+plt.colorbar(label="$F(x_1, x_2)$")
+
+y_ = np.linspace(-1.5, 1.5)
+x_ = y_**2
+plt.plot(x_, y_, "r")
+
+plt.xlabel("$x_1$")
+plt.ylabel("$x_2$")
+
+plt.xlim([-1.5, 1.5])
+
+plt.grid()
+plt.show()
+
+
+```
+
+## Global and local minimisers
+
+Consider the function
+$$
+F(x) = \frac{1}{4} x^4 - \frac{1}{2} x^3 - frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+$$
+```{python}
+def F7(x):
+    return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
+
+
+x = np.linspace(-1.5, 1.5)
+F = F7(x)
+
+plt.plot(x, F)
+
+plt.plot([-1], [F7(-1)], "ro")
+plt.plot([1], [F7(1)], "C1o")
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+This function has a minimum at $x* = -1$ with value $\frac{1}{12}$, but there is another interesting value at $x = 1$ (where $F(x) = 5/12$). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less that values nearby. This motivates the idea of a *local minimum*.
+
+Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of $x$. This is a very hard problem! When designing numerical algorithms, we instead often look for **local minimisers**. Later we will see a condition where we can guarentee local minimisers are global minimisers.
+
+::: {#def-local-minimiser}
+**Scalar domain case**: Given a smooth function $F \colon \mathbb{R} \to \mathbb{R}$, we say that a point $x^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}$ with $|y - x| < b$, $f(x) < f(y)$.
+
+**Vector domain case**: Given a smooth function $F \colon \mathbb{R}^n \to \mathbb{R}$, we say that a point $\vec{x}^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}^n$ with $\|y - x\| < b$, $f(x) < f(y)$.
+:::
+
+## How to determine a local minimiser in the scalar domain case
+
+Looking again at the examples above, we can see that at all minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
+We can say this as the derivative of $F$ is zero or $F'(x*) = 0$.
+However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points too!
+
+::: {#prp-minimiser}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and let $x^*$ be a local minimiser of $F$.
+Then $F'(x^*) = 0$.
+:::
+
+::: {.proof}
+(*We do not expect you to learn this proof but the result is very important!*)
+
+We see that the definition of local minima says that for $h$ small enough that
+\begin{align*}
+F(x^* + h) - F(x^*) \ge 0,
+\end{align*}
+so
+\begin{align}
+\label{eq:positive-proof-a}
+\frac{F(x^* + h) - F(x^*)}{h}
+& \ge 0 && \text{if} \quad h \ge 0 \\
+\label{eq:positive-proof-b}
+\frac{F(x^* + h) - F(x^*)}{h}
+& \le 0 && \text{if}\quad h \le 0.
+\end{align}
+If $F$ is smooth, $F'$ exists and the limit
+$$
+F'(x^*) = \lim_{h\to 0} \frac{F(x^* + h) - F(x^*)}{h},
+$$
+has a single value. The results of limits say that in this case \eqref{eq:positive-proof-a} and \eqref{eq:positive-proof-b} both hold in the limit too. This is only possible if $F'(x^*) = 0$.
+:::
+
+We next revisit the example from the start of this section:
+
+```{python}
+def F7(x):
+    return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
+
+
+x = np.linspace(-1.5, 1.5)
+F = F7(x)
+
+plt.plot(x, F)
+
+for p, C in zip([-1, 1, 0.25], ["r", "C1", "C2"], strict=True):
+    plt.plot(p, F7(p), f"{C}o")
+
+    t = np.array([p - 0.2, p + 0.25])
+    plt.plot(t, F7(t), ".--", color=C)
+
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+
+We see that the derivative of $F$ is zero at three points, at $x = -1$ (red), $\frac{1}{4}$ (orange), $1$ (green).
+For each of these points, we take two points on the graph nearby -- one slightly to the left and one slightly to the right -- and draw a straight line between them (marked on the plot as a dashed line). For points which are the local minimisers, the straight line is above the graph of the function (red and green) whereas for the other point the graph is below the curve.
+This idea is expressed mathematically through the idea of *convexity*.
+
+::: {#def-convexity}
+A function $F \colon \mathbb{R} \to \mathbb{R}$ is **locally convex in an interval $B \subset \mathbb{R}$** if
+for all points $x, y \in B$:
+\begin{equation}
+\label{eq:convex}
+a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1].
+\end{equation}
+We say that $F$ is **convex** if it is locally convex in any interval $B \subset \mathbb{R}$.
+:::
+
+::: {#exm-convex-quadratic}
+Quadratic functions with positive leading terms are the example you should have in mind for convex functions.
+
+Take for example $F(x) = x^2 - 4 x + 5$.
+
+```{python}
+def F8(x):
+    return x**2 - 4 * x + 5
+
+
+x = np.linspace(1, 3)
+F = F8(x)
+
+plt.plot(x, F)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.show()
+
+
+```
+It is hard to show \eqref{eq:convex} directly. We will see more easy ways to show this later.
+:::
+
+::: {#lem-convexity-diff}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function.
+Then $F$ is locally convex in an interval $B$ if, and only if,
+\begin{equation}
+\label{eq:convex-diff}
+F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
+\end{equation}
+:::
+
+We can express this informally as saying that the graph of $F$ lies above its tangent.
+
+::: {.proof}
+[don't need to know this one either]
+
+We first start from the definition of convexity and $x, y \in B$, then
+$$
+a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0,1].
+$$
+Rearranging gives
+\begin{align*}
+F(x) & \ge \frac{1}{a} F(y + a (x - y)) - \frac{1-a}{a} F(y) \\
+& = \frac{1}{a} \left(F(y + a (x - y)) - F(y)\right) + F(y).
+\end{align*}
+If $x = y$, then we can read off the result directly.
+Otherwise for $x \neq y$, we substitute $h = a(x-y)$ to get:
+$$
+F(x) \ge \frac{1}{x-y} \frac{1}{h} \left(F(y + h) - F(y)\right) + F(y).
+$$
+TODO complete this
+
+Then if $F$ satisfies \eqref{eq:convex-diff}, TODO
+:::
+
+This condition is still too hard for us to show, but it does usefully help with other results:
+
+::: {#lem-convexity-diff2}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function.
+Then $F$ is locally convex in an interval $B$ if, and only if, $F''(x) > 0$ for all $x \in B$.
+:::
+
+::: {.proof}
+TODO
+:::
+
+::: {#exm-convex-diff2}
+Take the same example as before $F(x) = x^2 - 4 x + 5$.
+Then
+$$
+F'(x) = 2 x - 4 \quad\text{and}\quad F''(x) = 2 > 0.
+$$
+Hence we can see that $F$ is convex.
+:::
+
+::: {#prp-convexity}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^*$ be a point such that $F'(x^*) = 0$.
+If $F$ is locally convex in a region $B$ with $x^* \in B$ then $x^*$ is a local minimiser of $F$.
+:::
+
+::: {.proof}
+(*We do not expect you to learn this proof but the result is very important!*)
+
+Let $y \in B$, then from @prp-convexity, we have
+$$
+F(y) \ge F(x^*) + F'(x^*)(y - x^*).
+$$
+Since $F'(x^*) = 0$, we see that
+$$
+F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*) + 0 (y - x^*) = F(x^*).
+$$
+Hence we can see that $x^*$ is a local minimiser in the interval $B$.
+:::
+
+::: {#thm-convex-local-minimisers}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be convex.
+Then any local minimiser is a global minimiser.
+:::
+
+::: {.proof}
+Let $x^*$ and $y^*$ be any local minimisers of $F$. We want to show that $F(x^*) = F(y^*)$. This will show that the local minimiser at $x^*$ takes a value as low as any other hence is a global minimiser.
+
+From @prp-minimiser, we have that $F'(x^*) = 0$.
+Then @lem-convex-diff shows that
+$$
+F(y^*) \ge F(x^*) + F'(x^*)(x^* - y^*) = F(x^*).
+$$
+Then we can reverse the roles of $x^*$ and $y^*$ to see that
+$$
+F(x^*) \ge F(y^*) + F'(y^*)(y^* - x^*) = F(y^*).
+$$
+Hence, we can infer that $F(x^*) = F(y^*)$ and so $F(x^*)$ is not higher than the value of the function at any other minima.
+:::
+TODO swap @lem-convex-diff roles of $x$ and $y$
+
+::: {#exm-convex-minimum}
+Take the same example as before $F(x) = x^2 - 4 x + 5$.
+Then
+$$
+F'(x) = 2 x - 4.
+$$
+We can easily see that $F'(2) = 0$ hence $x^* = 2$ is a local and indeed a global minimiser since $F$ is convex.
+
+We can also see this by completing the square:
+\begin{equation*}
+F(x) = x^2 - 4 x + 5 = (x-2)^2 + 1.
+\end{equation*}
+We can read off that $F$ has a minimum at the same point that $(x-2)^2 = 0$, i.e. that $x^* = 2$.
+:::
+
+::: {#rem-uniqueness}
+Minimisers of convex functions are not necessarily unique.
+Consider $F \colon \mathbb{R} \to \mathbb{R}$ given by
+$$
+F(x) =
+\begin{cases}
+(x+1)^4 & \text{for}\quad x \le -1 \\
+0 & \text{for} \quad -1 < x < 1 \\
+(x-1)^4 & \text{for}\quad x \ge 1.
+\end{cases}
+$$
+```{python}
+def F99(x):
+    if x < -1:
+        return (x + 1) ** 4
+    elif x > 1:
+        return (x - 1) ** 4
+    else:
+        return 0.0
+
+
+x = np.linspace(-2, 2)
+plt.plot(x, [F99(x_) for x_ in x])
+
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.grid(True)
+plt.show()
+```
+$F$ is a convex, smooth function, but all points $x \in [-1, 1]$ are minimisers.
+:::
