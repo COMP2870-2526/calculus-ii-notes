@@ -30,22 +30,22 @@ Optimisation is one of the key problems of all numerical computation. It corresp
 2. When doing medical procedures, we may want to maximise the effectiveness of the procedure or minimise any potential side effects;
 3. When writing computer code, we (normally) want our code to run as fast as possible;
 4. When scheduling a train timetable, we may want to maximise the usage of the network, or minimise the cost of running the network, or maximise the robustness to delays of our timetable.
-5. When designing the a social media app, we want to find the algorithm that encourages people to stay on the app the longest.
+5. When designing a social media app, we want to find the algorithm that encourages people to stay on the app the longest.
 6. When controlling a robotic arm, we may want to minimise the time or energy the solution takes.
-7. When doing any problem with data, we want to find the model or parameters that best fits the data.
+7. When doing any problem with data, we want to find the model or parameters that best fit the data.
 8. When training a neural network, we want to find the parameters of the network to best match the training data.
 
-We make a distinction between problems where set of possible solutions (admissible states) are continuous or discrete. For example:
+We make a distinction between problems where the set of possible solutions (admissible states) are continuous or discrete. For example:
 
-1. Choosing between distinct medical procedures is a discrete optimisastion problem.
+1. Choosing between distinct medical procedures is a discrete optimisation problem.
 2. Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.
 
 This part of the module will deal with **continuous optimisation problems**.
 
-All of the continuous optimisations problems above can be expressed in a general mathematical form.
+All of the continuous optimisation problems above can be expressed in a general mathematical form.
 
 We first need a set $\mathcal{A}$ of admissible states (think of the amount of drug to be delivered or how it is delivered).
-For continuous problems $\mathcal{A}$ will also be either an interval of the real-line $\mathbb{R}$ or a nice subset of the higher dimensional space $\mathbb{R}^n$.
+For continuous problems $\mathcal{A}$ will also be either an interval of the real line $\mathbb{R}$ or a nice subset of the higher dimensional space $\mathbb{R}^n$.
 Then we can ask what the outcome of that choice is; we model the outcome through a *cost function* (also called potential or loss function), which we label $F \colon \mathcal{A} \to \mathbb{R}$.
 
 ::: {.remark}
@@ -60,14 +60,14 @@ We will write:
 \label{eq:global-minimiser}
 \begin{aligned}
 F^* = \min_{x \in \mathcal{A}} F(x) \\
-x^* = \argmin_{x \in \mathcal{A}} F(x).
+x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
 \end{aligned}
 \end{equation}
 :::
 
 ## Some interesting examples
 
-It is sometimes easy to see where the minima of a function is by plotting the function.
+It is sometimes easy to see where the minimum of a function is by plotting the function.
 
 In one dimension, we can simply plot the graph of the function.
 Let $F \colon \mathbb{R} \to \mathbb{R}$ be given by
@@ -97,11 +97,11 @@ plt.show()
 ```
 We can see that the minimum is $F^* = 1$ at $x^* = 1$.
 
-In two dimensions, we can make an isocolour plot of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value.
+In two dimensions, we can make a heatmap plot of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value.
 Let $F \colon \mathbb{R}^2 \to \mathbb{R}$ be given by
 $$
 F(\vec{x}) = F(x_1, x_2)
-= (x_1-1)^2 (x_1+1)^2 + 4x_1^2 + (x_1 +1)^2
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
 $$
 
 ```{python}
@@ -138,7 +138,7 @@ Sometimes minimisers are not unique.
 We can have two values which both have the same minimal value.
 For
 $$
-F(x) = (x-1)^2 + (x+1)^2,
+F(x) = (x^2 - 1)^2
 $$
 we have two minima at $x^* = -1$ and $1$ which both have $F^* = 0$.
 ```{python}
@@ -218,7 +218,7 @@ plt.show()
 
 ```
 In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve:
-For example for $F(x_1, x_2) = (x_1 - x_2^2)^2$ the minimisers lie on the curve $x = y^2$ with $F^* = 0$.
+For example for $F(x_1, x_2) = (x_1 - x_2^2)^2$ the minimisers lie on the curve $x_1 = x_2^2$ with $F^* = 0$.
 ```{python}
 def F6(x, y):
     return (x - y**2) ** 2
@@ -252,7 +252,7 @@ plt.show()
 
 Consider the function
 $$
-F(x) = \frac{1}{4} x^4 - \frac{1}{2} x^3 - frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 $$
 ```{python}
 def F7(x):
@@ -275,14 +275,14 @@ plt.show()
 
 
 ```
-This function has a minimum at $x* = -1$ with value $\frac{1}{12}$, but there is another interesting value at $x = 1$ (where $F(x) = 5/12$). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less that values nearby. This motivates the idea of a *local minimum*.
+This function has a minimum at $x* = -1$ with value $\frac{1}{12}$, but there is another interesting value at $x = 1$ (where $F(x) = 5/12$). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less than values nearby. This motivates the idea of a *local minimum*.
 
-Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of $x$. This is a very hard problem! When designing numerical algorithms, we instead often look for **local minimisers**. Later we will see a condition where we can guarentee local minimisers are global minimisers.
+Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of $x$. This is a very hard problem! When designing numerical algorithms, we instead often look for **local minimisers**. Later we will see a condition where we can guarantee local minimisers are global minimisers.
 
 ::: {#def-local-minimiser}
-**Scalar domain case**: Given a smooth function $F \colon \mathbb{R} \to \mathbb{R}$, we say that a point $x^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}$ with $|y - x| < b$, $f(x) < f(y)$.
+**Scalar domain case**: Given a smooth function $F \colon \mathbb{R} \to \mathbb{R}$, we say that a point $x^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}$ with $|y - x^*| < b$, $F(x^*) \le F(y)$.
 
-**Vector domain case**: Given a smooth function $F \colon \mathbb{R}^n \to \mathbb{R}$, we say that a point $\vec{x}^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}^n$ with $\|y - x\| < b$, $f(x) < f(y)$.
+**Vector domain case**: Given a smooth function $F \colon \mathbb{R}^n \to \mathbb{R}$, we say that a point $\vec{x}^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $\vec{y} \in \mathbb{R}^n$ with $\|\vec{y} - \vec{x}^*\| < b$, $F(\vec{x}^*) \le F(\vec{y})$.
 :::
 
 ## How to determine a local minimiser in the scalar domain case
@@ -405,30 +405,69 @@ We first start from the definition of convexity and $x, y \in B$, then
 $$
 a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0,1].
 $$
-Rearranging gives
+Rearranging for $a > 0$, gives
 \begin{align*}
 F(x) & \ge \frac{1}{a} F(y + a (x - y)) - \frac{1-a}{a} F(y) \\
 & = \frac{1}{a} \left(F(y + a (x - y)) - F(y)\right) + F(y).
 \end{align*}
 If $x = y$, then we can read off the result directly.
-Otherwise for $x \neq y$, we substitute $h = a(x-y)$ to get:
+Otherwise for $x \neq y$, we substitute $h = \frac{a}{x-y}$ to get:
 $$
-F(x) \ge \frac{1}{x-y} \frac{1}{h} \left(F(y + h) - F(y)\right) + F(y).
+F(x) \ge (x-y) \frac{1}{h} \left(F(y + h) - F(y)\right) + F(y).
 $$
-TODO complete this
+Taking the limit $h \to 0^+$, we have
+$$
+F(x) \ge (x-y) F'(y) + F(y).
+$$
+Note that in the final step, we have used the fact that $F$ is smooth so the limits are unique. This avoids us considering $h < 0$ in the limit.
 
-Then if $F$ satisfies \eqref{eq:convex-diff}, TODO
+For the converse direction, we start with $x, y \in B$ and let $z = a x + (1-a)y$, then we have
+$$
+F(x) \ge F(z) + F'(z) (x - z) \quad \text{and} \quad
+F(y) \ge F(z) + F'(z) (y - z).
+$$
+Multiplying the first inequality by $a$ and the second by $1-a$ and adding gives
+$$
+a F(x) + (1-a) F(y)
+\ge F(z) + F'(z) (a (x-z) + (1-a) (y-z) ).
+$$
+But from the definition of $z$, we have
+$$
+a (x-z) + (1-a) (y-z)
+= a x + (1-a) y - z
+= 0.
+$$
+Hence, we can infer that
+$$
+a F(x) + (1-a) F(y) \ge F(z) = F(a x + (1-a) y).
+$$
 :::
 
 This condition is still too hard for us to show, but it does usefully help with other results:
 
 ::: {#lem-convexity-diff2}
 Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function.
-Then $F$ is locally convex in an interval $B$ if, and only if, $F''(x) > 0$ for all $x \in B$.
+Then $F$ is locally convex in an interval $B$ if, and only if, $F''(x) \ge 0$ for all $x \in B$.
 :::
 
 ::: {.proof}
-TODO
+First, assuming the $F$ is locally convex, we can apply \eqref{eq:convex-diff} to see that for any $x, y \in B$, we have
+\begin{align*}
+F(x) &\ge F(y) + F'(y)(x-y) \\
+F(y) &\ge F(x) + F'(x)(y-x).
+\end{align*}
+Adding these inequality and rearranging gives
+$$
+(F'(y) - F'(x))(y-x) \ge 0.
+$$
+This inequality says that $F'$ is nondecreasing on $B$. If we let $y = x + h$ for $h > 0$, we have
+$$
+\frac{F'(x + h) - F'(x)}{h} \ge 0.
+$$
+Taking the limit $h \to 0$ shows that $F''(x) \ge 0$.
+
+The converse result here is a little hard and relies on a result from Mathematical Analysis (the Mean Value Theorem) which is not covered by this course.
+The key idea is to show that $F''(x) \ge 0$ implies that $F'$ is nondecreasing and then if $F'$ is nondecreasing that \eqref{eq:convex-diff} holds.
 :::
 
 ::: {#exm-convex-diff2}
@@ -448,7 +487,7 @@ If $F$ is locally convex in a region $B$ with $x^* \in B$ then $x^*$ is a local 
 ::: {.proof}
 (*We do not expect you to learn this proof but the result is very important!*)
 
-Let $y \in B$, then from @prp-convexity, we have
+Let $y \in B$, then from @lem-convexity-diff, we have
 $$
 F(y) \ge F(x^*) + F'(x^*)(y - x^*).
 $$
@@ -465,20 +504,13 @@ Then any local minimiser is a global minimiser.
 :::
 
 ::: {.proof}
-Let $x^*$ and $y^*$ be any local minimisers of $F$. We want to show that $F(x^*) = F(y^*)$. This will show that the local minimiser at $x^*$ takes a value as low as any other hence is a global minimiser.
-
-From @prp-minimiser, we have that $F'(x^*) = 0$.
-Then @lem-convex-diff shows that
+Let $x^*$ be a local minimiser of $F$, then $F'(x^*) = 0$ (from @prp-minimiser).
+Applying @lem-convexity-diff, we see that for any $y$, we have
 $$
-F(y^*) \ge F(x^*) + F'(x^*)(x^* - y^*) = F(x^*).
+F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*).
 $$
-Then we can reverse the roles of $x^*$ and $y^*$ to see that
-$$
-F(x^*) \ge F(y^*) + F'(y^*)(y^* - x^*) = F(y^*).
-$$
-Hence, we can infer that $F(x^*) = F(y^*)$ and so $F(x^*)$ is not higher than the value of the function at any other minima.
+Hence $x^*$ is in fact a global minimiser.
 :::
-TODO swap @lem-convex-diff roles of $x$ and $y$
 
 ::: {#exm-convex-minimum}
 Take the same example as before $F(x) = x^2 - 4 x + 5$.
