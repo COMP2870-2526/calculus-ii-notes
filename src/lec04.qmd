@@ -55,9 +55,9 @@ Mathematically, we could write this as saying: Given a direction $\vec{d} \in \m
 $$
 F(\vec{x}^* + h \vec{d}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
 $$
-We could try to use our ideas from one dimension then by considering the function $D_\vec{d} \mathbb{R} \to \mathbb{R}$ given by
+We could try to use our ideas from one dimension then by considering the function $D_{\vec{d}} \mathbb{R} \to \mathbb{R}$ given by
 $$
-D_\vec{d}(h) = F(\vec{x}^* + h \vec{d}).
+D_{\vec{d}}(h) = F(\vec{x}^* + h \vec{d}).
 $$
 This is a well defined one-dimensional function so we can apply all our theory as before.
 
@@ -69,11 +69,11 @@ $$
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
 $$
-and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_\vec{d}(h)$ and $D'_\vec{d}(h)$ at $\vec{x}^* = (-1, 0)$.
+and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_{\vec{d}}(h)$ and $D'_{\vec{d}}(h)$ at $\vec{x}^* = (-1, 0)$.
 
 1. For $\vec{d} = (1, 0)^T$, we have
    \begin{align*}
-   D_{\vec{d}(h)
+   D_{\vec{d}}(h)
    & = F(-1 + h, 0) \\
    & = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times 0^2 + 2 \\
    & = (-1)^4 + 4 \times (-1)^3 \times h + 6 \times (-1)^2 \times h^2 +
@@ -84,7 +84,7 @@ and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_\vec{d
    \end{align*}
    so
    \begin{align*}
-   D'_\vec{d}(h)
+   D'_{\vec{d}}(h)
    & = 4 h^3 - 12 h^2 + 10 h.
    \end{align*}
 2. For $\vec{d} = (0, 1)^T$, we have
@@ -151,4 +151,12 @@ $$
 D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
 $$
 
-This idea is special enough that we give the terms $D'_{\vec{e}^{(j)}}(h)$ a special name: *partial derivatives*.
+This idea is special enough that we give the terms $D'_{\vec{e}^{(j)}}(h)$ a special name: *partial derivatives*, and there is a slightly simpler way to calculate them.
+
+- define partial derivatives
+- define gradients
+- relate both to directional derivatives
+- with examples
+
+- go again with convexity
+- bring in hessian and eigenvalues as final condition
