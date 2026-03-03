@@ -6,11 +6,75 @@ echo: false
 
 ```{python}
 
+import numpy as np
 from matplotlib import pyplot as plt
 
 plt.style.use("seaborn-v0_8-colorblind")
 
+
 ```
+
+In one dimension, we will proceed with a simple idea: to find minima of functions $F \colon \mathbb{R} \to \mathbb{R}$, we will find points at which the derivative of $F$ is 0. To help us with notation, in this section we will write $F' = f$.
+
+> Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f(x)$**.
+
+::: {#exm-root-finder}
+1. The linear equation $f(x) = ax + b = 0$ has a single solution at $x^* = \frac{-b}{a}$.
+2. The quadratic equation $f(x) = a x^2 + b x + c = 0$ is nonlinear, but simple enough to have a known formula for the solutions:
+   $$
+   x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
+   $$
+3. A general nonlinear equation $f(x) = 0$ rarely has a formula like those above which we can be used to calculate its roots.
+:::
+
+It is also sometimes better to use numerical methods to solve an equation even if an exact formula exists:
+
+- the exact formula may have difficulties due to rounding errors;
+- the exact formula may be more expensive to compute.
+
+::: {#exm-bad-quadratic}
+We want to solve the quadratic equation
+$$
+f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
+$$
+for large values of $m$. The exact solutions are $m$ and $\frac{1}{m}$.
+
+```{python}
+# implementation of quadratic formula
+def quad(a, b, c):
+    """
+    Return the roots of the quadratic polynomial a x^2 + b x + c = 0.
+    """
+    d = np.sqrt(b * b - 4 * a * c)
+    return (-b + d) / (2 * a), (-b - d) / (2 * a)
+
+
+# test for m = 1e8
+m = 1e8
+roots = quad(1, -(m + 1 / m), 1)
+
+print(f"{roots=}")
+```
+These values look reasonable, but let's check the errors:
+
+```{python}
+# absolute and relative errors
+exact_roots = (m, 1 / m)
+
+abs_error = (abs(roots[0] - exact_roots[0]), abs(roots[1] - exact_roots[1]))
+rel_error = (abs_error[0] / m, abs_error[1] / (1 / m))
+
+print(f"{abs_error=}")
+print(f"{rel_error=}")
+```
+The absolute errors are quite small, but the relative error for the second root is huge!
+:::
+
+
+
+## Example problems
+
+
 
 Newton's method
 secant?
