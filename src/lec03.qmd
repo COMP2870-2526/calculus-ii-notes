@@ -12,16 +12,6 @@ from matplotlib import pyplot as plt
 plt.style.use("seaborn-v0_8-colorblind")
 
 
-def array_to_latex(array):
-    s = ""
-
-    s += "\\begin{pmatrix} "
-    s += " \\\\ ".join([" & ".join([str(v) for v in row]) for row in array])
-    s += " \\end{pmatrix}"
-
-    return s
-
-
 ```
 
 Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:
@@ -63,6 +53,8 @@ F^* = \min_{x \in \mathcal{A}} F(x) \\
 x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
 \end{aligned}
 \end{equation}
+We call $x^*$ the **minimiser** and $F^*$ the **minimising value** or **minimal value**.
+We note that the argmin may not be a single value but may be a set (containing more than one point). In examples, we often denote one such minimiser by $x^*$.
 :::
 
 ## Some interesting examples
@@ -85,18 +77,27 @@ F = F1(x)
 
 plt.plot(x, F)
 
-plt.plot(1, 1, "ro")
+plt.plot(1, 1, "C2o")
+plt.annotate(
+    "min at $x^* = 1$",
+    (1, 1),
+    textcoords="offset points",
+    xytext=(8, -12),
+    color="C2",
+)
 
 plt.xlabel("$x$")
 plt.ylabel("$F(x)$")
 
 plt.grid()
+plt.tight_layout()
 plt.show()
 
 
 ```
 We can see that the minimum is $F^* = 1$ at $x^* = 1$.
 
+It is hard to visualise functions in higher dimension. One possible idea is to plot slices, where we fix one or more variables at a time to leave a one or two dimensional function. However, this is not often a useful way to help find minimisers.
 In two dimensions, we can plot a heatmap of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value.
 Let $F \colon \mathbb{R}^2 \to \mathbb{R}$ be given by
 $$
@@ -115,10 +116,16 @@ X, Y = np.meshgrid(x, y)
 F = F2(X, Y)
 
 plt.pcolormesh(X, Y, F)
-plt.contourf(X, Y, F, levels=100)
 plt.colorbar(label="$F(x_1, x_2)$")
 
-plt.plot([-1], [0], "ro")
+plt.plot([-1], [0], "C2o")
+plt.annotate(
+    "min at $\\vec{x}^* = (-1, 0)$",
+    (-1, 0),
+    textcoords="offset points",
+    xytext=(8, -12),
+    color="C2",
+)
 
 plt.xlabel("$x_1$")
 plt.ylabel("$x_2$")
@@ -130,7 +137,6 @@ plt.show()
 ```
 Here we can see a minimum at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
 
-It is hard to visualise functions in higher dimension. One possible idea is to plot slices, where we fix one or more variables at a time to leave a one or two dimensional function. However, this is not often a useful way to help find minimisers.
 
 Before we come to some useful ways to find minimisers, we want to explore some other interesting cases.
 
@@ -146,17 +152,47 @@ def F3(x):
     return ((x - 1) * (x + 1)) ** 2
 
 
-x = np.linspace(-1.5, 1.5)
+x = np.linspace(-1.5, 1.5, 1000)
 F = F3(x)
 
 plt.plot(x, F)
 
-plt.plot([-1, 1], [F3(-1), F3(-1)], "ro")
+# Mark the two minima
+plt.plot([-1, 1], [F3(-1), F3(-1)], "C2o")
+
+
+# Place one text label at the middle of the axes (50% width, 22% height)
+label_xy_axes = (0.5, 0.22)
+label_text = r"minima at $x^*=\pm 1$ ($F^*=0$)"
+
+# Annotation 2: arrow-only from the same text position to the right minimum
+plt.annotate(
+    "",
+    xy=(1, F3(1)),  # point to right minimum
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={"arrowstyle": "->", "color": "C2", "lw": 1.8},
+)
+
+# Annotation 1: text + arrow to the left minimum
+plt.annotate(
+    label_text,
+    xy=(-1, F3(-1)),  # point to left minimum
+    xycoords="data",
+    xytext=label_xy_axes,  # place text in the middle (axes coords)
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={"arrowstyle": "->", "color": "C2", "lw": 1.8},
+    bbox={"boxstyle": "round,pad=0.2", "fc": "white", "ec": "none"},
+    color="C2",
+)
 
 plt.xlabel("$x$")
 plt.ylabel("$F(x)$")
-
-plt.grid()
+plt.grid(True)
+plt.tight_layout()
 plt.show()
 
 
@@ -173,23 +209,69 @@ def F4(x):
 x = np.linspace(-2.5 * np.pi, 2.5 * np.pi, 1000)
 F = F4(x)
 
-plt.plot(x, F)
+fig, ax = plt.subplots()
+ax.plot(x, F)
 
-plt.plot(
-    [p * np.pi for p in range(-2, 3)],
-    [F4(p * np.pi) for p in range(-2, 3)],
-    "ro",
+# Mark minima at integer multiples of pi within the plotted range
+mins_x = [p * np.pi for p in range(-2, 3)]
+ax.plot(mins_x, [F4(v) for v in mins_x], "C2o")
+
+ax.set_xlabel("$x$")
+ax.set_ylabel("$F(x)$")
+ax.grid(True)
+
+# One centred label in axes coordinates
+label_xy_axes = (
+    0.5,
+    0.28,
+)  # (x%, y%) of axes; adjust y if you want it higher/lower
+label_text = r"minima at $x^*=m\pi$ ($F^*=1$)"
+
+# Annotation 2: arrow-only from the same text position to the right nearest
+# minimum (+π, 1)
+ax.annotate(
+    "",
+    xy=(np.pi, F4(np.pi)),  # right nearest minimum
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": "C2",
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",
+    },
 )
 
-plt.xlabel("$x$")
-plt.ylabel("$F(x)$")
+# Annotation 1: text + arrow to the left nearest minimum (-π, 1)
+ax.annotate(
+    label_text,
+    xy=(-np.pi, F4(-np.pi)),  # left nearest minimum
+    xycoords="data",
+    xytext=label_xy_axes,  # centred label
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": "C2",
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",  # slight curve to avoid overlap
+    },
+    bbox={
+        "boxstyle": "round,pad=0.2",
+        "fc": "white",
+        "ec": "none",
+        "alpha": 0.85,
+    },
+)
 
-plt.grid()
+fig.tight_layout()
 plt.show()
 
 
 ```
-Here, $x* = m \pi$ for any $m \in \mathbb{Z}$ which all have $F^*=1$.
+Here, $x^* = m \pi$ for any $m \in \mathbb{Z}$ which all have $F^*=1$.
 
 Sometimes, we can have no minimisers at all!
 For
@@ -235,7 +317,7 @@ plt.colorbar(label="$F(x_1, x_2)$")
 
 y_ = np.linspace(-1.5, 1.5)
 x_ = y_**2
-plt.plot(x_, y_, "r")
+plt.plot(x_, y_, "C2", label="minisers on $x_1 = x_2^2$")
 
 plt.xlabel("$x_1$")
 plt.ylabel("$x_2$")
@@ -243,6 +325,7 @@ plt.ylabel("$x_2$")
 plt.xlim([-1.5, 1.5])
 
 plt.grid()
+plt.legend()
 plt.show()
 
 
@@ -264,18 +347,34 @@ F = F7(x)
 
 plt.plot(x, F)
 
-plt.plot([-1], [F7(-1)], "ro")
+plt.plot([-1], [F7(-1)], "C2o")
 plt.plot([1], [F7(1)], "C1o")
 
 plt.xlabel("$x$")
 plt.ylabel("$F(x)$")
+
+plt.annotate(
+    "min at $x^* = -1$",
+    (-1, F7(-1)),
+    textcoords="offset points",
+    xytext=(8, -8),
+    color="C2",
+)
+plt.annotate(
+    "another interesting point $x = 1$",
+    (1, F7(1)),
+    textcoords="offset points",
+    xytext=(8, -12),
+    color="C1",
+    ha="center",
+)
 
 plt.grid()
 plt.show()
 
 
 ```
-This function has a minimum at $x_* = -1$ with value $F_* = \frac{1}{12}$, but there is another interesting value at $x = 1$ (where $F(x) = 5/12$). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less than values nearby. This motivates the idea of a *local minimum*.
+This function has a minimum at $x_* = -1$ with value $F_* = \frac{1}{12}$ (orange), but there is another interesting value at $x = 1$ (where $F(x) = 5/12$, green). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less than values nearby. This motivates the idea of a *local minimum*.
 
 Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of $x$. This is a very hard problem! When designing numerical algorithms, we instead often look for **local minimisers**. Later we will see a condition where we can guarantee local minimisers are global minimisers.
 
@@ -289,7 +388,7 @@ Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global mi
 
 Looking again at the examples above, we can see that at all minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
 We can say this as the derivative of $F$ is zero or $F'(x_*) = 0$.
-However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points too!
+However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!
 
 ::: {#prp-minimiser}
 Let $F \colon \mathbb{R} \to \mathbb{R}$ and let $x^*$ be a local minimiser of $F$.
@@ -319,6 +418,29 @@ $$
 has a single value. The results of limits say that in this case \eqref{eq:positive-proof-a} and \eqref{eq:positive-proof-b} both hold in the limit too. This is only possible if $F'(x^*) = 0$.
 :::
 
+::: {#exm-local-minimiser}
+Let $F(x) = x^2 - 6x + 12$.
+
+We can compute that $F'(x)$ is given by
+$$
+F'(x) = 2 x - 6.
+$$
+If we set $F'(x) = 0$ we can rearrange to see
+\begin{align*}
+F'(x) = 2 x - 6 & = 0 \\
+2 x & = 6 \\
+x & = \frac{6}{2} = 3.
+\end{align*}
+Thus, there is a local minima at $x^* = 3$ with $F^* = F(x^*) = 3^2 - 6\times3 + 12 = 3$.
+
+
+:::
+
+
+::: {#exr-local-minimiser}
+Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
+:::
+
 We next revisit the example from the start of this section
 $$
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
@@ -327,29 +449,84 @@ We can compute the derivative as:
 $$
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 $$
-Looking at the graph, we can see the $F'$ is zero at three points, $x = -1, 1$ (red and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (orange).
+Looking at the graph, we can see the $F'$ is zero at three points, $x = -1, 1$ (orange and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (purple).
 
 ```{python}
-def F7(x):
-    return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
-
-
 def dF7(x):
     return x**3 - 0.25 * x**2 - x + 0.25
 
 
-x = np.linspace(-1.5, 1.5)
+x = np.linspace(-1.5, 1.5, 400)
 dF = dF7(x)
 
-plt.plot(x, dF)
+fig, ax = plt.subplots()
+ax.plot(x, dF, label=r"$F'(x)$")
 
-for p, C in zip([-1, 1, 0.25], ["r", "C1", "C2"], strict=True):
-    plt.plot(p, dF7(p), f"{C}o")
+# Stationary points and colours
+points = [-1.0, 0.25, 1.0]
+colours = {"-1.0": "C2", "0.25": "C3", "1.0": "C1"}
 
-plt.xlabel("$x$")
-plt.ylabel("$F'(x)$")
+# Plot the stationary points
+for p in points:
+    ax.plot(p, dF7(p), marker="o", color=colours[str(p)], zorder=3)
 
-plt.grid()
+# One centred label in axes coordinates
+label_xy_axes = (0.5, 0.8)  # move up/down as needed
+label_text = r"Stationary points ($F'(x)=0$) at $x=-1, \frac{1}{4}$ and $x=1$"
+
+# Arrow 2: arrow-only to x = 1/4
+ax.annotate(
+    "",
+    xy=(0.25, dF7(0.25)),
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["0.25"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=-0.12",
+    },
+)
+
+# Arrow 3: arrow-only to x = 1
+ax.annotate(
+    "",
+    xy=(1.0, dF7(1.0)),
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["1.0"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.12",
+    },
+)
+
+# Arrow 1: text + arrow to x = -1
+ax.annotate(
+    label_text,
+    xy=(-1.0, dF7(-1.0)),  # left stationary point
+    xycoords="data",
+    xytext=label_xy_axes,  # centred label
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["-1.0"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",
+    },
+    bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "none"},
+)
+
+ax.set_xlabel("$x$")
+ax.set_ylabel("$F'(x)$")
+ax.grid(True)
+ax.margins(y=0.15)  # give some headroom for the label
+fig.tight_layout()
 plt.show()
 ```
 
@@ -364,7 +541,7 @@ F''(\tfrac{1}{4}) &= 3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \frac{1}{4} -
 F''(1) & = 3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 > 0.
 \end{align*}
 
-::: {.prop}
+::: {@prp-local-to-global}
 Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^* \in \mathbb{R}$ such that $F'(x^*) = 0$ and $F''(x^*) > 0$. Then $x^*$ is a local minimiser of $F$.
 :::
 
@@ -383,7 +560,7 @@ def F7(x):
 
 
 xa = np.linspace(-1.5, 1.5)
-Fa = F7(x)
+Fa = F7(xa)
 
 
 def F8(x):
@@ -398,10 +575,10 @@ axs[1].plot(xb, Fb)
 
 for p in [-1, 1, 0.25]:
     t = np.array([p - 0.2, p + 0.25])
-    axs[0].plot(t, F7(t), ".--", color="0.25")
+    axs[0].plot(t, F7(t), ".--", color="C1")
 
 t = np.array([2.0 - 0.5, 2.0 + 0.7])
-axs[1].plot(t, F8(t), ".--", color="0.25")
+axs[1].plot(t, F8(t), ".--", color="C1")
 
 for ax in axs:
     ax.set_xlabel("$x$")
@@ -414,7 +591,7 @@ plt.show()
 
 ```
 
-For each example, we have chosen different pairs of points and drawn a straight line between them (grey dashed line).
+For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line).
 We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points.
 This idea is expressed mathematically through the idea of *convexity*.
 
@@ -425,7 +602,7 @@ for all points $x, y \in B$:
 \label{eq:convex}
 a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1].
 \end{equation}
-We say that $F$ is **convex** if it is locally convex in any interval $B \subset \mathbb{R}$.
+We say that $F$ is **convex** if it is convex on $\mathbb{R}$ (i.e., on every interval $B \subset \mathbb{R}$).
 :::
 
 It is hard to show convexity with this definition directly. Instead, we normally use the follow equivalent formulations:
@@ -443,7 +620,9 @@ Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function. Then the followin
 :::
 
 ::: {#rem-convexity-equiv}
-Condition two  can be expressed informally as saying that the graph of $F$ lies above its tangent.
+Condition 2  can be expressed informally as saying that the graph of $F$ lies above its tangent.
+
+Condition 3 links directly to the idea of linking local and global minima through @lem-
 :::
 
 ::: {.proof}
@@ -526,8 +705,14 @@ We see that condition 3 in @lem-convexity-equiv is often the easiest to show.
     $$
     F''(x) =  3(x - \tfrac{2}{3})(x + \tfrac{1}{2}).
     $$
-    We can see that $F''$ is negative if one of the factors on the right hand side is negative. That happens when $\tfrac{1}{2} < x < \tfrac{2}{3}$.
+    We can see that $F''$ is negative if one of the factors on the right hand side is negative. That happens when $-\tfrac{1}{2} < x < \tfrac{2}{3}$.
     Hence, we can infer that $F$ is not globally convex.
+:::
+
+::: {#exr-convex-diff2}
+Show that the following functions are or are not convex on $\mathbb{R}$:
+1. $F(x) = x^2 - 6x + 12$
+2. $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$
 :::
 
 ::: {#prp-convexity}
@@ -538,7 +723,7 @@ If $F$ is locally convex in a region $B$ with $x^* \in B$ then $x^*$ is a local 
 ::: {.proof}
 (*We do not expect you to learn this proof but the result is very important!*)
 
-Let $y \in B$, then from @lem-convexity-diff, we have
+Let $y \in B$, then from @lem-convexity-equiv, we have
 $$
 F(y) \ge F(x^*) + F'(x^*)(y - x^*).
 $$
@@ -601,11 +786,20 @@ def F99(x):
 
 x = np.linspace(-2, 2)
 plt.plot(x, [F99(x_) for x_ in x])
+plt.plot([-1, 1], [0, 0], "C2", label="min at all $x \\in [-1,1]$")
 
 plt.xlabel("$x$")
 plt.ylabel("$y$")
 plt.grid(True)
+plt.legend()
 plt.show()
 ```
 $F$ is a convex, smooth function, but all points $x \in [-1, 1]$ are minimisers.
 :::
+
+## Summary
+
+Optimisation is a wide area of numerical computation with many different application areas.
+In this module, we will only consider continuous optimisation problems.
+We have provided several examples of how different types of minima can occur in one and two dimensions using plots to identify minima.
+In one dimension, we have provided a characterisation of local minima and how to link them to global minima using the idea convexity.
