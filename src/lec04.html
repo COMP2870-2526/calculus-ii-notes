@@ -7,9 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
-<meta name="dcterms.date" content="2026-03-03">
 
-<title>COMP2870 Theoretical Foundations: Calculus II</title>
+<title>7&nbsp; What about functions with higher dimension domains? – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,29 +24,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./src/lec01.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-36fd9a77011eea28b248f0bd898b2e30.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-cf777ae9bf42fb5f059bc8dfcc8ab893.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-36fd9a77011eea28b248f0bd898b2e30.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../src/lec03a.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-36fd9a77011eea28b248f0bd898b2e30.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-cf777ae9bf42fb5f059bc8dfcc8ab893.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-36fd9a77011eea28b248f0bd898b2e30.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -83,6 +82,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -266,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec04.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -281,10 +309,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">COMP2870 Theoretical Foundations: Calculus II</a> 
+      <a href="../">COMP2870 Theoretical Foundations: Calculus II</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/COMP2870-2526/calculus-ii-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./COMP2870-Theoretical-Foundations--Calculus-II.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../COMP2870-Theoretical-Foundations--Calculus-II.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -298,43 +326,43 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec01.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to dynamic problems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec02.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of errors and systems of equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec02a.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec02a.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec03.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec03a.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec03a.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./src/lec04.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec04.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></span></a>
   </div>
 </li>
@@ -343,30 +371,8 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
-  <ul class="collapse">
-  <li><a href="#contents-of-this-submodule" id="toc-contents-of-this-submodule" class="nav-link" data-scroll-target="#contents-of-this-submodule"><span class="header-section-number">1.1</span> Contents of this submodule</a>
-  <ul class="collapse">
-  <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics"><span class="header-section-number">1.1.1</span> Topics</a></li>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">1.1.2</span> Learning outcomes</a></li>
-  </ul></li>
-  <li><a href="#textbooks-and-other-resources" id="toc-textbooks-and-other-resources" class="nav-link" data-scroll-target="#textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</a></li>
-  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">1.3</span> Programming</a></li>
-  <li><a href="#the-big-problems-for-this-part-of-the-module" id="toc-the-big-problems-for-this-part-of-the-module" class="nav-link" data-scroll-target="#the-big-problems-for-this-part-of-the-module"><span class="header-section-number">1.4</span> The big problems for this part of the module</a>
-  <ul class="collapse">
-  <li><a href="#differential-equations" id="toc-differential-equations" class="nav-link" data-scroll-target="#differential-equations"><span class="header-section-number">1.4.1</span> Differential equations</a></li>
-  <li><a href="#nonlinear-solvers" id="toc-nonlinear-solvers" class="nav-link" data-scroll-target="#nonlinear-solvers"><span class="header-section-number">1.4.2</span> Nonlinear solvers</a></li>
-  <li><a href="#optimisation" id="toc-optimisation" class="nav-link" data-scroll-target="#optimisation"><span class="header-section-number">1.4.3</span> Optimisation</a></li>
-  </ul></li>
-  <li><a href="#comments-on-these-notes" id="toc-comments-on-these-notes" class="nav-link" data-scroll-target="#comments-on-these-notes"><span class="header-section-number">1.5</span> Comments on these notes</a></li>
-  </ul></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -374,26 +380,27 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">COMP2870 Theoretical Foundations: Calculus II</h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></h1>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Ranner <a href="mailto:T.Ranner@leeds.ac.uk" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            School of Computer Science, University of Leeds
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Thomas Ranner </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">3 March 2026</p>
-    </div>
-  </div>
+      
   
     
   </div>
@@ -403,81 +410,99 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<section id="contents-of-this-submodule" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="contents-of-this-submodule"><span class="header-section-number">1.1</span> Contents of this submodule</h2>
-<p>This part of the module will deal with numerical algorithms that involve derivatives and integrals. We will approach these problems using a combination of theoretical ideas and practical solutions, thinking through the lens of real-world applications. As a consequence, to succeed in linear algebra, you will do some programming (using Python) and some pen-and-paper theoretical work, too.</p>
-<section id="topics" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="topics"><span class="header-section-number">1.1.1</span> Topics</h3>
-<p>We will have 6 double lectures, 2 tutorials, and 3 labs. We break up the topics as follows:</p>
-<p>Lectures</p>
-<ol type="1">
-<li>Introduction to ordinary differential equations and Euler’s method (week 9, L1)</li>
-<li>The midpoint method and systems of differential equations (week 9, L2)</li>
-<li>Introduction to optimisation and partial derivatives (week 10, L1)</li>
-<li>Nonlinear solvers (week 10, L2)</li>
-<li>Gradient flow (week 11, L1)</li>
-<li>Using gradient flow to train a neural network (week 11, L2)</li>
-</ol>
-<p>Labs</p>
-<ol type="1">
-<li>Ordinary differential equations (Week 9)</li>
-<li>Nonlinear solvers (Week 10)</li>
-<li>Using gradient flow to train a neural network (Week 11)</li>
-</ol>
-<p>Tutorials</p>
-<ol type="1">
-<li>Ordinary differential equations (Week 11)</li>
-<li>Optimisation (Week 12)</li>
-</ol>
-</section>
-<section id="learning-outcomes" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">1.1.2</span> Learning outcomes</h3>
-<p>Candidates should be able to:</p>
-<p>TODO</p>
-</section>
-</section>
-<section id="textbooks-and-other-resources" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</h2>
-<p>There are many textbooks and other external resources which could help your learning:</p>
-<p>TODO</p>
-</section>
-<section id="programming" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="programming"><span class="header-section-number">1.3</span> Programming</h2>
-<p>This section of the notes links theoretical material with practical applications. We will have weekly lab sessions where you will see how the methods mentioned in the lecture notes work when implemented. More instructions on how we will do this will be covered in the lab sessions themselves.</p>
-<p>An important theoretical aspect of translating the algorithms to computer implementations is the use of floating-point numbers. You will have already met floating-point numbers in your first year studies where you met how computer store numbers. You will already know that computer cannot store every possible real number exactly. The inexactness of floating-point numbers has real consequences when performing computations.</p>
-<p>Exploring and understanding the material in () is really helpful for understanding many of the choices that we make when forming methods in linear algebra.</p>
-<p>We will make extensive use of <a href="https://www.python.org/"><code>Python</code></a> and <a href="https://numpy.org/"><code>numpy</code></a> during this section of the module. It may help you to revise some of your notes from last year on these topics.</p>
-</section>
-<section id="the-big-problems-for-this-part-of-the-module" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="the-big-problems-for-this-part-of-the-module"><span class="header-section-number">1.4</span> The big problems for this part of the module</h2>
-<section id="differential-equations" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="differential-equations"><span class="header-section-number">1.4.1</span> Differential equations</h3>
-</section>
-<section id="nonlinear-solvers" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="nonlinear-solvers"><span class="header-section-number">1.4.2</span> Nonlinear solvers</h3>
-</section>
-<section id="optimisation" class="level3" data-number="1.4.3">
-<h3 data-number="1.4.3" class="anchored" data-anchor-id="optimisation"><span class="header-section-number">1.4.3</span> Optimisation</h3>
-</section>
-</section>
-<section id="comments-on-these-notes" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="comments-on-these-notes"><span class="header-section-number">1.5</span> Comments on these notes</h2>
-<p>There are two versions of these notes available: as an online website and as a pdf. I expect minor adjustments to be made to both throughout the progress of delivering the materials.</p>
-<p>You can always find the latest versions at:</p>
-<p>TODO</p>
-<p>Please either email me (<a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>) or use the <a href="TODO">github repository</a> to report any corrections.</p>
-<div id="b9f3ad2c" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-stdout">
-<pre><code>This version of the notes is ca4ed60+dirty.</code></pre>
+<p>When we were working with function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we had the key idea to find the points where the derivative of <span class="math inline">\(F\)</span> is <span class="math inline">\(0\)</span>. We have developed theory to tell us when these points are local or global minima and some methods to find these points.</p>
+<blockquote class="blockquote">
+<p>When working with functions with two dimensional (or more) domains, how do we compute derivatives?</p>
+</blockquote>
+<p>Throughout this section we will work with the example function: <span class="math display">\[
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span></p>
+<div id="47589b99" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec04_files/figure-html/cell-3-output-1.png" width="607" height="434" class="figure-img"></p>
+</figure>
 </div>
 </div>
-<p>Copyright 2025-2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+</div>
+<p>Some how we want to have the idea that if you move away from the minimum in <em>any</em> direction then the function increases. Mathematically, we could write this as saying: Given a direction <span class="math inline">\(\vec{d} \in \mathbb{R}^n\)</span>, a point <span class="math inline">\(\vec{x}^*\)</span> is a local minimum if <span class="math display">\[
+F(\vec{x}^* + h \vec{d}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
+\]</span> We could try to use our ideas from one dimension then by considering the function <span class="math inline">\(D_{\vec{d}} \mathbb{R} \to \mathbb{R}\)</span> given by <span class="math display">\[
+D_{\vec{d}}(h) = F(\vec{x}^* + h \vec{d}).
+\]</span> This is a well defined one-dimensional function so we can apply all our theory as before.</p>
+<p>TODO I think we need the directional derivative at <span class="math inline">\(h=0\)</span>.</p>
+<div id="exm-directional-derivative" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.1</strong></span> Consider the function <span class="math display">\[
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
+\]</span> and the directions <span class="math inline">\(\vec{d} = (1, 0)^T, (0, 1)^T\)</span> and <span class="math inline">\((1, 1)^T\)</span>. Find <span class="math inline">\(D_{\vec{d}}(h)\)</span> and <span class="math inline">\(D'_{\vec{d}}(h)\)</span> at <span class="math inline">\(\vec{x}^* = (-1, 0)\)</span>.</p>
+<ol type="1">
+<li>For <span class="math inline">\(\vec{d} = (1, 0)^T\)</span>, we have <span class="math display">\[\begin{align*}
+D_{\vec{d}}(h)
+&amp; = F(-1 + h, 0) \\
+&amp; = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times 0^2 + 2 \\
+&amp; = (-1)^4 + 4 \times (-1)^3 \times h + 6 \times (-1)^2 \times h^2 +
+4 \times (-1) \times h^3 + h^4 -
+(-1)^2 - 2 \times (-1) \times h - h^2 + 2 \times (-1) + 2 \times h + 0 + 2 \\
+&amp; = 1 - 4h + 6 h^2 - 4h^3 + h^4 - 1 + 2h - h^2 - 2 + 2h + 2 \\
+&amp; = h^4 - 4h^3 + 5 h^2,
+\end{align*}\]</span> so <span class="math display">\[\begin{align*}
+D'_{\vec{d}}(h)
+&amp; = 4 h^3 - 12 h^2 + 10 h.
+\end{align*}\]</span></li>
+<li>For <span class="math inline">\(\vec{d} = (0, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
+D_{\vec{d}}(h)
+&amp; = F(-1, 0 + h) \\
+&amp; = (-1)^4 - (-1)^2 + 2 \times (-1) + 4 h^2 + 2 \\
+&amp; = 1 - 1 - 2 + 4 h^2 + 2 = 4 h^2,
+\end{align*}\]</span> so <span class="math display">\[\begin{align*}
+D'_{\vec{d}}(h)
+&amp; = 8 h.
+\end{align*}\]</span></li>
+<li>For <span class="math inline">\(\vec{d} = (1, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
+D_{\vec{d}}(h)
+&amp; = F(-1 + h, 0 + h) \\
+&amp; = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times h^2 + 2 \\
+&amp; = (h^4 - 4 h^3 + 5 h^2) + (4 h^2) \\
+&amp; = h^4 - 4 h^3 + 9 h^2,
+\end{align*}\]</span> so <span class="math display">\[\begin{align*}
+D'_{\vec{d}}(h) = 4 h - 12 h^2 + 18 h.
+\end{align*}\]</span></li>
+</ol>
+<p>We note that each derivatives depends on <span class="math inline">\(h\)</span> and that for each derivative we have <span class="math inline">\(D'_{\vec{d}}(0) = 0\)</span>.</p>
+</div>
+<p>The object we have been computing in this example is called the <em>directional derivative</em>:</p>
+<div id="def-directional-derivative" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. The <strong>direction derivative of <span class="math inline">\(F\)</span> at <span class="math inline">\(\vec{x}\)</span> in a direction <span class="math inline">\(\vec{d}\)</span></strong> is given by <span class="math inline">\(D'_{\vec{d}}(h)\)</span>.</p>
+</div>
+<div id="rmk-directional-derivatives">
+<p>There is something slightly strange about how directional derivatives depend on both the direction and the size of <span class="math inline">\(\vec{d}\)</span>. However this is simply part of the definition and something we should be aware of when doing this type of computation.</p>
+</div>
+<p>So we might want to think about building theory based on directional derivatives. However, as we have seen in the picture of <span class="math inline">\(F\)</span> above, there are still lots of directions to check. We have checked 3 different directions but there are still infinitely many to do!</p>
+<p>There is something else we can do, and the calculations for the direction <span class="math inline">\(\vec{d} = (1, 1)^T\)</span> give us a clue! We saw that <span class="math display">\[
+D'_{(1, 1)^T}(h) = D'_{(1, 0)^T}(h) + D'_{(0, 1)^T}(h).
+\]</span> This is also true in general: <span class="math display">\[\begin{align*}
+D'_{\vec{d}^{(1)} + \vec{d}^{(2)}}(h) = D'_{\vec{d}^{(1)}}(h) + D_{\vec{d}^{(2)}}(h) \\
+D'_{w \vec{d}}(h) = w D'_{\vec{d}}(h).
+\end{align*}\]</span> So if we can find a basis (remember that term from semester 1?!?), we can write any directional derivative in terms of the basis vectors. We can make a simple choice for this: the coordinate axes!</p>
+<p>Let <span class="math inline">\(\vec{e}^{(j)}\)</span> be the vector with <span class="math inline">\(1\)</span> in the <span class="math inline">\(j\)</span>th place and <span class="math inline">\(0\)</span> in every other place for <span class="math inline">\(j = 1, 2, \ldots n\)</span>. For example in <span class="math inline">\(\mathbb{R}^2\)</span>, we have <span class="math inline">\(\vec{e}^{(1)} = (1, 0)^T\)</span> and <span class="math inline">\(\vec{e}^{(2)} = (0, 1)^T\)</span>. These form a basis. So any direction <span class="math inline">\(\vec{d}\)</span> can be written as <span class="math display">\[
+\vec{d} = (d_1, d_2, \ldots, d_n) = \sum_{j=1}^n d_j \vec{e}^{(j)},
+\]</span> so that <span class="math display">\[
+D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
+\]</span></p>
+<p>This idea is special enough that we give the terms <span class="math inline">\(D'_{\vec{e}^{(j)}}(h)\)</span> a special name: <em>partial derivatives</em>, and there is a slightly simpler way to calculate them.</p>
+<ul>
+<li><p>define partial derivatives</p></li>
+<li><p>define gradients</p></li>
+<li><p>relate both to directional derivatives</p></li>
+<li><p>with examples</p></li>
+<li><p>go again with convexity</p></li>
+<li><p>bring in hessian and eigenvalues as final condition</p></li>
+</ul>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -895,11 +920,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../src/lec03a.html" class="pagination-link" aria-label="Methods for finding minima of scalar domain functions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./src/lec01.html" class="pagination-link" aria-label="Introduction to dynamic problems">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to dynamic problems</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -910,7 +935,7 @@ ul.task-list li input[type="checkbox"] {
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec04.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec04.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

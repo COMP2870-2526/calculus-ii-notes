@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>4&nbsp; A model for the trajectory of an object – COMP2870 Theoretical Foundations: Calculus II</title>
+<title>5&nbsp; Introduction to optimisation – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,8 +31,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/lec03.html" rel="next">
-<link href="../src/lec02.html" rel="prev">
+<link href="../src/lec03a.html" rel="next">
+<link href="../src/lec02a.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -330,7 +295,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec02a.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -380,13 +345,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec02a.html" class="sidebar-item-text sidebar-link active">
+  <a href="../src/lec02a.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></span></a>
   </div>
 </li>
@@ -412,13 +377,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#newtons-laws-of-motion" id="toc-newtons-laws-of-motion" class="nav-link active" data-scroll-target="#newtons-laws-of-motion"><span class="header-section-number">4.1</span> Newton’s laws of motion</a></li>
-  <li><a href="#a-mathematical-model" id="toc-a-mathematical-model" class="nav-link" data-scroll-target="#a-mathematical-model"><span class="header-section-number">4.2</span> A mathematical model</a></li>
-  <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation"><span class="header-section-number">4.3</span> Python implementation</a></li>
-  <li><a href="#system-of-equations" id="toc-system-of-equations" class="nav-link" data-scroll-target="#system-of-equations"><span class="header-section-number">4.4</span> System of equations</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.5</span> Summary</a></li>
+  <li><a href="#some-interesting-examples" id="toc-some-interesting-examples" class="nav-link active" data-scroll-target="#some-interesting-examples"><span class="header-section-number">5.1</span> Some interesting examples</a></li>
+  <li><a href="#global-and-local-minimisers" id="toc-global-and-local-minimisers" class="nav-link" data-scroll-target="#global-and-local-minimisers"><span class="header-section-number">5.2</span> Global and local minimisers</a></li>
+  <li><a href="#how-to-determine-a-local-minimiser-in-the-scalar-domain-case" id="toc-how-to-determine-a-local-minimiser-in-the-scalar-domain-case" class="nav-link" data-scroll-target="#how-to-determine-a-local-minimiser-in-the-scalar-domain-case"><span class="header-section-number">5.3</span> How to determine a local minimiser in the scalar domain case</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.4</span> Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec02a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec02a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -426,7 +390,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></h1>
 </div>
 
 
@@ -456,143 +420,343 @@ window.Quarto = {
 </header>
 
 
-<section id="newtons-laws-of-motion" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="newtons-laws-of-motion"><span class="header-section-number">4.1</span> Newton’s laws of motion</h2>
-<p>A large component of many computer games is the <em>physics engine</em>. Planning robotic manoeuvring requires physics-based models too. Both applications typically spend large numbers of CPU cycles simulating the motion of bodies using Newton’s laws, based on the forces that are exerted upon them. In particular, Newton’s second law of motion says that the net force on an object equals its mass multiplied by its acceleration: <span class="math display">\[
-\text{Force} = \text{Mass} \times \text{Acceleration}.
-\]</span> Once we know the acceleration of an object we can solve differential equations to calculate its subsequent velocity and position…</p>
-<p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="88217795" class="cell" data-execution_count="2">
+<p>Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:</p>
+<ol type="1">
+<li>When making business decisions, we often want to find a solution which maximises our financial returns;</li>
+<li>When doing medical procedures, we may want to maximise the effectiveness of the procedure or minimise any potential side effects;</li>
+<li>When writing computer code, we (normally) want our code to run as fast as possible;</li>
+<li>When scheduling a train timetable, we may want to maximise the usage of the network, or minimise the cost of running the network, or maximise the robustness to delays of our timetable.</li>
+<li>When designing a social media app, we want to find the algorithm that encourages people to stay on the app the longest.</li>
+<li>When controlling a robotic arm, we may want to minimise the time or energy the solution takes.</li>
+<li>When doing any problem with data, we want to find the model or parameters that best fit the data.</li>
+<li>When training a neural network, we want to find the parameters of the network to best match the training data.</li>
+</ol>
+<p>We make a distinction between problems where the set of possible solutions (admissible states) are continuous or discrete. For example:</p>
+<ol type="1">
+<li>Choosing between distinct medical procedures is a discrete optimisation problem.</li>
+<li>Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.</li>
+</ol>
+<p>This part of the module will deal with <strong>continuous optimisation problems</strong>.</p>
+<p>All of the continuous optimisation problems above can be expressed in a general mathematical form.</p>
+<p>We first need a set <span class="math inline">\(\mathcal{A}\)</span> of admissible states (think of the amount of drug to be delivered or how it is delivered). For continuous problems <span class="math inline">\(\mathcal{A}\)</span> will also be either an interval of the real line <span class="math inline">\(\mathbb{R}\)</span> or a nice subset of the higher dimensional space <span class="math inline">\(\mathbb{R}^n\)</span>. Then we can ask what the outcome of that choice is; we model the outcome through a <em>cost function</em> (also called potential or loss function), which we label <span class="math inline">\(F \colon \mathcal{A} \to \mathbb{R}\)</span>.</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>In our examples, where we compute things, we will also have <span class="math inline">\(\mathcal{A} = \mathbb{R}\)</span> or <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
+</div>
+<p>The idea of optimisation is to find the best value <span class="math inline">\(x^*\)</span> in <span class="math inline">\(\mathcal{A}\)</span> which minimises <span class="math inline">\(F\)</span> and the value of <span class="math inline">\(F^* = F(x^*)\)</span> of the minimal cost.</p>
+<div id="def-global-minimiser" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.1</strong></span> We will write: <span class="math display">\[\begin{equation}
+\label{eq:global-minimiser}
+\begin{aligned}
+F^* = \min_{x \in \mathcal{A}} F(x) \\
+x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
+\end{aligned}
+\end{equation}\]</span> We call <span class="math inline">\(x^*\)</span> the <strong>minimiser</strong> and <span class="math inline">\(F^*\)</span> the <strong>minimising value</strong> or <strong>minimal value</strong>. We note that the argmin may not be a single value but may be a set (containing more than one point). In examples, we often denote one such minimiser by <span class="math inline">\(x^*\)</span>.</p>
+</div>
+<section id="some-interesting-examples" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="some-interesting-examples"><span class="header-section-number">5.1</span> Some interesting examples</h2>
+<p>It is sometimes easy to see where the minimum of a function is by plotting the function.</p>
+<p>In one dimension, we can simply plot the graph of the function. Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be given by <span class="math display">\[
+F(x) = x^2 - 2x + 2.
+\]</span></p>
+<div id="46f55254" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec02a_files/figure-html/cell-3-output-1.png" width="606" height="434" class="figure-img"></p>
+<p><img src="lec03_files/figure-html/cell-3-output-1.png" width="661" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that the minimum is <span class="math inline">\(F^* = 1\)</span> at <span class="math inline">\(x^* = 1\)</span>.</p>
+<p>It is hard to visualise functions in higher dimension. One possible idea is to plot slices, where we fix one or more variables at a time to leave a one or two dimensional function. However, this is not often a useful way to help find minimisers. In two dimensions, we can plot a heatmap of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value. Let <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> be given by <span class="math display">\[
+F(\vec{x}) = F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
+\]</span></p>
+<div id="b4eac3de" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-4-output-1.png" width="595" height="434" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see a minimum at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
+<p>Before we come to some useful ways to find minimisers, we want to explore some other interesting cases.</p>
+<p>Sometimes minimisers are not unique. We can have two values which both have the same minimal value. For <span class="math display">\[
+F(x) = (x^2 - 1)^2
+\]</span> we have two minima at <span class="math inline">\(x^* = -1\)</span> and <span class="math inline">\(1\)</span> which both have <span class="math inline">\(F^* = 0\)</span>.</p>
+<div id="53921e24" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-5-output-1.png" width="661" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sometimes we can have infinitely many minimisers. Consider <span class="math display">\[
+F(x) = 1 + \sin^2(x).
+\]</span></p>
+<div id="237e87fc" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-6-output-1.png" width="661" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, <span class="math inline">\(x^* = m \pi\)</span> for any <span class="math inline">\(m \in \mathbb{Z}\)</span> which all have <span class="math inline">\(F^*=1\)</span>.</p>
+<p>Sometimes, we can have no minimisers at all! For <span class="math display">\[
+F(x) = -x^2,
+\]</span> there is no minimiser in <span class="math inline">\(\mathbb{R}\)</span>:</p>
+<div id="1a2208cf" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-7-output-1.png" width="603" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve: For example for <span class="math inline">\(F(x_1, x_2) = (x_1 - x_2^2)^2\)</span> the minimisers lie on the curve <span class="math inline">\(x_1 = x_2^2\)</span> with <span class="math inline">\(F^* = 0\)</span>.</p>
+<div id="bf1d3e8a" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-8-output-1.png" width="599" height="434" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="a-mathematical-model" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="a-mathematical-model"><span class="header-section-number">4.2</span> A mathematical model</h2>
-<p>In order to produce a model, we need to decide which are the most important forces acting on the object. One good choice would be to consider gravity and air resistance. Gravity only acts in the negative <span class="math inline">\(y\)</span> direction (not the <span class="math inline">\(x\)</span> direction), and always leads to a constant acceleration (<span class="math inline">\(g = 9.81\,\text{m}/\text{s}^2\)</span>). Air resistance <em>opposes</em> the motion in both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> directions, and we will assume that the force is proportional to the speed in each direction (similarly to our free fall example, <a href="lec01.html#exm-freefall" class="quarto-xref">Example&nbsp;<span>2.1</span></a>). We will denote the constant of proportionality by <span class="math inline">\(k\)</span>.</p>
-<p>We use the following notation:</p>
-<ul>
-<li><span class="math inline">\(X(t)\)</span> the horizontal distance of the object at time <span class="math inline">\(t\)</span>,</li>
-<li><span class="math inline">\(Y(t)\)</span> the vertical distance of the object at time <span class="math inline">\(t\)</span> (height above ground, increasing upwards),</li>
-<li><span class="math inline">\(U(t)\)</span> the horizontal speed of the object at time <span class="math inline">\(t\)</span>,</li>
-<li><span class="math inline">\(V(t)\)</span> the vertical speed of the object at time <span class="math inline">\(t\)</span>.</li>
-</ul>
-<p>The above model leads to the following two differential equations (assuming the mass of the object is <span class="math inline">\(1\,\text{kg}\)</span>): <span class="math display">\[\begin{align*}
-U'(t) &amp;= - k U(t) \\
-V'(t) &amp;= - k V(t) - g.
-\end{align*}\]</span> We also know that, from the definition of speed (rate of change of distance), that <span class="math display">\[\begin{align*}
-X'(t) &amp;= U(t) \\
-Y'(t) &amp;= V(t).
-\end{align*}\]</span> In addition to these 4 differential equations for the unknown speeds (<span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span>) and distances (<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>), we also need to know the initial conditions for the system. We choose one scenario: at <span class="math inline">\(t = 0\)</span>, <span class="math display">\[\begin{align*}
-U(0) &amp;= 20  \, \text{m}/\text{s} \\
-V(0) &amp;= 0  \, \text{m}/\text{s} \\
-X(0) &amp;= 0  \, \text{m} \\
-Y(0) &amp;= 100 \, \text{m}.
-\end{align*}\]</span></p>
-<p>From now on we will omit the units in our calculations and assume they are implicit.</p>
-</section>
-<section id="python-implementation" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="python-implementation"><span class="header-section-number">4.3</span> Python implementation</h2>
-<p>We can implement our model using Euler’s method:</p>
-<div id="128a5e03" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> projectile(n, T):</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    </span><span class="al">TODO</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    """</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    <span class="co"># initialise all arrays</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>    t <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    U <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    V <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    X <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    Y <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co"># set initial conditions</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    t[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>    U[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">20.0</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    V[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    X[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    Y[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">100.0</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># define constants</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>    k <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>    g <span class="op">=</span> <span class="fl">9.81</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    <span class="co"># calculate step size</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>    h <span class="op">=</span> (T <span class="op">-</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
-<span id="cb1-25"><a href="#cb1-25"></a></span>
-<span id="cb1-26"><a href="#cb1-26"></a>    <span class="co"># perform euler steps</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-28"><a href="#cb1-28"></a>        U[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> U[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> U[i])</span>
-<span id="cb1-29"><a href="#cb1-29"></a>        V[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> V[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> V[i] <span class="op">-</span> g)</span>
-<span id="cb1-30"><a href="#cb1-30"></a>        X[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> X[i] <span class="op">+</span> h <span class="op">*</span> U[i]</span>
-<span id="cb1-31"><a href="#cb1-31"></a>        Y[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> Y[i] <span class="op">+</span> h <span class="op">*</span> V[i]</span>
-<span id="cb1-32"><a href="#cb1-32"></a>        t[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> t[i] <span class="op">+</span> h</span>
-<span id="cb1-33"><a href="#cb1-33"></a></span>
-<span id="cb1-34"><a href="#cb1-34"></a>    <span class="cf">return</span> t, X, Y, U, V</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="518566a9" class="cell" data-execution_count="5">
+<section id="global-and-local-minimisers" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="global-and-local-minimisers"><span class="header-section-number">5.2</span> Global and local minimisers</h2>
+<p>Consider the function <span class="math display">\[
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+\]</span></p>
+<div id="8bec3e67" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec02a_files/figure-html/cell-6-output-1.png" width="601" height="429" class="figure-img"></p>
+<p><img src="lec03_files/figure-html/cell-9-output-1.png" width="599" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>This function has a minimum at <span class="math inline">\(x_* = -1\)</span> with value <span class="math inline">\(F_* = \frac{1}{12}\)</span> (orange), but there is another interesting value at <span class="math inline">\(x = 1\)</span> (where <span class="math inline">\(F(x) = 5/12\)</span>, green). The point <span class="math inline">\(x = 1\)</span> is clearly not a minimiser of the entire function, but the value at <span class="math inline">\(x = 1\)</span> is less than values nearby. This motivates the idea of a <em>local minimum</em>.</p>
+<p>Our definitions in <span class="math inline">\(\eqref{eq:global-minimiser}\)</span>, are <strong>global</strong> (i.e.&nbsp;a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of <span class="math inline">\(x\)</span>. This is a very hard problem! When designing numerical algorithms, we instead often look for <strong>local minimisers</strong>. Later we will see a condition where we can guarantee local minimisers are global minimisers.</p>
+<div id="def-local-minimiser" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.2</strong></span> <strong>Scalar domain case</strong>: Given a smooth function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we say that a point <span class="math inline">\(x^*\)</span> is a <strong>local minimiser</strong> of <span class="math inline">\(F\)</span> if there exists a value <span class="math inline">\(b\)</span> such that for all <span class="math inline">\(y \in \mathbb{R}\)</span> with <span class="math inline">\(|y - x^*| &lt; b\)</span>, <span class="math inline">\(F(x^*) \le F(y)\)</span>.</p>
+<p><strong>Vector domain case</strong>: Given a smooth function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>, we say that a point <span class="math inline">\(\vec{x}^*\)</span> is a <strong>local minimiser</strong> of <span class="math inline">\(F\)</span> if there exists a value <span class="math inline">\(b\)</span> such that for all <span class="math inline">\(\vec{y} \in \mathbb{R}^n\)</span> with <span class="math inline">\(\|\vec{y} - \vec{x}^*\| &lt; b\)</span>, <span class="math inline">\(F(\vec{x}^*) \le F(\vec{y})\)</span>.</p>
+</div>
 </section>
-<section id="system-of-equations" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="system-of-equations"><span class="header-section-number">4.4</span> System of equations</h2>
-<p>The above projectile example shows how to use Euler’s method to solve a system of four differential equations. In general, a system of four differential equations will take the form: <span class="math display">\[\begin{align*}
-y_1'(t) &amp; = f_1(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
-y_2'(t) &amp; = f_2(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
-y_3'(t) &amp; = f_3(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
-y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
+<section id="how-to-determine-a-local-minimiser-in-the-scalar-domain-case" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="how-to-determine-a-local-minimiser-in-the-scalar-domain-case"><span class="header-section-number">5.3</span> How to determine a local minimiser in the scalar domain case</h2>
+<p>Looking again at the examples above, we can see that at all minimisers the slope of <span class="math inline">\(F\)</span> is 0 (i.e.&nbsp;the graph is horizontal). We can say this as the derivative of <span class="math inline">\(F\)</span> is zero or <span class="math inline">\(F'(x_*) = 0\)</span>. However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!</p>
+<div id="prp-minimiser" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and let <span class="math inline">\(x^*\)</span> be a local minimiser of <span class="math inline">\(F\)</span>. Then <span class="math inline">\(F'(x^*) = 0\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>(<em>We do not expect you to learn this proof but the result is very important!</em>)</p>
+<p>We see that the definition of local minima says that for <span class="math inline">\(h\)</span> small enough that <span class="math display">\[\begin{align*}
+F(x^* + h) - F(x^*) \ge 0,
+\end{align*}\]</span> so <span class="math display">\[\begin{align}
+\label{eq:positive-proof-a}
+\frac{F(x^* + h) - F(x^*)}{h}
+&amp; \ge 0 &amp;&amp; \text{if} \quad h \ge 0 \\
+\label{eq:positive-proof-b}
+\frac{F(x^* + h) - F(x^*)}{h}
+&amp; \le 0 &amp;&amp; \text{if}\quad h \le 0.
+\end{align}\]</span> If <span class="math inline">\(F\)</span> is smooth, <span class="math inline">\(F'\)</span> exists and the limit <span class="math display">\[
+F'(x^*) = \lim_{h\to 0} \frac{F(x^* + h) - F(x^*)}{h},
+\]</span> has a single value. The results of limits say that in this case <span class="math inline">\(\eqref{eq:positive-proof-a}\)</span> and <span class="math inline">\(\eqref{eq:positive-proof-b}\)</span> both hold in the limit too. This is only possible if <span class="math inline">\(F'(x^*) = 0\)</span>.</p>
+</div>
+<div id="exm-local-minimiser" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> Let <span class="math inline">\(F(x) = x^2 - 6x + 12\)</span>.</p>
+<p>We can compute that <span class="math inline">\(F'(x)\)</span> is given by <span class="math display">\[
+F'(x) = 2 x - 6.
+\]</span> If we set <span class="math inline">\(F'(x) = 0\)</span> we can rearrange to see <span class="math display">\[\begin{align*}
+F'(x) = 2 x - 6 &amp; = 0 \\
+2 x &amp; = 6 \\
+x &amp; = \frac{6}{2} = 3.
+\end{align*}\]</span> Thus, there is a local minima at <span class="math inline">\(x^* = 3\)</span> with <span class="math inline">\(F^* = F(x^*) = 3^2 - 6\times3 + 12 = 3\)</span>.</p>
+</div>
+<div id="exr-local-minimiser" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Let <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1\)</span>. Identify any local minima by finding the derivative of <span class="math inline">\(F\)</span> and finding all points with <span class="math inline">\(F'(x) = 0\)</span>.</p>
+</div>
+<p>We next revisit the example from the start of this section <span class="math display">\[
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+\]</span> We can compute the derivative as: <span class="math display">\[
+F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
+\]</span> Looking at the graph, we can see the <span class="math inline">\(F'\)</span> is zero at three points, <span class="math inline">\(x = -1, 1\)</span> (orange and green) which we have already identified as local minima, but also at <span class="math inline">\(x = \frac{1}{4}\)</span> (purple).</p>
+<div id="699fbf2f" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-10-output-1.png" width="662" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that at the local minima (red and green points) the derivative is <em>increasing</em> but at the other point (orange), the derivative is decreasing. More formally, we can say that at local minima the second derivative is strictly positive. In this instance, we have <span class="math display">\[
+F''(x) = 3 x^2 - \frac{1}{2} x - 1,
+\]</span> so that <span class="math display">\[\begin{align*}
+F''(-1) &amp;= 3 \times (-1)^2 - \frac{1}{2} \times (-1) - 1 = 3 + \frac{1}{2} - 1 = \frac{5}{2} = 2.5 &gt; 0 \\
+F''(\tfrac{1}{4}) &amp;= 3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \frac{1}{4} - 1 = \frac{3}{16} - \frac{1}{8} - 1 = -\frac{15}{16} = -0.9375 &lt; 0 \\
+F''(1) &amp; = 3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 &gt; 0.
 \end{align*}\]</span></p>
-<div id="exr-general-to-projectile" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> How does this general form relate to the projectile example?</p>
+<div id="prp-local-to-global" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 5.2</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and <span class="math inline">\(x^* \in \mathbb{R}\)</span> such that <span class="math inline">\(F'(x^*) = 0\)</span> and <span class="math inline">\(F''(x^*) \ge 0\)</span>. Then <span class="math inline">\(x^*\)</span> is a local minimiser of <span class="math inline">\(F\)</span>.</p>
 </div>
-<p>It is possible to apply Euler’s method or the midpoint method to a general system such as that. These examples may look quite complicated at first, but they are simply applying the same techniques to systems of differential equations rather than a single differential equation.</p>
-<div id="exm-system-euler" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the following system of differential equations: <span class="math display">\[
-\vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
-\]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
-<div id="377677d9" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
-<ul>
-<li><p>Step 1:</p>
-<p><span class="math display">\[\begin{align*}
-\vec{y}^{(1)}
-&amp; = \vec{y}^{(0)} + h A \vec{y}^{(0)} \\
-&amp; = \begin{pmatrix} 0 \\ 1 \end{pmatrix} + 0.5 \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix} \begin{pmatrix} 0 \\ 1 \end{pmatrix} \\
-&amp; = \begin{pmatrix} 0 \\ 1 \end{pmatrix} + 0.5 \begin{pmatrix} 1 \\ -2 \end{pmatrix} \\
-&amp; = \begin{pmatrix} 0.5 \\ 0.0 \end{pmatrix} \\
-t^{(1)} &amp;= t^{(0)} + h \\
-&amp; = 0 + 0.5 = 0.5.
-\end{align*}\]</span></p></li>
-<li><p>Step 2:</p>
-<p><span class="math display">\[\begin{align*}
-\vec{y}^{(2)}
-&amp; = \vec{y}^{(1)} + h A \vec{y}^{(1)} \\
-&amp; = \begin{pmatrix} 0.5 \\ 0.0 \end{pmatrix} + 0.5 \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix} \begin{pmatrix} 0.5 \\ 0.0 \end{pmatrix} \\
-&amp; = \begin{pmatrix} 0.5 \\ 0.0 \end{pmatrix} + 0.5 \begin{pmatrix} -0.5 \\ 0.5 \end{pmatrix} \\
-&amp; = \begin{pmatrix} 0.25 \\ 0.25 \end{pmatrix} \\
-t^{(2)} &amp;= t^{(1)} + h \\
-&amp; = 0.5 + 0.5 = 1.0.
-\end{align*}\]</span></p></li>
-</ul>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We only sketch the proof here. The key idea is to use something called Taylor’s theorem, which gives us the formula that for <span class="math inline">\(x\)</span> close to <span class="math inline">\(x^*\)</span>, we have that <span class="math display">\[
+F(x) \approx F(x^*) + (x - x^*) F'(x^*) + \frac{1}{2} (x - x^*)^2 F''(x^*).
+\]</span> Applying that <span class="math inline">\(F'(x^*) = 0\)</span> and <span class="math inline">\(F''(x^*) \ge 0\)</span>, we have <span class="math display">\[
+F(x) \approx F(x^*) + \frac{1}{2} (x - x^*)^2 F''(x^*) \ge F(x^*).
+\]</span> This proof can be made rigorous with the help of further results from mathematical analysis.</p>
+</div>
+<p>Next, let us compare two examples:</p>
+<div id="accd12f7" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-11-output-1.png" width="661" height="470" class="figure-img"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line). We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points. This idea is expressed mathematically through the idea of <em>convexity</em>.</p>
+<div id="def-convexity" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 5.3</strong></span> A function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> is <strong>locally convex in an interval <span class="math inline">\(B \subset \mathbb{R}\)</span></strong> if for all points <span class="math inline">\(x, y \in B\)</span>: <span class="math display">\[\begin{equation}
+\label{eq:convex}
+a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1].
+\end{equation}\]</span> We say that <span class="math inline">\(F\)</span> is <strong>convex</strong> if it is convex on <span class="math inline">\(\mathbb{R}\)</span> (i.e., on every interval <span class="math inline">\(B \subset \mathbb{R}\)</span>).</p>
+</div>
+<p>It is hard to show convexity with this definition directly. Instead, we normally use the follow equivalent formulations:</p>
+<div id="lem-convexity-equiv" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be a smooth function. Then the following are equivalent:</p>
+<ol type="1">
+<li><span class="math inline">\(F\)</span> is locally convex on an interval <span class="math inline">\(B\)</span></li>
+<li>The derivative of <span class="math inline">\(F\)</span> satisfies <span class="math display">\[\begin{equation}
+\label{eq:convex-diff}
+F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
+\end{equation}\]</span></li>
+<li>The second derivative of <span class="math inline">\(F\)</span> is positive in <span class="math inline">\(B\)</span>: <span class="math inline">\(F''(x) \ge 0\)</span> for all <span class="math inline">\(x \in B\)</span>.</li>
+</ol>
+</div>
+<div id="rem-convexity-equiv" class="proof remark">
+<p><span class="proof-title"><em>Remark 5.1</em>. </span>Condition 2 can be expressed informally as saying that the graph of <span class="math inline">\(F\)</span> lies above its tangent.</p>
+<p>Condition 3 links directly to the idea of linking local and global minima through <a href="#prp-local-to-global" class="quarto-xref">Proposition&nbsp;<span>5.2</span></a>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>[don’t need to know this one either]</p>
+<p>We prove (1) is equivalent to (2) and (2) is equivalent to (3).</p>
+<p><strong>(1) <span class="math inline">\(\Rightarrow\)</span> (2).</strong></p>
+<p>Assume <span class="math inline">\(F\)</span> is (locally) convex on <span class="math inline">\(B\)</span>. Fix <span class="math inline">\(x,y\in B\)</span> and <span class="math inline">\(a\in(0,1]\)</span>. By convexity, <span class="math display">\[
+aF(x)+(1-a)F(y)\;\ge\;F\big(ay+(1-a)x\big)=F\big(y+a(x-y)\big).
+\]</span> Rearranging gives <span class="math display">\[
+F(x)\;\ge\;\frac{F\big(y+a(x-y)\big)-F(y)}{a}+F(y) \;=\;(x-y)\,\frac{F\big(y+h\big)-F(y)}{h}+F(y),
+\]</span> where we set <span class="math inline">\(h:=a(x-y)\)</span>. As <span class="math inline">\(a\downarrow 0\)</span> we have <span class="math inline">\(h\to 0\)</span> (with the same sign as <span class="math inline">\(x-y\)</span>). Since <span class="math inline">\(F\)</span> is smooth, the difference quotient tends to <span class="math inline">\(F'(y)\)</span> regardless of the sign of <span class="math inline">\(h\)</span>. Thus, <span class="math display">\[
+F(x)\;\ge\;F(y)+F'(y)(x-y),
+\]</span> which is <span class="math inline">\(\eqref{eq:convex-diff}\)</span>.</p>
+<p><strong>(2) <span class="math inline">\(\Rightarrow\)</span> (1).</strong></p>
+<p>We start with <span class="math inline">\(x, y \in B\)</span> and let <span class="math inline">\(z = a x + (1-a)y\)</span>, then we have <span class="math display">\[
+F(x) \ge F(z) + F'(z) (x - z) \quad \text{and} \quad
+F(y) \ge F(z) + F'(z) (y - z).
+\]</span> Multiplying the first inequality by <span class="math inline">\(a\)</span> and the second by <span class="math inline">\(1-a\)</span> and adding gives <span class="math display">\[
+a F(x) + (1-a) F(y)
+\ge F(z) + F'(z) (a (x-z) + (1-a) (y-z) ).
+\]</span> But from the definition of <span class="math inline">\(z\)</span>, we have <span class="math display">\[
+a (x-z) + (1-a) (y-z)
+= a x + (1-a) y - z
+= 0.
+\]</span> Hence, we can infer that <span class="math display">\[
+a F(x) + (1-a) F(y) \ge F(z) = F(a x + (1-a) y).
+\]</span></p>
+<ol start="2" type="1">
+<li><span class="math inline">\(\Rightarrow\)</span> (3).</li>
+</ol>
+<p>We can apply <span class="math inline">\(\eqref{eq:convex-diff}\)</span> to see that for any <span class="math inline">\(x, y \in B\)</span>, we have <span class="math display">\[\begin{align*}
+F(x) &amp;\ge F(y) + F'(y)(x-y) \\
+F(y) &amp;\ge F(x) + F'(x)(y-x).
+\end{align*}\]</span> Adding these inequality and rearranging gives <span class="math display">\[
+(F'(y) - F'(x))(y-x) \ge 0.
+\]</span> This inequality says that <span class="math inline">\(F'\)</span> is nondecreasing on <span class="math inline">\(B\)</span>. If we let <span class="math inline">\(y = x + h\)</span> for <span class="math inline">\(h &gt; 0\)</span>, we have <span class="math display">\[
+\frac{F'(x + h) - F'(x)}{h} \ge 0.
+\]</span> Taking the limit <span class="math inline">\(h \to 0\)</span> shows that <span class="math inline">\(F''(x) \ge 0\)</span>.</p>
+<ol start="3" type="1">
+<li><span class="math inline">\(\Rightarrow\)</span> (2).</li>
+</ol>
+<p>This result is a little hard and relies on a result from mathematical analysis (the Mean Value Theorem) which is not covered by this course. The key idea is to show that <span class="math inline">\(F''(x) \ge 0\)</span> implies that <span class="math inline">\(F'\)</span> is nondecreasing and then if <span class="math inline">\(F'\)</span> is nondecreasing that <span class="math inline">\(\eqref{eq:convex-diff}\)</span> holds.</p>
+</div>
+<div id="exm-convex-diff2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.2</strong></span> We see that condition 3 in <a href="#lem-convexity-equiv" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a> is often the easiest to show.</p>
+<ol type="1">
+<li><p>Take for example <span class="math inline">\(F(x) = x^2 - 4 x + 5\)</span>. Then <span class="math display">\[
+F'(x) = 2 x - 4 \quad\text{and}\quad F''(x) = 2 &gt; 0.
+\]</span> Hence we can see that <span class="math inline">\(F\)</span> is convex.</p>
+<p>This example, is somewhat of a prototypical example. It is often helpful when thinking of convex functions to think of something like a quadratic function with positive leading coefficient.</p></li>
+<li><p>(hard) Take <span class="math inline">\(F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}\)</span>, then we can factor <span class="math inline">\(F''\)</span> as <span class="math display">\[
+F''(x) =  3(x - \tfrac{2}{3})(x + \tfrac{1}{2}).
+\]</span> We can see that <span class="math inline">\(F''\)</span> is negative if one of the factors on the right hand side is negative. That happens when <span class="math inline">\(-\tfrac{1}{2} &lt; x &lt; \tfrac{2}{3}\)</span>. Hence, we can infer that <span class="math inline">\(F\)</span> is not globally convex.</p></li>
+</ol>
+</div>
+<div id="exr-convex-diff2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.2</strong></span> Show that the following functions are or are not convex on <span class="math inline">\(\mathbb{R}\)</span>: 1. <span class="math inline">\(F(x) = x^2 - 6x + 12\)</span> 2. <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1\)</span></p>
+</div>
+<div id="prp-convexity" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 5.3</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and <span class="math inline">\(x^*\)</span> be a point such that <span class="math inline">\(F'(x^*) = 0\)</span>. If <span class="math inline">\(F\)</span> is locally convex in a region <span class="math inline">\(B\)</span> with <span class="math inline">\(x^* \in B\)</span> then <span class="math inline">\(x^*\)</span> is a local minimiser of <span class="math inline">\(F\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>(<em>We do not expect you to learn this proof but the result is very important!</em>)</p>
+<p>Let <span class="math inline">\(y \in B\)</span>, then from <a href="#lem-convexity-equiv" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a>, we have <span class="math display">\[
+F(y) \ge F(x^*) + F'(x^*)(y - x^*).
+\]</span> Since <span class="math inline">\(F'(x^*) = 0\)</span>, we see that <span class="math display">\[
+F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*) + 0 (y - x^*) = F(x^*).
+\]</span> Hence we can see that <span class="math inline">\(x^*\)</span> is a local minimiser in the interval <span class="math inline">\(B\)</span>.</p>
+</div>
+<div id="thm-convex-local-minimisers" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be convex. Then any local minimiser is a global minimiser.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(x^*\)</span> be a local minimiser of <span class="math inline">\(F\)</span>, then <span class="math inline">\(F'(x^*) = 0\)</span> (from <a href="#prp-minimiser" class="quarto-xref">Proposition&nbsp;<span>5.1</span></a>). Applying <span class="quarto-unresolved-ref">?lem-convexity-diff</span>, we see that for any <span class="math inline">\(y\)</span>, we have <span class="math display">\[
+F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*).
+\]</span> Hence <span class="math inline">\(x^*\)</span> is in fact a global minimiser.</p>
+</div>
+<div id="exm-convex-minimum" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.3</strong></span> Take the same example as before <span class="math inline">\(F(x) = x^2 - 4 x + 5\)</span>. Then <span class="math display">\[
+F'(x) = 2 x - 4.
+\]</span> We can easily see that <span class="math inline">\(F'(2) = 0\)</span> hence <span class="math inline">\(x^* = 2\)</span> is a local and indeed a global minimiser since <span class="math inline">\(F\)</span> is convex.</p>
+<p>We can also see this by completing the square: <span class="math display">\[\begin{equation*}
+F(x) = x^2 - 4 x + 5 = (x-2)^2 + 1.
+\end{equation*}\]</span> We can read off that <span class="math inline">\(F\)</span> has a minimum at the same point that <span class="math inline">\((x-2)^2 = 0\)</span>, i.e.&nbsp;that <span class="math inline">\(x^* = 2\)</span>.</p>
+</div>
+<div id="rem-uniqueness" class="proof remark">
+<p><span class="proof-title"><em>Remark 5.2</em>. </span>Minimisers of convex functions are not necessarily unique. Consider <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x) =
+\begin{cases}
+(x+1)^4 &amp; \text{for}\quad x \le -1 \\
+0 &amp; \text{for} \quad -1 &lt; x &lt; 1 \\
+(x-1)^4 &amp; \text{for}\quad x \ge 1.
+\end{cases}
+\]</span></p>
+<div id="39aa74c2" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-12-output-1.png" width="589" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(F\)</span> is a convex, smooth function, but all points <span class="math inline">\(x \in [-1, 1]\)</span> are minimisers.</p>
 </div>
 </section>
-<section id="summary" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.5</span> Summary</h2>
-<p>We have seen that Euler’s method can be applied to systems of differential equation. The same ideas as here can be used to apply the midpoint method to systems of differential equations. Systems of differential equations based on Newton’s laws are extremely common in many applications including computer games and robotics.</p>
-<p>The methods that we have learnt during this week are a small submit of the many methods available. There are a whole zoo of methods which have specialist properties such as even higher order convergence or preserve physical properties better. You will meet some on the lab sheet this week.</p>
+<section id="summary" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.4</span> Summary</h2>
+<p>Optimisation is a wide area of numerical computation with many different application areas. In this module, we will only consider continuous optimisation problems. We have provided several examples of how different types of minima can occur in one and two dimensions using plots to identify minima. In one dimension, we have provided a characterisation of local minima and how to link them to global minima using the idea convexity.</p>
 
 
 </section>
@@ -1013,13 +1177,13 @@ t^{(2)} &amp;= t^{(1)} + h \\
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../src/lec02.html" class="pagination-link" aria-label="Analysis of errors and systems of equations">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of errors and systems of equations</span></span>
+      <a href="../src/lec02a.html" class="pagination-link" aria-label="A model for the trajectory of an object">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec03.html" class="pagination-link" aria-label="Introduction to optimisation">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../src/lec03a.html" class="pagination-link" aria-label="Methods for finding minima of scalar domain functions">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1031,7 +1195,7 @@ t^{(2)} &amp;= t^{(1)} + h \\
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec02a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec02a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
