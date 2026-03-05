@@ -40,6 +40,7 @@ $$
 for large values of $m$. The exact solutions are $m$ and $\frac{1}{m}$.
 
 ```{python}
+# | echo: True
 # implementation of quadratic formula
 def quad(a, b, c):
     """
@@ -53,29 +54,201 @@ def quad(a, b, c):
 m = 1e8
 roots = quad(1, -(m + 1 / m), 1)
 
-print(f"{roots=}")
+print(f"roots {roots[0]:.4e} and {roots[1]:.4e}")
 ```
 These values look reasonable, but let's check the errors:
 
 ```{python}
+# | echo: True
 # absolute and relative errors
 exact_roots = (m, 1 / m)
 
 abs_error = (abs(roots[0] - exact_roots[0]), abs(roots[1] - exact_roots[1]))
 rel_error = (abs_error[0] / m, abs_error[1] / (1 / m))
 
-print(f"{abs_error=}")
-print(f"{rel_error=}")
+print(f"abs errors {abs_error[0]:.4e} {abs_error[1]:.4e}")
+print(f"rel errors {rel_error[0]:.4e} {rel_error[1]:.4e}")
 ```
-The absolute errors are quite small, but the relative error for the second root is huge!
+The absolute errors are quite small, but the relative error for the second root is huge - almost 50%!
 :::
-
-
 
 ## Example problems
 
+We will test our methods on the following problems.
+
+::: {#exm-sqrt}
+We want to find the value of the square root of 2. We can solve this by finding the (positive) root of
+$$
+f(x) = x^2 - 2.
+$$
+This problem is interesting in that we know there are two solutions, but we only want the positive one. Our algorithms should take that into account.
+:::
+
+::: {#exm-kepler}
+When you track a satellite, you often know the time since periapsis??? and orbital parameters. To get the actual position you must solve a difficult equation.
+
+For an elliptic orbit with eccentricity $0 \le e < 1$, the mean anomaly $M$ is related to the eccentric anomaly $E$ by Kepler's equation:
+$$
+E - e \sin(E) = M.
+$$
+The problem is: Given $e$ (eccentricity) and $M$ (mean anomaly at a given time, in radians), find $E^*$ (eccentric anomaly) and then you can compute the actual orbital position.
+
+We can write this as a root finding problem with
+$$
+f(E) = E - e \sin(E) - M.
+$$
+We should be careful to find a solution only in $[0, 2\pi)$. In our tests we will use $e = 0.7, M = 2.0$.
+
+Once you have $E^*$, if you also know the semi-major axis $a$ of the ellipse, you can compute the radius $r = a(1 - \cos(E))$.
+
+TODO make these terms make sense and add a picture/example.
+:::
+
+## Iterative methods
+
+All our methods will use the idea of **iteration** (or **iterative improvement**). We saw this idea when we were using Jacobi and Gauss-Seidel iteration to solve systems of linear equations.
+
+- Given an initial estimate of the root $x^{(0)}$, try to generate a better approximate $x^{(1)}$ of the root.
+- Once $x^{(1)}$ has been computed, it can be used to compute another estimate $x^{(2)}$ in the same way (and so on...).
+- Generally, $x^{(i)}$ is used to compute $x^{(i+1)}$ (although other previous estimates may be used as well).
+- There are many methods for doing this!
+
+There are a few issues we should consider with iterative methods:
+
+1. Does the iteration converge?
+2. In other words, will $x^{(i+1)}$ be a better estimate that $x^{(i)}$? In what sense?
+3. Is there a way to check this as part of the computation? Can we proof this?
+4. If the iteration does converge, then how quickly does this happen?
+5. How should we decide when to stop the iteration?
+
+::: {#rem-iteration}
+We briefly comment that iteration is *different* to the idea of time stepping we met when solving differential equations. The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criteria).
+:::
+
+## Bisection method
+
+The first method that we introduce is the bisection method. This is a simple, slow but very robust method.
+It's based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).
+
+```{python}
+x = np.linspace(-1, 1)
+f = x**3
+
+plt.axvline(0, color="0.75")
+plt.axhline(0, color="0.75")
+plt.plot(x, f)
+
+plt.xticks([])
+plt.yticks([])
+plt.xlabel("$x$")
+plt.ylabel("$f(x)$")
+plt.grid(True)
 
 
-Newton's method
-secant?
-bisection?
+```
+### The algorithm
+
+The algorithm steps are:
+
+1. Suppose we *know* there is a root $x^*$ (i.e with $f(x^*) = 0$) between two end points $a$ and $b$ (we sometimes call $[a, b]$ the *bracket*).
+2. Call $c = \frac{a + b}{2}$, then the solution is either between $a$ and $c$ or between $c$ and $b$.
+3. If the solution is between $a$ and $c$:
+   - then go to step 1 with the end points as $a$ and $c$,
+   - otherwise, go to step 1 with the end points $c$ and $b$.
+
+We repeat this process until $b - a < TOL$ where $TOL$ is a user-supplied value.
+
+We can check if the root is between $a$ and $b$ by checking if the signs of $f(a)$ and $f(b)$ are different: i.e. $f(a) f(b) < 0$.
+
+### Convergence analysis
+
+Assume that $k$ steps have been taken from an initial bracket $(a, b)$. We notice that at each step, the bracket size is halved. This means after $k$ steps, the length of the interval will be $\frac{b - a}{2^k}$.
+
+For large initial bracket size (i.e. large $b - a$) or small $TOL$ (high accuracy requiement) $k$ will be large.
+
+### Examples
+
+```{python}
+#! echo: True
+def bisection(f, a, b, tol, verbose=False):
+    """
+    TODO
+    """
+    # initial bracket check
+    assert f(a) * f(b) <= 0.0, f"({a}, {b}) does not bracket the root"
+
+    # the iteration
+    if verbose:
+        print("it  a        b        f(a)        f(b)")
+
+    it = 0
+    while b - a > tol:
+        # find midpoint
+        c = (a + b) / 2
+        # update bracket
+        if f(a) * f(c) > 0.0:
+            a = c
+        else:
+            b = c
+
+        it += 1
+        if verbose:
+            print(f"{it:2d} {a:.6f} {b:.6f} {f(a):.4e} {f(b):.4e}")
+
+    # final estimate of the root
+    c = (a + b) / 2
+    return c
+
+
+```
+
+$$
+f(x) = x^2 - 2.
+$$
+```{python}
+#! echo: True
+def f1(x):
+    return x**2 - 2.0
+
+
+bisection(f1, 1.0, 2.0, 1.0e-4, verbose=True)
+
+
+```
+
+We see that it takes 14 iterations to find the solution to a tolerance of $10^{-4}$ for the square root problem.
+
+$$
+f(x) = x - 0.7 \sin(x) - 2.0
+$$
+```{python}
+#! echo: True
+def f2(x):
+    return x - 0.7 * np.sin(x) - 2.0
+
+
+bisection(f2, 0.0, 2.0 * np.pi, 1.0e-4, verbose=True)
+```
+
+We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+
+::: {#exr-bisection}
+For the square root problem, for which of the following brackets do you expect the algorithm to find a solution? For cases where you expect the algorithm to find a solution, how many iterations do you expect for a tolerance of $10^{-4}$?
+
+1. $(1.0, 1.5)$
+2. $(0.0, 4.0)$
+3. $(-4.0, 4.0)$
+4. $(-2.0, 0.0)$
+:::
+
+### Weaknesses of the bisection algorithm
+
+Bisection is a reliable method for finding solutions of $f(x) = 0$ provided an intial bracket can be found. It is far from perfect however:
+
+- finding an initial bracket is not always easy;
+- it can take a very large number of iterations to obtain an accurate answer;
+- it can never find a solution of $f(x)$ for which $f$ does not change sign (e.g. $f(x) = (x-1)^2$).
+
+## Newton's methods
+
+**Newton's method** (or the Newton-Raphson iteration) is an alternative algorithm for solving $f(x) = 0$. On the positive side, it does not need an initial bracket (just one initial value), it convergences much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guarenteed to converge (unlike bisection with a good initial bracket).
