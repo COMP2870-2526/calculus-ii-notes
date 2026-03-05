@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -83,6 +118,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -343,8 +407,23 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#example-problems" id="toc-example-problems" class="nav-link active" data-scroll-target="#example-problems"><span class="header-section-number">6.1</span> Example problems</a></li>
+  <li><a href="#iterative-methods" id="toc-iterative-methods" class="nav-link" data-scroll-target="#iterative-methods"><span class="header-section-number">6.2</span> Iterative methods</a></li>
+  <li><a href="#bisection-method" id="toc-bisection-method" class="nav-link" data-scroll-target="#bisection-method"><span class="header-section-number">6.3</span> Bisection method</a>
+  <ul class="collapse">
+  <li><a href="#the-algorithm" id="toc-the-algorithm" class="nav-link" data-scroll-target="#the-algorithm"><span class="header-section-number">6.3.1</span> The algorithm</a></li>
+  <li><a href="#convergence-analysis" id="toc-convergence-analysis" class="nav-link" data-scroll-target="#convergence-analysis"><span class="header-section-number">6.3.2</span> Convergence analysis</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">6.3.3</span> Examples</a></li>
+  <li><a href="#weaknesses-of-the-bisection-algorithm" id="toc-weaknesses-of-the-bisection-algorithm" class="nav-link" data-scroll-target="#weaknesses-of-the-bisection-algorithm"><span class="header-section-number">6.3.4</span> Weaknesses of the bisection algorithm</a></li>
+  </ul></li>
+  <li><a href="#newtons-methods" id="toc-newtons-methods" class="nav-link" data-scroll-target="#newtons-methods"><span class="header-section-number">6.4</span> Newton’s methods</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -382,9 +461,220 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Newton’s method secant? bisection?</p>
+<p>In one dimension, we will proceed with a simple idea: to find minima of functions <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we will find points at which the derivative of <span class="math inline">\(F\)</span> is 0. To help us with notation, in this section we will write <span class="math inline">\(F' = f\)</span>.</p>
+<blockquote class="blockquote">
+<p>Given a smooth function <span class="math inline">\(f(x)\)</span>, the problem is to find a point <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*) = 0\)</span>. That is, <span class="math inline">\(x^*\)</span> is a solution of the equation <span class="math inline">\(f(x) = 0\)</span> and is called a <strong>root of <span class="math inline">\(f(x)\)</span></strong>.</p>
+</blockquote>
+<div id="exm-root-finder" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> &nbsp;</p>
+<ol type="1">
+<li>The linear equation <span class="math inline">\(f(x) = ax + b = 0\)</span> has a single solution at <span class="math inline">\(x^* = \frac{-b}{a}\)</span>.</li>
+<li>The quadratic equation <span class="math inline">\(f(x) = a x^2 + b x + c = 0\)</span> is nonlinear, but simple enough to have a known formula for the solutions: <span class="math display">\[
+x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
+\]</span></li>
+<li>A general nonlinear equation <span class="math inline">\(f(x) = 0\)</span> rarely has a formula like those above which we can be used to calculate its roots.</li>
+</ol>
+</div>
+<p>It is also sometimes better to use numerical methods to solve an equation even if an exact formula exists:</p>
+<ul>
+<li>the exact formula may have difficulties due to rounding errors;</li>
+<li>the exact formula may be more expensive to compute.</li>
+</ul>
+<div id="exm-bad-quadratic" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.2</strong></span> We want to solve the quadratic equation <span class="math display">\[
+f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
+\]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
+<div id="306651a0" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># implementation of quadratic formula</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">def</span> quad(a, b, c):</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    <span class="co">"""</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    Return the roots of the quadratic polynomial a x^2 + b x + c = 0.</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    """</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    d <span class="op">=</span> np.sqrt(b <span class="op">*</span> b <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> a <span class="op">*</span> c)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="cf">return</span> (<span class="op">-</span>b <span class="op">+</span> d) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> a), (<span class="op">-</span>b <span class="op">-</span> d) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> a)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># test for m = 1e8</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>m <span class="op">=</span> <span class="fl">1e8</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>roots <span class="op">=</span> quad(<span class="dv">1</span>, <span class="op">-</span>(m <span class="op">+</span> <span class="dv">1</span> <span class="op">/</span> m), <span class="dv">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="bu">print</span>(<span class="ss">f"roots </span><span class="sc">{</span>roots[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> and </span><span class="sc">{</span>roots[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>roots 1.0000e+08 and 1.4901e-08</code></pre>
+</div>
+</div>
+<p>These values look reasonable, but let’s check the errors:</p>
+<div id="423a172c" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># absolute and relative errors</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>abs_error <span class="op">=</span> (<span class="bu">abs</span>(roots[<span class="dv">0</span>] <span class="op">-</span> exact_roots[<span class="dv">0</span>]), <span class="bu">abs</span>(roots[<span class="dv">1</span>] <span class="op">-</span> exact_roots[<span class="dv">1</span>]))</span>
+<span id="cb3-5"><a href="#cb3-5"></a>rel_error <span class="op">=</span> (abs_error[<span class="dv">0</span>] <span class="op">/</span> m, abs_error[<span class="dv">1</span>] <span class="op">/</span> (<span class="dv">1</span> <span class="op">/</span> m))</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="bu">print</span>(<span class="ss">f"abs errors </span><span class="sc">{</span>abs_error[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> </span><span class="sc">{</span>abs_error[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="bu">print</span>(<span class="ss">f"rel errors </span><span class="sc">{</span>rel_error[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> </span><span class="sc">{</span>rel_error[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>abs errors 0.0000e+00 4.9012e-09
+rel errors 0.0000e+00 4.9012e-01</code></pre>
+</div>
+</div>
+<p>The absolute errors are quite small, but the relative error for the second root is huge - almost 50%!</p>
+</div>
+<section id="example-problems" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="example-problems"><span class="header-section-number">6.1</span> Example problems</h2>
+<p>We will test our methods on the following problems.</p>
+<div id="exm-sqrt" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.3</strong></span> We want to find the value of the square root of 2. We can solve this by finding the (positive) root of <span class="math display">\[
+f(x) = x^2 - 2.
+\]</span> This problem is interesting in that we know there are two solutions, but we only want the positive one. Our algorithms should take that into account.</p>
+</div>
+<div id="exm-kepler" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.4</strong></span> When you track a satellite, you often know the time since periapsis??? and orbital parameters. To get the actual position you must solve a difficult equation.</p>
+<p>For an elliptic orbit with eccentricity <span class="math inline">\(0 \le e &lt; 1\)</span>, the mean anomaly <span class="math inline">\(M\)</span> is related to the eccentric anomaly <span class="math inline">\(E\)</span> by Kepler’s equation: <span class="math display">\[
+E - e \sin(E) = M.
+\]</span> The problem is: Given <span class="math inline">\(e\)</span> (eccentricity) and <span class="math inline">\(M\)</span> (mean anomaly at a given time, in radians), find <span class="math inline">\(E^*\)</span> (eccentric anomaly) and then you can compute the actual orbital position.</p>
+<p>We can write this as a root finding problem with <span class="math display">\[
+f(E) = E - e \sin(E) - M.
+\]</span> We should be careful to find a solution only in <span class="math inline">\([0, 2\pi)\)</span>. In our tests we will use <span class="math inline">\(e = 0.7, M = 2.0\)</span>.</p>
+<p>Once you have <span class="math inline">\(E^*\)</span>, if you also know the semi-major axis <span class="math inline">\(a\)</span> of the ellipse, you can compute the radius <span class="math inline">\(r = a(1 - \cos(E))\)</span>.</p>
+<p>TODO make these terms make sense and add a picture/example.</p>
+</div>
+</section>
+<section id="iterative-methods" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="iterative-methods"><span class="header-section-number">6.2</span> Iterative methods</h2>
+<p>All our methods will use the idea of <strong>iteration</strong> (or <strong>iterative improvement</strong>). We saw this idea when we were using Jacobi and Gauss-Seidel iteration to solve systems of linear equations.</p>
+<ul>
+<li>Given an initial estimate of the root <span class="math inline">\(x^{(0)}\)</span>, try to generate a better approximate <span class="math inline">\(x^{(1)}\)</span> of the root.</li>
+<li>Once <span class="math inline">\(x^{(1)}\)</span> has been computed, it can be used to compute another estimate <span class="math inline">\(x^{(2)}\)</span> in the same way (and so on…).</li>
+<li>Generally, <span class="math inline">\(x^{(i)}\)</span> is used to compute <span class="math inline">\(x^{(i+1)}\)</span> (although other previous estimates may be used as well).</li>
+<li>There are many methods for doing this!</li>
+</ul>
+<p>There are a few issues we should consider with iterative methods:</p>
+<ol type="1">
+<li>Does the iteration converge?</li>
+<li>In other words, will <span class="math inline">\(x^{(i+1)}\)</span> be a better estimate that <span class="math inline">\(x^{(i)}\)</span>? In what sense?</li>
+<li>Is there a way to check this as part of the computation? Can we proof this?</li>
+<li>If the iteration does converge, then how quickly does this happen?</li>
+<li>How should we decide when to stop the iteration?</li>
+</ol>
+<div id="rem-iteration" class="proof remark">
+<p><span class="proof-title"><em>Remark 6.1</em>. </span>We briefly comment that iteration is <em>different</em> to the idea of time stepping we met when solving differential equations. The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criteria).</p>
+</div>
+</section>
+<section id="bisection-method" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="bisection-method"><span class="header-section-number">6.3</span> Bisection method</h2>
+<p>The first method that we introduce is the bisection method. This is a simple, slow but very robust method. It’s based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).</p>
+<div id="2a2d00f1" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-5-output-1.png" width="559" height="407" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="the-algorithm" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="the-algorithm"><span class="header-section-number">6.3.1</span> The algorithm</h3>
+<p>The algorithm steps are:</p>
+<ol type="1">
+<li>Suppose we <em>know</em> there is a root <span class="math inline">\(x^*\)</span> (i.e with <span class="math inline">\(f(x^*) = 0\)</span>) between two end points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> (we sometimes call <span class="math inline">\([a, b]\)</span> the <em>bracket</em>).</li>
+<li>Call <span class="math inline">\(c = \frac{a + b}{2}\)</span>, then the solution is either between <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span> or between <span class="math inline">\(c\)</span> and <span class="math inline">\(b\)</span>.</li>
+<li>If the solution is between <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span>:
+<ul>
+<li>then go to step 1 with the end points as <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span>,</li>
+<li>otherwise, go to step 1 with the end points <span class="math inline">\(c\)</span> and <span class="math inline">\(b\)</span>.</li>
+</ul></li>
+</ol>
+<p>We repeat this process until <span class="math inline">\(b - a &lt; TOL\)</span> where <span class="math inline">\(TOL\)</span> is a user-supplied value.</p>
+<p>We can check if the root is between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> by checking if the signs of <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> are different: i.e.&nbsp;<span class="math inline">\(f(a) f(b) &lt; 0\)</span>.</p>
+</section>
+<section id="convergence-analysis" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="convergence-analysis"><span class="header-section-number">6.3.2</span> Convergence analysis</h3>
+<p>Assume that <span class="math inline">\(k\)</span> steps have been taken from an initial bracket <span class="math inline">\((a, b)\)</span>. We notice that at each step, the bracket size is halved. This means after <span class="math inline">\(k\)</span> steps, the length of the interval will be <span class="math inline">\(\frac{b - a}{2^k}\)</span>.</p>
+<p>For large initial bracket size (i.e.&nbsp;large <span class="math inline">\(b - a\)</span>) or small <span class="math inline">\(TOL\)</span> (high accuracy requiement) <span class="math inline">\(k\)</span> will be large.</p>
+</section>
+<section id="examples" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">6.3.3</span> Examples</h3>
+<p><span class="math display">\[
+f(x) = x^2 - 2.
+\]</span></p>
+<div id="e2722a9c" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  a        b        f(a)        f(b)
+ 1 1.000000 1.500000 -1.0000e+00 2.5000e-01
+ 2 1.250000 1.500000 -4.3750e-01 2.5000e-01
+ 3 1.375000 1.500000 -1.0938e-01 2.5000e-01
+ 4 1.375000 1.437500 -1.0938e-01 6.6406e-02
+ 5 1.406250 1.437500 -2.2461e-02 6.6406e-02
+ 6 1.406250 1.421875 -2.2461e-02 2.1729e-02
+ 7 1.414062 1.421875 -4.2725e-04 2.1729e-02
+ 8 1.414062 1.417969 -4.2725e-04 1.0635e-02
+ 9 1.414062 1.416016 -4.2725e-04 5.1003e-03
+10 1.414062 1.415039 -4.2725e-04 2.3355e-03
+11 1.414062 1.414551 -4.2725e-04 9.5391e-04
+12 1.414062 1.414307 -4.2725e-04 2.6327e-04
+13 1.414185 1.414307 -8.2001e-05 2.6327e-04
+14 1.414185 1.414246 -8.2001e-05 9.0633e-05</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>1.414215087890625</code></pre>
+</div>
+</div>
+<p>We see that it takes 14 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
+<p><span class="math display">\[
+f(x) = x - 0.7 \sin(x) - 2.0
+\]</span></p>
+<div id="6d9ba533" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  a        b        f(a)        f(b)
+ 1 0.000000 3.141593 -2.0000e+00 1.1416e+00
+ 2 1.570796 3.141593 -1.1292e+00 1.1416e+00
+ 3 2.356194 3.141593 -1.3878e-01 1.1416e+00
+ 4 2.356194 2.748894 -1.3878e-01 4.8102e-01
+ 5 2.356194 2.552544 -1.3878e-01 1.6364e-01
+ 6 2.356194 2.454369 -1.3878e-01 1.0294e-02
+ 7 2.405282 2.454369 -6.4809e-02 1.0294e-02
+ 8 2.429826 2.454369 -2.7395e-02 1.0294e-02
+ 9 2.442097 2.454369 -8.5847e-03 1.0294e-02
+10 2.442097 2.448233 -8.5847e-03 8.4623e-04
+11 2.445165 2.448233 -3.8713e-03 8.4623e-04
+12 2.446699 2.448233 -1.5131e-03 8.4623e-04
+13 2.447466 2.448233 -3.3356e-04 8.4623e-04
+14 2.447466 2.447850 -3.3356e-04 2.5630e-04
+15 2.447658 2.447850 -3.8638e-05 2.5630e-04
+16 2.447658 2.447754 -3.8638e-05 1.0883e-04</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>2.4477060315696475</code></pre>
+</div>
+</div>
+<p>We see that it takes 16 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
+<div id="exr-bisection" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6.1</strong></span> For the square root problem, for which of the following brackets do you expect the algorithm to find a solution? For cases where you expect the algorithm to find a solution, how many iterations do you expect for a tolerance of <span class="math inline">\(10^{-4}\)</span>?</p>
+<ol type="1">
+<li><span class="math inline">\((1.0, 1.5)\)</span></li>
+<li><span class="math inline">\((0.0, 4.0)\)</span></li>
+<li><span class="math inline">\((-4.0, 4.0)\)</span></li>
+<li><span class="math inline">\((-2.0, 0.0)\)</span></li>
+</ol>
+</div>
+</section>
+<section id="weaknesses-of-the-bisection-algorithm" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="weaknesses-of-the-bisection-algorithm"><span class="header-section-number">6.3.4</span> Weaknesses of the bisection algorithm</h3>
+<p>Bisection is a reliable method for finding solutions of <span class="math inline">\(f(x) = 0\)</span> provided an intial bracket can be found. It is far from perfect however:</p>
+<ul>
+<li>finding an initial bracket is not always easy;</li>
+<li>it can take a very large number of iterations to obtain an accurate answer;</li>
+<li>it can never find a solution of <span class="math inline">\(f(x)\)</span> for which <span class="math inline">\(f\)</span> does not change sign (e.g.&nbsp;<span class="math inline">\(f(x) = (x-1)^2\)</span>).</li>
+</ul>
+</section>
+</section>
+<section id="newtons-methods" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="newtons-methods"><span class="header-section-number">6.4</span> Newton’s methods</h2>
+<p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it convergences much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guarenteed to converge (unlike bisection with a good initial bracket).</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -820,7 +1110,7 @@ ul.task-list li input[type="checkbox"] {
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
