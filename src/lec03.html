@@ -358,7 +358,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec03a.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -458,7 +458,7 @@ x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
 <p>In one dimension, we can simply plot the graph of the function. Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be given by <span class="math display">\[
 F(x) = x^2 - 2x + 2.
 \]</span></p>
-<div id="40f812b2" class="cell" data-execution_count="2">
+<div id="64946fa1" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -472,7 +472,7 @@ F(x) = x^2 - 2x + 2.
 F(\vec{x}) = F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
 \]</span></p>
-<div id="aa0bfcb2" class="cell" data-execution_count="3">
+<div id="c3d858a4" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -486,7 +486,7 @@ F(\vec{x}) = F(x_1, x_2)
 <p>Sometimes minimisers are not unique. We can have two values which both have the same minimal value. For <span class="math display">\[
 F(x) = (x^2 - 1)^2
 \]</span> we have two minima at <span class="math inline">\(x^* = -1\)</span> and <span class="math inline">\(1\)</span> which both have <span class="math inline">\(F^* = 0\)</span>.</p>
-<div id="72086a80" class="cell" data-execution_count="4">
+<div id="0f077ff6" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -498,7 +498,7 @@ F(x) = (x^2 - 1)^2
 <p>Sometimes we can have infinitely many minimisers. Consider <span class="math display">\[
 F(x) = 1 + \sin^2(x).
 \]</span></p>
-<div id="bb051d0f" class="cell" data-execution_count="5">
+<div id="30dcc713" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -511,7 +511,7 @@ F(x) = 1 + \sin^2(x).
 <p>Sometimes, we can have no minimisers at all! For <span class="math display">\[
 F(x) = -x^2,
 \]</span> there is no minimiser in <span class="math inline">\(\mathbb{R}\)</span>:</p>
-<div id="b0b39650" class="cell" data-execution_count="6">
+<div id="ca251396" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -521,7 +521,7 @@ F(x) = -x^2,
 </div>
 </div>
 <p>In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve: For example for <span class="math inline">\(F(x_1, x_2) = (x_1 - x_2^2)^2\)</span> the minimisers lie on the curve <span class="math inline">\(x_1 = x_2^2\)</span> with <span class="math inline">\(F^* = 0\)</span>.</p>
-<div id="63fb9588" class="cell" data-execution_count="7">
+<div id="a6e1032c" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -536,7 +536,7 @@ F(x) = -x^2,
 <p>Consider the function <span class="math display">\[
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
-<div id="14185c9a" class="cell" data-execution_count="8">
+<div id="54157712" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -591,7 +591,7 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 \]</span> We can compute the derivative as: <span class="math display">\[
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span> Looking at the graph, we can see the <span class="math inline">\(F'\)</span> is zero at three points, <span class="math inline">\(x = -1, 1\)</span> (orange and green) which we have already identified as local minima, but also at <span class="math inline">\(x = \frac{1}{4}\)</span> (purple).</p>
-<div id="87c99f63" class="cell" data-execution_count="9">
+<div id="2e0c26bc" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -618,7 +618,7 @@ F(x) \approx F(x^*) + \frac{1}{2} (x - x^*)^2 F''(x^*) \ge F(x^*).
 \]</span> This proof can be made rigorous with the help of further results from mathematical analysis.</p>
 </div>
 <p>Next, let us compare two examples:</p>
-<div id="aad8aa80" class="cell" data-execution_count="10">
+<div id="5808a1aa" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -742,7 +742,7 @@ F(x) =
 (x-1)^4 &amp; \text{for}\quad x \ge 1.
 \end{cases}
 \]</span></p>
-<div id="256d90af" class="cell" data-execution_count="11">
+<div id="b221e30b" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1182,8 +1182,8 @@ F(x) =
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec03a.html" class="pagination-link" aria-label="Methods for finding minima of scalar domain functions">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../src/lec03a.html" class="pagination-link" aria-label="Root finding methods for one dimensional optimisation">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

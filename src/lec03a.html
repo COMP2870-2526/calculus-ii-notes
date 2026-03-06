@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>6&nbsp; Methods for finding minima of scalar domain functions – COMP2870 Theoretical Foundations: Calculus II</title>
+<title>6&nbsp; Root finding methods for one dimensional optimisation – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -330,7 +330,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03a.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03a.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -393,7 +393,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec03a.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -421,7 +421,12 @@ window.Quarto = {
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">6.3.3</span> Examples</a></li>
   <li><a href="#weaknesses-of-the-bisection-algorithm" id="toc-weaknesses-of-the-bisection-algorithm" class="nav-link" data-scroll-target="#weaknesses-of-the-bisection-algorithm"><span class="header-section-number">6.3.4</span> Weaknesses of the bisection algorithm</a></li>
   </ul></li>
-  <li><a href="#newtons-methods" id="toc-newtons-methods" class="nav-link" data-scroll-target="#newtons-methods"><span class="header-section-number">6.4</span> Newton’s methods</a></li>
+  <li><a href="#newtons-method" id="toc-newtons-method" class="nav-link" data-scroll-target="#newtons-method"><span class="header-section-number">6.4</span> Newton’s method</a>
+  <ul class="collapse">
+  <li><a href="#examples-1" id="toc-examples-1" class="nav-link" data-scroll-target="#examples-1"><span class="header-section-number">6.4.1</span> Examples</a></li>
+  <li><a href="#challenges-for-newtons-method" id="toc-challenges-for-newtons-method" class="nav-link" data-scroll-target="#challenges-for-newtons-method"><span class="header-section-number">6.4.2</span> Challenges for Newton’s method</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.5</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03a.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03a.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -431,7 +436,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods for finding minima of scalar domain functions</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></h1>
 </div>
 
 
@@ -461,10 +466,13 @@ window.Quarto = {
 </header>
 
 
-<p>In one dimension, we will proceed with a simple idea: to find minima of functions <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we will find points at which the derivative of <span class="math inline">\(F\)</span> is 0. To help us with notation, in this section we will write <span class="math inline">\(F' = f\)</span>.</p>
+<p>In one dimension, we will proceed with a simple idea: to find candidate minima of functions <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we will find points at which the derivative of <span class="math inline">\(F\)</span> is 0. To help us with notation, in this section we will write <span class="math inline">\(F' = f\)</span>.</p>
 <blockquote class="blockquote">
 <p>Given a smooth function <span class="math inline">\(f(x)\)</span>, the problem is to find a point <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*) = 0\)</span>. That is, <span class="math inline">\(x^*\)</span> is a solution of the equation <span class="math inline">\(f(x) = 0\)</span> and is called a <strong>root of <span class="math inline">\(f(x)\)</span></strong>.</p>
 </blockquote>
+<div id="rem-1d-opt" class="proof remark">
+<p><span class="proof-title"><em>Remark 6.1</em>. </span>In one dimension, a local minimum occurs at point where <span class="math inline">\(F'(x) = 0\)</span>, but not every root of <span class="math inline">\(F'\)</span> is a minimum. The focus on this lecture is finding possible minima.</p>
+</div>
 <div id="exm-root-finder" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> &nbsp;</p>
 <ol type="1">
@@ -472,7 +480,7 @@ window.Quarto = {
 <li>The quadratic equation <span class="math inline">\(f(x) = a x^2 + b x + c = 0\)</span> is nonlinear, but simple enough to have a known formula for the solutions: <span class="math display">\[
 x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
 \]</span></li>
-<li>A general nonlinear equation <span class="math inline">\(f(x) = 0\)</span> rarely has a formula like those above which we can be used to calculate its roots.</li>
+<li>A general nonlinear equation <span class="math inline">\(f(x) = 0\)</span> rarely has a formula like those above which can be used to calculate its roots.</li>
 </ol>
 </div>
 <p>It is also sometimes better to use numerical methods to solve an equation even if an exact formula exists:</p>
@@ -484,7 +492,7 @@ x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
 <p><span class="theorem-title"><strong>Example 6.2</strong></span> We want to solve the quadratic equation <span class="math display">\[
 f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 \]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
-<div id="306651a0" class="cell" data-execution_count="2">
+<div id="b9051bbd" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># implementation of quadratic formula</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">def</span> quad(a, b, c):</span>
 <span id="cb1-3"><a href="#cb1-3"></a>    <span class="co">"""</span></span>
@@ -504,7 +512,7 @@ f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 </div>
 </div>
 <p>These values look reasonable, but let’s check the errors:</p>
-<div id="423a172c" class="cell" data-execution_count="3">
+<div id="38d3749e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># absolute and relative errors</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -524,20 +532,31 @@ rel errors 0.0000e+00 4.9012e-01</code></pre>
 <h2 data-number="6.1" class="anchored" data-anchor-id="example-problems"><span class="header-section-number">6.1</span> Example problems</h2>
 <p>We will test our methods on the following problems.</p>
 <div id="exm-sqrt" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.3</strong></span> We want to find the value of the square root of 2. We can solve this by finding the (positive) root of <span class="math display">\[
+<p><span class="theorem-title"><strong>Example 6.3 (Square root example)</strong></span> We want to find the value of the square root of 2. We can solve this by finding the (positive) root of <span class="math display">\[
 f(x) = x^2 - 2.
 \]</span> This problem is interesting in that we know there are two solutions, but we only want the positive one. Our algorithms should take that into account.</p>
 </div>
 <div id="exm-kepler" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.4</strong></span> When you track a satellite, you often know the time since periapsis??? and orbital parameters. To get the actual position you must solve a difficult equation.</p>
+<p><span class="theorem-title"><strong>Example 6.4 (Kepler’s equation, elliptic orbits)</strong></span> When an object moves under gravity around a planet or star, its path is often well-approximated by an ellipse. To work out where the object is at a given time, we use a standard relationship called Kepler’s equation. The key point here is: it reduces to finding a root of a function <span class="math inline">\(f(E) = 0\)</span>.</p>
+<p>An ellipse has two semi-axes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and we assume that <span class="math inline">\(a &gt; b\)</span>. We denote by <span class="math inline">\(e = \sqrt{1 - \frac{b^2}{a^2}}\)</span> the eccentricity of the ellipse. The closest point on the ellipse to the central body (i.e.&nbsp;planet or star, which is at one of the foci of the ellipse) of the object’s trajectory is called the periapsis.</p>
+<p>To connect time to position, it’s convenient to use an angle-like variable that increases at a constant rate - this variable is called the mean anomaly, <span class="math inline">\(M\)</span> (measured in radians). <span class="math inline">\(M = 0\)</span> corresponds to periapsis and <span class="math inline">\(M = \pi\)</span> corresponds to half an orbit later.</p>
+<p>There is a helpful intermediate angle called the eccentric anomaly which we write as <span class="math inline">\(E\)</span>. Since <span class="math inline">\(M\)</span> is not the actual geometric angle around the ellipse, we use <span class="math inline">\(E\)</span> as a useful angle from which we can compute quantities such that the coordinates of the object.</p>
+<div id="a5309ce1" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-5-output-1.png" width="597" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>For an elliptic orbit with eccentricity <span class="math inline">\(0 \le e &lt; 1\)</span>, the mean anomaly <span class="math inline">\(M\)</span> is related to the eccentric anomaly <span class="math inline">\(E\)</span> by Kepler’s equation: <span class="math display">\[
 E - e \sin(E) = M.
-\]</span> The problem is: Given <span class="math inline">\(e\)</span> (eccentricity) and <span class="math inline">\(M\)</span> (mean anomaly at a given time, in radians), find <span class="math inline">\(E^*\)</span> (eccentric anomaly) and then you can compute the actual orbital position.</p>
-<p>We can write this as a root finding problem with <span class="math display">\[
+\]</span> The problem is: Given <span class="math inline">\(e\)</span> (eccentricity) and <span class="math inline">\(M\)</span> (mean anomaly at a given time, in radians), find <span class="math inline">\(E^*\)</span> (eccentric anomaly). We can write this as a root finding problem with <span class="math display">\[
 f(E) = E - e \sin(E) - M.
-\]</span> We should be careful to find a solution only in <span class="math inline">\([0, 2\pi)\)</span>. In our tests we will use <span class="math inline">\(e = 0.7, M = 2.0\)</span>.</p>
-<p>Once you have <span class="math inline">\(E^*\)</span>, if you also know the semi-major axis <span class="math inline">\(a\)</span> of the ellipse, you can compute the radius <span class="math inline">\(r = a(1 - \cos(E))\)</span>.</p>
-<p>TODO make these terms make sense and add a picture/example.</p>
+\]</span> We should be careful to find a solution only in <span class="math inline">\([0, 2\pi)\)</span>. In our tests we will use <span class="math inline">\(e = 0.7, M = 2.0\)</span>. Note that <span class="math display">\[
+f'(E) = 1 - e \cos E \ge 1 - e &gt; 0,
+\]</span> so <span class="math inline">\(f\)</span> is strictly increasing and we know we only have one solution.</p>
 </div>
 </section>
 <section id="iterative-methods" class="level2" data-number="6.2">
@@ -552,23 +571,23 @@ f(E) = E - e \sin(E) - M.
 <p>There are a few issues we should consider with iterative methods:</p>
 <ol type="1">
 <li>Does the iteration converge?</li>
-<li>In other words, will <span class="math inline">\(x^{(i+1)}\)</span> be a better estimate that <span class="math inline">\(x^{(i)}\)</span>? In what sense?</li>
-<li>Is there a way to check this as part of the computation? Can we proof this?</li>
+<li>In other words, will <span class="math inline">\(x^{(i+1)}\)</span> be a better estimate than <span class="math inline">\(x^{(i)}\)</span>? In what sense – e.g.&nbsp;<span class="math inline">\(|f(x^{(i)})|\)</span> smaller or <span class="math inline">\(|x^{(i)} - x^*|\)</span> smaller?</li>
+<li>Is there a way to check this as part of the computation? Can we prove this?</li>
 <li>If the iteration does converge, then how quickly does this happen?</li>
 <li>How should we decide when to stop the iteration?</li>
 </ol>
 <div id="rem-iteration" class="proof remark">
-<p><span class="proof-title"><em>Remark 6.1</em>. </span>We briefly comment that iteration is <em>different</em> to the idea of time stepping we met when solving differential equations. The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criteria).</p>
+<p><span class="proof-title"><em>Remark 6.2</em>. </span>We briefly comment that iteration is <em>different</em> to the idea of time stepping we met when solving differential equations. The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criterion).</p>
 </div>
 </section>
 <section id="bisection-method" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="bisection-method"><span class="header-section-number">6.3</span> Bisection method</h2>
 <p>The first method that we introduce is the bisection method. This is a simple, slow but very robust method. It’s based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).</p>
-<div id="2a2d00f1" class="cell" data-execution_count="4">
+<div id="27787950" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03a_files/figure-html/cell-5-output-1.png" width="559" height="407" class="figure-img"></p>
+<p><img src="lec03a_files/figure-html/cell-6-output-1.png" width="559" height="407" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -591,14 +610,14 @@ f(E) = E - e \sin(E) - M.
 <section id="convergence-analysis" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="convergence-analysis"><span class="header-section-number">6.3.2</span> Convergence analysis</h3>
 <p>Assume that <span class="math inline">\(k\)</span> steps have been taken from an initial bracket <span class="math inline">\((a, b)\)</span>. We notice that at each step, the bracket size is halved. This means after <span class="math inline">\(k\)</span> steps, the length of the interval will be <span class="math inline">\(\frac{b - a}{2^k}\)</span>.</p>
-<p>For large initial bracket size (i.e.&nbsp;large <span class="math inline">\(b - a\)</span>) or small <span class="math inline">\(TOL\)</span> (high accuracy requiement) <span class="math inline">\(k\)</span> will be large.</p>
+<p>For large initial bracket size (i.e.&nbsp;large <span class="math inline">\(b - a\)</span>) or small <span class="math inline">\(TOL\)</span> (high accuracy requirement) <span class="math inline">\(k\)</span> will be large.</p>
 </section>
 <section id="examples" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">6.3.3</span> Examples</h3>
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="e2722a9c" class="cell" data-execution_count="6">
+<div id="5842c946" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  a        b        f(a)        f(b)
  1 1.000000 1.500000 -1.0000e+00 2.5000e-01
@@ -616,7 +635,7 @@ f(x) = x^2 - 2.
 13 1.414185 1.414307 -8.2001e-05 2.6327e-04
 14 1.414185 1.414246 -8.2001e-05 9.0633e-05</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>1.414215087890625</code></pre>
 </div>
 </div>
@@ -624,7 +643,7 @@ f(x) = x^2 - 2.
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="6d9ba533" class="cell" data-execution_count="7">
+<div id="16622015" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  a        b        f(a)        f(b)
  1 0.000000 3.141593 -2.0000e+00 1.1416e+00
@@ -644,7 +663,7 @@ f(x) = x - 0.7 \sin(x) - 2.0
 15 2.447658 2.447850 -3.8638e-05 2.5630e-04
 16 2.447658 2.447754 -3.8638e-05 1.0883e-04</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>2.4477060315696475</code></pre>
 </div>
 </div>
@@ -661,7 +680,7 @@ f(x) = x - 0.7 \sin(x) - 2.0
 </section>
 <section id="weaknesses-of-the-bisection-algorithm" class="level3" data-number="6.3.4">
 <h3 data-number="6.3.4" class="anchored" data-anchor-id="weaknesses-of-the-bisection-algorithm"><span class="header-section-number">6.3.4</span> Weaknesses of the bisection algorithm</h3>
-<p>Bisection is a reliable method for finding solutions of <span class="math inline">\(f(x) = 0\)</span> provided an intial bracket can be found. It is far from perfect however:</p>
+<p>Bisection is a reliable method for finding solutions of <span class="math inline">\(f(x) = 0\)</span> provided an initial bracket can be found. It is far from perfect however:</p>
 <ul>
 <li>finding an initial bracket is not always easy;</li>
 <li>it can take a very large number of iterations to obtain an accurate answer;</li>
@@ -669,9 +688,244 @@ f(x) = x - 0.7 \sin(x) - 2.0
 </ul>
 </section>
 </section>
-<section id="newtons-methods" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="newtons-methods"><span class="header-section-number">6.4</span> Newton’s methods</h2>
-<p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it convergences much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guarenteed to converge (unlike bisection with a good initial bracket).</p>
+<section id="newtons-method" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="newtons-method"><span class="header-section-number">6.4</span> Newton’s method</h2>
+<p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).</p>
+<div id="e926f0b9" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-10-output-1.png" width="661" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We start at our initial guess <span class="math inline">\(x^{(0)}\)</span> and find the corresponding point on the graph of the function <span class="math inline">\((x^{(0)}, f(x^{(0)}))\)</span>. We find the tangent to the graph at <span class="math inline">\((x^{(0)}, f(x^{(0)}))\)</span> and follow this line to the <span class="math inline">\(x\)</span>-axis. Where the tangent line intersects the <span class="math inline">\(x\)</span>-axis is our new value for <span class="math inline">\(x^{(1)}\)</span>.</p>
+<p>In the picture, we can see two ways to calculate the tangent:</p>
+<ol type="1">
+<li>We can use the derivative of <span class="math inline">\(f\)</span> to see that the slope of the tangent is <span class="math inline">\(f'(x^{(0)})\)</span>.</li>
+<li>We can see that we have a right-angled triangle with vertices at <span class="math inline">\((x^{(1)}, 0)\)</span>, <span class="math inline">\((x^{(0)}, 0)\)</span> and <span class="math inline">\((x^{(0)}, f(x^{(0)})\)</span> which has slope <span class="math display">\[
+\frac{\text{change in $y$}}{\text{change in $x$}} = \frac{f(x^{(0)}) - 0}{x^{(0)} - x^{(1)}}.
+\]</span></li>
+</ol>
+<p>Equating the two slopes, we see that <span class="math display">\[
+f'(x^{(0)}) = \frac{f(x^{(0)})}{x^{(0)} - x^{(1)}},
+\]</span> which we can rearrange to <span class="math display">\[
+x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
+\]</span> This is the formula for a single Newton update!</p>
+<p>Once we have our updated estimate <span class="math inline">\(x^{(1)}\)</span>, we can continue the iteration: <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
+\]</span></p>
+<div id="d25cc9be" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-11-output-1.png" width="662" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is quite a messy plot but it appears the Newton’s method converges very quickly!</p>
+<div id="rem-newton" class="proof remark">
+<p><span class="proof-title"><em>Remark 6.3</em>. </span></p>
+<ol type="1">
+<li>The iteration formula requires an initial guess at the solution <span class="math inline">\(x^{(0)}\)</span>.</li>
+<li>In order to apply Newton’s method, we need to be able to compute an expression for the derivative of <span class="math inline">\(f(x)\)</span> - this may not always be possible or easy.</li>
+<li>You will see a variant of Newton’s method that allows the derivative to be approximated in the lab session.</li>
+<li>We typically use the absolute value of <span class="math inline">\(f(x^{(i)})\)</span> as the variable we compare against a tolerance in a stopping criteria.</li>
+</ol>
+</div>
+<section id="examples-1" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="examples-1"><span class="header-section-number">6.4.1</span> Examples</h3>
+<p><span class="math display">\[
+f(x) = x^2 - 2.
+\]</span></p>
+<div id="83c8297f" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  x        f(x)       df(x)
+ 1 1.500000 2.5000e-01 3.0000
+ 2 1.416667 6.9444e-03 2.8333
+ 3 1.414216 6.0073e-06 2.8284</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>1.4142156862745099</code></pre>
+</div>
+</div>
+<p>We see that it takes <em>only</em> 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
+<p><span class="math display">\[
+f(x) = x - 0.7 \sin(x) - 2.0
+\]</span></p>
+<div id="3979c904" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  x        f(x)       df(x)
+ 1 2.470068 3.4541e-02 1.5480
+ 2 2.447754 1.0943e-04 1.5382
+ 3 2.447683 1.1329e-09 1.5381</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>np.float64(2.447683215352491)</code></pre>
+</div>
+</div>
+<p>We see that it takes 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
+<div id="exm-newton" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.5</strong></span> Consider <span class="math inline">\(f(x) = x^2 - 5\)</span> and <span class="math inline">\(x^{(0)} = 2\)</span>. This gives <span class="math inline">\(f'(x) = 2x\)</span> so the iterative formula is: <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^2 - 5}{2 x^{(i)}} = \frac{(x^{(i)})^2 + 5}{2 x^{(i)}}.
+\]</span> The iteration then proceeds as: <span class="math display">\[\begin{align*}
+x^{(1)} &amp; = \frac{(x^{(0)})^2 + 5}{2 x^{(0)}} = \frac{2^2 + 5}{2 \times 2} = \frac{9}{4} = 2.25. \\
+x^{(2)} &amp; = \frac{(x^{(1})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
+\end{align*}\]</span> Note that <span class="math inline">\(\sqrt{5} = 2.23607\ldots\)</span>.</p>
+</div>
+<div id="exr-newton" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6.2</strong></span> Write down an expression for the Newton iteration formula for the following functions and then carry out 2 iterations using the resulting iteration and given initial value <span class="math inline">\(x^{(0)}\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(f(x) = x^3 - 2x - 5\)</span> with <span class="math inline">\(x^{(0)} = 2\)</span>.</li>
+<li><span class="math inline">\(f(x) = x^3 - 2\)</span> with <span class="math inline">\(x^{(0)} = 1\)</span>.</li>
+</ol>
+</div>
+</section>
+<section id="challenges-for-newtons-method" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="challenges-for-newtons-method"><span class="header-section-number">6.4.2</span> Challenges for Newton’s method</h3>
+<p>The first obvious challenge for Newton’s method comes from the idea that we divide by something that might be zero in our update formula – what if <span class="math inline">\(f'(x^{(i)}) = 0\)</span>? In this case, there isn’t much we can do and Newton’s method will fail.</p>
+<div id="exm-newton-0" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.6</strong></span> Consider applying Newton’s method to the function <span class="math inline">\(f(x) = x^3 + 2x^2 + x + 1\)</span> with <span class="math inline">\(x^{(0)} = 0\)</span>. This gives <span class="math inline">\(f'(x) = 3 x^2 + 4 x + 1\)</span>. Starting from <span class="math inline">\(x^{(0)} = 0\)</span>, we get: <span class="math display">\[\begin{align*}
+x^{(1)} &amp;= x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}
+= 0 - \frac{0^3 + 2 \times 0 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
+\end{align*}\]</span> But we see that <span class="math display">\[
+f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
+\]</span> So the iteration cannot proceed.</p>
+</div>
+<p>Another similar case is what if the derivative at the root is zero (i.e., <span class="math inline">\(f'(x^*) = 0\)</span>), in this case the iteration can still proceed but the iteration is <em>slower</em>.</p>
+<p>Consider <span class="math inline">\(f(x) = (x-1)^2 = x^2 - 2x + 1\)</span>:</p>
+<div id="be530f5f" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-16-output-1.png" width="590" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="26fbaeb9" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  x        f(x)       df(x)
+ 1 1.500000 2.5000e-01 1.0000
+ 2 1.250000 6.2500e-02 0.5000
+ 3 1.125000 1.5625e-02 0.2500
+ 4 1.062500 3.9062e-03 0.1250
+ 5 1.031250 9.7656e-04 0.0625
+ 6 1.015625 2.4414e-04 0.0312
+ 7 1.007812 6.1035e-05 0.0156</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>1.0078125</code></pre>
+</div>
+</div>
+<p>It takes 7 iterations to find the root in this case (more than the other Newton examples). We note here also that the convergence criterion is <span class="math inline">\(|f(x^{(i)})| &lt; TOL\)</span> which does not guarantee that <span class="math inline">\(|x^* - x^{(i)}| &lt; TOL\)</span>!</p>
+<p>There are also cases where Newton’s method does not converge even when a root exists!</p>
+<div id="exm-newton-non-convergence" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.7</strong></span> Consider the function <span class="math inline">\(f(x) = x^{1/3}\)</span>. Clearly <span class="math inline">\(f\)</span> has a root at <span class="math inline">\(x^* = 0\)</span> (<span class="math inline">\(f(0) = 0\)</span>).</p>
+<div id="259fad48" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-18-output-1.png" width="609" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The derivative is <span class="math inline">\(f'(x) = \frac{1}{3} x^{-2/3}\)</span> and the Newton iteration is <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
+\]</span> We can see that the general term in this sequence is <span class="math inline">\(x^{(i)} = (-2)^i x^{(0)}\)</span> – this is clearly not going to converge to 0!</p>
+</div>
+<p>It is even possible for the iteration to simply cycle between two values repeatedly.</p>
+<div id="exm-newton-repeater" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.8</strong></span> Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This has derivative <span class="math inline">\(f'(x) = 3 x^2 - 2\)</span>.</p>
+<div id="6dce82ec" class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec03a_files/figure-html/cell-20-output-1.png" width="571" height="433" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Starting an iteration at <span class="math inline">\(x^{(0)} = 1\)</span> gives:</p>
+<div id="ab2a0973" class="cell" data-execution_count="20">
+<div class="cell-output cell-output-stdout">
+<pre><code>it  x        f(x)       df(x)
+ 1 0.000000 2.0000e+00 -2.0000
+ 2 1.000000 1.0000e+00 1.0000
+ 3 0.000000 2.0000e+00 -2.0000
+ 4 1.000000 1.0000e+00 1.0000
+ 5 0.000000 2.0000e+00 -2.0000
+ 6 1.000000 1.0000e+00 1.0000
+ 7 0.000000 2.0000e+00 -2.0000
+ 8 1.000000 1.0000e+00 1.0000
+ 9 0.000000 2.0000e+00 -2.0000
+10 1.000000 1.0000e+00 1.0000
+11 0.000000 2.0000e+00 -2.0000
+12 1.000000 1.0000e+00 1.0000
+13 0.000000 2.0000e+00 -2.0000
+14 1.000000 1.0000e+00 1.0000
+15 0.000000 2.0000e+00 -2.0000
+16 1.000000 1.0000e+00 1.0000
+17 0.000000 2.0000e+00 -2.0000
+18 1.000000 1.0000e+00 1.0000
+19 0.000000 2.0000e+00 -2.0000
+20 1.000000 1.0000e+00 1.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.5</span> Summary</h2>
+<p>We have presented two methods for finding roots of nonlinear equations: the bisection method and Newton’s method. We summarise their properties in the following table:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Bisection</th>
+<th>Newton</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Simple algorithm</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>Starting values</td>
+<td>bracket</td>
+<td>one</td>
+</tr>
+<tr class="odd">
+<td>Iterations</td>
+<td>lots</td>
+<td>normally fewer</td>
+</tr>
+<tr class="even">
+<td>Convergence</td>
+<td>with good bracket</td>
+<td>not always</td>
+</tr>
+<tr class="odd">
+<td>Turning point roots</td>
+<td>no</td>
+<td>slower</td>
+</tr>
+<tr class="even">
+<td>Use derivative</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>There are many more methods available - you will see one on the lab exercise sheet.</p>
 
 
 </section>
