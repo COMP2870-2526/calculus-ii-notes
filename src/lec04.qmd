@@ -8,6 +8,7 @@ echo: false
 
 import numpy as np
 from matplotlib import pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 plt.style.use("seaborn-v0_8-colorblind")
 
@@ -39,29 +40,26 @@ plt.pcolormesh(X, Y, F)
 plt.contourf(X, Y, F, levels=100)
 plt.colorbar(label="$F(x_1, x_2)$")
 
-plt.plot([-1], [0], "ro")
+plt.plot([-1], [0], "C2o")
 
 plt.xlabel("$x_1$")
 plt.ylabel("$x_2$")
 
 plt.grid()
 plt.show()
-# TODO add arrow in direction $\vec{d}$
+
 
 ```
 
-Some how we want to have the idea that if you move away from the minimum in *any* direction then the function increases.
-Mathematically, we could write this as saying: Given a direction $\vec{d} \in \mathbb{R}^n$, a point $\vec{x}^*$ is a local minimum if
-$$
-F(\vec{x}^* + h \vec{d}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
-$$
-We could try to use our ideas from one dimension then by considering the function $D_{\vec{d}} \mathbb{R} \to \mathbb{R}$ given by
-$$
-D_{\vec{d}}(h) = F(\vec{x}^* + h \vec{d}).
-$$
-This is a well defined one-dimensional function so we can apply all our theory as before.
+## Directional derivatives
 
-TODO I think we need the directional derivative at $h=0$.
+Some how we want to have the idea that if you move away from the minimum in *any* direction then the function increases.
+Mathematically, we could write this as saying: A point $\vec{x}^*$ is a local minima if for any direction $\vec{v} \in \mathbb{R}^n$, we have $h = 0$ is a local minima of:
+$$
+\gamma_{\vec{v}}(h) = F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
+$$
+We could try to use our ideas from one dimension then by considering the function $\gamma_{\vec{v}} \mathbb{R} \to \mathbb{R}$.
+This is a well defined one-dimensional function so we can apply all our theory as before.
 
 ::: {#exm-directional-derivative}
 Consider the function
@@ -69,11 +67,11 @@ $$
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
 $$
-and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_{\vec{d}}(h)$ and $D'_{\vec{d}}(h)$ at $\vec{x}^* = (-1, 0)$.
+and the directions $\vec{v} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $\gamma_{\vec{v}}(h)$ and $\gamma'_{\vec{v}}(h)$ at $\vec{x}^* = (-1, 0)$.
 
-1. For $\vec{d} = (1, 0)^T$, we have
+1. For $\vec{v} = (1, 0)^T$, we have
    \begin{align*}
-   D_{\vec{d}}(h)
+   \gamma_{\vec{v}}(h)
    & = F(-1 + h, 0) \\
    & = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times 0^2 + 2 \\
    & = (-1)^4 + 4 \times (-1)^3 \times h + 6 \times (-1)^2 \times h^2 +
@@ -84,24 +82,24 @@ and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_{\vec{
    \end{align*}
    so
    \begin{align*}
-   D'_{\vec{d}}(h)
+   \gamma'_{\vec{v}}(h)
    & = 4 h^3 - 12 h^2 + 10 h.
    \end{align*}
-2. For $\vec{d} = (0, 1)^T$, we have
+2. For $\vec{v} = (0, 1)^T$, we have
    \begin{align*}
-   D_{\vec{d}}(h)
+   \gamma_{\vec{v}}(h)
    & = F(-1, 0 + h) \\
    & = (-1)^4 - (-1)^2 + 2 \times (-1) + 4 h^2 + 2 \\
    & = 1 - 1 - 2 + 4 h^2 + 2 = 4 h^2,
    \end{align*}
    so
    \begin{align*}
-   D'_{\vec{d}}(h)
+   \gamma'_{\vec{v}}(h)
    & = 8 h.
    \end{align*}
-3. For $\vec{d} = (1, 1)^T$, we have
+3. For $\vec{v} = (1, 1)^T$, we have
    \begin{align*}
-   D_{\vec{d}}(h)
+   \gamma_{\vec{v}}(h)
    & = F(-1 + h, 0 + h) \\
    & = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times h^2 + 2 \\
    & = (h^4 - 4 h^3 + 5 h^2) + (4 h^2) \\
@@ -109,54 +107,469 @@ and the directions $\vec{d} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $D_{\vec{
    \end{align*}
    so
    \begin{align*}
-   D'_{\vec{d}}(h) = 4 h - 12 h^2 + 18 h.
+   \gamma'_{\vec{v}}(h) = 4 h - 12 h^2 + 18 h.
    \end{align*}
 
-We note that each derivatives depends on $h$ and that for each derivative we have $D'_{\vec{d}}(0) = 0$.
+We note that each derivatives depends on $h$ and that for each derivative we have $\gamma'_{\vec{v}}(0) = 0$.
 :::
 
 The object we have been computing in this example is called the *directional derivative*:
 
 ::: {#def-directional-derivative}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$.
-The **direction derivative of $F$ at $\vec{x}$ in a direction $\vec{d}$** is given by $D'_{\vec{d}}(h)$.
+We use the notation $f'_{\vec{v}}$ for **direction derivative of $F$ at $\vec{x}$ in a direction $\vec{v}$** and this is given by:
+$$
+f'_{\vec{v}}(\vec{x}) = \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|}.
+$$
 :::
 
-::: {#rmk-directional-derivatives}
-There is something slightly strange about how directional derivatives depend on both the direction and the size of $\vec{d}$. However this is simply part of the definition and something we should be aware of when doing this type of computation.
-:::
+So we might want to think about building theory based on directional derivatives.However, as we have seen in the picture of $F$ above, there are still lots of directions to check. We have checked 3 different directions but there are still infinitely many to do!
 
-So we might want to think about building theory based on directional derivatives. However, as we have seen in the picture of $F$ above, there are still lots of directions to check. We have checked 3 different directions but there are still infinitely many to do!
-
-There is something else we can do, and the calculations for the direction $\vec{d} = (1, 1)^T$ give us a clue!
+There is something else we can do, and the calculations for the direction $\vec{v} = (1, 1)^T$ give us a clue!
 We saw that
 $$
-D'_{(1, 1)^T}(h) = D'_{(1, 0)^T}(h) + D'_{(0, 1)^T}(h).
+\gamma'_{(1, 1)^T}(h) = \gamma'_{(1, 0)^T}(h) + \gamma'_{(0, 1)^T}(h).
 $$
-This is also true in general:
+This is also true in general: For directions $\vec{v}$ and $\vec{w}$ and a number $a$
 \begin{align*}
-D'_{\vec{d}^{(1)} + \vec{d}^{(2)}}(h) = D'_{\vec{d}^{(1)}}(h) + D_{\vec{d}^{(2)}}(h) \\
-D'_{w \vec{d}}(h) = w D'_{\vec{d}}(h).
+\gamma'_{\vec{v} + \vec{w}}(h) = \gamma'_{\vec{v}}(h) + \gamma_{\vec{w}}(h) \\
+\gamma'_{a \vec{v}}(h) = a \gamma'_{\vec{v}}(h).
 \end{align*}
 So if we can find a basis (remember that term from semester 1?!?), we can write any directional derivative in terms of the basis vectors. We can make a simple choice for this: the coordinate axes!
 
 Let $\vec{e}^{(j)}$ be the vector with $1$ in the $j$th place and $0$ in every other place for $j = 1, 2, \ldots n$.
 For example in $\mathbb{R}^2$, we have $\vec{e}^{(1)} = (1, 0)^T$ and $\vec{e}^{(2)} = (0, 1)^T$.
-These form a basis. So any direction $\vec{d}$ can be written as
+These form a basis. So any direction $\vec{v}$ can be written as
 $$
-\vec{d} = (d_1, d_2, \ldots, d_n) = \sum_{j=1}^n d_j \vec{e}^{(j)},
+\vec{v} = (v_1, v_2, \ldots, v_n) = \sum_{j=1}^n v_j \vec{e}^{(j)},
 $$
 so that
 $$
-D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
+\gamma'_{\vec{v}}(h) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(h).
+$$
+Then, using the fact that $\|\vec{e}^{(j)}\|=1$, we see that:
+$$
+F'_\vec{v}(\vec{x}) = \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|}
+= \frac{1}{\|\vec{v}\|} \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(0)
+= \frac{1}{\|\vec{v}\|} \sum_{j=1}^n v_j F'_{\vec{e}^{(j)}}(x).
 $$
 
-This idea is special enough that we give the terms $D'_{\vec{e}^{(j)}}(h)$ a special name: *partial derivatives*, and there is a slightly simpler way to calculate them.
+This idea is special enough that we give the terms $f'_{\vec{e}^{(j)}}$ a special name: a *partial derivative*, and there is a slightly simpler way to calculate them.
 
-- define partial derivatives
-- define gradients
-- relate both to directional derivatives
-- with examples
+## Partial derivatives
 
-- go again with convexity
-- bring in hessian and eigenvalues as final condition
+::: {#def-partial-derivative}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$.
+Then the partial derivative of $F$ at a point $x$ with respect to the $j$th variable $x_j$ is defined as:
+$$
+\frac{\partial F}{\partial x_i} F(\vec{x}) = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}.
+$$
+:::
+
+::: {#rem-partial-notation}
+The notation we use includes the curved $\partial$ symbol which looks like a curvy "d" and is pronounced "partial".
+:::
+
+We use the same examples as the previous section to give an idea of how to calculate a partial derivative:
+
+::: {#exm-partial-derivative}
+Consider once more the function
+$$
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+$$
+We want to compute the partial derivative with respect to $x_1$.
+
+The definition tells us to compute:
+\begin{align*}
+& \frac{\partial F}{\partial x_1}(x)
+& = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h} \\
+& = \lim_{h\to 0} \frac{\big((x_1 + h)^4 - (x_1 - h)^2 + 2 (x_1 + h) + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
+& = \lim_{h\to 0} \frac{\big(x_1^4 + 4 x_1^3 h + 6 x_1^2 h^2 + 4 x_1 h^3 + h^4 - x_1^2 - 2 x_1 h - h^2 + 2 x_1 + 2 h + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
+& = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1)}{h} \\
+& = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) \\
+&= 4 x_1^3 - 2x_1 +2.
+\end{align*}
+But we notice that when we do this calculation, we are effectively finding the usual derivative with respect to $x_1$ but ignoring terms with $x_2$. This is an approach we can follow.
+
+Strictly, when computing partial derivatives with respect to a variable $x_j$, we compute the usual derivative with respect to $x_1$ and treat all other variables as *constants*: i.e. $\frac{\partial}{\partial x_1} x_2 = 0$.
+
+In this example, we would compute
+\begin{align*}
+& \frac{\partial F}{\partial x_1}(x) \\
+& = \frac{\partial}{\partial x_1} (x_1^4) - \frac{\partial}{\partial x_1} x_1^2 + 2 \frac{\partial}{\partial x_1} x_1 + 4 \frac{\partial}{\partial x_1} x_2^2 + \frac{\partial}{\partial x_1} 2 \\
+& = 4 x_1^3 - 2 x_1 + 2 + 0 + 0 = 4 x_1^3 - 2 x_1 + 2.
+\end{align*}
+We see we get the same result as using limits.
+
+::: {#exr-partial-derivatives}
+Compute $\frac{\partial F}{\partial x_2}$ for this example using either approach.
+:::
+
+```{python}
+def F2(x, y):
+    return x**4 - x**2 + 2 * x + 4 * y**2 + 2
+
+
+def dx1F2(x, _):
+    return 4 * x**3 - 2 * x + 2
+
+
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+
+fig, ax = plt.subplots(1, 2)
+
+F = F2(X, Y)
+dx1F = dx1F2(X, Y)
+
+im1 = ax[0].pcolormesh(X, Y, F)
+divider = make_axes_locatable(ax[0])
+cax = divider.append_axes("bottom", size="5%", pad=0.5)
+fig.colorbar(im1, cax=cax, orientation="horizontal", label="$F(x_1, x_2)$")
+
+im2 = ax[1].pcolormesh(X, Y, dx1F, cmap="cividis")
+divider = make_axes_locatable(ax[1])
+cax = divider.append_axes("bottom", size="5%", pad=0.5)
+fig.colorbar(
+    im2,
+    cax=cax,
+    orientation="horizontal",
+    label="$\\frac{\\partial F}{\\partial x_1}(x_1, x_2)$",
+)
+
+for ax_ in ax:
+    ax_.plot([-1], [0], "C2o")
+    ax_.set_xlabel("$x_1$")
+    ax_.set_ylabel("$x_2$")
+    ax_.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+
+```
+
+:::
+
+The ideas in this examples, let us see that many of the properties of usual derivatives carry over to partial derivatives too:
+
+1. sum rule:
+   $$
+   \frac{\partial}{\partial x_j} (a F(x) + b G(x)) = a \frac{\partial}{\partial x_j} F(x) + b \frac{\partial}{\partial x_j} G(x)
+   $$
+2. product rule:
+   $$
+   \frac{\partial}{\partial x_j} (F(x) G(x)) = G(x) \frac{\partial}{\partial x_j} F(x) + F(x) \frac{\partial}{\partial x_j} G(x)
+   $$
+
+## Gradient
+
+From a calculation point of view, the gradient is really just a stack of partial derivatives put together. However, it turns out to be a useful construction too.
+
+::: {#def-gradient}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$.
+Then the **gradient of $F$** is a function $\nabla F : \mathbb{R}^n \to \mathbb{R}^n$ which is given by
+$$
+\nabla F (x) = \begin{pmatrix}
+\frac{\partial F}{\partial x_1}(x) \\
+\frac{\partial F}{\partial x_2}(x) \\
+\vdots \\
+\frac{\partial F}{\partial x_n}(x)
+\end{pmatrix}.
+$$
+:::
+
+::: {#exm-gradient}
+With the same $F$ as before, we can add (white) arrow to our previous plot to show the gradient of $F$. At various points $x$ in the domain, we plot an arrow starting at $x$ in the direction $\nabla F(x)$. The size of the arrow corresponds to the magnitude of the gradient.
+
+```{python}
+def F2(x, y):
+    return x**4 - x**2 + 2 * x + 4 * y**2 + 2
+
+
+# Analytic gradient:
+# dF/dx = 4x^3 - 2x + 2
+# dF/dy = 8y
+def grad_F(x, y):
+    dFx = 4 * x**3 - 2 * x + 2
+    dFy = 8 * y
+    return dFx, dFy
+
+
+# Grid
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+F = F2(X, Y)
+
+# Compute gradient on a coarser grid for a cleaner quiver plot
+x_q = np.linspace(-1.5, 1.5, 25)
+y_q = np.linspace(-1.0, 1.0, 20)
+Xq, Yq = np.meshgrid(x_q, y_q)
+U, V = grad_F(Xq, Yq)
+
+# Color mesh and contours
+plt.pcolormesh(X, Y, F, shading="auto")
+plt.colorbar(label="$F(x_1, x_2)$")
+
+# Gradient quiver
+plt.quiver(Xq, Yq, U, V, color="white", label="gradient")
+
+# Point marker
+plt.plot([-1], [0], "C2o", label="minimum")
+
+plt.legend()
+
+plt.xlabel("$x_1$")
+plt.ylabel("$x_2$")
+plt.grid()
+plt.show()
+```
+
+We note that the gradient seems to point away from the minimum always and seems to be small (perhaps even the zero vector?) at the minimum. Indeed:
+$$
+\nabla F(\vec{x}) = (4 x_1^3 - 2x + 2, 8x_2),
+$$
+so
+$$
+\nabla F(-1, 0) = (4 \times (-1)^3 - 2 \times (-1) + 2, 8 \times 0) = (-4 + 2 + 2, 0) = (0, 0).
+$$
+:::
+
+We again see that the gradient follows some simple results: for functions $F, G \colon \mathbb{R}^n \to \mathbb{R}$ and numbers $a, b$ we have
+
+1. sum rule:
+   $$
+   \nabla (aF(x) + bG(x)) = a \nabla F(x) + b \nabla G(x).
+   $$
+2. product rule:
+   $$
+   \nabla (F(x) G(x)) = G(x) \nabla F(x) + F(x) \nabla G(x).
+   $$
+
+One reason that the gradient is useful is the following lemma that connects the gradient to directional derivatives:
+
+::: {#lem-grad-dir-deriv}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
+Then for any point $x$ and any direction $v$ we have
+$$
+F'_{\vec{v}}(x) = \nabla F(x) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
+$$
+:::
+
+TODO we need chain rule already :/
+
+::: {.proof}
+We can compute directly from
+\begin{align*}
+\gamma_{\vec{v}}(h) = F(\vec{x} + h \vec{v}),
+\end{align*}
+and the chain rule (which!!) that
+$$
+\gamma'_{\vec{v}}(h) = \nabla F(\vec{x} + h \vec{v}) \cdot \vec{v}.
+$$
+Thus, we can see that
+\begin{align*}
+F'_\vec{v}(\vec{x}) &= \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|} \\
+&= \nabla F(\vec{x} + 0 \vec{v}) \cdot \vec{v} \frac{1}{\|\vec{v}\|} \\
+&= \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
+\end{align*}
+:::
+
+We also have a geometric understanding of what the gradient is in a similar way to the derivative of a function of a scalar variable representing the slope of the function.
+
+::: {#lem-grad-slope-max}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
+The gradient of $F$ represents the direction of $F$ which is increasing the fastest.
+:::
+
+::: {.proof}
+The direction of $F$ which increases the fastest can be found by finding the direction $\vec{v}$ which gives the greatest value for:
+$$
+F'_{\vec{v}}(\vec{x})
+$$
+at an arbitrary point $\vec{x}$.
+
+Using @lem-grad-dir-deriv, we have
+$$
+F'_{\vec{v}}(\vec{x}) = \nabla F(x) \cdot \vec{v}{\|\vec{v}\|}.
+$$
+We can see that this is maximised for $\vec{v} = \nabla F(x)$ where
+$$
+F'_{\vec{v}}(\vec{x}) = \nabla F(x) \cdot \vec{\nabla F(x)}{\|\nabla F(x)\|} = \frac{\|\nabla F(x)\|^2}{\|\nabla F(x)\|} = \| \nabla F(x) \|.
+$$
+In the final calculation we assume that $\|\nabla F(\vec{x})\| \neq 0$. Otherwise, $\nabla F(\vec{x}) = \vec{0}$ and all directional derivatives are zero so any $\vec{v}$ can maximise the expression.
+:::
+
+::: {#rem-gradient-slope-max}
+This result is very significant. It gives us an idea of how to manipulate a point towards a minimum - we can move in the direction opposite the gradient and we will be following the steepest descent direction.
+:::
+
+## The Hessian
+
+For scalar domain problems, we used the second derivative to characeterise convexity of functions. For functions with a higher dimension domain, we can also use second derivatives.
+
+::: {#def-hessian}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the **Hessian matrix** of $F$ is a square $n \times n$ matrix of second partial derivatives defined and arranged as:
+$$
+\nabla^2 F = \begin{pmatrix}
+\frac{\partial^2 F}{\partial x_1^2} &
+\frac{\partial^2 F}{\partial x_1 \partial x_2} &
+\cdots &
+\frac{\partial^2 F}{\partial x_1 \partial x_n} \\
+\frac{\partial^2 F}{\partial x_2 \partial x_1} &
+\frac{\partial^2 F}{\partial x_2^2} &
+\cdots &
+\frac{\partial^2 F}{\partial x_2 \partial x_n} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial^2 F}{\partial x_n \partial x_1} &
+\frac{\partial^2 F}{\partial x_n \partial x_2} &
+\cdots &
+\frac{\partial^2 F}{\partial x_n^2}.
+\end{pmatrix}
+$$
+Here, and elsewhere, we write
+$$
+\frac{\partial^2 F}{\partial x_i \partial x_j} = \frac{\partial}{\partial x_i} \left( \frac{\partial}{\partial x_j} F \right),
+$$
+to denote first taking the partial derivative with respect to $x_j$ and then the partial derivative with respect to $x_i$.
+:::
+
+::: {#exm-hessian}
+We want to compute the Hessian of
+$$
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+$$
+We already have the gradient:
+$$
+\nabla F(x_1, x_2) = \begin{pmatrix} 4 x_1^3 - 2 x_1 + 2 \\ 4 x_2 \end{pmatrix}.
+$$
+Then for each term in the Hessian we compute:
+\begin{align*}
+\frac{\partial^2}{\partial x_1^2} F(x_1, x_2) &= \frac{\partial}{\partial x_1} (4 x_1^3 - 2 x_1 + 2) &&= 12 x_1^2 - 2 \\
+\frac{\partial^2}{\partial x_1 \partial x_2} F(x_1, x_2) &= \frac{\partial}{\partial x_1} (4 x_2) &&= 0 \\
+\frac{\partial^2}{\partial x_2 \partial x_1} F(x_1, x_2) &= \frac{\partial}{\partial x_2} (4 x_1^3 - 2 x_1 + 2) &&= 0 \\
+\frac{\partial^2}{\partial x_2^2} F(x_1, x_2) &= \frac{\partial}{\partial x_2} (4 x_2) &&= 4.
+\end{align*}
+So the Hessian is given by:
+$$
+\nabla^2 F(x_1, x_2) = \begin{pmatrix} 12 x_1^2 - 2 & 0 \\ 0 & 4 \end{pmatrix}.
+$$
+:::
+
+::: {#exr-hessian}
+Compute the Hessian of
+$$
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
+$$
+:::
+
+We notice that for both the example and exercise the Hessian is a symmetric matrix. This is true in general!
+
+::: {#lem-hessian-sym}
+For a smooth function $F \colon \mathbb{R}^n \to \mathbb{R}$, we have
+$$
+\frac{\partial^2 F}{\partial x_i \partial x_j} = \frac{\partial^2 F}{\partial x_j \partial x_i},
+$$
+hence the Hessian is a symmetric matrix.
+:::
+
+::: {.proof}
+A full proof is beyond this course.
+
+One intuition comes from the idea of walking small steps on the graph of the function. Walking the small steps in different orders gives the same change in height ($F$) so the second derivatives do not see which order the derivatives come.
+:::
+
+## What does this say about optimisation?
+
+We start with a definition of local minima here which matches the scalar domain case.
+To help writing definitions more compactly we introduce the idea of a ball. We use the notation $B(\vec{x}, R)$ to denote the ball of radius $R$ centered at $\vec{x}$ which is given by
+$$
+B(\vec{x}, r) = \{ \vec{y} \in \mathbb{R}^n : \| \vec{y} - \vec{x} \| < r \}.
+$$
+The idea of a ball generalises an interval to higher dimensions.
+
+::: {#def-local-minimum-Rn}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$.
+We say a point $\vec{x}^*$ is a **local minimum** of $F$ if for a small radius $r > 0$, we have that
+$$
+F(\vec{x}^*) \le F(\vec{x}) \quad\text{for all}\quad \vec{x} \in B(\vec{x}^*, r)
+$$
+:::
+
+::: {.remark}
+Comparing to @def-local-minimum, we see that the biggest change is swapping the absolute value for a ball.
+:::
+
+::: {#lem-dir-deriv-minima}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
+Let $x^*$ be a local minima of $F$, then we have
+$$
+F'_{\vec{v}}(x^*) = 0 \quad\text{for all directions}\quad \vec{v}.
+$$
+and $\nabla F(x^*) = \vec{0}$.
+:::
+
+::: {.proof}
+TODO
+
+The idea is quite simple - and we sketch it here. The key insight is that at a local minima all directional derivatives are 0 so in particular all partial derivatives are zero. Since the gradient is just a stack of partial derivatives we see that the gradient is the zero vector too.
+:::
+
+Previously to map from local to global minima, we used the idea of convexity. We can do the same again here:
+
+::: {#def-convexity-Rn}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a function.
+We say that $F$ is **locally convex on an ball $B$** if for all $\vec{x}, \vec{y} \in B$, we have
+$$
+a F(\vec{x}) + (1-a) F(\vec{y}) \ge F(a\vec{x} + (1-a)\vec{y}) \quad\text{for all}\quad a \in [0,1].
+$$
+We say that $F$ is **convex** if it is convex on $\mathbb{R}^n$ (i.e. convex for any ball $B \subset \mathbb{R}^n$).
+:::
+
+Similar to @lem-convex-equiv, we have the follow equivalences to convexity in ball:
+
+::: {#lem-convex-equiv-Rn}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the following are equivalent:
+
+1. $F$ is locally convex on a ball $B$
+2. The gradient of $F$ satisfies:
+   $$
+   F(\vec{x}) \ge F(\vec{y}) + \nabla F(\vec{y}) \cdot (\vec{x}- \vec{y}) \quad\text{for all}\quad x, y \in B.
+   $$
+3. The eigenvalues of the Hessian of $F(\vec{x})$ are non-negative for any $\vec{x} \in B$. (this property is normally said that $\nabla^2 F$ is positive semi-definite).
+:::
+
+::: {.proof}
+TODO
+:::
+
+::: {#exm-convexity-Rn}
+The function given by
+$$
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
+$$
+is not convex.
+
+We have computed the Hessian as:
+$$
+\nabla^2 F(x_1, x_2) = \begin{pmatrix} 12 x_1^2 - 2 & 0 \\ 0 & 4 \end{pmatrix}.
+$$
+This is a diagonal matrix so we can read off the eigenvalues as:
+$$
+\lambda_1 = 12 x_1^2 - 2 \quad\text{and}\quad \lambda_2 = 4.
+$$
+We can see that $\lambda_1$ is negative for $x_1 \le 1/\sqrt{6}$ hence $F$ is not convex.
+:::
+
+::: {#exr-convexity-Rn}
+Is $F$ given by
+$$
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2
+$$
+convex? Give a calculation to support your answer.
+:::
