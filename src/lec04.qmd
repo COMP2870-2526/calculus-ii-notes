@@ -692,6 +692,7 @@ convex? First, find the Hessian of $F$ and then the eigenvalues of $\nabla^2 F(\
 ## Summary
 
 We have introduced derivatives for functions $F \colon \mathbb{R}^n \to \mathbb{R}$:
+
 - $F'_{\vec{v}}$: the directional derivative,
 - $\frac{\partial}{\partial x_j}F$: partial derivative,
 - $\nabla F$: gradient,
