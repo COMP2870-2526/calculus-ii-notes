@@ -1,0 +1,15 @@
+---
+echo: false
+---
+
+# An introduction to training neural networks
+
+```{python}
+
+
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+```

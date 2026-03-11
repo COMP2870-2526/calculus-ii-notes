@@ -1,0 +1,15 @@
+---
+echo: false
+---
+
+# The gradient flow algorithm
+
+```{python}
+
+
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+```
