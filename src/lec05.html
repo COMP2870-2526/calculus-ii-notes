@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>2&nbsp; Introduction to dynamic problems – COMP2870 Theoretical Foundations: Calculus II</title>
+<title>9&nbsp; Optimisation in \mathbb{R}^n – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,53 +21,18 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/lec02.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../src/lec06.html" rel="next">
+<link href="../src/lec04a.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -117,9 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -333,7 +295,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec01.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to dynamic problems</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec05.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -371,7 +333,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link active">
+  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to dynamic problems</span></span></a>
   </div>
 </li>
@@ -413,7 +375,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
   </div>
 </li>
@@ -433,14 +395,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#rates-of-change" id="toc-rates-of-change" class="nav-link active" data-scroll-target="#rates-of-change"><span class="header-section-number">2.1</span> Rates of change</a></li>
-  <li><a href="#geometric-picture" id="toc-geometric-picture" class="nav-link" data-scroll-target="#geometric-picture"><span class="header-section-number">2.2</span> Geometric picture</a></li>
-  <li><a href="#formulation-in-terms-of-formulae" id="toc-formulation-in-terms-of-formulae" class="nav-link" data-scroll-target="#formulation-in-terms-of-formulae"><span class="header-section-number">2.3</span> Formulation in terms of formulae</a></li>
-  <li><a href="#differential-equations" id="toc-differential-equations" class="nav-link" data-scroll-target="#differential-equations"><span class="header-section-number">2.4</span> Differential equations</a></li>
-  <li><a href="#eulers-method" id="toc-eulers-method" class="nav-link" data-scroll-target="#eulers-method"><span class="header-section-number">2.5</span> Euler’s method</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.6</span> Summary</a></li>
+  <li><a href="#choice-of-the-step-size-h" id="toc-choice-of-the-step-size-h" class="nav-link active" data-scroll-target="#choice-of-the-step-size-h"><span class="header-section-number">9.1</span> Choice of the step size <span class="math inline">\(h\)</span></a></li>
+  <li><a href="#stopping-criteria" id="toc-stopping-criteria" class="nav-link" data-scroll-target="#stopping-criteria"><span class="header-section-number">9.2</span> Stopping criteria</a></li>
+  <li><a href="#relation-to-differential-equations" id="toc-relation-to-differential-equations" class="nav-link" data-scroll-target="#relation-to-differential-equations"><span class="header-section-number">9.3</span> Relation to differential equations</a></li>
+  <li><a href="#newtons-method" id="toc-newtons-method" class="nav-link" data-scroll-target="#newtons-method"><span class="header-section-number">9.4</span> Newton’s method</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec01.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec01.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -448,7 +408,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to dynamic problems</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></h1>
 </div>
 
 
@@ -478,420 +438,257 @@ window.Quarto = {
 </header>
 
 
-<p>There are many models and problems where time plays an important role.</p>
-<p>Examples TODO</p>
-<p>Often these models use the language of derivatives and calculus to express the underlying processes. We will spend the first two lectures of this part of the module covering how we can solve this type of dynamic problem using numerical methods.</p>
-<p>As a computer scientist, this will help you in your future studies by introducing:</p>
-<ul>
-<li>important methods for solving interesting problems often found in science and engineering, robotics and games design;</li>
-<li>the idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;</li>
-<li>measuring errors and efficiency of approaches with a view to balancing between them.</li>
-</ul>
-<section id="rates-of-change" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="rates-of-change"><span class="header-section-number">2.1</span> Rates of change</h2>
-<p>We will start with a recap of material that you learnt last year to define the objects we want to discuss. We will do this in a way that’s driven by our applications and methods which will follow.</p>
-<p>Suppose we know that a person is walking at a <em>constant</em> speed of 3 meters per second (m/s). What does that really mean? How far will they travel in:</p>
-<ul>
-<li><span class="math inline">\(0.1\)</span> seconds?</li>
-<li><span class="math inline">\(0.01\)</span> seconds?</li>
-<li><span class="math inline">\(0.001\)</span> seconds?</li>
-<li><span class="math inline">\(10^{-6}\)</span> seconds?</li>
-</ul>
-<p>What does this tell us about speed?</p>
-<p>We have that <span class="math display">\[
-\text{Distance travelled} = \text{speed} \times \text{time},
-\]</span> or equivalently: <span class="math display">\[
-\text{speed} = \frac{\text{distance travelled}}{\text{time}}.
+<p>TODO change step size to <span class="math inline">\(\alpha\)</span></p>
+<p>We return to our basic optimisation problem. We want to find a minimiser <span class="math inline">\(x^*\)</span> of the function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>: <span class="math display">\[
+x^* = \mathop{\arg\min}\limits_{x \in \mathbb{R}^n} F(x).
+\]</span> In this lecture, we are going to propose an iterative algorithm for approximating solutions called <strong>gradient descent</strong>. Roughly speaking, if <span class="math inline">\(F\)</span> is smooth and convex, then for a sufficiently small step size the method converges to a minimiser. If <span class="math inline">\(F\)</span> is not convex, gradient descent may still be useful, but in general it is only guaranteed to seek a point with <span class="math inline">\(\nabla F = 0\)</span>; this may be a local minimiser but may not be!</p>
+<div id="rem-nn" class="proof remark">
+<p><span class="proof-title"><em>Remark 9.1</em>. </span>The methods used to train neural network models are based on gradient descent. We will see an example of this later.</p>
+</div>
+<p>We first illustrate the algorithm in one dimension:</p>
+<div id="exm-grad-descent-1d" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1</strong></span> Consider <span class="math display">\[
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+\]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
+F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
-<p>What if the object’s speed was not constant? For example, we could define the speed <span class="math display">\[\begin{equation}
-\label{eq:speed-ex}
-S(t) = -(t-1)(t+0.5).
-\end{equation}\]</span></p>
-<div id="8682918e" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-3-output-1.png" width="591" height="430" class="figure-img"></p>
-<figcaption>A sample object speed over time</figcaption>
-</figure>
+<div id="35b81c26" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
+F(x^{(0)}) = \frac14 \times (0)^4 - \frac112 \times (0)^3 - \frac12 \times (0)^2 + \frac14 \times (0) + \frac12 = 0.5
+\]</span> At <span class="math inline">\(x^{(0)} = 0\)</span>, we see that the derivative of <span class="math inline">\(F\)</span> is positive: <span class="math display">\[
+F'(0) = (0)^3 - \frac14 \times (0)^2 - (0) + \frac14 = 0.25 &gt; 0.
+\]</span> Hence, to decrease <span class="math inline">\(F\)</span> and get closer to the minimiser, we will take a small step in the opposite direction, i.e.&nbsp;in the <span class="math inline">\(- F'(x^{(0)})\)</span> direction. We use the update formula: <span class="math display">\[\begin{align*}
+x^{(1)} &amp; = x^{(0)} - h F'(x^{(0)}) \\
+&amp; = 0 - h \times 0.25.\end{align*}\]</span> Here <span class="math inline">\(h &gt; 0\)</span> is the step size that we have to choose as a parameter inour algorithm.</p>
 </div>
-</div>
-</div>
-<p><strong>How far would the object travel in one second now?</strong></p>
-<p>We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the <span class="math inline">\(S(t)\)</span> is approximately constant in each interval):</p>
-<div id="470991a0" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-4-output-1.png" width="591" height="430" class="figure-img"></p>
-<figcaption>A sample object speed over time approximated over 10 steps</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="dd960e75" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    D <span class="op">=</span> D <span class="op">+</span> <span class="fl">0.1</span> <span class="op">*</span> S(t)</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    t <span class="op">=</span> t <span class="op">+</span> <span class="fl">0.1</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="bu">print</span>(D, t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.44000000000000006 0.9999999999999999</code></pre>
-</div>
-</div>
-<p>We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:</p>
-<div id="beb5b445" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-6-output-1.png" width="591" height="430" class="figure-img"></p>
-<figcaption>A sample object speed over time approximated over 100 steps</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="3e8d9daa" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    D <span class="op">=</span> D <span class="op">+</span> <span class="fl">0.01</span> <span class="op">*</span> S(t)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    t <span class="op">=</span> t <span class="op">+</span> <span class="fl">0.01</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="bu">print</span>(D, t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.41914999999999963 1.0000000000000007</code></pre>
-</div>
-</div>
-<p>What about if we did a thousand steps</p>
-<div id="b897846f" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-8-output-1.png" width="591" height="430" class="figure-img"></p>
-<figcaption>A sample object speed over time approximated over 1000 steps</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="aef8ce67" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    D <span class="op">=</span> D <span class="op">+</span> <span class="fl">0.001</span> <span class="op">*</span> S(t)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    t <span class="op">=</span> t <span class="op">+</span> <span class="fl">0.001</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="bu">print</span>(D, t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.41691649999999947 1.0000000000000007</code></pre>
-</div>
-</div>
-<p>In summary, we get</p>
-<div id="5c0ac29a" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="9">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">intervals</th>
-<th data-quarto-table-cell-role="th">increment size, h</th>
-<th data-quarto-table-cell-role="th">total distance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>1</td>
-<td>1.00000</td>
-<td>0.500000</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>10</td>
-<td>0.10000</td>
-<td>0.440000</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>100</td>
-<td>0.01000</td>
-<td>0.419150</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>1000</td>
-<td>0.00100</td>
-<td>0.416916</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>10000</td>
-<td>0.00010</td>
-<td>0.416692</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>100000</td>
-<td>0.00001</td>
-<td>0.416669</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>We appear to be converging to a limit as <span class="math inline">\(h \to 0\)</span>…</p>
-<p>We might express this mathematically as: <span class="math display">\[\begin{equation*}
-\label{eq:S-derivative}
-S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
-\end{equation*}\]</span> or that <em>instant</em> speed is the limit of average speed over smaller and smaller intervals.</p>
-<p>Formally, we say that speed, <span class="math inline">\(S(t)\)</span>, is the <strong>derivative</strong> of distance, <span class="math inline">\(D(t)\)</span>, with respect to time and write <span class="math inline">\(S(t) = D'(t)\)</span>.</p>
-</section>
-<section id="geometric-picture" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="geometric-picture"><span class="header-section-number">2.2</span> Geometric picture</h2>
-<p>We can plot the expression for the speed, <span class="math inline">\(S(t)\)</span>, from <span class="math inline">\(\eqref{eq:speed-ex}\)</span> and it’s integral from 0 up to time <span class="math inline">\(t\)</span>, which we call the distance. <span class="math inline">\(D(t)\)</span>.</p>
-<div id="dd903a91" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-11-output-1.png" width="571" height="430" class="figure-img"></p>
-<figcaption>Distance and speed examples as a function of time</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>We see that the <strong>gradient</strong> (slope) of the green curve is the <strong>value</strong> of the blue curve.</p>
-<ul>
-<li>As the blue curve increases in value, the green curve increases in steepness.</li>
-<li>When the blue curve starts to decrease in value, the green curve decreases in steepness.</li>
-<li>By the time the blue curve has a value of zero the green curve is flat.</li>
-</ul>
-<p>This gives us an alternative definition of derivative:</p>
-<blockquote class="blockquote">
-<p>The function <span class="math inline">\(D'(t)\)</span> is the function whose value is equal to the slope (or gradient) of <span class="math inline">\(D(t)\)</span> at every value of <span class="math inline">\(t\)</span>.</p>
-</blockquote>
-<div id="8b862423" class="cell" data-execution_count="11">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-12-output-1.png" width="540" height="202" class="figure-img"></p>
-<figcaption>Examples of different sloped straight lines.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>For a straight line, we can use the formula for a straight line to find the gradient. The equation of a straight line with slope <span class="math inline">\(m\)</span> is given by <span class="math display">\[
-f(t) = m t + c.
-\]</span></p>
-<p>For a curve (i.e.&nbsp;non-straight line), we can approximate the slope with a straight line approximation (“chord”): <span class="math display">\[
-\frac{f(t + h) - f(t)}{h}.
-\]</span> We can get a better approximation by taking a smaller value of <span class="math inline">\(h\)</span>…. This leads us back to the definition of derivative (<a href="#def-derivative" class="quarto-xref">Definition&nbsp;<span>2.1</span></a>).</p>
-<div id="ffb78785" class="cell" data-execution_count="12">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-13-output-1.png" width="662" height="470" class="figure-img"></p>
-<figcaption>Sample straight-line approximations to the slope of a curve.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>We can apply similar understanding no matter what the underlying function is. For example, we could do the same things with more complicated real world data. Here is an example using climate data (<a href="https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html">data source: Met Office</a>).</p>
-<div id="e5126ab3" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec01_files/figure-html/cell-14-output-1.png" width="662" height="470" class="figure-img"></p>
-<figcaption>Central England Temperature anomaly. Annual Average 1659-2025.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="formulation-in-terms-of-formulae" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="formulation-in-terms-of-formulae"><span class="header-section-number">2.3</span> Formulation in terms of formulae</h2>
-<p>Let’s recall some of the more formal ideas that you learnt last year.</p>
-<div id="def-derivative" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.1</strong></span> Let <span class="math inline">\(f \colon (a, b) \to \mathbb{R}\)</span> be a function on an interval <span class="math inline">\((a, b)\)</span> of the real line. We say that <span class="math inline">\(f\)</span> is <strong>differentiable</strong> if for all <span class="math inline">\(x \in (a, b)\)</span> the limit: <span class="math display">\[
-\lim_{h \to 0} \frac{f(x+h) - f(x)}{h},
-\]</span> exists and is finite. If <span class="math inline">\(f\)</span> is differentiable then we call the function <span class="math inline">\(g \colon (a, b) \to \mathbb{R}\)</span> the <strong>derivative</strong> of <span class="math inline">\(f\)</span> defined by <span class="math display">\[
-g(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}.
-\]</span> We will write <span class="math inline">\(f'(x) := g(x)\)</span> or <span class="math inline">\(\frac{\mathrm{d}}{\mathrm{d}x} f(x) = g(x)\)</span>.</p>
-</div>
-<p>Last year, you learnt some formula for derivatives. First that you can manipulate derivatives in nice ways: <span class="math display">\[\begin{align*}
-\frac{\mathrm{d}}{\mathrm{d}x} (a f_1(x) + b f_2(x))
-&amp; = a \frac{\mathrm{d}}{\mathrm{d}x} f_1(x) + b \frac{\mathrm{d}}{\mathrm{d}x} f_2(x)
-&amp;&amp; \text{(sum rule)}\\
-\frac{\mathrm{d}}{\mathrm{d}x} (f_1(x) f_2(x))
-&amp; = \left( \frac{\mathrm{d}}{\mathrm{d}x} f_1(x) \right) f_2(x) + f_1(x) \left( \frac{\mathrm{d}}{\mathrm{d}x} f_2(x) \right)
-&amp;&amp; \text{(product rule)} \\
-\frac{\mathrm{d}}{\mathrm{d}x} (f_1(f_2(x)))
-&amp; = \left. \frac{\mathrm{d}}{\mathrm{d}y} f_1(y) \right|_{y=f_2(x)} \frac{\mathrm{d}}{\mathrm{d} x} f_2(x)
-&amp;&amp; \text{(chain rule)}.
-\end{align*}\]</span></p>
-<p>You also learnt some derivatives of special functions: <span class="math display">\[\begin{align*}
-\frac{\mathrm{d}}{\mathrm{d}x} (x^p) &amp; = p x^{p-1} \\
-\frac{\mathrm{d}}{\mathrm{d}x} \sin(x) &amp; = \cos(x) \\
-\frac{\mathrm{d}}{\mathrm{d}x} \cos(x) &amp; = -\sin(x) \\
-\frac{\mathrm{d}}{\mathrm{d}x} \exp(x) &amp; = \exp(x).
-\end{align*}\]</span></p>
-<div id="exr-derivatives" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.1</strong></span> Compute the derivatives of the following functions:</p>
-<ol type="1">
-<li><span class="math inline">\(f_1(x) = 3 x^2 - 5 x + 1\)</span></li>
-<li><span class="math inline">\(f_2(x) = \sin(x^2)\)</span></li>
-<li><span class="math inline">\(f_3(x) = \exp(-x) \sin(2x)\)</span></li>
-<li><span class="math inline">\(f_4(x) = \frac{1}{\eta(x)}\)</span> (for an arbitrary function <span class="math inline">\(\eta\)</span>)</li>
-<li><span class="math inline">\(f_5(x) = \tan(x)\)</span>. (<em>Hint:</em> use the fact that <span class="math inline">\(\tan(x) = \sin(x) / \cos(x)\)</span> then use the your answer for <span class="math inline">\(f_4\)</span> and the product and chain rules).</li>
-</ol>
-</div>
-<p>You also learnt about the opposite process to taking derivatives - integration - using Riemann sums:</p>
-<div id="def-integral" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.2</strong></span> Let <span class="math inline">\(f \colon (a, b) \to \mathbb{R}\)</span> be a function on the interval <span class="math inline">\((a, b)\)</span> of the real line.</p>
-<p>Let <span class="math inline">\(x_0 = a &lt; x_1 &lt; \ldots &lt; x_n = b\)</span> be a partition of the interval <span class="math inline">\((a, b)\)</span> into <span class="math inline">\(n\)</span> smaller intervals <span class="math inline">\((x_{i-1}, x_i)\)</span> for <span class="math inline">\(i = 1, \ldots, n\)</span>. We choose a point <span class="math inline">\(c_i\)</span> in each interval <span class="math inline">\((x_{i-1}, x_i)\)</span> and let <span class="math inline">\(h = \max_i x_{i} - x_{i-1}\)</span>. We define the <strong>Riemann sum</strong> of <span class="math inline">\(f\)</span> by <span class="math display">\[
-s_n = \sum_{i=1}^n f(c_i) (x_{i} - x_{i-1}).
-\]</span> Then we define the <strong>integral</strong> of <span class="math inline">\(f\)</span> over <span class="math inline">\((a, b)\)</span> is given by: <span class="math display">\[
-\int_a^b f(x) \, \mathrm{d}x = \lim_{h \to 0} \sum_{i=1}^n f(c_i) (x_{i} - x_{i-1}).
-\]</span></p>
-</div>
-<p>You learnt the following properties of integration: <span class="math display">\[\begin{align*}
-\int_a^b c_1 f_1(x) + c_2 f_2(x) \, \mathrm{d}x &amp;= c_1 \int_a^b f_1(x) \,\mathrm{d}x + c_2 \int_a^b f_2(x) \,\mathrm{d}x \\
-\int_a^c f(x) \, \mathrm{d}x + \int_c^b f(x) \, \mathrm{d}x &amp;= \int_a^b f(x) \, \mathrm{d}x.
-\end{align*}\]</span></p>
-<p>You learnt that using the fundamental theorem of calculus you can compute integrals by <em>inverting</em> the derivative process: <span class="math display">\[\begin{align*}
-\int_a^b x^p \, \mathrm{d}x &amp; = \left[ \frac{1}{p+1} x^{p+1} \right]_{x=a}^b = \frac{1}{p+1} (b^{p+1} - a^{p+1}).
-\end{align*}\]</span></p>
-<div id="exr-integral" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.2</strong></span> Find the integrals of the following functions over <span class="math inline">\((0, 1)\)</span>.</p>
-<ol type="1">
-<li><span class="math inline">\(f_1(x) = 3 x^2 - 5x + 1\)</span>.</li>
-<li><span class="math inline">\(f_2(x) = x + \frac{1}{x^2}\)</span>.</li>
-</ol>
-</div>
-<div id="rem-integral" class="proof remark">
-<p><span class="proof-title"><em>Remark 2.1</em>. </span>The problem of finding distance over the time interval <span class="math inline">\((0, 1)\)</span>, given speed, <span class="math inline">\(S(t)\)</span>, given in <span class="math inline">\(\eqref{eq:speed-ex}\)</span>, can be solved using integration.</p>
-<p>Indeed, using that <span class="math inline">\(D'(t) = S(t)\)</span>, the fundamental theorem of calculus tells us that <span class="math inline">\(D(t)\)</span> is the integral of <span class="math inline">\(S(t)\)</span> with respect to time: <span class="math display">\[\begin{align*}
-D(1) &amp; = \int_0^1 S(t) \, \mathrm{d}t
-= \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t \\
-&amp; = \int_0^1 -t^2 + 0.5 t + 0.5 \,\mathrm{d}t \\
-&amp; = \left[ -\frac{1}{3} t^3 + \frac{0.5}{2} t^2 + 0.5 t \right]_{t=0}^1 \\
-&amp; = (-\frac{1}{3} \times 1^3 + 0.25 \times 1^2 + 0.5 \times 1) - (-\frac{1}{3} \times 0^3 + 0.25 \times 0^2 + 0.5 \times 0) \\
-&amp; = \frac{5}{12} \approx 0.416667.
-\end{align*}\]</span></p>
-<p>The rest of our section work in this week’s lectures is to solve similar equations in the case that our formula for <span class="math inline">\(S(t)\)</span> would depend on <span class="math inline">\(t\)</span> and also <span class="math inline">\(D\)</span>.</p>
-</div>
-</section>
-<section id="differential-equations" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="differential-equations"><span class="header-section-number">2.4</span> Differential equations</h2>
-<p>We have already seen and solved one differential equation - when we solved for the distance travel as a function of time: <span class="math inline">\(D'(t) = S(t)\)</span>. That equation related the derivative of <span class="math inline">\(D\)</span> to a function of time <span class="math inline">\(S(t)\)</span>. When a model takes the form of an equation which involves one or more derivatives then it is called a <strong>differential equation</strong>.</p>
-<p>Most models of dynamic processes take the form of differential equations including climate models, many models in engineering and science, financial models, physics engines in computer games and many more!</p>
-<p>We are interested in equations of the form: <span class="math display">\[
-y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
-\]</span> The data (things given to us) are:</p>
-<ul>
-<li>the initial time <span class="math inline">\(t_0\)</span></li>
-<li>the initial value of <span class="math inline">\(y\)</span> at the initial time <span class="math inline">\(y_0\)</span> - we call this the <em>initial condition</em></li>
-<li>the right hand side function <span class="math inline">\(f\)</span> which can be a function of both time and the solution <span class="math inline">\(y\)</span>,</li>
-</ul>
-<p>and we must find a function <span class="math inline">\(y \colon [0, T) \to \mathbb{R}\)</span> for some final time <span class="math inline">\(T\)</span>.</p>
-<p>We have seen one example above with <span class="math inline">\(f(t, y) = S(t) = -(t-1)(t+0.5)\)</span>, <span class="math inline">\(t_0 = 0\)</span> and <span class="math inline">\(y_0 = 0\)</span>. We will see more later.</p>
-<div id="rem-euler" class="proof remark">
-<p><span class="proof-title"><em>Remark 2.2</em>. </span>One important consideration is that while many clever ways to solve differential equations exactly exist, most differential equations cannot be solved by hand. Thus numerical methods are not only convenient ways to find solutions of differential equations, in many cases they are essential.</p>
-<p>The downside of a computational approach arises now since we are <em>approximating</em> the true solution. We will cover more on this in the next lecture.</p>
-</div>
-<div id="exm-freefall" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.1 (Example differential equation - an object in free fall)</strong></span> Consider the following simple model for an object falling from a large height, based on the two assumptions:</p>
-<ol type="1">
-<li>all objects are attracted downward with an acceleration due to gravity of <span class="math inline">\(9.81\,\mathrm{m}/\mathrm{s}^2\)</span>;</li>
-<li>air resistance causes an object to decelerate in proportion to its speed (i.e.&nbsp;the faster it travels the greater the air resistance).</li>
-</ol>
-<p>The <em>net acceleration downwards</em> (i.e.&nbsp;rate of change of speed, <span class="math inline">\(S'(t)\)</span>) is given by the sum of the two forces <span class="math inline">\(g\)</span> and <span class="math inline">\(-k S(t)\)</span>: <span class="math display">\[
-S'(t) = g - k S(t).
-\]</span></p>
-<p>How can we solve this equation?</p>
-<ul>
-<li>We cannot solve this integral exactly: <span class="math display">\[
-S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
-\]</span></li>
-<li>There are techniques to solve this problem analytically (using so-called separation of variables) – but we are simple computer scientists looking for simple computer-based solutions instead!</li>
-<li>We can do similar to the above idea where we divide the time period into lots of small intervals and assume that everything is approximately constant on each time interval…</li>
-</ul>
-<div id="aa1666fb" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec01_files/figure-html/cell-16-output-1.png" width="587" height="430" class="figure-img"></p>
+<p><img src="lec05_files/figure-html/cell-3-output-2.png" width="590" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>This plot shows our scenario. In this case, <span class="math inline">\(h = 0.6\)</span> seems a good choice so we set <span class="math display">\[
+x^{(1)} = x^{(0)} - h F'(x^{(0)})= {x0} - {h} \times {dF1(x0)}= {x1},
+\]</span> and note that <span class="math display">\[\begin{align*}
+F(x^{(1)}) &amp;= \frac14 \times (-0.15)^4 - \frac112 \times (-0.15)^3 - \frac12 \times (-0.15)^2 + \frac14 \times (-0.15) + \frac12 \\
+&amp;= 0.45165781250000003.\end{align*}\]</span></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Then, we iterate to find <span class="math inline">\(x^{(2)}\)</span>: <span class="math display">\[\begin{align*}
+x^{(2)} &amp;= x^{(1)} - h F'(x^{(1)}) \\
+&amp;= -0.15 - 0.6 \times \left((-0.15)^3 - \frac14 \times (-0.15)^2 - (-0.15) + \frac14\right) \\
+&amp;= -0.15 - 0.6 \times \left(0.391\right) \\
+&amp;= -0.3846,
+\end{align*}\]</span> and note that <span class="math display">\[\begin{align*}
+F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \frac12 \times (-0.3846)^2 + \frac14 \times (-0.3846) + \frac12 \\
+&amp;= 0.3401020365336164.\end{align*}\]</span></p>
+</div>
+</div>
+<div id="1e7f8979" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec05_files/figure-html/cell-4-output-1.png" width="590" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>We see that as we take more time steps, we converge to a smooth solution.</p>
+<p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
+<div id="250485c2" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>iter  x           F(x)
+ 0    0.00000000  0.50000000
+ 1   -0.15000000  0.45165781
+ 2   -0.38460000  0.34010204
+ 3   -0.70903906  0.16426299
+ 4   -0.99517620  0.08336230
+ 5   -1.00236659  0.08334035
+ 6   -0.99880577  0.08333511
+ 7   -1.00059433  0.08333378
+ 8   -0.99970214  0.08333344
+ 9   -1.00014875  0.08333336
+10   -0.99992558  0.08333334</code></pre>
 </div>
-</section>
-<section id="eulers-method" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="eulers-method"><span class="header-section-number">2.5</span> Euler’s method</h2>
-<p>The approach used in <a href="#exm-freefall" class="quarto-xref">Example&nbsp;<span>2.1</span></a> can be applied to any differential equation in the generic format: <span class="math display">\[
-y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec05_files/figure-html/cell-5-output-2.png" width="590" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>We can use a similar idea when working in <span class="math inline">\(\mathbb{R}^n\)</span>. The key idea is to note that the gradient of <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> points in the direction of the steepest increase in <span class="math inline">\(F\)</span> (<span class="quarto-unresolved-ref">?lem-XX</span>). So, starting at a point <span class="math inline">\(\vec{x}^{(0)}\)</span>, if we want to reduce <span class="math inline">\(F\)</span>, we should take a small step in the direction <span class="math inline">\(-\nabla F(\vec{x}^{(0)})\)</span>. This is the <strong>gradient descent algorithm</strong> which, for a given step size <span class="math inline">\(h\)</span>, uses the update formula: <span class="math display">\[
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
 \]</span></p>
-<p>The general algorithm is very simple:</p>
-<ol type="1">
-<li>Set initial values <span class="math inline">\(t^{(0)}\)</span> and <span class="math inline">\(y^{(0)}\)</span> from the initial condition.</li>
-<li>Loop over all time steps, until the final time <span class="math inline">\(T\)</span>, updating using the formula: <span class="math display">\[\begin{align*}
-y^{(i+1)} &amp;= y^{(i)} + h f(t^{(i)}, y^{(i)}) \\
-t^{(i+1)} &amp;= t^{(i)} + h.
-\end{align*}\]</span></li>
-</ol>
-<p>The algorithm has one free parameter: the number of time steps, <span class="math inline">\(n\)</span>. Choosing more time steps increases the cost of the algorithm helps us converge to the solution (more on this later). Once the number of time steps is fixed, we can calculate the time step <span class="math inline">\(h = (T - t_0) / (n-1)\)</span>.</p>
-<div id="exm-euler" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.2</strong></span> Take two steps of Euler’s method to approximate the solution of <span class="math display">\[
-y'(t) = -(y(t))^2 + 3 t^2 \quad\text{subject to the initial condition}\quad y(1) = 2,
-\]</span> for <span class="math inline">\(1 \le t \le 2\)</span>.</p>
-<div id="390636af" class="cell" data-execution_count="16">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
-<p>In this example we have:</p>
+<div id="exm-gradient-descent" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.2</strong></span> Consider the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span> We previously computed (<a href="lec04.html#exm-gradient" class="quarto-xref">Example&nbsp;<span>7.3</span></a>) that <span class="math display">\[
+\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2).
+\]</span> So the gradient descent update formula is: <span class="math display">\[
+\begin{pmatrix}
+x_1^{(i+1)} \\ x_2^{(i+1)}
+\end{pmatrix} =
+\begin{pmatrix}
+x_1^{(i)} \\ x_2^{(i)}
+\end{pmatrix} -
+h\begin{pmatrix}
+4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
+\end{pmatrix}.
+\]</span></p>
+<div id="e3abf90c" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Let <span class="math inline">\(x^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span> and <span class="math inline">\(h = 0.25\)</span>.</p>
+<p>Then we can compute that</p>
+<p><span class="math display">\[\begin{align*}
+\vec{x}^{(1)} &amp;= \vec{x}^{(0)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
+&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times\nabla F(1.0, 0.75) \\
+&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times\begin{pmatrix}4 \times (1.0)^3 - 2 \times (1.0) + 2 \\8 \times (0.75)\end{pmatrix} \\
+&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times{array_to_latex(grad_F(x[0], x[1]))} \\
+&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix}
+\end{align*}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+\vec{x}^{(2)} &amp;= \vec{x}^{(1)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
+&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times\nabla F(0.0, -0.75) \\
+&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times\begin{pmatrix}4 \times (0.0)^3 - 2 \times (0.0) + 2 \\8 \times (-0.75)\end{pmatrix} \\
+&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times{array_to_latex(grad_F(x[0], x[1]))} \\
+&amp; = \begin{pmatrix} -0.5\\ 0.75 \end{pmatrix}
+\end{align*}\]</span></p>
+</div>
+</div>
+<div id="exr-gradient-descent" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Take two steps of gradient descent for <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
+\]</span></p>
+</div>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>We always need an initial value for the gradient descent algorithm. If <span class="math inline">\(F\)</span> is convex, the choice of starting point does not affect the location of the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.</p>
+</div>
+<section id="choice-of-the-step-size-h" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="choice-of-the-step-size-h"><span class="header-section-number">9.1</span> Choice of the step size <span class="math inline">\(h\)</span></h2>
+<p>The choice of step size has a major effect on the performance of gradient descent. If <span class="math inline">\(h\)</span> is too small, we do not make enough progress towards the minimiser, but if <span class="math inline">\(h\)</span> is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).</p>
+<div id="exm-choosing-h" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.3</strong></span> We consider again the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span> From the plots (in ??), we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
+<p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(h\)</span></p>
+<div id="d9bc5db3" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec05_files/figure-html/cell-7-output-1.png" width="662" height="469" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that:</p>
 <ul>
-<li><span class="math inline">\(n=2\)</span></li>
-<li><span class="math inline">\(t_0 = 1\)</span></li>
-<li><span class="math inline">\(y_0 = 2\)</span></li>
-<li><span class="math inline">\(T = 2\)</span></li>
-<li><span class="math inline">\(h = (2 - 1)/2 = 0.5\)</span></li>
-<li><span class="math inline">\(f(t, y) = -y^2 + 3t^2\)</span>.</li>
-</ul>
-<p>We start with <span class="math inline">\(t^{(0)} = 1\)</span> and <span class="math inline">\(y^{(0)} = 2\)</span>.</p>
-<ul>
-<li><p>Step 1: <span class="math display">\[\begin{align*}
-    y^{(1)} &amp; = y^{(0)} + h
-     f(t^{(0)}, y^{(0)}) \\
-    &amp; = 2 + 0.5 (-(2)^2 + 3 \times 1^{2}) = 1.5 \\
-    t^{(1)} &amp; = t^{(0)} + h \\
-    &amp; = 1 + 0.5 = 1.5
-  \end{align*}\]</span></p></li>
-<li><p>Step 2: <span class="math display">\[\begin{align*}
-    y^{(2)} &amp; = y^{(1)} + h
-     f(t^{(1)}, y^{(1)}) \\
-    &amp; = 1.5 + 0.5 (-(1.5)^2 + 3 \times 1.5^{2}) = 3.75 \\
-    t^{(2)} &amp; = t^{(1)} + h \\
-    &amp; = 1.5 + 0.5 = 2.0
-  \end{align*}\]</span></p></li>
+<li>for <span class="math inline">\(h = 10^{1}\)</span> or <span class="math inline">\(10^{0}\)</span>, the time step is too large and the iterations quickly diverge;</li>
+<li>for <span class="math inline">\(h = 10^{-3}\)</span> or <span class="math inline">\(10^{-4}\)</span>, the time step is too small and the function does not decrease quickly enough;</li>
+<li>for <span class="math inline">\(h = 10^{-1}\)</span>, we see a nice decrease in the function values and quick convergence to the minimum!</li>
 </ul>
 </div>
+<div id="exr-step-size" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.2</strong></span> What would the <em>best</em> step size be? What if we know the second derivative of <span class="math inline">\(F\)</span> as well? (<em>Hint</em>: think of 1d first, then think how this might work in higher dimensions). More on this later!</p>
 </div>
-</div>
-<div id="exr-euler" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.3</strong></span> Complete the next two time steps from <a href="#exm-euler" class="quarto-xref">Example&nbsp;<span>2.2</span></a> to find an approximation of the solution at <span class="math inline">\(T = 3\)</span>.</p>
-</div>
-<p>We see that Euler’s method is a very general method that is very easy to apply. We can very quickly apply lots of very small time steps for (what we hope will be) a good approximation of the solution. This generality and simplicity is very powerful.</p>
-<p>In the next lecture, we will measure the error of this approach and see how we can use our understanding of the errors to find an improve formulation.</p>
 </section>
-<section id="summary" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.6</span> Summary</h2>
-<p>This lecture introduces you to how we study dynamic problems, situations where things change over time, and why numerical methods are such powerful tools for computer scientists. You have explored familiar ideas like speed and distance, seeing how they connect through derivatives and integrals. From there, the lecture builds up your understanding of what a derivative really means (both as a limit and as a slope), how to compute them, and how integration reverses the process.</p>
-<p>Once these foundations are in place, you move into the world of differential equations, which are the backbone of models in physics, engineering, climate science, and even games. Because most real-world equations can’t be solved exactly, the lecture shows you how to approximate solutions using Euler’s method: a simple, step‑by‑step numerical technique that computers can apply easily. By the end, you’ve seen how to turn a continuous, time-dependent problem into something you can compute, setting you up for deeper work on accuracy and error analysis in the next session.</p>
+<section id="stopping-criteria" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="stopping-criteria"><span class="header-section-number">9.2</span> Stopping criteria</h2>
+<p>There are several possible stopping criteria available, similar to those used for other iterative schemes:</p>
+<ol type="1">
+<li><p><strong>Stop after a fixed number of iterations</strong>: This is the simplest option. This does not guarantee that we are close to the correct solution but does stop us from computing if the solution will never converge (e.g.&nbsp;if the step size is too large). But how do we know we aren’t just converging slowly?</p></li>
+<li><p><strong>Stop when things stop changing</strong>: We can monitor (i) the change in <span class="math inline">\(\vec{x}^{(i)}\)</span>, (ii) the change in <span class="math inline">\(F(\vec{x}^{(i)})\)</span> or (iii) the magnitude of <span class="math inline">\(\nabla F(\vec{x}^{(i)})\)</span>. All three can be used relatively straightforwardly to test if we have converged by comparing these values against a given tolerance <span class="math inline">\(TOL\)</span>.</p></li>
+<li><p><strong>Stop if the function values are too large</strong>: This again avoids us continuing to compute when the iteration will not converge. But how large is too large as part of an iteration?</p></li>
+</ol>
+</section>
+<section id="relation-to-differential-equations" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="relation-to-differential-equations"><span class="header-section-number">9.3</span> Relation to differential equations</h2>
+<p>There is another important way to derive the gradient descent algorithm: via a differential equation, often called the <strong>gradient flow differential equation</strong>:</p>
+<p>Find <span class="math inline">\(\vec{x}(t)\)</span> such that <span class="math display">\[
+\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
+\]</span> If we take the scalar product of this equation with <span class="math inline">\(\vec{x}'(t)\)</span>, we see <span class="math display">\[
+\vec{x}'(t) \cdot \vec{x}'(t) = - \nabla F(\vec{x}(t)) \vec{x}'(t).
+\]</span> We can identify the left hand side here as <span class="math inline">\(\|\vec{x}'(t)\|^2\)</span> which is always non-negative, and using the chain rule, we see that <span class="math display">\[
+- \nabla F(\vec{x}(t)) \vec{x}'(t) = -\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big).
+\]</span> Thus, we can see that <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big) = - \|\vec{x}'(t)\|^2 \le 0,
+\]</span> or we can integrate additionally to see: <span class="math display">\[
+F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le F(\vec{x}^{(0)}).
+\]</span> In words, these equations show that along solutions of the gradient flow equation, the quantity <span class="math inline">\(F(\vec{x}(t))\)</span> is non-increasing.</p>
+<p>Note there is no step size here: effectively, this is the case for <span class="math inline">\(h \to 0\)</span>, and we see that <span class="math inline">\(h\)</span> is small enough for the function value to <em>always</em> decrease.</p>
+<p>Now, if we take apply Euler’s method to solve the gradient descent differential equation with step size <span class="math inline">\(h\)</span>, we arrive at the scheme: <span class="math display">\[
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}).
+\]</span> So Euler’s method applied to the gradient flow equation gives exactly the gradient descent algorithm!</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.</p>
+<p>For example, one approach called the <em>heavy ball</em> method (or momentum approach), uses a numerical method to solve the differential equation: <span class="math display">\[
+\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}, \vec{x}'(0) = \vec{v}^{(0)}.
+\]</span></p>
+</div>
+</section>
+<section id="newtons-method" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="newtons-method"><span class="header-section-number">9.4</span> Newton’s method</h2>
+<p>In one dimension, we applied Newton’s method to find a root of <span class="math inline">\(F'\)</span> which we hoped would be a minimiser. We can relate the gradient descent algorithm to Newton’s method for <span class="math inline">\(F'\)</span>: <span class="math display">\[\begin{align*}
+x^{(i+1)} &amp;= x^{(i)} - \frac{F'(x^{(i)})}{F''(x^{(i)})} &amp;&amp; \text{(Newton's method)} \\
+x^{(i+1)} &amp;= x^{(i)} - h F'(x^{(i)}) &amp;&amp; \text{(gradient descent)}.
+\end{align*}\]</span> We saw that Newton’s method seem to converge very quickly, even faster than gradient descent!</p>
+<div id="exm-newton-vs-gradient" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.4</strong></span> Consider the function from before: <span class="math display">\[
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+\]</span></p>
+<p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
+<div id="98689937" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec05_files/figure-html/cell-8-output-1.png" width="611" height="430" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>This can also be made to work for problems in <span class="math inline">\(\mathbb{R}^n\)</span> too. The idea is to replace division by the second derivative in one dimension with the solution of a linear system involving the Hessian in higher dimensions. More precisely, rather than finding the inverse of the Hessian, we solve a system of linear equations! At each step, we solve the system of linear equations: <span class="math display">\[
+(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
+\]</span></p>
+<div id="exm-newton-Rn" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.5</strong></span> Consider the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span> We previously computed (<a href="lec04.html#exm-gradient" class="quarto-xref">Example&nbsp;<span>7.3</span></a>) that <span class="math display">\[
+\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2),
+\]</span> and the Hessian is <span class="math display">\[
+\nabla^2 F(x_1, x_2) = \begin{pmatrix}
+12 x_1^2 - 2 &amp; 0 \\
+0 &amp; 8
+\end{pmatrix}.
+\]</span></p>
+<div id="57ebc5f6" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>We start at <span class="math inline">\(\vec{x}^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span>.</p>
+<p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}
+\nabla F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}4 \times (1.0)^3 - 2 \times (1.0) + 2 \\ 8 \times (0.75)\end{pmatrix}= \begin{pmatrix} 4.0\\ 6.0 \end{pmatrix} \\
+\nabla^2 F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}12 \times (1.0)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \begin{pmatrix} 10.0 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}.
+\end{align*}\]</span> So we need to solve <span class="math display">\[
+\begin{pmatrix} 10.0 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\begin{pmatrix} 4.0\\ 6.0 \end{pmatrix}.\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
+\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \begin{pmatrix} -0.4\\ -0.75 \end{pmatrix}.\]</span> Then we see that <span class="math display">\[\begin{align*}
+\vec{x}^{(1)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
+&amp;= \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} + \begin{pmatrix} -0.4\\ -0.75 \end{pmatrix}= \begin{pmatrix} 0.6\\ 0.0 \end{pmatrix}
+\end{align*}\]</span> <strong>Iteration 2.</strong> We compute that <span class="math display">\[\begin{align*}
+\nabla F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}4 \times (0.6)^3 - 2 \times (0.6) + 2 \\ 8 \times (0.0)\end{pmatrix}= \begin{pmatrix} 1.664\\ 0.0 \end{pmatrix} \\
+\nabla^2 F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}12 \times (0.6)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \begin{pmatrix} 2.3200000000000003 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}.
+\end{align*}\]</span> So we need to solve <span class="math display">\[
+\begin{pmatrix} 2.3200000000000003 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\begin{pmatrix} 1.664\\ 0.0 \end{pmatrix}.\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
+\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \begin{pmatrix} -0.7172413793103447\\ 0.0 \end{pmatrix}.\]</span> Then we see that <span class="math display">\[\begin{align*}
+\vec{x}^{(2)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
+&amp;= \begin{pmatrix} 0.6\\ 0.0 \end{pmatrix} + \begin{pmatrix} -0.7172413793103447\\ 0.0 \end{pmatrix}= \begin{pmatrix} -0.11724137931034473\\ 0.0 \end{pmatrix}
+\end{align*}\]</span></p>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -1312,13 +1109,13 @@ y'(t) = -(y(t))^2 + 3 t^2 \quad\text{subject to the initial condition}\quad y(1)
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="../src/lec04a.html" class="pagination-link" aria-label="What about a chain rule?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec02.html" class="pagination-link" aria-label="Analysis of errors and systems of equations">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Analysis of errors and systems of equations</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../src/lec06.html" class="pagination-link" aria-label="An introduction to training neural networks">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1330,7 +1127,7 @@ y'(t) = -(y(t))^2 + 3 t^2 \quad\text{subject to the initial condition}\quad y(1)
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec01.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec01.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

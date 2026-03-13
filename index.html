@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
-<meta name="dcterms.date" content="2026-03-06">
+<meta name="dcterms.date" content="2026-03-13">
 
 <title>COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
@@ -83,6 +83,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -338,6 +367,24 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./src/lec04a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./src/lec05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./src/lec06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -355,15 +402,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics"><span class="header-section-number">1.1.1</span> Topics</a></li>
   <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">1.1.2</span> Learning outcomes</a></li>
   </ul></li>
-  <li><a href="#textbooks-and-other-resources" id="toc-textbooks-and-other-resources" class="nav-link" data-scroll-target="#textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</a></li>
-  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">1.3</span> Programming</a></li>
-  <li><a href="#the-big-problems-for-this-part-of-the-module" id="toc-the-big-problems-for-this-part-of-the-module" class="nav-link" data-scroll-target="#the-big-problems-for-this-part-of-the-module"><span class="header-section-number">1.4</span> The big problems for this part of the module</a>
-  <ul class="collapse">
-  <li><a href="#differential-equations" id="toc-differential-equations" class="nav-link" data-scroll-target="#differential-equations"><span class="header-section-number">1.4.1</span> Differential equations</a></li>
-  <li><a href="#nonlinear-solvers" id="toc-nonlinear-solvers" class="nav-link" data-scroll-target="#nonlinear-solvers"><span class="header-section-number">1.4.2</span> Nonlinear solvers</a></li>
-  <li><a href="#optimisation" id="toc-optimisation" class="nav-link" data-scroll-target="#optimisation"><span class="header-section-number">1.4.3</span> Optimisation</a></li>
-  </ul></li>
-  <li><a href="#comments-on-these-notes" id="toc-comments-on-these-notes" class="nav-link" data-scroll-target="#comments-on-these-notes"><span class="header-section-number">1.5</span> Comments on these notes</a></li>
+  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">1.2</span> Programming</a></li>
+  <li><a href="#comments-on-these-notes" id="toc-comments-on-these-notes" class="nav-link" data-scroll-target="#comments-on-these-notes"><span class="header-section-number">1.3</span> Comments on these notes</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -391,7 +431,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">6 March 2026</p>
+      <p class="date">13 March 2026</p>
     </div>
   </div>
   
@@ -407,9 +447,10 @@ ul.task-list li input[type="checkbox"] {
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <section id="contents-of-this-submodule" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="contents-of-this-submodule"><span class="header-section-number">1.1</span> Contents of this submodule</h2>
-<p>This part of the module will deal with numerical algorithms that involve derivatives and integrals. We will approach these problems using a combination of theoretical ideas and practical solutions, thinking through the lens of real-world applications. As a consequence, to succeed in linear algebra, you will do some programming (using Python) and some pen-and-paper theoretical work, too.</p>
+<p>This part of the module introduces numerical algorithms involving derivatives and integrals. We will study these methods from both theoretical and practical perspectives, with an emphasis on real-world applications. To succeed in this part of the module, you will need to engage with both Python programming and pen-and-paper mathematical work.</p>
 <section id="topics" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="topics"><span class="header-section-number">1.1.1</span> Topics</h3>
+<p>TODO - to update</p>
 <p>We will have 6 double lectures, 2 tutorials, and 3 labs. We break up the topics as follows:</p>
 <p>Lectures</p>
 <ol type="1">
@@ -438,39 +479,25 @@ ul.task-list li input[type="checkbox"] {
 <p>TODO</p>
 </section>
 </section>
-<section id="textbooks-and-other-resources" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</h2>
-<p>There are many textbooks and other external resources which could help your learning:</p>
-<p>TODO</p>
-</section>
-<section id="programming" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="programming"><span class="header-section-number">1.3</span> Programming</h2>
-<p>This section of the notes links theoretical material with practical applications. We will have weekly lab sessions where you will see how the methods mentioned in the lecture notes work when implemented. More instructions on how we will do this will be covered in the lab sessions themselves.</p>
-<p>An important theoretical aspect of translating the algorithms to computer implementations is the use of floating-point numbers. You will have already met floating-point numbers in your first year studies where you met how computer store numbers. You will already know that computer cannot store every possible real number exactly. The inexactness of floating-point numbers has real consequences when performing computations.</p>
-<p>Exploring and understanding the material in () is really helpful for understanding many of the choices that we make when forming methods in linear algebra.</p>
+<section id="programming" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="programming"><span class="header-section-number">1.2</span> Programming</h2>
+<p>This section of the notes links theoretical material with practical applications. In the weekly lab sessions, you will see how the methods introduced in the lectures behave in practice when implemented. Further guidance on the practical work will be provided in the lab sessions.</p>
+<p>An important theoretical aspect of implementing these algorithms on a computer is the use of floating-point arithmetic. You will already have encountered floating-point numbers in your first-year studies, when you learned how computers store numbers and earlier this year when working on linear algebra problems. You will already know that computer cannot store every possible real number exactly. The inexactness of floating-point numbers has real consequences when performing computations.</p>
+<p>Exploring the material in <a href="https://comp2870-2526.github.io/linear-algebra-notes/src/lec02.html">COMP2870: Linear Algebra</a> is really helpful for understanding many of the choices that we make when forming methods here too.</p>
 <p>We will make extensive use of <a href="https://www.python.org/"><code>Python</code></a> and <a href="https://numpy.org/"><code>numpy</code></a> during this section of the module. It may help you to revise some of your notes from last year on these topics.</p>
 </section>
-<section id="the-big-problems-for-this-part-of-the-module" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="the-big-problems-for-this-part-of-the-module"><span class="header-section-number">1.4</span> The big problems for this part of the module</h2>
-<section id="differential-equations" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="differential-equations"><span class="header-section-number">1.4.1</span> Differential equations</h3>
-</section>
-<section id="nonlinear-solvers" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="nonlinear-solvers"><span class="header-section-number">1.4.2</span> Nonlinear solvers</h3>
-</section>
-<section id="optimisation" class="level3" data-number="1.4.3">
-<h3 data-number="1.4.3" class="anchored" data-anchor-id="optimisation"><span class="header-section-number">1.4.3</span> Optimisation</h3>
-</section>
-</section>
-<section id="comments-on-these-notes" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="comments-on-these-notes"><span class="header-section-number">1.5</span> Comments on these notes</h2>
-<p>There are two versions of these notes available: as an online website and as a pdf. I expect minor adjustments to be made to both throughout the progress of delivering the materials.</p>
+<section id="comments-on-these-notes" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="comments-on-these-notes"><span class="header-section-number">1.3</span> Comments on these notes</h2>
+<p>There are two versions of these notes available: as an online website and as a PDF. I expect to make minor updates to both versions as the module progresses.</p>
 <p>You can always find the latest versions at:</p>
-<p>TODO</p>
-<p>Please either email me (<a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>) or use the <a href="TODO">github repository</a> to report any corrections.</p>
-<div id="205e756b" class="cell" data-execution_count="2">
+<ul>
+<li>html: <a href="https://comp2870-2526.github.io/calculus-ii-notes/" class="uri">https://comp2870-2526.github.io/calculus-ii-notes/</a></li>
+<li>PDF: <a href="https://comp2870-2526.github.io/calculus-ii-notes/COMP2870-Theoretical-Foundations--Calculus-II.pdf" class="uri">https://comp2870-2526.github.io/calculus-ii-notes/COMP2870-Theoretical-Foundations--Calculus-II.pdf</a></li>
+</ul>
+<p>Please either email me (<a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>) or use the <a href="https://github.com/COMP2870-2526/calculus-ii-notes">GitHub repository</a> to report any corrections.</p>
+<div id="855a4142" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
-<pre><code>This version of the notes is 468a759+dirty.</code></pre>
+<pre><code>This version of the notes is 656574c+dirty.</code></pre>
 </div>
 </div>
 <p>Copyright 2025-2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>

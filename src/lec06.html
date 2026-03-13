@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>5&nbsp; Introduction to optimisation – COMP2870 Theoretical Foundations: Calculus II</title>
+<title>10&nbsp; An introduction to training neural networks – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/lec03a.html" rel="next">
-<link href="../src/lec02a.html" rel="prev">
+<link href="../src/lec05.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -295,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec06.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -351,7 +350,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link active">
+  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></span></a>
   </div>
 </li>
@@ -381,7 +380,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
+  <a href="../src/lec06.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
   </div>
 </li>
@@ -390,17 +389,8 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#some-interesting-examples" id="toc-some-interesting-examples" class="nav-link active" data-scroll-target="#some-interesting-examples"><span class="header-section-number">5.1</span> Some interesting examples</a></li>
-  <li><a href="#global-and-local-minimisers" id="toc-global-and-local-minimisers" class="nav-link" data-scroll-target="#global-and-local-minimisers"><span class="header-section-number">5.2</span> Global and local minimisers</a></li>
-  <li><a href="#how-to-determine-a-local-minimiser-in-the-scalar-domain-case" id="toc-how-to-determine-a-local-minimiser-in-the-scalar-domain-case" class="nav-link" data-scroll-target="#how-to-determine-a-local-minimiser-in-the-scalar-domain-case"><span class="header-section-number">5.3</span> How to determine a local minimiser in the scalar domain case</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.4</span> Summary</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -408,7 +398,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to optimisation</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></h1>
 </div>
 
 
@@ -438,347 +428,8 @@ window.Quarto = {
 </header>
 
 
-<p>So far we have studied dynamical problems, where derivatives describe change over time. We now turn to a second major use of derivatives: identifying optimal choices. Later we will see these themes reunite, when optimisation methods are interpreted dynamically through a technique called gradient flow.</p>
-<p>Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:</p>
-<ol type="1">
-<li>When making business decisions, we often want to find a solution which maximises our financial returns;</li>
-<li>When doing medical procedures, we may want to maximise the effectiveness of the procedure or minimise any potential side effects;</li>
-<li>When writing computer code, we (normally) want our code to run as fast as possible;</li>
-<li>When scheduling a train timetable, we may want to maximise the usage of the network, or minimise the cost of running the network, or maximise the robustness to delays of our timetable.</li>
-<li>When designing a social media app, we want to find the algorithm that encourages people to stay on the app the longest.</li>
-<li>When controlling a robotic arm, we may want to minimise the time or energy the solution takes.</li>
-<li>When doing any problem with data, we want to find the model or parameters that best fit the data.</li>
-<li>When training a neural network, we want to find the parameters of the network to best match the training data.</li>
-</ol>
-<p>We make a distinction between problems where the set of possible solutions (admissible states) are continuous or discrete. For example:</p>
-<ol type="1">
-<li>Choosing between distinct medical procedures is a discrete optimisation problem.</li>
-<li>Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.</li>
-</ol>
-<p>This part of the module will deal with <strong>continuous optimisation problems</strong>.</p>
-<p>All of the continuous optimisation problems above can be expressed in a general mathematical form.</p>
-<p>We first need a set <span class="math inline">\(\mathcal{A}\)</span> of admissible states (think of the amount of drug to be delivered or how it is delivered). For continuous problems <span class="math inline">\(\mathcal{A}\)</span> will also be either an interval of the real line <span class="math inline">\(\mathbb{R}\)</span> or a nice subset of the higher dimensional space <span class="math inline">\(\mathbb{R}^n\)</span>. Then we can ask what the outcome of that choice is; we model the outcome through a <em>cost function</em> (also called potential or loss function), which we label <span class="math inline">\(F \colon \mathcal{A} \to \mathbb{R}\)</span>.</p>
-<div class="proof remark">
-<p><span class="proof-title"><em>Remark</em>. </span>In our examples, where we compute things, we will also have <span class="math inline">\(\mathcal{A} = \mathbb{R}\)</span> or <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
-</div>
-<p>The idea of optimisation is to find the best value <span class="math inline">\(x^*\)</span> in <span class="math inline">\(\mathcal{A}\)</span> which minimises <span class="math inline">\(F\)</span> and the value of <span class="math inline">\(F^* = F(x^*)\)</span> of the minimal cost.</p>
-<div id="def-global-minimiser" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 5.1</strong></span> We will write: <span class="math display">\[\begin{equation}
-\label{eq:global-minimiser}
-\begin{aligned}
-F^* = \min_{x \in \mathcal{A}} F(x) \\
-x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
-\end{aligned}
-\end{equation}\]</span> We call <span class="math inline">\(x^*\)</span> the <strong>minimiser</strong> and <span class="math inline">\(F^*\)</span> the <strong>minimising value</strong> or <strong>minimal value</strong>. We note that the argmin may not be a single value but may be a set (containing more than one point). In examples, we often denote one such minimiser by <span class="math inline">\(x^*\)</span>.</p>
-</div>
-<section id="some-interesting-examples" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="some-interesting-examples"><span class="header-section-number">5.1</span> Some interesting examples</h2>
-<p>It is sometimes easy to see where the minimum of a function is by plotting the function.</p>
-<p>In one dimension, we can simply plot the graph of the function. Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be given by <span class="math display">\[
-F(x) = x^2 - 2x + 2.
-\]</span></p>
-<div id="947ec99d" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-3-output-1.png" width="661" height="470" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>We can see that the minimum is <span class="math inline">\(F^* = 1\)</span> at <span class="math inline">\(x^* = 1\)</span>.</p>
-<p>It is hard to visualise functions in higher dimension. One possible idea is to plot slices, where we fix one or more variables at a time to leave a one or two dimensional function. However, this is not often a useful way to help find minimisers. In two dimensions, we can plot a heatmap of a function. This means that for each point in a two dimensional region, we assign a colour based on the value of the function. Each colour corresponds to a different function value. Let <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> be given by <span class="math display">\[
-F(\vec{x}) = F(x_1, x_2)
-= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
-\]</span></p>
-<div id="785e9d9c" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-4-output-1.png" width="595" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Here we can see a minimum at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
-<p>Before we come to some useful ways to find minimisers, we want to explore some other interesting cases.</p>
-<p>Sometimes minimisers are not unique. We can have two values which both have the same minimal value. For <span class="math display">\[
-F(x) = (x^2 - 1)^2
-\]</span> we have two minima at <span class="math inline">\(x^* = -1\)</span> and <span class="math inline">\(1\)</span> which both have <span class="math inline">\(F^* = 0\)</span>.</p>
-<div id="08c9b4db" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-5-output-1.png" width="661" height="470" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Sometimes we can have infinitely many minimisers. Consider <span class="math display">\[
-F(x) = 1 + \sin^2(x).
-\]</span></p>
-<div id="5f1ff77c" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-6-output-1.png" width="661" height="470" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Here, <span class="math inline">\(x^* = m \pi\)</span> for any <span class="math inline">\(m \in \mathbb{Z}\)</span> which all have <span class="math inline">\(F^*=1\)</span>.</p>
-<p>Sometimes, we can have no minimisers at all! For <span class="math display">\[
-F(x) = -x^2,
-\]</span> there is no minimiser in <span class="math inline">\(\mathbb{R}\)</span>:</p>
-<div id="12d99f8e" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-7-output-1.png" width="603" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve: For example for <span class="math inline">\(F(x_1, x_2) = (x_1 - x_2^2)^2\)</span> the minimisers lie on the curve <span class="math inline">\(x_1 = x_2^2\)</span> with <span class="math inline">\(F^* = 0\)</span>.</p>
-<div id="b136e4b2" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-8-output-1.png" width="599" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="global-and-local-minimisers" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="global-and-local-minimisers"><span class="header-section-number">5.2</span> Global and local minimisers</h2>
-<p>Consider the function <span class="math display">\[
-F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
-\]</span></p>
-<div id="54dadaac" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-9-output-1.png" width="599" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>This function has a minimum at <span class="math inline">\(x_* = -1\)</span> with value <span class="math inline">\(F_* = \frac{1}{12}\)</span> (orange), but there is another interesting value at <span class="math inline">\(x = 1\)</span> (where <span class="math inline">\(F(x) = 5/12\)</span>, green). The point <span class="math inline">\(x = 1\)</span> is clearly not a minimiser of the entire function, but the value at <span class="math inline">\(x = 1\)</span> is less than values nearby. This motivates the idea of a <em>local minimum</em>.</p>
-<p>Our definitions in <span class="math inline">\(\eqref{eq:global-minimiser}\)</span>, are <strong>global</strong> (i.e.&nbsp;a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of <span class="math inline">\(x\)</span>. This is a very hard problem! When designing numerical algorithms, we instead often look for <strong>local minimisers</strong>. Later we will see a condition where we can guarantee local minimisers are global minimisers.</p>
-<div id="def-local-minimiser" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 5.2</strong></span> <strong>Scalar domain case</strong>: Given a smooth function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we say that a point <span class="math inline">\(x^*\)</span> is a <strong>local minimiser</strong> of <span class="math inline">\(F\)</span> if there exists a value <span class="math inline">\(b\)</span> such that for all <span class="math inline">\(y \in \mathbb{R}\)</span> with <span class="math inline">\(|y - x^*| &lt; b\)</span>, <span class="math inline">\(F(x^*) \le F(y)\)</span>.</p>
-<p><strong>Vector domain case</strong>: Given a smooth function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>, we say that a point <span class="math inline">\(\vec{x}^*\)</span> is a <strong>local minimiser</strong> of <span class="math inline">\(F\)</span> if there exists a value <span class="math inline">\(b\)</span> such that for all <span class="math inline">\(\vec{y} \in \mathbb{R}^n\)</span> with <span class="math inline">\(\|\vec{y} - \vec{x}^*\| &lt; b\)</span>, <span class="math inline">\(F(\vec{x}^*) \le F(\vec{y})\)</span>.</p>
-</div>
-</section>
-<section id="how-to-determine-a-local-minimiser-in-the-scalar-domain-case" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="how-to-determine-a-local-minimiser-in-the-scalar-domain-case"><span class="header-section-number">5.3</span> How to determine a local minimiser in the scalar domain case</h2>
-<p>Looking again at the examples above, we can see that at all minimisers the slope of <span class="math inline">\(F\)</span> is 0 (i.e.&nbsp;the graph is horizontal). We can say this as the derivative of <span class="math inline">\(F\)</span> is zero or <span class="math inline">\(F'(x_*) = 0\)</span>. However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!</p>
-<div id="prp-minimiser" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and let <span class="math inline">\(x^*\)</span> be a local minimiser of <span class="math inline">\(F\)</span>. Then <span class="math inline">\(F'(x^*) = 0\)</span>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>(<em>We do not expect you to learn this proof but the result is very important!</em>)</p>
-<p>We see that the definition of local minima says that for <span class="math inline">\(h\)</span> small enough that <span class="math display">\[\begin{align*}
-F(x^* + h) - F(x^*) \ge 0,
-\end{align*}\]</span> so <span class="math display">\[\begin{align}
-\label{eq:positive-proof-a}
-\frac{F(x^* + h) - F(x^*)}{h}
-&amp; \ge 0 &amp;&amp; \text{if} \quad h \ge 0 \\
-\label{eq:positive-proof-b}
-\frac{F(x^* + h) - F(x^*)}{h}
-&amp; \le 0 &amp;&amp; \text{if}\quad h \le 0.
-\end{align}\]</span> If <span class="math inline">\(F\)</span> is smooth, <span class="math inline">\(F'\)</span> exists and the limit <span class="math display">\[
-F'(x^*) = \lim_{h\to 0} \frac{F(x^* + h) - F(x^*)}{h},
-\]</span> has a single value. The results of limits say that in this case <span class="math inline">\(\eqref{eq:positive-proof-a}\)</span> and <span class="math inline">\(\eqref{eq:positive-proof-b}\)</span> both hold in the limit too. This is only possible if <span class="math inline">\(F'(x^*) = 0\)</span>.</p>
-</div>
-<div id="exm-local-minimiser" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.1</strong></span> Let <span class="math inline">\(F(x) = x^2 - 6x + 12\)</span>.</p>
-<p>We can compute that <span class="math inline">\(F'(x)\)</span> is given by <span class="math display">\[
-F'(x) = 2 x - 6.
-\]</span> If we set <span class="math inline">\(F'(x) = 0\)</span> we can rearrange to see <span class="math display">\[\begin{align*}
-F'(x) = 2 x - 6 &amp; = 0 \\
-2 x &amp; = 6 \\
-x &amp; = \frac{6}{2} = 3.
-\end{align*}\]</span> Thus, there is a local minima at <span class="math inline">\(x^* = 3\)</span> with <span class="math inline">\(F^* = F(x^*) = 3^2 - 6\times3 + 12 = 3\)</span>.</p>
-</div>
-<div id="exr-local-minimiser" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Let <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1\)</span>. Identify any local minima by finding the derivative of <span class="math inline">\(F\)</span> and finding all points with <span class="math inline">\(F'(x) = 0\)</span>.</p>
-</div>
-<p>We next revisit the example from the start of this section <span class="math display">\[
-F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
-\]</span> We can compute the derivative as: <span class="math display">\[
-F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
-\]</span> Looking at the graph, we can see the <span class="math inline">\(F'\)</span> is zero at three points, <span class="math inline">\(x = -1, 1\)</span> (orange and green) which we have already identified as local minima, but also at <span class="math inline">\(x = \frac{1}{4}\)</span> (purple).</p>
-<div id="9f113aab" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-10-output-1.png" width="662" height="470" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>We see that at the local minima (red and green points) the derivative is <em>increasing</em> but at the other point (orange), the derivative is decreasing. More formally, we can say that at local minima the second derivative is strictly positive. In this instance, we have <span class="math display">\[
-F''(x) = 3 x^2 - \frac{1}{2} x - 1,
-\]</span> so that <span class="math display">\[\begin{align*}
-F''(-1) &amp;= 3 \times (-1)^2 - \frac{1}{2} \times (-1) - 1 = 3 + \frac{1}{2} - 1 = \frac{5}{2} = 2.5 &gt; 0 \\
-F''(\tfrac{1}{4}) &amp;= 3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \frac{1}{4} - 1 = \frac{3}{16} - \frac{1}{8} - 1 = -\frac{15}{16} = -0.9375 &lt; 0 \\
-F''(1) &amp; = 3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 &gt; 0.
-\end{align*}\]</span></p>
-<div id="prp-local-to-global" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 5.2</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and <span class="math inline">\(x^* \in \mathbb{R}\)</span> such that <span class="math inline">\(F'(x^*) = 0\)</span> and <span class="math inline">\(F''(x^*) \ge 0\)</span>. Then <span class="math inline">\(x^*\)</span> is a local minimiser of <span class="math inline">\(F\)</span>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>We only sketch the proof here. The key idea is to use something called Taylor’s theorem, which gives us the formula that for <span class="math inline">\(x\)</span> close to <span class="math inline">\(x^*\)</span>, we have that <span class="math display">\[
-F(x) \approx F(x^*) + (x - x^*) F'(x^*) + \frac{1}{2} (x - x^*)^2 F''(x^*).
-\]</span> Applying that <span class="math inline">\(F'(x^*) = 0\)</span> and <span class="math inline">\(F''(x^*) \ge 0\)</span>, we have <span class="math display">\[
-F(x) \approx F(x^*) + \frac{1}{2} (x - x^*)^2 F''(x^*) \ge F(x^*).
-\]</span> This proof can be made rigorous with the help of further results from mathematical analysis.</p>
-</div>
-<p>Next, let us compare two examples:</p>
-<div id="1189dec0" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-11-output-1.png" width="661" height="470" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line). We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points. This idea is expressed mathematically through the idea of <em>convexity</em>.</p>
-<div id="def-convexity" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 5.3</strong></span> A function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> is <strong>locally convex in an interval <span class="math inline">\(B \subset \mathbb{R}\)</span></strong> if for all points <span class="math inline">\(x, y \in B\)</span>: <span class="math display">\[\begin{equation}
-\label{eq:convex}
-a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1].
-\end{equation}\]</span> We say that <span class="math inline">\(F\)</span> is <strong>convex</strong> if it is convex on <span class="math inline">\(\mathbb{R}\)</span> (i.e., on every interval <span class="math inline">\(B \subset \mathbb{R}\)</span>).</p>
-</div>
-<p>It is hard to show convexity with this definition directly. Instead, we normally use the follow equivalent formulations:</p>
-<div id="lem-convexity-equiv" class="theorem lemma">
-<p><span class="theorem-title"><strong>Lemma 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be a smooth function. Then the following are equivalent:</p>
-<ol type="1">
-<li><span class="math inline">\(F\)</span> is locally convex on an interval <span class="math inline">\(B\)</span></li>
-<li>The derivative of <span class="math inline">\(F\)</span> satisfies <span class="math display">\[\begin{equation}
-\label{eq:convex-diff}
-F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
-\end{equation}\]</span></li>
-<li>The second derivative of <span class="math inline">\(F\)</span> is positive in <span class="math inline">\(B\)</span>: <span class="math inline">\(F''(x) \ge 0\)</span> for all <span class="math inline">\(x \in B\)</span>.</li>
-</ol>
-</div>
-<div id="rem-convexity-equiv" class="proof remark">
-<p><span class="proof-title"><em>Remark 5.1</em>. </span>Condition 2 can be expressed informally as saying that the graph of <span class="math inline">\(F\)</span> lies above its tangent.</p>
-<p>Condition 3 links directly to the idea of linking local and global minima through <a href="#prp-local-to-global" class="quarto-xref">Proposition&nbsp;<span>5.2</span></a>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>[don’t need to know this one either]</p>
-<p>We prove (1) is equivalent to (2) and (2) is equivalent to (3).</p>
-<p><strong>(1) <span class="math inline">\(\Rightarrow\)</span> (2).</strong></p>
-<p>Assume <span class="math inline">\(F\)</span> is (locally) convex on <span class="math inline">\(B\)</span>. Fix <span class="math inline">\(x,y\in B\)</span> and <span class="math inline">\(a\in(0,1]\)</span>. By convexity, <span class="math display">\[
-aF(x)+(1-a)F(y)\;\ge\;F\big(ay+(1-a)x\big)=F\big(y+a(x-y)\big).
-\]</span> Rearranging gives <span class="math display">\[
-F(x)\;\ge\;\frac{F\big(y+a(x-y)\big)-F(y)}{a}+F(y) \;=\;(x-y)\,\frac{F\big(y+h\big)-F(y)}{h}+F(y),
-\]</span> where we set <span class="math inline">\(h:=a(x-y)\)</span>. As <span class="math inline">\(a\downarrow 0\)</span> we have <span class="math inline">\(h\to 0\)</span> (with the same sign as <span class="math inline">\(x-y\)</span>). Since <span class="math inline">\(F\)</span> is smooth, the difference quotient tends to <span class="math inline">\(F'(y)\)</span> regardless of the sign of <span class="math inline">\(h\)</span>. Thus, <span class="math display">\[
-F(x)\;\ge\;F(y)+F'(y)(x-y),
-\]</span> which is <span class="math inline">\(\eqref{eq:convex-diff}\)</span>.</p>
-<p><strong>(2) <span class="math inline">\(\Rightarrow\)</span> (1).</strong></p>
-<p>We start with <span class="math inline">\(x, y \in B\)</span> and let <span class="math inline">\(z = a x + (1-a)y\)</span>, then we have <span class="math display">\[
-F(x) \ge F(z) + F'(z) (x - z) \quad \text{and} \quad
-F(y) \ge F(z) + F'(z) (y - z).
-\]</span> Multiplying the first inequality by <span class="math inline">\(a\)</span> and the second by <span class="math inline">\(1-a\)</span> and adding gives <span class="math display">\[
-a F(x) + (1-a) F(y)
-\ge F(z) + F'(z) (a (x-z) + (1-a) (y-z) ).
-\]</span> But from the definition of <span class="math inline">\(z\)</span>, we have <span class="math display">\[
-a (x-z) + (1-a) (y-z)
-= a x + (1-a) y - z
-= 0.
-\]</span> Hence, we can infer that <span class="math display">\[
-a F(x) + (1-a) F(y) \ge F(z) = F(a x + (1-a) y).
-\]</span></p>
-<ol start="2" type="1">
-<li><span class="math inline">\(\Rightarrow\)</span> (3).</li>
-</ol>
-<p>We can apply <span class="math inline">\(\eqref{eq:convex-diff}\)</span> to see that for any <span class="math inline">\(x, y \in B\)</span>, we have <span class="math display">\[\begin{align*}
-F(x) &amp;\ge F(y) + F'(y)(x-y) \\
-F(y) &amp;\ge F(x) + F'(x)(y-x).
-\end{align*}\]</span> Adding these inequality and rearranging gives <span class="math display">\[
-(F'(y) - F'(x))(y-x) \ge 0.
-\]</span> This inequality says that <span class="math inline">\(F'\)</span> is nondecreasing on <span class="math inline">\(B\)</span>. If we let <span class="math inline">\(y = x + h\)</span> for <span class="math inline">\(h &gt; 0\)</span>, we have <span class="math display">\[
-\frac{F'(x + h) - F'(x)}{h} \ge 0.
-\]</span> Taking the limit <span class="math inline">\(h \to 0\)</span> shows that <span class="math inline">\(F''(x) \ge 0\)</span>.</p>
-<ol start="3" type="1">
-<li><span class="math inline">\(\Rightarrow\)</span> (2).</li>
-</ol>
-<p>This result is a little hard and relies on a result from mathematical analysis (the Mean Value Theorem) which is not covered by this course. The key idea is to show that <span class="math inline">\(F''(x) \ge 0\)</span> implies that <span class="math inline">\(F'\)</span> is nondecreasing and then if <span class="math inline">\(F'\)</span> is nondecreasing that <span class="math inline">\(\eqref{eq:convex-diff}\)</span> holds.</p>
-</div>
-<div id="exm-convex-diff2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.2</strong></span> We see that condition 3 in <a href="#lem-convexity-equiv" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a> is often the easiest to show.</p>
-<ol type="1">
-<li><p>Take for example <span class="math inline">\(F(x) = x^2 - 4 x + 5\)</span>. Then <span class="math display">\[
-F'(x) = 2 x - 4 \quad\text{and}\quad F''(x) = 2 &gt; 0.
-\]</span> Hence we can see that <span class="math inline">\(F\)</span> is convex.</p>
-<p>This example, is somewhat of a prototypical example. It is often helpful when thinking of convex functions to think of something like a quadratic function with positive leading coefficient.</p></li>
-<li><p>(hard) Take <span class="math inline">\(F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}\)</span>, then we can factor <span class="math inline">\(F''\)</span> as <span class="math display">\[
-F''(x) =  3(x - \tfrac{2}{3})(x + \tfrac{1}{2}).
-\]</span> We can see that <span class="math inline">\(F''\)</span> is negative if one of the factors on the right hand side is negative. That happens when <span class="math inline">\(-\tfrac{1}{2} &lt; x &lt; \tfrac{2}{3}\)</span>. Hence, we can infer that <span class="math inline">\(F\)</span> is not globally convex.</p></li>
-</ol>
-</div>
-<div id="exr-convex-diff2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.2</strong></span> Show that the following functions are or are not convex on <span class="math inline">\(\mathbb{R}\)</span>: 1. <span class="math inline">\(F(x) = x^2 - 6x + 12\)</span> 2. <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1\)</span></p>
-</div>
-<div id="prp-convexity" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 5.3</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and <span class="math inline">\(x^*\)</span> be a point such that <span class="math inline">\(F'(x^*) = 0\)</span>. If <span class="math inline">\(F\)</span> is locally convex in a region <span class="math inline">\(B\)</span> with <span class="math inline">\(x^* \in B\)</span> then <span class="math inline">\(x^*\)</span> is a local minimiser of <span class="math inline">\(F\)</span>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>(<em>We do not expect you to learn this proof but the result is very important!</em>)</p>
-<p>Let <span class="math inline">\(y \in B\)</span>, then from <a href="#lem-convexity-equiv" class="quarto-xref">Lemma&nbsp;<span>5.1</span></a>, we have <span class="math display">\[
-F(y) \ge F(x^*) + F'(x^*)(y - x^*).
-\]</span> Since <span class="math inline">\(F'(x^*) = 0\)</span>, we see that <span class="math display">\[
-F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*) + 0 (y - x^*) = F(x^*).
-\]</span> Hence we can see that <span class="math inline">\(x^*\)</span> is a local minimiser in the interval <span class="math inline">\(B\)</span>.</p>
-</div>
-<div id="thm-convex-local-minimisers" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be convex. Then any local minimiser is a global minimiser.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(x^*\)</span> be a local minimiser of <span class="math inline">\(F\)</span>, then <span class="math inline">\(F'(x^*) = 0\)</span> (from <a href="#prp-minimiser" class="quarto-xref">Proposition&nbsp;<span>5.1</span></a>). Applying <span class="quarto-unresolved-ref">?lem-convexity-diff</span>, we see that for any <span class="math inline">\(y\)</span>, we have <span class="math display">\[
-F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*).
-\]</span> Hence <span class="math inline">\(x^*\)</span> is in fact a global minimiser.</p>
-</div>
-<div id="exm-convex-minimum" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.3</strong></span> Take the same example as before <span class="math inline">\(F(x) = x^2 - 4 x + 5\)</span>. Then <span class="math display">\[
-F'(x) = 2 x - 4.
-\]</span> We can easily see that <span class="math inline">\(F'(2) = 0\)</span> hence <span class="math inline">\(x^* = 2\)</span> is a local and indeed a global minimiser since <span class="math inline">\(F\)</span> is convex.</p>
-<p>We can also see this by completing the square: <span class="math display">\[\begin{equation*}
-F(x) = x^2 - 4 x + 5 = (x-2)^2 + 1.
-\end{equation*}\]</span> We can read off that <span class="math inline">\(F\)</span> has a minimum at the same point that <span class="math inline">\((x-2)^2 = 0\)</span>, i.e.&nbsp;that <span class="math inline">\(x^* = 2\)</span>.</p>
-</div>
-<div id="rem-uniqueness" class="proof remark">
-<p><span class="proof-title"><em>Remark 5.2</em>. </span>Minimisers of convex functions are not necessarily unique. Consider <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x) =
-\begin{cases}
-(x+1)^4 &amp; \text{for}\quad x \le -1 \\
-0 &amp; \text{for} \quad -1 &lt; x &lt; 1 \\
-(x-1)^4 &amp; \text{for}\quad x \ge 1.
-\end{cases}
-\]</span></p>
-<div id="d2271851" class="cell" data-execution_count="11">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-12-output-1.png" width="589" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><span class="math inline">\(F\)</span> is a convex, smooth function, but all points <span class="math inline">\(x \in [-1, 1]\)</span> are minimisers.</p>
-</div>
-</section>
-<section id="summary" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.4</span> Summary</h2>
-<p>Optimisation is a wide area of numerical computation with many different application areas. In this module, we will only consider continuous optimisation problems. We have provided several examples of how different types of minima can occur in one and two dimensions using plots to identify minima. In one dimension, we have provided a characterisation of local minima and how to link them to global minima using the idea convexity.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1196,14 +847,11 @@ F(x) =
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../src/lec02a.html" class="pagination-link" aria-label="A model for the trajectory of an object">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A model for the trajectory of an object</span></span>
+      <a href="../src/lec05.html" class="pagination-link" aria-label="Optimisation in $\mathbb{R}^n$">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec03a.html" class="pagination-link" aria-label="Root finding methods for one dimensional optimisation">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Root finding methods for one dimensional optimisation</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1214,7 +862,7 @@ F(x) =
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec03.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

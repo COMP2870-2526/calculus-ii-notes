@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../src/lec04a.html" rel="next">
 <link href="../src/lec03a.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -366,13 +367,42 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec04a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#directional-derivatives" id="toc-directional-derivatives" class="nav-link active" data-scroll-target="#directional-derivatives"><span class="header-section-number">7.1</span> Directional derivatives</a></li>
+  <li><a href="#partial-derivatives" id="toc-partial-derivatives" class="nav-link" data-scroll-target="#partial-derivatives"><span class="header-section-number">7.2</span> Partial derivatives</a></li>
+  <li><a href="#gradient" id="toc-gradient" class="nav-link" data-scroll-target="#gradient"><span class="header-section-number">7.3</span> Gradient</a></li>
+  <li><a href="#the-hessian" id="toc-the-hessian" class="nav-link" data-scroll-target="#the-hessian"><span class="header-section-number">7.4</span> The Hessian</a></li>
+  <li><a href="#what-does-this-say-about-optimisation" id="toc-what-does-this-say-about-optimisation" class="nav-link" data-scroll-target="#what-does-this-say-about-optimisation"><span class="header-section-number">7.5</span> What does this say about optimisation?</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.6</span> Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec04.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec04.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -410,99 +440,408 @@ window.Quarto = {
 </header>
 
 
-<p>When we were working with function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we had the key idea to find the points where the derivative of <span class="math inline">\(F\)</span> is <span class="math inline">\(0\)</span>. We have developed theory to tell us when these points are local or global minima and some methods to find these points.</p>
+<p>When we were working with a function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we had the key idea to find the points where the derivative of <span class="math inline">\(F\)</span> is <span class="math inline">\(0\)</span>. We have developed theory to tell us when these points are local or global minima and some methods to find these points.</p>
 <blockquote class="blockquote">
-<p>When working with functions with two dimensional (or more) domains, how do we compute derivatives?</p>
+<p>When working with functions with two-dimensional (or more) domains, how do we compute derivatives?</p>
 </blockquote>
 <p>Throughout this section we will work with the example function: <span class="math display">\[
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span></p>
-<div id="5263f88c" class="cell" data-execution_count="2">
+<div id="eb814774" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec04_files/figure-html/cell-3-output-1.png" width="607" height="434" class="figure-img"></p>
+<p><img src="lec04_files/figure-html/cell-3-output-1.png" width="595" height="434" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Some how we want to have the idea that if you move away from the minimum in <em>any</em> direction then the function increases. Mathematically, we could write this as saying: Given a direction <span class="math inline">\(\vec{d} \in \mathbb{R}^n\)</span>, a point <span class="math inline">\(\vec{x}^*\)</span> is a local minimum if <span class="math display">\[
-F(\vec{x}^* + h \vec{d}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
-\]</span> We could try to use our ideas from one dimension then by considering the function <span class="math inline">\(D_{\vec{d}} \mathbb{R} \to \mathbb{R}\)</span> given by <span class="math display">\[
-D_{\vec{d}}(h) = F(\vec{x}^* + h \vec{d}).
-\]</span> This is a well defined one-dimensional function so we can apply all our theory as before.</p>
-<p>TODO I think we need the directional derivative at <span class="math inline">\(h=0\)</span>.</p>
+<section id="directional-derivatives" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="directional-derivatives"><span class="header-section-number">7.1</span> Directional derivatives</h2>
+<p>Somehow we want to have the idea that if you move away from the minimum in <em>any</em> direction then the function increases. Mathematically, we could write this as saying: A point <span class="math inline">\(\vec{x}^*\)</span> is a local minimum if, for <em>any</em> direction <span class="math inline">\(\vec{v} \in \mathbb{R}^n\)</span>, the value <span class="math inline">\(h = 0\)</span> is a local minimum of: <span class="math display">\[
+\gamma_{\vec{v}}(h) = F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
+\]</span> We could try to use our ideas from one dimension then by considering the function <span class="math inline">\(\gamma_{\vec{v}} \colon \mathbb{R} \to \mathbb{R}\)</span>. This is a well-defined one-dimensional function so we can apply all our theory as before.</p>
 <div id="exm-directional-derivative" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Consider the function <span class="math display">\[
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
-\]</span> and the directions <span class="math inline">\(\vec{d} = (1, 0)^T, (0, 1)^T\)</span> and <span class="math inline">\((1, 1)^T\)</span>. Find <span class="math inline">\(D_{\vec{d}}(h)\)</span> and <span class="math inline">\(D'_{\vec{d}}(h)\)</span> at <span class="math inline">\(\vec{x}^* = (-1, 0)\)</span>.</p>
+\]</span> and the directions <span class="math inline">\(\vec{v} = (1, 0)^T, (0, 1)^T\)</span> and <span class="math inline">\((1, 1)^T\)</span>. Find <span class="math inline">\(\gamma_{\vec{v}}(h)\)</span> and <span class="math inline">\(\gamma'_{\vec{v}}(h)\)</span> at <span class="math inline">\(\vec{x}^* = (-1, 0)\)</span>.</p>
 <ol type="1">
-<li>For <span class="math inline">\(\vec{d} = (1, 0)^T\)</span>, we have <span class="math display">\[\begin{align*}
-D_{\vec{d}}(h)
+<li>For <span class="math inline">\(\vec{v} = (1, 0)^T\)</span>, we have <span class="math display">\[\begin{align*}
+\gamma_{\vec{v}}(h)
 &amp; = F(-1 + h, 0) \\
 &amp; = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times 0^2 + 2 \\
 &amp; = (-1)^4 + 4 \times (-1)^3 \times h + 6 \times (-1)^2 \times h^2 +
-4 \times (-1) \times h^3 + h^4 -
-(-1)^2 - 2 \times (-1) \times h - h^2 + 2 \times (-1) + 2 \times h + 0 + 2 \\
+4 \times (-1) \times h^3 + h^4 \\
+&amp; \qquad - (-1)^2 - 2 \times (-1) \times h - h^2 + 2 \times (-1) + 2 \times h + 0 + 2 \\
 &amp; = 1 - 4h + 6 h^2 - 4h^3 + h^4 - 1 + 2h - h^2 - 2 + 2h + 2 \\
 &amp; = h^4 - 4h^3 + 5 h^2,
 \end{align*}\]</span> so <span class="math display">\[\begin{align*}
-D'_{\vec{d}}(h)
+\gamma'_{\vec{v}}(h)
 &amp; = 4 h^3 - 12 h^2 + 10 h.
 \end{align*}\]</span></li>
-<li>For <span class="math inline">\(\vec{d} = (0, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
-D_{\vec{d}}(h)
+<li>For <span class="math inline">\(\vec{v} = (0, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
+\gamma_{\vec{v}}(h)
 &amp; = F(-1, 0 + h) \\
 &amp; = (-1)^4 - (-1)^2 + 2 \times (-1) + 4 h^2 + 2 \\
 &amp; = 1 - 1 - 2 + 4 h^2 + 2 = 4 h^2,
 \end{align*}\]</span> so <span class="math display">\[\begin{align*}
-D'_{\vec{d}}(h)
+\gamma'_{\vec{v}}(h)
 &amp; = 8 h.
 \end{align*}\]</span></li>
-<li>For <span class="math inline">\(\vec{d} = (1, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
-D_{\vec{d}}(h)
+<li>For <span class="math inline">\(\vec{v} = (1, 1)^T\)</span>, we have <span class="math display">\[\begin{align*}
+\gamma_{\vec{v}}(h)
 &amp; = F(-1 + h, 0 + h) \\
 &amp; = (-1 + h)^4 - (-1+h)^2 + 2 (-1+h) + 4 \times h^2 + 2 \\
 &amp; = (h^4 - 4 h^3 + 5 h^2) + (4 h^2) \\
 &amp; = h^4 - 4 h^3 + 9 h^2,
 \end{align*}\]</span> so <span class="math display">\[\begin{align*}
-D'_{\vec{d}}(h) = 4 h - 12 h^2 + 18 h.
+\gamma'_{\vec{v}}(h) = 4 h^3 - 12 h^2 + 18 h.
 \end{align*}\]</span></li>
 </ol>
-<p>We note that each derivatives depends on <span class="math inline">\(h\)</span> and that for each derivative we have <span class="math inline">\(D'_{\vec{d}}(0) = 0\)</span>.</p>
+<p>We note that each derivative depends on <span class="math inline">\(h\)</span> and that for each derivative we have <span class="math inline">\(\gamma'_{\vec{v}}(0) = 0\)</span> so perhaps we do have a candidate local minimum of <span class="math inline">\(F\)</span>? (c.f. <span class="citation" data-cites="prop-minimiser">@prop-minimiser</span>)</p>
 </div>
 <p>The object we have been computing in this example is called the <em>directional derivative</em>:</p>
 <div id="def-directional-derivative" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 7.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. The <strong>direction derivative of <span class="math inline">\(F\)</span> at <span class="math inline">\(\vec{x}\)</span> in a direction <span class="math inline">\(\vec{d}\)</span></strong> is given by <span class="math inline">\(D'_{\vec{d}}(h)\)</span>.</p>
-</div>
-<div id="rmk-directional-derivatives">
-<p>There is something slightly strange about how directional derivatives depend on both the direction and the size of <span class="math inline">\(\vec{d}\)</span>. However this is simply part of the definition and something we should be aware of when doing this type of computation.</p>
+<p><span class="theorem-title"><strong>Definition 7.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. We use the notation <span class="math inline">\(F'_{\vec{v}}\)</span> for <strong>directional derivative of <span class="math inline">\(F\)</span> at <span class="math inline">\(\vec{x}\)</span> in a direction <span class="math inline">\(\vec{v}\)</span></strong> (with <span class="math inline">\(\vec{v} \neq \vec{0}\)</span>) and this is given by: <span class="math display">\[
+F'_{\vec{v}}(\vec{x}) = \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|}.
+\]</span></p>
 </div>
 <p>So we might want to think about building theory based on directional derivatives. However, as we have seen in the picture of <span class="math inline">\(F\)</span> above, there are still lots of directions to check. We have checked 3 different directions but there are still infinitely many to do!</p>
-<p>There is something else we can do, and the calculations for the direction <span class="math inline">\(\vec{d} = (1, 1)^T\)</span> give us a clue! We saw that <span class="math display">\[
-D'_{(1, 1)^T}(h) = D'_{(1, 0)^T}(h) + D'_{(0, 1)^T}(h).
-\]</span> This is also true in general: <span class="math display">\[\begin{align*}
-D'_{\vec{d}^{(1)} + \vec{d}^{(2)}}(h) = D'_{\vec{d}^{(1)}}(h) + D_{\vec{d}^{(2)}}(h) \\
-D'_{w \vec{d}}(h) = w D'_{\vec{d}}(h).
+<p>There is something else we can do, and the calculations for the direction <span class="math inline">\(\vec{v} = (1, 1)^T\)</span> give us a clue! We saw that <span class="math display">\[
+\gamma'_{(1, 1)^T}(h) = \gamma'_{(1, 0)^T}(h) + \gamma'_{(0, 1)^T}(h).
+\]</span> This is also true in general: For directions <span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> and a number <span class="math inline">\(a\)</span> <span class="math display">\[\begin{align*}
+\gamma'_{\vec{v} + \vec{w}}(h) = \gamma'_{\vec{v}}(h) + \gamma'_{\vec{w}}(h) \\
+\gamma'_{a \vec{v}}(h) = a \gamma'_{\vec{v}}(h).
 \end{align*}\]</span> So if we can find a basis (remember that term from semester 1?!?), we can write any directional derivative in terms of the basis vectors. We can make a simple choice for this: the coordinate axes!</p>
-<p>Let <span class="math inline">\(\vec{e}^{(j)}\)</span> be the vector with <span class="math inline">\(1\)</span> in the <span class="math inline">\(j\)</span>th place and <span class="math inline">\(0\)</span> in every other place for <span class="math inline">\(j = 1, 2, \ldots n\)</span>. For example in <span class="math inline">\(\mathbb{R}^2\)</span>, we have <span class="math inline">\(\vec{e}^{(1)} = (1, 0)^T\)</span> and <span class="math inline">\(\vec{e}^{(2)} = (0, 1)^T\)</span>. These form a basis. So any direction <span class="math inline">\(\vec{d}\)</span> can be written as <span class="math display">\[
-\vec{d} = (d_1, d_2, \ldots, d_n) = \sum_{j=1}^n d_j \vec{e}^{(j)},
+<p>Let <span class="math inline">\(\vec{e}^{(j)}\)</span> be the vector with <span class="math inline">\(1\)</span> in the <span class="math inline">\(j\)</span>th place and <span class="math inline">\(0\)</span> in every other place for <span class="math inline">\(j = 1, 2, \ldots n\)</span>. For example in <span class="math inline">\(\mathbb{R}^2\)</span>, we have <span class="math inline">\(\vec{e}^{(1)} = (1, 0)^T\)</span> and <span class="math inline">\(\vec{e}^{(2)} = (0, 1)^T\)</span>. These form a basis. So any direction <span class="math inline">\(\vec{v}\)</span> can be written as <span class="math display">\[
+\vec{v} = (v_1, v_2, \ldots, v_n) = \sum_{j=1}^n v_j \vec{e}^{(j)},
 \]</span> so that <span class="math display">\[
-D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
+\gamma'_{\vec{v}}(h) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(h).
+\]</span> Then, using the fact that <span class="math inline">\(\|\vec{e}^{(j)}\|=1\)</span>, we see that: <span class="math display">\[
+F'_{\vec{v}}(\vec{x}) = \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|}
+= \frac{1}{\|\vec{v}\|} \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(0)
+= \frac{1}{\|\vec{v}\|} \sum_{j=1}^n v_j F'_{\vec{e}^{(j)}}(\vec{x}).
 \]</span></p>
-<p>This idea is special enough that we give the terms <span class="math inline">\(D'_{\vec{e}^{(j)}}(h)\)</span> a special name: <em>partial derivatives</em>, and there is a slightly simpler way to calculate them.</p>
+<p>This idea is special enough that we give the terms <span class="math inline">\(F'_{\vec{e}^{(j)}}\)</span> a special name: a <em>partial derivative</em>, and there is a slightly simpler way to calculate them.</p>
+</section>
+<section id="partial-derivatives" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="partial-derivatives"><span class="header-section-number">7.2</span> Partial derivatives</h2>
+<div id="def-partial-derivative" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.2</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. Then the partial derivative of <span class="math inline">\(F\)</span> at a point <span class="math inline">\(\vec{x}\)</span> with respect to the <span class="math inline">\(j\)</span>th variable <span class="math inline">\(x_j\)</span> is defined as: <span class="math display">\[
+\frac{\partial F}{\partial x_j} (\vec{x}) = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}.
+\]</span></p>
+</div>
+<div id="rem-partial-notation" class="proof remark">
+<p><span class="proof-title"><em>Remark 7.1</em>. </span>The notation we use includes the curved <span class="math inline">\(\partial\)</span> symbol which looks like a curvy “d” and is pronounced “partial”.</p>
+</div>
+<p>We use the same examples as the previous section to give an idea of how to calculate a partial derivative:</p>
+<div id="exm-partial-derivative" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.2</strong></span> Consider once more the function <span class="math display">\[
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span> We want to compute the partial derivative with respect to <span class="math inline">\(x_1\)</span>.</p>
+<p>The definition tells us to compute: <span class="math display">\[\begin{align*}
+&amp; \frac{\partial F}{\partial x_1}(\vec{x})
+&amp; = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(1)}) - F(\vec{x})}{h} \\
+&amp; = \lim_{h\to 0} \frac{\big((x_1 + h)^4 - (x_1 + h)^2 + 2 (x_1 + h) + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
+&amp; = \lim_{h\to 0} \frac{\big(x_1^4 + 4 x_1^3 h + 6 x_1^2 h^2 + 4 x_1 h^3 + h^4 - x_1^2 - 2 x_1 h - h^2 + 2 x_1 + 2 h + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
+&amp; = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1)}{h} \\
+&amp; = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) \\
+&amp;= 4 x_1^3 - 2x_1 +2.
+\end{align*}\]</span> But we notice that when we do this calculation, we are effectively finding the usual derivative with respect to <span class="math inline">\(x_1\)</span> but ignoring terms with <span class="math inline">\(x_2\)</span>. This is an approach we can follow.</p>
+<p>Strictly, when computing partial derivatives with respect to a variable <span class="math inline">\(x_j\)</span>, we compute the usual derivative with respect to <span class="math inline">\(x_1\)</span> and treat all other variables as <em>constants</em>: i.e.&nbsp;<span class="math inline">\(\frac{\partial}{\partial x_1} x_2 = 0\)</span>.</p>
+<p>In this example, we would compute <span class="math display">\[\begin{align*}
+&amp; \frac{\partial F}{\partial x_1}(\vec{x}) \\
+&amp; = \frac{\partial}{\partial x_1} (x_1^4) - \frac{\partial}{\partial x_1} x_1^2 + 2 \frac{\partial}{\partial x_1} x_1 + 4 \frac{\partial}{\partial x_1} x_2^2 + \frac{\partial}{\partial x_1} 2 \\
+&amp; = 4 x_1^3 - 2 x_1 + 2 + 0 + 0 = 4 x_1^3 - 2 x_1 + 2.
+\end{align*}\]</span> We see we get the same result as using limits.</p>
+<div id="exr-partial-derivatives" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.1</strong></span> Compute <span class="math inline">\(\frac{\partial F}{\partial x_2}\)</span> for this example using either approach.</p>
+</div>
+<div id="23f09a3b" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec04_files/figure-html/cell-4-output-1.png" width="662" height="468" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>The ideas in these examples let us see that many of the properties of usual derivatives carry over to partial derivatives too:</p>
+<ol type="1">
+<li>sum rule: <span class="math display">\[
+\frac{\partial}{\partial x_j} (a F(\vec{x}) + b G(\vec{x}) = a \frac{\partial}{\partial x_j} F(\vec{x}) + b \frac{\partial}{\partial x_j} G(\vec{x})
+\]</span></li>
+<li>product rule: <span class="math display">\[
+\frac{\partial}{\partial x_j} (F(\vec{x}) G(\vec{x})) = G(\vec{x}) \frac{\partial}{\partial x_j} F(\vec{x}) + F(\vec{x}) \frac{\partial}{\partial x_j} G(\vec{x})
+\]</span></li>
+</ol>
+</section>
+<section id="gradient" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="gradient"><span class="header-section-number">7.3</span> Gradient</h2>
+<p>From a calculation point of view, the gradient is really just a stack of partial derivatives put together. However, it turns out to be a useful construction too.</p>
+<div id="def-gradient" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.3</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. Then the <strong>gradient of <span class="math inline">\(F\)</span></strong> is a function <span class="math inline">\(\nabla F : \mathbb{R}^n \to \mathbb{R}^n\)</span> which is given by <span class="math display">\[
+\nabla F (\vec{x}) = \begin{pmatrix}
+\frac{\partial F}{\partial x_1}(\vec{x}) \\
+\frac{\partial F}{\partial x_2}(\vec{x}) \\
+\vdots \\
+\frac{\partial F}{\partial x_n}(\vec{x})
+\end{pmatrix}.
+\]</span></p>
+</div>
+<div id="exm-gradient" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.3</strong></span> With the same <span class="math inline">\(F\)</span> as before, we can add white arrows to our previous plot to show the gradient of <span class="math inline">\(F\)</span>. At various points <span class="math inline">\(\vec{x}\)</span> in the domain, we plot an arrow starting at <span class="math inline">\(\vec{x}\)</span> in the direction <span class="math inline">\(\nabla F(\vec{x})\)</span>. The size of the arrow corresponds to the magnitude of the gradient.</p>
+<div id="18e29054" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec04_files/figure-html/cell-5-output-1.png" width="595" height="434" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We note that the gradient seems to point away from the minimum at every point and seems to be small (perhaps even the zero vector?) at the minimum. Indeed: <span class="math display">\[
+\nabla F(\vec{x}) = (4 x_1^3 - 2x_1 + 2, 8x_2),
+\]</span> so <span class="math display">\[
+\nabla F(-1, 0) = (4 \times (-1)^3 - 2 \times (-1) + 2, 8 \times 0) = (-4 + 2 + 2, 0) = (0, 0).
+\]</span></p>
+</div>
+<p>We again see that the gradient follows some simple results: for functions <span class="math inline">\(F, G \colon \mathbb{R}^n \to \mathbb{R}\)</span> and numbers <span class="math inline">\(a, b\)</span> we have</p>
+<ol type="1">
+<li>sum rule: <span class="math display">\[
+\nabla (aF(\vec{x}) + bG(\vec{x})) = a \nabla F(\vec{x}) + b \nabla G(\vec{x}).
+\]</span></li>
+<li>product rule: <span class="math display">\[
+\nabla (F(\vec{x}) G(\vec{x})) = G(\vec{x}) \nabla F(\vec{x}) + F(\vec{x}) \nabla G(\vec{x}).
+\]</span></li>
+</ol>
+<p>One reason that the gradient is useful is the following lemma that connects the gradient to directional derivatives:</p>
+<div id="lem-grad-dir-deriv" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function. Then for any point <span class="math inline">\(\vec{x}\)</span> and any direction <span class="math inline">\(\vec{v}\)</span> we have <span class="math display">\[
+F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We sketch the key ideas here only.</p>
+<p>Write <span class="math inline">\(\vec v=(v_1,\dots,v_n)\)</span> then for small <span class="math inline">\(h\)</span>, <span class="math inline">\(F(\vec x+h\vec v)-F(\vec x)\)</span> can be built up by changing one coordinate at a time: <span class="math display">\[\begin{align*}
+&amp; F(\vec x+h\vec v)-F(\vec x) \\
+= &amp; \big(F(x_1 + h v_1, \ldots, x_n + h v_n) - F(x_1 + h v_1, \ldots, x_{n-1} + h v_{n-1}, x_n)\big) \\
+&amp; + \big(F(x_1 + h v_1, \ldots, x_{n-1} + h v_{n-1}, x_n) - F(x_1 + h v_1, \ldots, x_{n-2} + h v_{n-2}, x_{n-1}, x_n)\big) \\
+&amp; + \cdots \\
+&amp; + \big(F(x_1 + h v_1, x_2, \ldots, x_n) - F(x_1, x_2, \ldots, x_n)\big).
+\end{align*}\]</span></p>
+<p>Each bracket changes only one variable, so it behaves like a one-variable derivative: <span class="math display">\[
+F(\vec x+h\vec v)-F(\vec x)
+\approx
+h\sum_{j=1}^n \frac{\partial F}{\partial x_j}(\vec x)\,v_j.
+\]</span> Dividing by <span class="math inline">\(h\)</span> and letting <span class="math inline">\(h\to 0\)</span> gives <span class="math display">\[
+\gamma'_{\vec v}(0) = \sum_{j=1}^n \frac{\partial F}{\partial x_j}(\vec x)\,v_j = \nabla F(\vec x)\cdot \vec v.
+\]</span> Then divide by <span class="math inline">\(\|\vec v\|\)</span> gives: <span class="math display">\[
+F'_{\vec v}(\vec x) = \nabla F(\vec x)\cdot \frac{\vec v}{\|\vec v\|}.
+\]</span></p>
+</div>
+<p>We also have a geometric understanding of what the gradient is in a similar way to the derivative of a function of a scalar variable representing the slope of the function.</p>
+<div id="lem-grad-slope-max" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.2</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function. The gradient of <span class="math inline">\(F\)</span> represents the direction in which <span class="math inline">\(F\)</span> increase the most rapidly.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>The direction of <span class="math inline">\(F\)</span> which increases the fastest can be found by finding the direction <span class="math inline">\(\vec{v}\)</span> which gives the greatest value for: <span class="math display">\[
+F'_{\vec{v}}(\vec{x})
+\]</span> at an arbitrary point <span class="math inline">\(\vec{x}\)</span>.</p>
+<p>Using <a href="#lem-grad-dir-deriv" class="quarto-xref">Lemma&nbsp;<span>7.1</span></a>, we have <span class="math display">\[
+F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
+\]</span> We can see that this is maximised for <span class="math inline">\(\vec{v} = \nabla F(\vec{x})\)</span> (e.g.&nbsp;using the dot product formula <span class="math inline">\(\vec{a}\cdot\vec{b} = \|\vec{a}\| \|\vec{b}\| \cos\theta\)</span>) where <span class="math display">\[
+F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \vec{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
+\]</span> In the final calculation we assume that <span class="math inline">\(\|\nabla F(\vec{x})\| \neq 0\)</span>. Otherwise, <span class="math inline">\(\nabla F(\vec{x}) = \vec{0}\)</span> and all directional derivatives are zero so any <span class="math inline">\(\vec{v}\)</span> can maximise the expression.</p>
+</div>
+<div id="rem-gradient-slope-max" class="proof remark">
+<p><span class="proof-title"><em>Remark 7.2</em>. </span>This result is very significant. It gives us an idea of how to manipulate a point towards a minimum - we can move in the direction opposite the gradient (i.e.&nbsp;<span class="math inline">\(-\nabla F(\vec{x})\)</span>) and we will be following the steepest descent direction.</p>
+</div>
+</section>
+<section id="the-hessian" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="the-hessian"><span class="header-section-number">7.4</span> The Hessian</h2>
+<p>For scalar domain problems, we used the second derivative to characterise convexity of functions. For functions with a higher dimension domain, we can also use second derivatives.</p>
+<div id="def-hessian" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.4</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function. Then the <strong>Hessian matrix</strong> of <span class="math inline">\(F\)</span> is a square <span class="math inline">\(n \times n\)</span> matrix of second partial derivatives defined and arranged as: <span class="math display">\[
+\nabla^2 F = \begin{pmatrix}
+\frac{\partial^2 F}{\partial x_1^2} &amp;
+\frac{\partial^2 F}{\partial x_1 \partial x_2} &amp;
+\cdots &amp;
+\frac{\partial^2 F}{\partial x_1 \partial x_n} \\
+\frac{\partial^2 F}{\partial x_2 \partial x_1} &amp;
+\frac{\partial^2 F}{\partial x_2^2} &amp;
+\cdots &amp;
+\frac{\partial^2 F}{\partial x_2 \partial x_n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial^2 F}{\partial x_n \partial x_1} &amp;
+\frac{\partial^2 F}{\partial x_n \partial x_2} &amp;
+\cdots &amp;
+\frac{\partial^2 F}{\partial x_n^2}.
+\end{pmatrix}
+\]</span> Here, and elsewhere, we write <span class="math display">\[
+\frac{\partial^2 F}{\partial x_i \partial x_j} = \frac{\partial}{\partial x_i} \left( \frac{\partial}{\partial x_j} F \right),
+\]</span> to denote first taking the partial derivative with respect to <span class="math inline">\(x_j\)</span> and then the partial derivative with respect to <span class="math inline">\(x_i\)</span>.</p>
+</div>
+<div id="exm-hessian" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.4</strong></span> We want to compute the Hessian of <span class="math display">\[
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+\]</span> We already have the gradient: <span class="math display">\[
+\nabla F(x_1, x_2) = \begin{pmatrix} 4 x_1^3 - 2 x_1 + 2 \\ 8 x_2 \end{pmatrix}.
+\]</span> Then for each term in the Hessian we compute: <span class="math display">\[\begin{align*}
+\frac{\partial^2}{\partial x_1^2} F(x_1, x_2) &amp;= \frac{\partial}{\partial x_1} (4 x_1^3 - 2 x_1 + 2) &amp;&amp;= 12 x_1^2 - 2 \\
+\frac{\partial^2}{\partial x_1 \partial x_2} F(x_1, x_2) &amp;= \frac{\partial}{\partial x_1} (8 x_2) &amp;&amp;= 0 \\
+\frac{\partial^2}{\partial x_2 \partial x_1} F(x_1, x_2) &amp;= \frac{\partial}{\partial x_2} (4 x_1^3 - 2 x_1 + 2) &amp;&amp;= 0 \\
+\frac{\partial^2}{\partial x_2^2} F(x_1, x_2) &amp;= \frac{\partial}{\partial x_2} (8 x_2) &amp;&amp;= 8.
+\end{align*}\]</span> So the Hessian is given by: <span class="math display">\[
+\nabla^2 F(x_1, x_2) = \begin{pmatrix} 12 x_1^2 - 2 &amp; 0 \\ 0 &amp; 8 \end{pmatrix}.
+\]</span></p>
+</div>
+<div id="exr-hessian" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.2</strong></span> Compute the Hessian of <span class="math display">\[
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
+\]</span></p>
+</div>
+<p>We notice that for both the example and exercise the Hessian is a symmetric matrix. This is true in general!</p>
+<div id="lem-hessian-sym" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.3</strong></span> For a smooth function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>, we have <span class="math display">\[
+\frac{\partial^2 F}{\partial x_i \partial x_j} = \frac{\partial^2 F}{\partial x_j \partial x_i},
+\]</span> hence the Hessian is a symmetric matrix.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>A full proof is beyond this course.</p>
+<p>One intuition comes from the idea of walking small steps on the graph of the function. Walking the small steps in different orders gives the same change in height (<span class="math inline">\(F\)</span>) so the second derivatives do not see which order the derivatives come.</p>
+</div>
+</section>
+<section id="what-does-this-say-about-optimisation" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="what-does-this-say-about-optimisation"><span class="header-section-number">7.5</span> What does this say about optimisation?</h2>
+<p>We start with a definition of local minima here which matches the scalar domain case. To help writing definitions more compactly we introduce the idea of a ball. We use the notation <span class="math inline">\(B(\vec{x}, R)\)</span> to denote the ball of radius <span class="math inline">\(R\)</span> centered at <span class="math inline">\(\vec{x}\)</span> which is given by <span class="math display">\[
+B(\vec{x}, r) = \{ \vec{y} \in \mathbb{R}^n : \| \vec{y} - \vec{x} \| &lt; r \}.
+\]</span> The idea of a ball generalises an interval to higher dimensions.</p>
+<div id="def-local-minimum-Rn" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.5</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>. We say a point <span class="math inline">\(\vec{x}^*\)</span> is a <strong>local minimum</strong> of <span class="math inline">\(F\)</span> if for a small radius <span class="math inline">\(r &gt; 0\)</span>, we have that <span class="math display">\[
+F(\vec{x}^*) \le F(\vec{x}) \quad\text{for all}\quad \vec{x} \in B(\vec{x}^*, r)
+\]</span></p>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>Comparing to <span class="quarto-unresolved-ref">?def-local-minimum</span>, we see that the biggest change is swapping the absolute value for a ball.</p>
+</div>
+<div id="lem-dir-deriv-minima" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.4</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function. Let <span class="math inline">\(x^*\)</span> be a local minimum of <span class="math inline">\(F\)</span>, then we have <span class="math display">\[
+F'_{\vec{v}}(x^*) = 0 \quad\text{for all non-zero directions}\quad \vec{v}.
+\]</span> and <span class="math inline">\(\nabla F(x^*) = \vec{0}\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Because <span class="math inline">\(\vec{x}^*\)</span> is a local minimum of <span class="math inline">\(F\)</span>, for all sufficiently small <span class="math inline">\(h\)</span> we have <span class="math display">\[
+F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*),
+\]</span> or equivalently for <span class="math inline">\(\gamma_{\vec{v}}\)</span>, we have <span class="math display">\[
+\gamma_{\vec{v}}(h) \ge \gamma_{\vec{v}}(0) \quad\text{for} h \text{small enough}.
+\]</span> That is that <span class="math inline">\(h = 0\)</span> is a local minimiser of <span class="math inline">\(\gamma_{\vec{v}}\)</span>. Since we have found a local minimiser, we know that (<span class="citation" data-cites="prop-minimiser">@prop-minimiser</span>) <span class="math display">\[
+0 = \gamma_{\vec{v}}'(0) = F'_{\vec{v}}(\vec{x}^*) \| \vec{v} \|.
+\]</span> Hence, so long as <span class="math inline">\(\vec{v} \neq 0\)</span>, we have <span class="math inline">\(F'_{\vec{v}}(\vec{x}^*) = 0\)</span>.</p>
+<p>Since we have all directional derivatives are 0 so in particular all partial derivatives are zero since they are the directional derivatives in the coordinate directions. Since the gradient is just a stack of partial derivatives we see that the gradient is the zero vector too.</p>
+</div>
+<p>Previously to map from local to global minima, we used the idea of convexity. We can do the same again here:</p>
+<div id="def-convexity-Rn" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.6</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a function. We say that <span class="math inline">\(F\)</span> is <strong>locally convex on a ball <span class="math inline">\(B\)</span></strong> if for all <span class="math inline">\(\vec{x}, \vec{y} \in B\)</span>, we have <span class="math display">\[
+a F(\vec{x}) + (1-a) F(\vec{y}) \ge F(a\vec{x} + (1-a)\vec{y}) \quad\text{for all}\quad a \in [0,1].
+\]</span> We say that <span class="math inline">\(F\)</span> is <strong>convex</strong> if it is convex on <span class="math inline">\(\mathbb{R}^n\)</span> (i.e.&nbsp;convex for any ball <span class="math inline">\(B \subset \mathbb{R}^n\)</span>).</p>
+</div>
+<p>Similar to <span class="quarto-unresolved-ref">?lem-convex-equiv</span>, we have the following equivalence characterisations of convexity on a ball:</p>
+<div id="lem-convex-equiv-Rn" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 7.5</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function. Then the following are equivalent:</p>
+<ol type="1">
+<li><span class="math inline">\(F\)</span> is locally convex on a ball <span class="math inline">\(B\)</span></li>
+<li>The gradient of <span class="math inline">\(F\)</span> satisfies: <span class="math display">\[
+F(\vec{x}) \ge F(\vec{y}) + \nabla F(\vec{y}) \cdot (\vec{x}- \vec{y}) \quad\text{for all}\quad \vec{x}, \vec{y} \in B.
+\]</span></li>
+<li>The eigenvalues of the Hessian of <span class="math inline">\(F(\vec{x})\)</span> are non-negative for any <span class="math inline">\(\vec{x} \in B\)</span>. (this property is normally said that <span class="math inline">\(\nabla^2 F\)</span> is positive semi-definite).</li>
+</ol>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>We prove the implications <span class="math inline">\((1)\implies(2)\implies(3)\implies(1)\)</span>.</p>
+<p>Throughout, let <span class="math display">\[
+\phi(t)=F(\vec{y}+t(\vec{x}-\vec{y})), \qquad t\in[0,1].
+\]</span> Since <span class="math inline">\(B\)</span> is a ball, if <span class="math inline">\(\vec{x},\vec{y}\in B\)</span>, then <span class="math display">\[
+\vec{y}+t(\vec{x}-\vec{y})\in B \qquad\text{for all }t\in[0,1].
+\]</span></p>
+<p><strong>(1) <span class="math inline">\(\implies\)</span> (2)</strong></p>
+<p>Assume <span class="math inline">\(F\)</span> is convex on <span class="math inline">\(B\)</span>. Then for any <span class="math inline">\(\vec{x},\vec{y}\in B\)</span>, the one-variable function <span class="math display">\[
+\phi(t)=F(\vec{y}+t(\vec{x}-\vec{y}))
+\]</span> is convex on <span class="math inline">\([0,1]\)</span>.</p>
+<p>For a differentiable convex function of one variable, we have the supporting line inequality <span class="math display">\[
+\phi(1)\ge \phi(0)+\phi'(0).
+\]</span> Now <span class="math display">\[
+\phi(0)=F(\vec{y}), \qquad \phi(1)=F(\vec{x}),
+\]</span> and, using the previous lemma on directional derivatives (<a href="#lem-grad-dir-deriv" class="quarto-xref">Lemma&nbsp;<span>7.1</span></a>, we see <span class="math display">\[
+\phi'(0)=\nabla F(\vec{y})\cdot (\vec{x}-\vec{y}).
+\]</span> Therefore <span class="math display">\[
+F(\vec{x}) \ge F(\vec{y})+\nabla F(\vec{y})\cdot(\vec{x}-\vec{y}),
+\]</span> which is exactly (2).</p>
+<p><strong>(2) <span class="math inline">\(\implies\)</span> (3)</strong></p>
+<p>Assume (2). Fix a point <span class="math inline">\(\vec{y}\in B\)</span> and a vector <span class="math inline">\(\vec{v}\in\mathbb{R}^n\)</span>. For small <span class="math inline">\(t\)</span>, the point <span class="math inline">\(\vec{y}+t\vec{v}\)</span> lies in <span class="math inline">\(B\)</span>, so applying (2) with <span class="math display">\[
+\vec{x}=\vec{y}+t\vec{v}
+\]</span> gives <span class="math display">\[
+F(\vec{y}+t\vec{v}) \ge F(\vec{y})+t\,\nabla F(\vec{y})\cdot\vec{v}.
+\]</span> Define <span class="math display">\[
+\psi(t)=F(\vec{y}+t\vec{v})-F(\vec{y})-t\,\nabla F(\vec{y})\cdot\vec{v}.
+\]</span> Then <span class="math inline">\(\psi(t)\ge 0\)</span> for all sufficiently small <span class="math inline">\(t\)</span>, and <span class="math inline">\(\psi(0)=0\)</span>. Hence <span class="math inline">\(t=0\)</span> is a local minimum of <span class="math inline">\(\psi\)</span>, so <span class="math display">\[
+\psi''(0)\ge 0.
+\]</span> But <span class="math display">\[
+\psi''(0)=\vec{v}^{\,T}\nabla^2F(\vec{y})\,\vec{v}.
+\]</span> Therefore <span class="math display">\[
+\vec{v}^{\,T}\nabla^2F(\vec{y})\,\vec{v}\ge 0
+\qquad\text{for all }\vec{v}\in\mathbb{R}^n.
+\]</span> It can be shown that this implies that the eigenvalues of <span class="math inline">\(\nabla^2 F(\vec{y})\)</span> are all non-negative, i.e.&nbsp;that <span class="math inline">\(\nabla F^2(\vec{y})\)</span> is positive-semi-definite.</p>
+<p><strong>(3) <span class="math inline">\(\implies\)</span> (1)</strong></p>
+<p>Assume (3). Let <span class="math inline">\(\vec{x},\vec{y}\in B\)</span>, and define <span class="math display">\[
+\phi(t)=F(\vec{y}+t(\vec{x}-\vec{y})), \qquad t\in[0,1].
+\]</span> Then <span class="math display">\[
+\phi''(t) = (\vec{x}-\vec{y})^{T} \nabla^2F(\vec{y}+t(\vec{x}-\vec{y})) (\vec{x}-\vec{y}).
+\]</span> By assumption, the Hessian is positive semidefinite at every point of <span class="math inline">\(B\)</span>, so <span class="math display">\[
+\phi''(t)\ge 0
+\qquad\text{for all }t\in[0,1].
+\]</span> Thus <span class="math inline">\(\phi\)</span> is a convex one-variable function on <span class="math inline">\([0,1]\)</span>. Therefore, for every <span class="math inline">\(a\in[0,1]\)</span>, <span class="math display">\[
+\phi(a)\le (1-a)\phi(0)+a\phi(1).
+\]</span> Substituting back, <span class="math display">\[
+F((1-a)\vec{y}+a\vec{x}) \le (1-a)F(\vec{y})+aF(\vec{x}).
+\]</span> This is exactly the statement that <span class="math inline">\(F\)</span> is convex on <span class="math inline">\(B\)</span>. Hence (1) holds.</p>
+<p>Therefore, (1), (2), and (3) are equivalent.</p>
+</div>
+<div id="exm-convexity-Rn" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.5</strong></span> The function given by <span class="math display">\[
+F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
+\]</span> is not convex.</p>
+<p>We have computed the Hessian as: <span class="math display">\[
+\nabla^2 F(x_1, x_2) = \begin{pmatrix} 12 x_1^2 - 2 &amp; 0 \\ 0 &amp; 8 \end{pmatrix}.
+\]</span> This is a diagonal matrix so we can read off the eigenvalues as: <span class="math display">\[
+\lambda_1 = 12 x_1^2 - 2 \quad\text{and}\quad \lambda_2 = 8.
+\]</span> We can see that <span class="math inline">\(\lambda_1\)</span> is negative for <span class="math inline">\(|x_1| &lt; 1/\sqrt{6}\)</span> hence <span class="math inline">\(F\)</span> is not convex.</p>
+</div>
+<div id="exr-convexity-Rn" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.3</strong></span> Is <span class="math inline">\(F\)</span> given by <span class="math display">\[
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2
+\]</span> convex? First, find the Hessian of <span class="math inline">\(F\)</span> and then the eigenvalues of <span class="math inline">\(\nabla^2 F(\vec{x})\)</span>. What do they show you?</p>
+</div>
+</section>
+<section id="summary" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.6</span> Summary</h2>
+<p>We have introduced derivatives for functions <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>:</p>
 <ul>
-<li><p>define partial derivatives</p></li>
-<li><p>define gradients</p></li>
-<li><p>relate both to directional derivatives</p></li>
-<li><p>with examples</p></li>
-<li><p>go again with convexity</p></li>
-<li><p>bring in hessian and eigenvalues as final condition</p></li>
+<li><span class="math inline">\(F'_{\vec{v}}\)</span>: the directional derivative,</li>
+<li><span class="math inline">\(\frac{\partial}{\partial x_j}F\)</span>: partial derivative,</li>
+<li><span class="math inline">\(\nabla F\)</span>: gradient,</li>
+<li><span class="math inline">\(\nabla^2 F\)</span>: Hessian.</li>
 </ul>
+<p>These are all important objects in their own right with a wide variety of uses. We will use them in the context of optimisation in this module. We have shown some ideas of how to show that a function <span class="math inline">\(F\)</span> is convex depending on the eigenvalues of the Hessian of <span class="math inline">\(F\)</span>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -925,6 +1264,9 @@ D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../src/lec04a.html" class="pagination-link" aria-label="What about a chain rule?">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -935,7 +1277,7 @@ D'_{\vec{d}}(h) = \sum_{j=1}^n d_j D'_{\vec{e}^{(j)}}(h).
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec04.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec04.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec04.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec04.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
