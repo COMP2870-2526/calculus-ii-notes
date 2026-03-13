@@ -15,6 +15,7 @@ plt.style.use("seaborn-v0_8-colorblind")
 ```
 
 In one dimension, we will proceed with a simple idea: to find candidate minima of functions $F \colon \mathbb{R} \to \mathbb{R}$, we will find points at which the derivative of $F$ is 0. To help us with notation, in this section we will write $F' = f$.
+The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.
 
 > Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f(x)$**.
 

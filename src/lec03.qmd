@@ -14,6 +14,8 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
+So far we have studied dynamical problems, where derivatives describe change over time. We now turn to a second major use of derivatives: identifying optimal choices. Later we will see these themes reunite, when optimisation methods are interpreted dynamically through a technique called gradient flow.
+
 Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:
 
 1. When making business decisions, we often want to find a solution which maximises our financial returns;
