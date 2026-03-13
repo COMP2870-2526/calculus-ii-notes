@@ -15,14 +15,11 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ## Contents of this submodule
 
-This part of the module will deal with numerical algorithms that involve
-derivatives and integrals. We will approach these problems using a combination
-of theoretical ideas and practical solutions, thinking through the lens of
-real-world applications. As a consequence, to succeed in linear algebra, you
-will do some programming (using Python) and some pen-and-paper theoretical work,
-too.
+This part of the module introduces numerical algorithms involving derivatives and integrals. We will study these methods from both theoretical and practical perspectives, with an emphasis on real-world applications. To succeed in this part of the module, you will need to engage with both Python programming and pen-and-paper mathematical work.
 
 ### Topics
+
+TODO - to update
 
 We will have 6 double lectures, 2 tutorials, and 3 labs. We break up the topics
 as follows:
@@ -53,56 +50,41 @@ Candidates should be able to:
 
 TODO
 
-## Textbooks and other resources
-
-There are many textbooks and other external resources which could help your
-learning:
-
-TODO
-
 ## Programming
 
 This section of the notes links theoretical material with practical
-applications. We will have weekly lab sessions where you will see how the
-methods mentioned in the lecture notes work when implemented. More instructions on
-how we will do this will be covered in the lab sessions themselves.
+applications.
+In the weekly lab sessions, you will see how the methods introduced in the lectures behave in practice when implemented.
+Further guidance on the practical work will be provided in the lab sessions.
 
-An important theoretical aspect of translating the algorithms
-to computer implementations is the use of floating-point numbers. You will have
-already met floating-point numbers in your first year studies where you met how
-computer store numbers. You will already know that computer cannot store every
+An important theoretical aspect of implementing these algorithms on a computer is the use of floating-point arithmetic.
+You will already have encountered floating-point numbers in your first-year studies, when you learned how computers store numbers and earlier this year when working on linear algebra problems.
+You will already know that computer cannot store every
 possible real number exactly. The inexactness of floating-point numbers has real
 consequences when performing computations.
 
-Exploring and understanding the material in () is
+Exploring the material in [COMP2870: Linear Algebra](https://comp2870-2526.github.io/linear-algebra-notes/src/lec02.html) is
 really helpful for understanding many of the choices that we make when forming
-methods in linear algebra.
+methods here too.
 
 We will make extensive use of [`Python`](https://www.python.org/) and
 [`numpy`](https://numpy.org/) during this section of the module. It may help you
 to revise some of your notes from last year on these topics.
 
-## The big problems for this part of the module
-
-### Differential equations
-
-### Nonlinear solvers
-
-### Optimisation
-
 ## Comments on these notes
 
 There are two versions of these notes available: as an online website and as a
-pdf. I expect minor adjustments to be made to both throughout the progress of
-delivering the materials.
+PDF.
+I expect to make minor updates to both versions as the module progresses.
 
 You can always find the latest versions at:
 
-TODO
+- html: <https://comp2870-2526.github.io/calculus-ii-notes/>
+- PDF:  <https://comp2870-2526.github.io/calculus-ii-notes/COMP2870-Theoretical-Foundations--Calculus-II.pdf>
 
 Please either email me ([T.Ranner@leeds.ac.uk](mailto:T.Ranner@leeds.ac.uk)) or
-use the [github
-repository](TODO) to report any
+use the [GitHub
+repository](https://github.com/COMP2870-2526/calculus-ii-notes) to report any
 corrections.
 
 ```{python}
