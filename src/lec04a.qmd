@@ -1,0 +1,158 @@
+# What about a chain rule?
+
+When introducing partial derivatives, we say that many of the rules from usual derivatives passed over including the sum rule and product rule. However, we did not mention the chain rule. Things are a little more complicated for partial derivatives here.
+
+::: {#exm-chain-rule-0}
+Consider $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+$$
+F(x_1, x_2) = (2 x_1 - 3)^2 + (3 x_2 + 4)^2.
+$$
+
+First, we can compute directly that
+$$
+F(x_1, x_2) = 4 x_1^2 - 12 x_1 + 9 x_2^2 + 24 x_2 + 25.
+$$
+Then
+\begin{align*}
+\frac{\partial F}{\partial x_1}(x_1, x_2) & = 8 x_1 - 12 \\
+\frac{\partial F}{\partial x_2}(x_1, x_2) & = 18 x_2 + 24.
+\end{align*}
+But we can also see that we could write
+$$
+(y_1, y_2) = \vec{V}(x_1, x_2) = (2 x_1 - 3, 3 x_2 + 4)
+$$
+and then
+$$
+F(x_1, x_2) = W(y_1, y_2) = y_1^2 + y_2^2.
+$$
+so that $F = W \circ \vec{V}$ - i.e. $F(x_1, x_2) = W(\vec{V}(x_1, x_2))$.
+We might want to form a chain rule so that derivatives of $F$ are somehow related to derivatives of $\vec{V}_1$ and $W$.
+
+We can compute partial derivatives of $W$ already.
+We need to answer the question:
+
+1. What could it mean to say derivatives of $\vec{V} \colon \mathbb{R}^2 \to \mathbb{R}^2$?
+2. How could we combine derivatives of $\vec{V}$ and $W$ to get the right result?
+
+Let's try to answer question 2 first.
+
+Suppose we want to compute:
+$$
+\frac{\partial F}{\partial x_j}(\vec{x}) = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}.
+$$
+Now
+$$
+F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})
+= W(\vec{V}(\vec{x} + h \vec{e}^{(j)})) - W(\vec{V}(\vec{x})).
+$$
+So the whole problem becomes: how does $W$ change when *all* of its inputs ($y_1, y_2$) change by a small amount. We handle that by changing the inputs one at a time.
+
+We have $(y_1, y_2) = \vec{V}(x_1, x_2)$ and we also add the notation:
+\begin{align*}
+\vec{d}(h) = (d_1(h), d_2(h)) & = \vec{V}(\vec{x} + h \vec{e}^{(j)}) - \vec{V}(\vec{x}) \\
+= \vec{V}(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - \vec{V}(x_1, x_2).
+\end{align*}
+Then
+$$
+\vec{V}(\vec{x} + h \vec{e}^{(j)}) = \vec{y} + \vec{d}(h).
+$$
+So we can compute that
+\begin{align*}
+& F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x}) \\
+&= W(\vec{V}(\vec{x} + h \vec{e}^{(j)})) - W(\vec{V}(\vec{x})) \\
+&= W(\vec{y} + \vec{d}(h)) - W(\vec{y}) \\
+&= W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1, y_2) \\
+&= \big(W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1 + d_1(h), y_2)\big) \\
+& \qquad + \big(W(y_1 + d_1(h), y_2) - W(y_1, y_2) \big).
+\end{align*}
+Thus, from the sum rule for limits, we have that
+\begin{align*}
+& \lim_{h \to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h} \\
+& = \lim_{h \to 0} \frac{W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1 + d_1(h), y_2)}{h} \\
+& \qquad + \lim_{h \to 0} \frac{W(y_1 + d_1(h), y_2) - W(y_1, y_2)}{h}.
+\end{align*}
+We note that each limit looks a lot like a single partial derivative which follows something very similar to the one-dimensional chain rule.
+Using further results from Mathematical Analysis (Mean Value Theorem), we can see that
+$$
+\lim_{h \to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}
+= \frac{\partial W}{\partial y_2}(y_1, y_2) d_2'(0) + \frac{\partial W}{\partial y_1}(y_1, y_2) d_1'(0).
+$$
+Finally, we compute that
+$$
+d_i'(0) = \lim_{h\to 0} \frac{V_i(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - V_i(x_1, x_2)}{h} = \frac{\partial V_i}{\partial x_j}(\vec{x}).
+$$
+Putting everything together, we have
+$$
+\frac{\partial F}{\partial x_j}(\vec{x}) =
+\frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_j}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_j}(\vec{x}).
+$$
+
+Let's test this formula on our example.
+\begin{align*}
+\frac{\partial V_1}{\partial x_1} &= 2 & \frac{\partial V_1}{\partial x_2} &= 0 \\
+\frac{\partial V_2}{\partial x_1} &= 0 & \frac{\partial V_2}{\partial x_2} &= 3 \\
+\frac{\partial W}{\partial y_1} &= 2 y_1 & \frac{\partial W}{\partial y_2} &= 2 y_2.
+\end{align*}
+Then, we compute that
+\begin{align*}
+\frac{\partial F}{\partial x_1}(\vec{x})
+&= \frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_1}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_1}(\vec{x}) \\
+&= 2 y_1 \times 2  + 2 y_2 \times 0 \\
+&= 4 \times (2 x_1 - 3) + 0 \times (3 x_2 + 4) = 8 x_1 - 12,
+\end{align*}
+and
+\begin{align*}
+\frac{\partial F}{\partial x_2}(\vec{x})
+&= \frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_2}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_2}(\vec{x}) \\
+&= 2 y_1 \times 0  + 2 y_2 \times 3 \\
+&= 0 \times (2 x_1 - 3) + 6 \times (3 x_2 + 4) = 18 x_2 + 24.
+\end{align*}
+We see that the results agree!
+:::
+
+We return to the general case. Similar calculations to the above example give us this chain rule:
+
+::: {#lem-chain-rule-Rn}
+Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function given by $F = W \circ \vec{V}$ where $\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m$ and $W \colon \mathbb{R}^m \to \mathbb{R}$ are both smooth.
+Then
+$$
+\frac{\partial F}{\partial x_j}(\vec{x}) = \sum_{i=1}^m \frac{\partial W}{\partial y_i}(\vec{V}(\vec{x}))\frac{\partial V_i}{\partial x_j}(\vec{x}).
+$$
+:::
+
+We have previously seen that the terms $\frac{\partial W}{\partial y_i}$ form part of the *gradient* of $W$.
+There is a similar object called the Jacobian for vector-valued functions. Since $\vec{V}$ has $m$ output variables and $n$ input variables, we store its partial derivative in a matrix with $m$ rows and $n$ columns:
+
+::: {#def-jacobian}
+Let $\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m$.
+Then the **Jacobian** of $\vec{V}$ at $\vec{x}$ is the $m \times n$ matrix given by:
+$$
+J_{\vec{V}}
+= \begin{pmatrix}
+\frac{\partial \vec{V}}{\partial x_1} \cdots \frac{\partial \vec{V}}{\partial x_n}
+\end{pmatrix}
+= \begin{pmatrix}
+(\nabla V_1)^T \\
+\vdots \\
+(\nabla V_m)^T
+\end{pmatrix}
+= \begin{pmatrix}
+\frac{\partial V_1}{\partial x_1} & \cdots & \frac{\partial V_1}{\partial x_n} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial V_m}{\partial x_1} & \cdots & \frac{\partial V_m}{\partial x_n}
+\end{pmatrix}.
+$$
+That is the Jacobian is the matrix:
+
+- with the $j$th columns given by the partial derivative of $\vec{V}$ with respect to $x_j$
+- with the $i$th row given by the transpose of the gradient of $V_i$
+- with the $(i, j)$ entry given by $\frac{\partial V_i}{\partial x_j}$.
+:::
+
+With this notation the chain rule (@lem-chain-rule-Rn) can be written as the matrix vector product
+$$
+\nabla F(\vec{x}) = \big(J_{\vec{V}}(\vec{x})\big)^T \nabla W(\vec{V}(\vec{x})).
+$$
