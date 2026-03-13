@@ -15,6 +15,14 @@ from matplotlib import pyplot as plt
 plt.style.use("seaborn-v0_8-colorblind")
 ```
 
+::: {.callout-tip}
+## Module learning objective
+
+1. Identify some examples where differential equations arise throughout computer science and beyond,
+2. Recognise parts of a differential equation in standard format,
+3. Solve differential equations numerically using Euler's method.
+:::
+
 There are many models and problems where time plays an important role.
 
 Examples TODO

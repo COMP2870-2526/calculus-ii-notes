@@ -14,6 +14,15 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
+::: {.callout-tip}
+## Module learning objective
+
+1. Give some examples of continuous optimisation problems,
+2. Give a definition of a minimum and minimiser of a function and understand some typical situations,
+3. Distinguish between local and global minimisers,
+4. State and apply conditions to check a functions $F \colon \mathbb{R} \to \mathbb{R}$ is convex.
+:::
+
 So far we have studied dynamical problems, where derivatives describe change over time. We now turn to a second major use of derivatives: identifying optimal choices. Later we will see these themes reunite, when optimisation methods are interpreted dynamically through a technique called gradient flow.
 
 Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:

@@ -14,6 +14,15 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
+::: {.callout-tip}
+## Module learning objective
+
+1. Explain why numerical methods are required for finding minima/solving nonlinear equations in one dimension,
+2. Explain the idea of an iterative method,
+3. Apply the Bisection Method and understand its properties,
+4. Apply Newton's method and understand its properties.
+:::
+
 In one dimension, we will proceed with a simple idea: to find candidate minima of functions $F \colon \mathbb{R} \to \mathbb{R}$, we will find points at which the derivative of $F$ is 0. To help us with notation, in this section we will write $F' = f$.
 The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.
 

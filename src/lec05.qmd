@@ -30,6 +30,15 @@ def array_to_latex(array):
 
 
 ```
+::: {.callout-tip}
+## Module learning objective
+
+1. Define and apply the gradient descent algorithm for functions $F \colon \mathbb{R}^n \to \mathbb{R}$,
+2. Explain some of the properties of the gradient descent algorithm,
+3. Relate the gradient descent algorithm to the gradient flow differential equation,
+4. Apply the Newton method to solve optimsation problems.
+:::
+
 TODO change step size to $\alpha$
 
 We return to our basic optimisation problem. We want to find a minimiser $x^*$ of the function $F \colon \mathbb{R}^n \to \mathbb{R}$:

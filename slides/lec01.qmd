@@ -11,8 +11,13 @@ html-math-method: mathjax
 include-in-header: ../mathjax.html
 
 format:
-  live-revealjs:
+  revealjs:
     slide-level: 3
     slide-number: true
     preview-links: auto
+    chalkboard:
+      theme: whiteboard
 ---
+# Slide 1
+
+hello

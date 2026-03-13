@@ -25,6 +25,13 @@ def array_to_latex(array):
 
 ```
 
+::: {.callout-tip}
+## Module learning objective
+
+1. Give an example of how we can derive differential equations,
+2. Apply numerical techniques to solve systems of differential equations.
+:::
+
 ## Newton's laws of motion
 
 A large component of many computer games is the *physics engine*. Planning robotic manoeuvring requires physics-based models too. Both applications typically spend large numbers of CPU cycles simulating the motion of bodies using Newton's laws, based on the forces that are exerted upon them. In particular, Newton's second law of motion says that the net force on an object equals its mass multiplied by its acceleration:

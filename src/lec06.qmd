@@ -13,3 +13,9 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 
 ```
+
+::: {.callout-tip}
+## Module learning objective
+
+1. Explain at a high level how the gradient descent algorithm can be applied to train a simple neural network.
+:::

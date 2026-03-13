@@ -39,6 +39,15 @@ def table_styler(df):
 
 ```
 
+::: {.callout-tip}
+## Module learning objective
+
+1. Use exact solutions to calculate errors in numerical methods for differential equations,
+2. Calculate rates of convergence for differential equation solvers,
+3. Solve differential equations numerically using the midpoint method,
+4. Explain how to balance accuracy and efficiency when solving differential equations numerically.
+:::
+
 ## Exact derivatives and exact solutions
 
 In a small number of cases, it is possible to solve differential equations *exactly*. That is to write down a simple expression for the function which satisfies both the differential equation and its initial condition. This is rare and is the main reason why we use numerical methods. However, the special cases where we can find exact solutions are useful for testing our numerical methods.
