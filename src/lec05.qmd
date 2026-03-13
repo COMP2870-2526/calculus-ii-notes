@@ -2,14 +2,626 @@
 echo: false
 ---
 
-# The gradient flow algorithm
+# Optimisation in $\mathbb{R}^n$
 
 ```{python}
 
 
+import numpy as np
+from IPython.display import Markdown, display
 from matplotlib import pyplot as plt
 
 plt.style.use("seaborn-v0_8-colorblind")
 
 
+def array_to_latex(array):
+    s = ""
+
+    s += "\\begin{pmatrix} "
+    if array.ndim == 1:
+        s += "\\\\ ".join([str(v) for v in array])
+    elif array.ndim == 2:
+        s += " \\\\ ".join([" & ".join([str(v) for v in row]) for row in array])
+    else:
+        raise ValueError(f"unable to process array with {array.ndim=}")
+    s += " \\end{pmatrix}"
+
+    return s
+
+
 ```
+
+We return to our basic optimisation problem. We want to find a minimiser $x^*$ of the function $F \colon \mathbb{R}^n \to \mathbb{R}$:
+$$
+x^* = \mathop{\arg\min}\limits_{x \in \mathbb{R}^n} F(x).
+$$
+In this lecture, we are going to propose an iterative algorithm for approximating solutions called **gradient descent**.
+Roughly speaking, if $F$ is smooth and convex, then for a sufficiently small step size the method converges to a minimiser. If $F$ is not convex, gradient descent may still be useful, but in general it is only guaranteed to seek a point with $\nabla F = 0$; this may be a local minimiser but may not be!
+
+::: {#rem-nn}
+The methods used to train neural network models are based on gradient descent. We will see an example of this later.
+:::
+
+We first illustrate the algorithm in one dimension:
+
+::: {#exm-grad-descent-1d}
+Consider
+$$
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+$$
+We will need the derivative of $F$ given by:
+$$
+F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
+$$
+
+```{python}
+def F1(x):
+    return x**4 / 4 - x**3 / 12 - x**2 / 2 + x / 4 + 1 / 2
+
+
+def dF1(x):
+    return x**3 - x**2 / 4 - x + 1 / 4
+
+
+def F1_str(x):
+    return (
+        f"\\frac{1}{4} \\times ({x})^4"
+        f" - \\frac{1}{12} \\times ({x})^3"
+        f" - \\frac{1}{2} \\times ({x})^2"
+        f" + \\frac{1}{4} \\times ({x}) + \\frac{1}{2}"
+    )
+
+
+def dF1_str(x):
+    return f"({x})^3 - \\frac{1}{4} \\times ({x})^2 - ({x}) + \\frac{1}{4}"
+
+
+x0 = 0
+
+s = f"We will start from $x^{{(0)}} = {x0}$. We note that\n"
+s += "$$\n"
+s += f"F(x^{{(0)}}) = {F1_str(x0)} = {F1(x0)}\n"
+s += "$$\n"
+s += f"At $x^{{(0)}} = {x0}$, we see that the derivative of $F$"
+s += f" is {'positive' if dF1(x0) >= 0 else 'negative'}:\n"
+s += "$$\n"
+s += f"F'({x0}) = {dF1_str(x0)} = {dF1(x0)} {'>' if dF1(x0) > 0 else '<'} 0.\n"
+s += "$$\n"
+s += "Hence, to decrease $F$ and get closer to the minimiser, we will take a"
+s += " small step in the opposite direction, i.e. in the $- F'(x^{(0)})$"
+s += " direction.\n"
+s += "We use the update formula:\n"
+s += "\\begin{align*}\n"
+s += "x^{(1)} & = x^{(0)} - h F'(x^{(0)}) \\\\ \n"
+s += f"& = {x0} - h \\times {dF1(x0)}."
+s += "\\end{align*}\n"
+s += "Here $h > 0$ is the step size that we have to choose as a parameter in"
+s += "our algorithm."
+
+display(Markdown(s))
+
+x = np.linspace(-1.5, 1.5, 1000)
+
+plt.plot(x, F1(x))
+
+plt.plot(x0, F1(x0), "C1o")
+plt.annotate(
+    r"$x^{(0)}$",
+    (x0, F1(x0)),
+    xytext=(-25, 10),
+    textcoords="offset points",
+    color="C1",
+)
+
+
+h_max = 1.5 / dF1(x0)
+x1_max = x0 - h_max * dF1(x0)
+plt.plot([x0, x1_max], [F1(x0), F1(x0) + (x1_max - x0) * dF1(x0)], "C2--")
+
+for h in [0.6, 2.5, 5]:
+    x1 = x0 - h * dF1(x0)
+    plt.plot([x1], [F1(x0) + (x1 - x0) * dF1(x0)], "C2o")
+    plt.annotate(
+        rf"$x^{{(1)}}(h={h})$",
+        (x1, F1(x0) + (x1 - x0) * dF1(x0)),
+        xytext=(10, -10),
+        textcoords="offset points",
+        color="C2",
+    )
+
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.grid(True)
+plt.show()
+
+h = 0.6
+x1 = x0 - h * dF1(x0)
+
+s = "This plot shows our scenario.\n"
+s += f"In this case, $h = {h}$ seems a good choice so we set\n"
+s += "$$\n"
+s += "x^{(1)} = x^{(0)} - h F'(x^{(0)})"
+s += "= {x0} - {h} \\times {dF1(x0)}"
+s += "= {x1},\n"
+s += "$$\n"
+s += "and note that\n"
+s += "\\begin{align*}\n"
+s += f"F(x^{{(1)}}) &= {F1_str(x1)} \\\\ \n"
+s += f"&= {F1(x1)}."
+s += "\\end{align*}\n"
+
+display(Markdown(s))
+
+x2 = x1 - h * dF1(x1)
+
+s = "Then, we iterate to find $x^{(2)}$:\n"
+s += "\\begin{align*}\n"
+s += "x^{(2)} &= x^{(1)} - h F'(x^{(1)}) \\\\ \n"
+s += f"&= {x1} - {h} \\times \\left({dF1_str(x1)}\\right) \\\\ \n"
+s += f"&= {x1} - {h} \\times \\left({dF1(x1)}\\right) \\\\ \n"
+s += f"&= {x2},\n"
+s += "\\end{align*}\n"
+s += "and note that\n"
+s += "\\begin{align*}\n"
+s += f"F(x^{{(2)}}) &= {F1_str(x2)} \\\\ \n"
+s += f"&= {F1(x2)}."
+s += "\\end{align*}\n"
+
+display(Markdown(s))
+```
+
+```{python}
+plt.plot(x, F1(x))
+
+plt.plot(x0, F1(x0), "C1o")
+plt.annotate(
+    r"$x^{(0)}$",
+    (x0, F1(x0)),
+    xytext=(-25, 10),
+    textcoords="offset points",
+    color="C1",
+)
+
+plt.plot(x1, F1(x1), "C2o")
+plt.annotate(
+    r"$x^{(1)}$",
+    (x1, F1(x1)),
+    xytext=(-25, 10),
+    textcoords="offset points",
+    color="C2",
+)
+
+
+h_max = 1.0 / dF1(x1)
+x2_max = x1 - h_max * dF1(x1)
+plt.plot([x1, x2_max], [F1(x1), F1(x1) + (x2_max - x1) * dF1(x1)], "C3--")
+
+x2 = x1 - h * dF1(x1)
+plt.plot([x2], [F1(x1) + (x2 - x1) * dF1(x1)], "C3o")
+plt.annotate(
+    rf"$x^{{(2)}}(h={h})$",
+    (x2, F1(x1) + (x2 - x1) * dF1(x1)),
+    xytext=(10, -10),
+    textcoords="offset points",
+    color="C3",
+)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.grid(True)
+plt.show()
+```
+
+Continuing the iteration, we see that the sequence converges to the minimiser.
+
+```{python}
+_, axs = plt.subplots(1, 1)
+
+print("iter  x           F(x)")
+
+axs.plot(x, F1(x))
+
+x = 0.0
+for i in range(11):
+    if i < 5:
+        axs.plot(x, F1(x), f"C{i}o")
+        axs.annotate(
+            rf"$x^{{({i})}}$",
+            (x, F1(x)),
+            xytext=(-25, 10),
+            textcoords="offset points",
+            color=f"C{i}",
+        )
+    print(f"{i:2d}   {x:11.8f}  {F1(x):.8f}")
+
+    x = x - h * dF1(x)
+
+axs.set_xlabel("$x$")
+axs.set_ylabel("$F(x)$")
+axs.grid(True)
+plt.show()
+
+
+```
+:::
+
+We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$ (@lem-XX). So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $h$, uses the update formula:
+$$
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
+$$
+
+::: {#exm-gradient-descent}
+Consider the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+$$
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+$$
+We previously computed (@exm-gradient) that
+$$
+\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2).
+$$
+So the gradient descent update formula is:
+$$
+\begin{pmatrix}
+x_1^{(i+1)} \\ x_2^{(i+1)}
+\end{pmatrix} =
+\begin{pmatrix}
+x_1^{(i)} \\ x_2^{(i)}
+\end{pmatrix} -
+h\begin{pmatrix}
+4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
+\end{pmatrix}.
+$$
+
+```{python}
+def F2(x, y):
+    return x**4 - x**2 + 2 * x + 4 * y**2 + 2
+
+
+# Analytic gradient:
+# dF/dx = 4x^3 - 2x + 2
+# dF/dy = 8y
+def grad_F(x, y):
+    dFx = 4 * x**3 - 2 * x + 2
+    dFy = 8 * y
+    return np.array([dFx, dFy])
+
+
+def grad_F_str(x, y):
+    return (
+        "\\begin{pmatrix}"
+        f"4 \\times ({x})^3 - 2 \\times ({x}) + 2 \\\\"
+        f"8 \\times ({y})"
+        "\\end{pmatrix}"
+    )
+
+
+x = np.array([1, 0.75])
+h = 0.25
+
+s = f"Let $x^{{(0)}} = {array_to_latex(x)}$ and $h = {h}$.\n\n"
+
+s += "Then we can compute that\n\n"
+
+for i in range(2):
+    xnew = x - h * np.array(grad_F(x[0], x[1]))
+    s += (
+        "\\begin{align*} \n"
+        f"\\vec{{x}}^{{({i + 1})}} &= \\vec{{x}}^{{({i})}}"
+        "- h \\nabla F(\\vec{{x}}^{{({i})}}) \\\\ \n"
+        f"& = {array_to_latex(x)} - {h} \\times"
+        f"\\nabla F({x[0]}, {x[1]}) \\\\ \n"
+        f"& = {array_to_latex(x)} - {h} \\times"
+        f"{grad_F_str(x[0], x[1])} \\\\ \n"
+        f"& = {array_to_latex(x)} - {h} \\times"
+        "{array_to_latex(grad_F(x[0], x[1]))} \\\\ \n"
+        f"& = {array_to_latex(xnew)} \n"
+        "\\end{align*} \n\n"
+    )
+
+    x = xnew
+
+display(Markdown(s))
+
+
+```
+
+::: {#exr-gradient-descent}
+Take two steps of gradient descent for $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+$$
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
+$$
+:::
+:::
+
+::: {.remark}
+We always need an initial value for the gradient descent algorithm. If $F$ is convex, the choice of starting point does not affect the location of the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.
+:::
+
+## Choice of the step size $h$
+
+The choice of step size has a major effect on the performance of gradient descent. If $h$ is too small, we do not make enough progress towards the minimiser, but if $h$ is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).
+
+::: {#exm-choosing-h}
+We consider again the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+$$
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+$$
+From the plots (in ??), we can see we have a minimiser at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
+
+We implement the iteration in code and plot the function values for different values of $h$
+
+```{python}
+def F3(x):
+    return x[0] ** 4 - x[0] ** 2 + 2 * x[0] + 4 * x[1] ** 2 + 2
+
+
+def grad_F3(x):
+    return np.array([4 * x[0] ** 3 - 2 * x[0] + 2, 8 * x[1]])
+
+
+x_star = np.array([-1, 0])
+
+fig, ax = plt.subplots(1, 2)
+
+for h_exp in range(-1, 5):
+    h = 10 ** (-h_exp)
+    x = np.array([1, 0.75])
+    F_values = [F3(x)]
+    errors = [np.linalg.norm(x - x_star)]
+
+    for _ in range(100):
+        x = x - h * grad_F3(x)
+        F_values.append(F3(x))
+        errors.append(np.linalg.norm(x - x_star))
+        if F3(x) > 12:
+            break
+
+    ax[0].plot(F_values, label=f"$h=10^{{{-h_exp}}}$")
+    ax[1].semilogy(errors, label=f"$h=10^{{{-h_exp}}}$")
+
+ax[0].set_ylim([0, 12])
+ax[1].set_ylim([1e-8, 1e1])
+
+ax[0].set_xlabel("iteration count ($i$)")
+ax[0].set_ylabel("$F(\\vec{x}^{(i)})$")
+ax[0].grid(True)
+ax[0].legend()
+
+ax[1].set_xlabel("iteration count ($i$)")
+ax[1].set_ylabel("error: $\\|\\vec{x}^{(i)} - \\vec{x}^*\\|$")
+ax[1].grid(True)
+
+plt.tight_layout()
+plt.show()
+
+
+```
+
+We see that:
+
+- for $h = 10^{1}$ or $10^{0}$, the time step is too large and the iterations quickly diverge;
+- for $h = 10^{-3}$ or $10^{-4}$, the time step is too small and the function does not decrease quickly enough;
+- for $h = 10^{-1}$, we see a nice decrease in the function values and quick convergence to the minimum!
+:::
+
+::: {#exr-step-size}
+What would the *best* step size be? What if we know the second derivative of $F$ as well? (*Hint*: think of 1d first, then think how this might work in higher dimensions). More on this later!
+:::
+
+## Stopping criteria
+
+There are several possible stopping criteria available, similar to those used for other iterative schemes:
+
+1. **Stop after a fixed number of iterations**: This is the simplest option. This does not guarantee that we are close to the correct solution but does stop us from computing if the solution will never converge (e.g. if the step size is too large). But how do we know we aren't just converging slowly?
+
+2. **Stop when things stop changing**: We can monitor (i) the change in $\vec{x}^{(i)}$, (ii) the change in $F(\vec{x}^{(i)})$ or (iii) the magnitude of $\nabla F(\vec{x}^{(i)})$. All three can be used relatively straightforwardly to test if we have converged by comparing these values against a given tolerance $TOL$.
+
+3. **Stop if the function values are too large**: This again avoids us continuing to compute when the iteration will not converge. But how large is too large as part of an iteration?
+
+
+## Relation to differential equations
+
+There is another important way to derive the gradient descent algorithm: via a differential equation, often called the **gradient flow differential equation**:
+
+Find $\vec{x}(t)$ such that
+$$
+\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
+$$
+If we take the scalar product of this equation with $\vec{x}'(t)$, we see
+$$
+\vec{x}'(t) \cdot \vec{x}'(t) = - \nabla F(\vec{x}(t)) \vec{x}'(t).
+$$
+We can identify the left hand side here as $\|\vec{x}'(t)\|^2$ which is always non-negative, and using the chain rule, we see that
+$$
+- \nabla F(\vec{x}(t)) \vec{x}'(t) = -\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big).
+$$
+Thus, we can see that
+$$
+\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big) = - \|\vec{x}'(t)\|^2 \le 0,
+$$
+or we can integrate additionally to see:
+$$
+F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le F(\vec{x}^{(0)}).
+$$
+In words, these equations show that along solutions of the gradient flow equation, the quantity $F(\vec{x}(t))$ is non-increasing.
+
+Note there is no step size here: effectively, this is the case for $h \to 0$, and we see that $h$ is small enough for the function value to *always* decrease.
+
+Now, if we take apply Euler's method to solve the gradient descent differential equation with step size $h$, we arrive at the scheme:
+$$
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}).
+$$
+So Euler's method applied to the gradient flow equation gives exactly the gradient descent algorithm!
+
+::: {.remark}
+The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.
+
+For example, one approach called the *heavy ball* method (or momentum approach), uses a numerical method to solve the differential equation:
+$$
+\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}, \vec{x}'(0) = \vec{v}^{(0)}.
+$$
+:::
+
+## Newton's method
+
+In one dimension, we applied Newton's method to find a root of $F'$ which we hoped would be a minimiser.
+We can relate the gradient descent algorithm to Newton's method for $F'$:
+\begin{align*}
+x^{(i+1)} &= x^{(i)} - \frac{F'(x^{(i)})}{F''(x^{(i)})} && \text{(Newton's method)} \\
+x^{(i+1)} &= x^{(i)} - h F'(x^{(i)}) && \text{(gradient descent)}.
+\end{align*}
+We saw that Newton's method seem to converge very quickly, even faster than gradient descent!
+
+::: {#exm-newton-vs-gradient}
+Consider the function from before:
+$$
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+$$
+
+We can plot the value of $|F'(x^{(i)}|$ against the iteration count for the two methods we have written down here:
+```{python}
+def F1(x):
+    return x**4 / 4 - x**3 / 12 - x**2 / 2 + x / 4 + 1 / 2
+
+
+def dF1(x):
+    return x**3 - x**2 / 4 - x + 1 / 4
+
+
+def d2F1(x):
+    return 3 * x**2 - x / 2 - 1
+
+
+x0 = -2.5
+
+x = x0
+newton = [abs(dF1(x))]
+
+for _ in range(10):
+    x = x - dF1(x) / d2F1(x)
+    newton.append(abs(dF1(x)))
+
+plt.semilogy(newton, label="Newton")
+
+x = x0
+gf = [abs(dF1(x))]
+h = 0.1
+
+for _ in range(100):
+    x = x - h * dF1(x)
+    gf.append(abs(dF1(x)))
+
+plt.semilogy(gf, label=f"Gradient descent (h={h})")
+
+plt.ylabel("$|F'(x^{(i)})|$")
+plt.xlabel("Iteration count ($i$)")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+```
+:::
+
+This can also be made to work for problems in $\mathbb{R}^n$ too.
+The idea is to replace division by the second derivative in one dimension with the solution of a linear system involving the Hessian in higher dimensions.
+More precisely, rather than finding the inverse of the Hessian, we solve a system of linear equations! At each step, we solve the system of linear equations:
+$$
+(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
+$$
+
+::: {#exm-newton-Rn}
+Consider the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+$$
+F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
+$$
+We previously computed (@exm-gradient) that
+$$
+\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2),
+$$
+and the Hessian is
+$$
+\nabla^2 F(x_1, x_2) = \begin{pmatrix}
+12 x_1^2 - 2 & 0 \\
+0 & 8
+\end{pmatrix}.
+$$
+
+```{python}
+dF3 = grad_F3
+
+
+def F3_str(x):
+    return (
+        f"({x[0]})^4 - ({x[0]})^2 + 2 \\times ({x[0]}) + 4 \\times ({x[1]})^2"
+    )
+    "+ 2"
+
+
+def dF3_str(x):
+    return (
+        "\\begin{pmatrix}"
+        f"4 \\times ({x[0]})^3 - 2 \\times ({x[0]}) + 2 \\\\ "
+        f"8 \\times ({x[1]})"
+        "\\end{pmatrix}"
+    )
+
+
+def d2F3(x):
+    return np.array([[12 * x[0] ** 2 - 2, 0], [0, 8]])
+
+
+def d2F3_str(x):
+    return (
+        f"\\begin{{pmatrix}}"
+        f"12 \\times ({x[0]})^2 - 2 & 0 \\\\ 0 & 8"
+        "\\end{pmatrix}"
+    )
+
+
+x0 = np.array([1, 0.75])
+s = f"We start at $\\vec{{x}}^{{(0)}} = {array_to_latex(x0)}$.\n\n"
+
+x = x0.copy()
+
+for i in range(2):
+    delta = np.linalg.solve(d2F3(x), -dF3(x))
+    xnew = x + delta
+
+    s1 = (
+        f"**Iteration {i + 1}.**\n"
+        f"We compute that\n"
+        "\\begin{align*}\n"
+        f"\\nabla F(\\vec{{x}}^{{({i})}}) & = {dF3_str(x)}"
+        f"= {array_to_latex(dF3(x))} \\\\ \n"
+        f"\\nabla^2 F(\\vec{{x}}^{{({i})}}) & = {d2F3_str(x)}"
+        f"= {array_to_latex(d2F3(x))}.\n"
+        "\\end{align*}\n"
+        "So we need to solve\n"
+        "$$\n"
+        f"{array_to_latex(d2F3(x))}"
+        "\\begin{pmatrix} d_1 \\\\ d_2 \\end{pmatrix}"
+        f" = -{array_to_latex(dF3(x))}."
+        "$$\n"
+        "In general, we could use Gaussian elimination (or another linear"
+        "solver) to solve this system, but we recognise that the matrix is"
+        "diagonal so we can immediately read off that the solution is:"
+        "$$\n"
+        "\\begin{pmatrix} d_1 \\\\ d_2 \\end{pmatrix}"
+        f"= {array_to_latex(delta)}."
+        "$$\n"
+        "Then we see that\n"
+        "\\begin{align*}\n"
+        f"\\vec{{x}}^{{({i + 1})}} & = \\vec{{x}}^{{(i)}}"
+        "+ \\begin{pmatrix} d_1 \\\\ d_2 \\end{pmatrix} \\\\ \n"
+        f"&= {array_to_latex(x)} + {array_to_latex(delta)}"
+        f"= {array_to_latex(xnew)}\n"
+        "\\end{align*}\n"
+    )
+
+    x = xnew.copy()
+    s += s1
+
+display(Markdown(s))
+```
+:::
