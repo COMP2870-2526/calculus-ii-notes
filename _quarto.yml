@@ -50,8 +50,7 @@ format:
         - theorem.scss
     include-in-header: mathjax.html
   pdf:
-    include-in-header:
-      text: '\usepackage{lineno}\linenumbers'
+    pdf-engine: xelatex
 
 execute:
   freeze: auto
