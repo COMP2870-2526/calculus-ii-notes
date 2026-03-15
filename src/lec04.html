@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/lec04a.html" rel="next">
+<link href="../src/lec05.html" rel="next">
 <link href="../src/lec03a.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -369,20 +369,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec04a.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
   </div>
 </li>
     </ul>
@@ -400,7 +394,10 @@ window.Quarto = {
   <li><a href="#gradient" id="toc-gradient" class="nav-link" data-scroll-target="#gradient"><span class="header-section-number">7.3</span> Gradient</a></li>
   <li><a href="#the-hessian" id="toc-the-hessian" class="nav-link" data-scroll-target="#the-hessian"><span class="header-section-number">7.4</span> The Hessian</a></li>
   <li><a href="#what-does-this-say-about-optimisation" id="toc-what-does-this-say-about-optimisation" class="nav-link" data-scroll-target="#what-does-this-say-about-optimisation"><span class="header-section-number">7.5</span> What does this say about optimisation?</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.6</span> Summary</a></li>
+  <li><a href="#what-about-a-chain-rule" id="toc-what-about-a-chain-rule" class="nav-link" data-scroll-target="#what-about-a-chain-rule"><span class="header-section-number">8</span> What about a chain rule?</a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">8.1</span> Summary</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec04.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec04.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -440,6 +437,23 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Module learning objective
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Compute directional derivatives, partial derivatives, gradients and Hessians of functions <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>,</li>
+<li>Compute the Jacobian of a function <span class="math inline">\(\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m\)</span>,</li>
+<li>Give and apply a condition that shows that a function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> is convex.</li>
+</ol>
+</div>
+</div>
 <p>When we were working with a function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we had the key idea to find the points where the derivative of <span class="math inline">\(F\)</span> is <span class="math inline">\(0\)</span>. We have developed theory to tell us when these points are local or global minima and some methods to find these points.</p>
 <blockquote class="blockquote">
 <p>When working with functions with two-dimensional (or more) domains, how do we compute derivatives?</p>
@@ -448,7 +462,7 @@ window.Quarto = {
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span></p>
-<div id="eb814774" class="cell" data-execution_count="2">
+<div id="2c84a00e" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -560,7 +574,7 @@ F(x_1, x_2)
 <div id="exr-partial-derivatives" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 7.1</strong></span> Compute <span class="math inline">\(\frac{\partial F}{\partial x_2}\)</span> for this example using either approach.</p>
 </div>
-<div id="23f09a3b" class="cell" data-execution_count="3">
+<div id="4f551f82" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -595,7 +609,7 @@ F(x_1, x_2)
 </div>
 <div id="exm-gradient" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.3</strong></span> With the same <span class="math inline">\(F\)</span> as before, we can add white arrows to our previous plot to show the gradient of <span class="math inline">\(F\)</span>. At various points <span class="math inline">\(\vec{x}\)</span> in the domain, we plot an arrow starting at <span class="math inline">\(\vec{x}\)</span> in the direction <span class="math inline">\(\nabla F(\vec{x})\)</span>. The size of the arrow corresponds to the magnitude of the gradient.</p>
-<div id="18e29054" class="cell" data-execution_count="4">
+<div id="dba3cfb9" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -829,8 +843,114 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2
 \]</span> convex? First, find the Hessian of <span class="math inline">\(F\)</span> and then the eigenvalues of <span class="math inline">\(\nabla^2 F(\vec{x})\)</span>. What do they show you?</p>
 </div>
 </section>
-<section id="summary" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.6</span> Summary</h2>
+<section id="what-about-a-chain-rule" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> What about a chain rule?</h1>
+<p>When introducing partial derivatives, we say that many of the rules from usual derivatives passed over including the sum rule and product rule. However, we did not mention the chain rule. Things are a little more complicated for partial derivatives here.</p>
+<div id="exm-chain-rule-0" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.1</strong></span> Consider <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = (2 x_1 - 3)^2 + (3 x_2 + 4)^2.
+\]</span></p>
+<p>First, we can compute directly that <span class="math display">\[
+F(x_1, x_2) = 4 x_1^2 - 12 x_1 + 9 x_2^2 + 24 x_2 + 25.
+\]</span> Then <span class="math display">\[\begin{align*}
+\frac{\partial F}{\partial x_1}(x_1, x_2) &amp; = 8 x_1 - 12 \\
+\frac{\partial F}{\partial x_2}(x_1, x_2) &amp; = 18 x_2 + 24.
+\end{align*}\]</span> But we can also see that we could write <span class="math display">\[
+(y_1, y_2) = \vec{V}(x_1, x_2) = (2 x_1 - 3, 3 x_2 + 4)
+\]</span> and then <span class="math display">\[
+F(x_1, x_2) = W(y_1, y_2) = y_1^2 + y_2^2.
+\]</span> so that <span class="math inline">\(F = W \circ \vec{V}\)</span> - i.e.&nbsp;<span class="math inline">\(F(x_1, x_2) = W(\vec{V}(x_1, x_2))\)</span>. We might want to form a chain rule so that derivatives of <span class="math inline">\(F\)</span> are somehow related to derivatives of <span class="math inline">\(\vec{V}_1\)</span> and <span class="math inline">\(W\)</span>.</p>
+<p>We can compute partial derivatives of <span class="math inline">\(W\)</span> already. We need to answer the question:</p>
+<ol type="1">
+<li>What could it mean to say derivatives of <span class="math inline">\(\vec{V} \colon \mathbb{R}^2 \to \mathbb{R}^2\)</span>?</li>
+<li>How could we combine derivatives of <span class="math inline">\(\vec{V}\)</span> and <span class="math inline">\(W\)</span> to get the right result?</li>
+</ol>
+<p>Let’s try to answer question 2 first.</p>
+<p>Suppose we want to compute: <span class="math display">\[
+\frac{\partial F}{\partial x_j}(\vec{x}) = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}.
+\]</span> Now <span class="math display">\[
+F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})
+= W(\vec{V}(\vec{x} + h \vec{e}^{(j)})) - W(\vec{V}(\vec{x})).
+\]</span> So the whole problem becomes: how does <span class="math inline">\(W\)</span> change when <em>all</em> of its inputs (<span class="math inline">\(y_1, y_2\)</span>) change by a small amount. We handle that by changing the inputs one at a time.</p>
+<p>We have <span class="math inline">\((y_1, y_2) = \vec{V}(x_1, x_2)\)</span> and we also add the notation: <span class="math display">\[\begin{align*}
+\vec{d}(h) = (d_1(h), d_2(h)) &amp; = \vec{V}(\vec{x} + h \vec{e}^{(j)}) - \vec{V}(\vec{x}) \\
+= \vec{V}(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - \vec{V}(x_1, x_2).
+\end{align*}\]</span> Then <span class="math display">\[
+\vec{V}(\vec{x} + h \vec{e}^{(j)}) = \vec{y} + \vec{d}(h).
+\]</span> So we can compute that <span class="math display">\[\begin{align*}
+&amp; F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x}) \\
+&amp;= W(\vec{V}(\vec{x} + h \vec{e}^{(j)})) - W(\vec{V}(\vec{x})) \\
+&amp;= W(\vec{y} + \vec{d}(h)) - W(\vec{y}) \\
+&amp;= W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1, y_2) \\
+&amp;= \big(W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1 + d_1(h), y_2)\big) \\
+&amp; \qquad + \big(W(y_1 + d_1(h), y_2) - W(y_1, y_2) \big).
+\end{align*}\]</span> Thus, from the sum rule for limits, we have that <span class="math display">\[\begin{align*}
+&amp; \lim_{h \to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h} \\
+&amp; = \lim_{h \to 0} \frac{W(y_1 + d_1(h), y_2 + d_2(h)) - W(y_1 + d_1(h), y_2)}{h} \\
+&amp; \qquad + \lim_{h \to 0} \frac{W(y_1 + d_1(h), y_2) - W(y_1, y_2)}{h}.
+\end{align*}\]</span> We note that each limit looks a lot like a single partial derivative which follows something very similar to the one-dimensional chain rule. Using further results from Mathematical Analysis (Mean Value Theorem), we can see that <span class="math display">\[
+\lim_{h \to 0} \frac{F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})}{h}
+= \frac{\partial W}{\partial y_2}(y_1, y_2) d_2'(0) + \frac{\partial W}{\partial y_1}(y_1, y_2) d_1'(0).
+\]</span> Finally, we compute that <span class="math display">\[
+d_i'(0) = \lim_{h\to 0} \frac{V_i(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - V_i(x_1, x_2)}{h} = \frac{\partial V_i}{\partial x_j}(\vec{x}).
+\]</span> Putting everything together, we have <span class="math display">\[
+\frac{\partial F}{\partial x_j}(\vec{x}) =
+\frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_j}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_j}(\vec{x}).
+\]</span></p>
+<p>Let’s test this formula on our example. <span class="math display">\[\begin{align*}
+\frac{\partial V_1}{\partial x_1} &amp;= 2 &amp; \frac{\partial V_1}{\partial x_2} &amp;= 0 \\
+\frac{\partial V_2}{\partial x_1} &amp;= 0 &amp; \frac{\partial V_2}{\partial x_2} &amp;= 3 \\
+\frac{\partial W}{\partial y_1} &amp;= 2 y_1 &amp; \frac{\partial W}{\partial y_2} &amp;= 2 y_2.
+\end{align*}\]</span> Then, we compute that <span class="math display">\[\begin{align*}
+\frac{\partial F}{\partial x_1}(\vec{x})
+&amp;= \frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_1}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_1}(\vec{x}) \\
+&amp;= 2 y_1 \times 2  + 2 y_2 \times 0 \\
+&amp;= 4 \times (2 x_1 - 3) + 0 \times (3 x_2 + 4) = 8 x_1 - 12,
+\end{align*}\]</span> and <span class="math display">\[\begin{align*}
+\frac{\partial F}{\partial x_2}(\vec{x})
+&amp;= \frac{\partial W}{\partial y_1} (\vec{y}) \frac{\partial V_1}{\partial x_2}(\vec{x})
++ \frac{\partial W}{\partial y_2} (\vec{y}) \frac{\partial V_2}{\partial x_2}(\vec{x}) \\
+&amp;= 2 y_1 \times 0  + 2 y_2 \times 3 \\
+&amp;= 0 \times (2 x_1 - 3) + 6 \times (3 x_2 + 4) = 18 x_2 + 24.
+\end{align*}\]</span> We see that the results agree!</p>
+</div>
+<p>We return to the general case. Similar calculations to the above example give us this chain rule:</p>
+<div id="lem-chain-rule-Rn" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 8.1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> be a smooth function given by <span class="math inline">\(F = W \circ \vec{V}\)</span> where <span class="math inline">\(\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m\)</span> and <span class="math inline">\(W \colon \mathbb{R}^m \to \mathbb{R}\)</span> are both smooth. Then <span class="math display">\[
+\frac{\partial F}{\partial x_j}(\vec{x}) = \sum_{i=1}^m \frac{\partial W}{\partial y_i}(\vec{V}(\vec{x}))\frac{\partial V_i}{\partial x_j}(\vec{x}).
+\]</span></p>
+</div>
+<p>We have previously seen that the terms <span class="math inline">\(\frac{\partial W}{\partial y_i}\)</span> form part of the <em>gradient</em> of <span class="math inline">\(W\)</span>. There is a similar object called the Jacobian for vector-valued functions. Since <span class="math inline">\(\vec{V}\)</span> has <span class="math inline">\(m\)</span> output variables and <span class="math inline">\(n\)</span> input variables, we store its partial derivative in a matrix with <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns:</p>
+<div id="def-jacobian" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 8.1</strong></span> Let <span class="math inline">\(\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m\)</span>. Then the <strong>Jacobian</strong> of <span class="math inline">\(\vec{V}\)</span> at <span class="math inline">\(\vec{x}\)</span> is the <span class="math inline">\(m \times n\)</span> matrix given by: <span class="math display">\[
+J_{\vec{V}}
+= \begin{pmatrix}
+\frac{\partial \vec{V}}{\partial x_1} \cdots \frac{\partial \vec{V}}{\partial x_n}
+\end{pmatrix}
+= \begin{pmatrix}
+(\nabla V_1)^T \\
+\vdots \\
+(\nabla V_m)^T
+\end{pmatrix}
+= \begin{pmatrix}
+\frac{\partial V_1}{\partial x_1} &amp; \cdots &amp; \frac{\partial V_1}{\partial x_n} \\
+\vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial V_m}{\partial x_1} &amp; \cdots &amp; \frac{\partial V_m}{\partial x_n}
+\end{pmatrix}.
+\]</span> That is the Jacobian is the matrix:</p>
+<ul>
+<li>with the <span class="math inline">\(j\)</span>th columns given by the partial derivative of <span class="math inline">\(\vec{V}\)</span> with respect to <span class="math inline">\(x_j\)</span></li>
+<li>with the <span class="math inline">\(i\)</span>th row given by the transpose of the gradient of <span class="math inline">\(V_i\)</span></li>
+<li>with the <span class="math inline">\((i, j)\)</span> entry given by <span class="math inline">\(\frac{\partial V_i}{\partial x_j}\)</span>.</li>
+</ul>
+</div>
+<p>With this notation the chain rule (<a href="#lem-chain-rule-Rn" class="quarto-xref">Lemma&nbsp;<span>8.1</span></a>) can be written as the matrix vector product <span class="math display">\[
+\nabla F(\vec{x}) = \big(J_{\vec{V}}(\vec{x})\big)^T \nabla W(\vec{V}(\vec{x})).
+\]</span></p>
+<section id="summary" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.1</span> Summary</h2>
 <p>We have introduced derivatives for functions <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>:</p>
 <ul>
 <li><span class="math inline">\(F'_{\vec{v}}\)</span>: the directional derivative,</li>
@@ -838,9 +958,11 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2
 <li><span class="math inline">\(\nabla F\)</span>: gradient,</li>
 <li><span class="math inline">\(\nabla^2 F\)</span>: Hessian.</li>
 </ul>
+<p>We have also introduced the Jacobian of a function <span class="math inline">\(\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m\)</span> and used this to form a chain rule.</p>
 <p>These are all important objects in their own right with a wide variety of uses. We will use them in the context of optimisation in this module. We have shown some ideas of how to show that a function <span class="math inline">\(F\)</span> is convex depending on the eigenvalues of the Hessian of <span class="math inline">\(F\)</span>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1264,8 +1386,8 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec04a.html" class="pagination-link" aria-label="What about a chain rule?">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">What about a chain rule?</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../src/lec05.html" class="pagination-link" aria-label="Optimisation in $\mathbb{R}^n$">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
