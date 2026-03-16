@@ -68,8 +68,9 @@ jobs:
             mv "${q/.qmd/.html}" _output/slides/
             mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
           done
-      - name: Build slides
-        run: echo "Not building slides"
+
+      - name: Patch chalkboard plugin
+        run: uv run python patch-chalkboard.py
 
       # Save updated Quarto freeze cache
       - name: Save Quarto freeze cache
