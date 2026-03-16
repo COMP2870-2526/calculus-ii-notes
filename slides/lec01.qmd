@@ -1,7 +1,7 @@
 ---
 echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
-subtitle: TODO
+subtitle: Introduction and dynamic problems
 author:
   - name: Dr. Thomas Ranner (Tom)
     email: T.Ranner@leeds.ac.uk
@@ -11,13 +11,781 @@ html-math-method: mathjax
 include-in-header: ../mathjax.html
 
 format:
-  revealjs:
+  live-revealjs:
     slide-level: 3
     slide-number: true
     preview-links: auto
     chalkboard:
       theme: whiteboard
 ---
-# Slide 1
+# Welcome to Calculus II
 
-hello
+```{python}
+import urllib.request
+
+import numpy as np
+import pandas as pd
+from IPython.display import Markdown
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
+
+Key topics:
+
+1. Dynamic problems and differential equations
+2. Optimisation and nonlinear solvers
+3. Partial derivatives
+4. Gradient flow
+
+## Reminders
+
+- We have online notes:
+  <https://comp2870-2526.github.io/calculus-ii-notes/>
+
+- There are now lab sessions again -- check your timetable on Fri 27 March
+
+# Introduction to dynamic problems
+
+> Identify some examples where differential equations arise throughout computer science and beyond
+
+## Dynamic Problems in the Real World
+
+<style>
+/* Responsive grid that keeps a tidy layout on wide and narrow screens */
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) );
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Make all images the same height, fill their cell, and crop if necessary */
+.img-grid img {
+  width: 100%;
+  height: 220px;          /* adjust to taste */
+  object-fit: cover;      /* use 'contain' if you prefer letterboxing instead of cropping */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+</style>
+
+::: {.img-grid}
+![](https://images.unsplash.com/photo-1640955014216-75201056c829?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+![](https://images.unsplash.com/photo-1647427060118-4911c9821b82?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+![](https://images.unsplash.com/photo-1768055105681-7d2096c5165f?q=80&w=349&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+![](https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+![](https://images.unsplash.com/photo-1554475901-4538ddfbccc2?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+![](https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+:::
+
+::: {.notes}
+There are many models and problems where time plays an important role.
+
+1. Realistic behaviour within **computer** games requires an accurate and efficient *physics engine* which is used to predict the motion and impacts of e.g. projectiles, vehicles, people, etc. These are examples of dynamical models which must be solved and then rendered in "real time";
+2. Planning and scheduling complicated **robotic** tasks requires solving dynamic models for how the robotic will interact with its environment;
+
+3. Most **financial technologies** require predicting the future price of some valuable object. This is typically done through solving dynamic models which need to be solved very quickly to achieve the best results;
+4. **Weather and climate** predictions are mode through solving very large dynamic models;
+5. Dynamic problems are everywhere in **scientific and engineering**: e.g., chemical reactions, electrical circuits, biological populations and mechanical vibrations.
+:::
+
+## Why do computer scientists need to know this?
+
+- important methods for solving interesting problems often found in science and engineering, robotics and games design and more;
+- the idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;
+- measuring errors and efficiency of approaches with a view to balancing between them.
+
+## Rates of change
+
+::: {.notes}
+We will start with a recap of material that you learnt last year to define the objects we want to discuss. We will do this in a way that's driven by our applications and methods which will follow.
+:::
+
+Suppose we know that a person is walking at a *constant* speed of 3 meters per second (m/s). What does that really mean? How far will they travel in:
+
+- $0.1$ seconds?
+- $0.01$ seconds?
+- $0.001$ seconds?
+- $10^{-6}$ seconds?
+
+What does this tell us about speed?
+
+## Rates of change ii
+
+We have that
+$$
+\text{Distance travelled} = \text{speed} \times \text{time},
+$$
+or equivalently:
+$$
+\text{speed} = \frac{\text{distance travelled}}{\text{time}}.
+$$
+
+What if the object's speed was not constant? For example, we could define the speed
+\begin{equation}
+\label{eq:speed-ex}
+S(t) = -(t-1)(t+0.5).
+\end{equation}
+
+## Rates of change iii
+
+```{python}
+# | fig-cap: A sample object speed over time
+
+T = 1.0
+
+
+def S(t):
+    return -(t - 1) * (t + 0.5)
+
+
+t_ = np.linspace(0, T)
+s_ = S(t_)
+
+plt.plot(t_, s_)
+
+plt.xlabel("$t$: time (s)")
+plt.ylabel("$S(t)$: speed (m/s)")
+plt.grid(True)
+
+plt.show()
+```
+
+**How far would the object travel in one second now?**
+
+## Splitting it up
+
+We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the $S(t)$ is approximately constant in each interval):
+
+```{python}
+# | fig-cap: A sample object speed over time approximated over 10 steps
+t_ = np.linspace(0, T)
+s_ = S(t_)
+
+plt.plot(t_, s_, label="exact")
+
+N = 10
+
+t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
+dt = T / (N - 1)
+s_[0] = S(0.0)
+for i in range(1, N):
+    t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
+    s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
+s_[-1] = S(T)
+
+plt.plot(t_, s_, label=f"{N} steps")
+
+plt.xlabel("$t$: time (s)")
+plt.ylabel("$S(t)$: speed (m/s)")
+plt.grid(True)
+plt.legend()
+
+plt.show()
+```
+
+---
+
+```{pyodide}
+#| include: false
+
+def S(t):
+    return -(t - 1) * (t + 0.5)
+```
+
+```{pyodide}
+D, t = 0.0, 0.0
+
+for i in range(10):
+    D = D + 0.1 * S(t)
+    t = t + 0.1
+
+print(D, t)
+```
+
+---
+
+We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:
+
+::: {.columns}
+::: {.column width="60%"}
+
+```{python}
+# | fig-cap: A sample object speed over time approximated over 100 steps
+t_ = np.linspace(0, T)
+s_ = S(t_)
+
+plt.plot(t_, s_, label="exact")
+
+for N in [10, 100]:
+    t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
+    dt = T / (N - 1)
+    s_[0] = S(0.0)
+    for i in range(1, N):
+        t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
+        s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
+    s_[-1] = S(T)
+
+    plt.plot(t_, s_, label=f"{N} steps")
+
+plt.xlabel("$t$: time (s)")
+plt.ylabel("$S(t)$: speed (m/s)")
+plt.grid(True)
+plt.legend()
+
+plt.show()
+```
+:::
+
+::: {.column width="40%"}
+```{pyodide}
+D, t = 0.0, 0.0
+
+for _i in range(100):
+    D = D + 0.01 * S(t)
+    t = t + 0.01
+
+print(D, t)
+```
+:::
+:::
+
+---
+
+::: {.columns}
+::: {.column width="60%"}
+
+What about if we did a thousand steps
+
+```{python}
+# | fig-cap: A sample object speed over time approximated over 1000 steps
+t_ = np.linspace(0, T)
+s_ = S(t_)
+
+plt.plot(t_, s_, label="exact")
+
+for N in [10, 100, 1000]:
+    t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
+    dt = T / (N - 1)
+    s_[0] = S(0.0)
+    for i in range(1, N):
+        t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
+        s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
+    s_[-1] = S(T)
+
+    plt.plot(t_, s_, label=f"{N} steps")
+
+plt.xlabel("$t$: time (s)")
+plt.ylabel("$S(t)$: speed (m/s)")
+plt.grid(True)
+plt.legend()
+
+plt.show()
+```
+:::
+
+::: {.column width="40%"}
+```{pyodide}
+D, t = 0.0, 0.0
+
+for _i in range(1000):
+    D = D + 0.001 * S(t)
+    t = t + 0.001
+
+print(D, t)
+```
+:::
+:::
+
+---
+
+In summary, we get
+
+```{python}
+data = []
+
+for j in range(6):
+    N = 10**j
+    dt = 1.0 / N
+
+    D, t = 0.0, 0.0
+    for _i in range(N):
+        D = D + dt * S(t)
+        t = t + dt
+
+    data.append({"intervals": N, "increment size, h": dt, "total distance": D})
+
+pd.DataFrame(data)
+```
+
+We appear to be converging to a limit as $h \to 0$...
+
+## Formula time
+
+We might express this mathematically as:
+\begin{equation*}
+\label{eq:S-derivative}
+S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
+\end{equation*}
+or that *instant* speed is the limit of average speed over smaller and smaller intervals.
+
+Formally, we say that speed, $S(t)$, is the **derivative** of distance, $D(t)$, with respect to time and write $S(t) = D'(t)$.
+
+
+## Geometric picture
+
+We can plot the expression for the speed, $S(t)$, from \eqref{eq:speed-ex} and it's integral from 0 up to time $t$, which we call the distance. $D(t)$.
+
+```{python}
+# | fig-cap: Distance and speed examples as a function of time
+
+
+def D(t):
+    return -(1 / 3) * t**3 + 0.25 * t**2 + 0.5 * t
+
+
+t_ = np.linspace(0, T)
+s_ = S(t_)
+d_ = D(t_)
+
+plt.plot(t_, s_, label="Speed")
+plt.plot(t_, d_, label="Distance")
+
+plt.xlabel("$t$: time (s)")
+plt.grid(True)
+plt.legend()
+
+plt.show()
+
+
+```
+
+::: {.notes}
+We see that the **gradient** (slope) of the green curve is the **value** of the blue curve.
+
+- As the blue curve increases in value, the green curve increases in steepness.
+- When the blue curve starts to decrease in value, the green curve decreases in steepness.
+- By the time the blue curve has a value of zero the green curve is flat.
+:::
+
+---
+
+This gives us an alternative definition of derivative:
+
+> The function $D'(t)$ is the function whose value is equal to the slope (or gradient) of $D(t)$ at every value of $t$.
+
+```{python}
+# | fig-cap: Examples of different sloped straight lines.
+def plot_slope(a, b):
+    plt.plot([0, a, a, 0], [0, 0, b, 0], "k")
+
+    plt.text(a / 2, -0.4, f"{a}", fontsize="xx-large")
+    plt.text(a + 0.1, b / 2, f"{b}", fontsize="xx-large")
+
+    plt.axis("square")
+    plt.axis("off")
+
+
+plt.subplot(131)
+plot_slope(2, 1)
+
+plt.subplot(132)
+plot_slope(2, 2)
+
+plt.subplot(133)
+plot_slope(1, 2)
+
+plt.show()
+
+
+```
+
+---
+
+For a straight line, we can use the formula for a straight line to find the gradient. The equation of a straight line with slope $m$ is given by
+$$
+f(t) = m t + c.
+$$
+
+For a curve (i.e. non-straight line), we can approximate the slope with a straight line approximation ("chord"):
+$$
+\frac{f(t + h) - f(t)}{h}.
+$$
+We can get a better approximation by taking a smaller value of $h$....
+
+---
+
+```{python}
+# | fig-cap: Sample straight-line approximations to the slope of a curve.
+def bump_func(x):
+    return np.exp(-(x**2))
+
+
+def plot(dt=1.0):
+    t = np.linspace(-2, 2, 200)
+    plt.plot(t, bump_func(t))
+
+    plt.plot([0, 0, -2], [0, bump_func(0), bump_func(0)], "--")
+    plt.plot([dt, dt, -2], [0, bump_func(dt), bump_func(dt)], "--")
+
+    slope = (bump_func(dt) - bump_func(0)) / dt
+    plt.plot([0, dt], [bump_func(0), bump_func(dt)], label=f"{slope=:.1f}")
+
+    plt.xticks([0, dt], ["t", "t + dt"])
+    plt.yticks([bump_func(0), bump_func(dt)], ["f(t)", "f(t + dt)"])
+
+    plt.legend()
+
+
+plt.subplot(221)
+plot(1.0)
+
+plt.subplot(222)
+plot(0.5)
+
+plt.subplot(223)
+plot(0.25)
+
+plt.subplot(224)
+plot(0.125)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+We can apply similar understanding no matter what the underlying function is.
+For example, we could do the same things with more complicated real world data.
+Here is an example using climate data ([data source: Met Office](https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html)).
+```{python}
+# | fig-cap: Central England Temperature anomaly. Annual Average 1659-2025.
+
+# URL for the HadCET data
+URL = "https://www.metoffice.gov.uk/hadobs/hadcet/data/meantemp_seasonal_totals.txt"
+
+
+def fetch_and_parse_data(url):
+    """Fetch data from URL and parse years and annual temperatures."""
+    years = []
+    annual_temps = []
+
+    with urllib.request.urlopen(url) as response:
+        lines = response.read().decode("utf-8").split("\n")
+
+    # Skip header lines (first 6 lines contain metadata)
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        # Check if this line starts with a year (4 digits)
+        parts = line.split()
+        if len(parts) >= 6:
+            try:
+                year = int(parts[0])
+                annual = float(parts[5])  # Annual is the 6th column
+
+                # Skip missing data (marked as -99.90 or similar)
+                if annual > -90:
+                    years.append(year)
+                    annual_temps.append(annual)
+            except ValueError:
+                continue
+
+    return np.array(years), np.array(annual_temps)
+
+
+def plot_temperature_data(years, temps):
+    """Create a plot of annual average temperatures over time."""
+    fig, (ax, ax2) = plt.subplots(2)
+
+    # Plot the annual data
+    ax.plot(years, temps, ".", alpha=0.5, label="Annual Mean")
+
+    # Add a smoothed trend line (10-year running average)
+    window = 30
+    if len(temps) >= window:
+        smoothed = np.convolve(temps, np.ones(window) / window, mode="valid")
+        smoothed_years = years[window // 2 : len(years) - window // 2 + 1]
+        ax.plot(
+            smoothed_years, smoothed, label=f"{window}-year Running Average"
+        )
+
+    # Formatting
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Temperature anomaly (°C)")
+    ax.legend()
+    ax.grid(True)
+
+    ax2.plot(
+        smoothed_years,
+        np.gradient(smoothed),
+        "C2",
+        label=f"Derivative of {window}-year running average",
+    )
+    ax2.set_xlabel("Year")
+    ax2.set_ylabel("Slope of temperature (°C/year)")
+    ax2.grid(True)
+    ax2.legend()
+
+    plt.tight_layout()
+
+
+years, temps = fetch_and_parse_data(URL)
+plot_temperature_data(years, temps)
+plt.show()
+
+
+```
+
+## Formulation in terms of formulae
+
+Let $f \colon (a, b) \to \mathbb{R}$ be a function on an interval $(a, b)$ of the real line. We say that $f$ is **differentiable** if for all $x \in (a, b)$ the limit:
+$$
+\lim_{h \to 0} \frac{f(x+h) - f(x)}{h},
+$$
+exists and is finite. If so, we call the function $g \colon (a, b) \to \mathbb{R}$ the **derivative** of $f$.
+We will write $f'(x) := g(x)$ or $\frac{\mathrm{d}}{\mathrm{d}x} f(x) = g(x)$.
+
+## Last year...
+
+You learnt lots of formulae last year for computing derivatives and integrals. There is a brief recap in the notes!
+
+---
+
+::: {#rem-integral}
+The problem of finding distance over the time interval $(0, 1)$, given speed, $S(t)$, given in \eqref{eq:speed-ex}, can be solved using integration.
+
+Indeed, using that $D'(t) = S(t)$, the fundamental theorem of calculus tells us that $D(t)$ is the integral of $S(t)$ with respect to time:
+$$
+D(1) = \int_0^1 S(t) \, \mathrm{d}t = \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t.
+$$
+
+::: {.notes}
+\begin{align*}
+D(1) & = \int_0^1 S(t) \, \mathrm{d}t
+= \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t \\
+& = \int_0^1 -t^2 + 0.5 t + 0.5 \,\mathrm{d}t \\
+& = \left[ -\frac{1}{3} t^3 + \frac{0.5}{2} t^2 + 0.5 t \right]_{t=0}^1 \\
+& = (-\frac{1}{3} \times 1^3 + 0.25 \times 1^2 + 0.5 \times 1) - (-\frac{1}{3} \times 0^3 + 0.25 \times 0^2 + 0.5 \times 0) \\
+& = \frac{5}{12} \approx 0.416667.
+\end{align*}
+:::
+:::
+
+---
+
+The rest of our section work in this week's lectures is to solve similar equations in the case that our formula for $S(t)$ would depend on $t$ and also $D$ when we can't do integration directly.
+
+## Differential equations
+
+::: {.notes}
+We have already seen and solved one differential equation - when we solved for the distance travel as a function of time: $D'(t) = S(t)$. That equation related the derivative of $D$ to a function of time $S(t)$. When a model takes the form of an equation which involves one or more derivatives then it is called a **differential equation**.
+
+Most models of dynamic processes take the form of differential equations including climate models, many models in engineering and science, financial models, physics engines in computer games and many more!
+:::
+
+> Recognise parts of a differential equation in standard format
+
+---
+
+We are interested in equations of the form:
+\begin{multline*}
+y'(t) = f(t, y(t)) \\\text{subject to the initial condition}\quad y(t_0) = y_0.
+\end{multline*}
+The data (things given to us) are:
+
+- the **initial time** $t_0$
+- **the initial condition**: the initial value of $y$ at  $t_0$
+- the **right hand side function** $f$ which can be a function of both time and the solution $y$,
+
+and we must find a function $y \colon [0, T) \to \mathbb{R}$ for some final time $T$.
+
+---
+
+::: {#rem-euler}
+One important consideration is that while many clever ways to solve differential equations exactly exist, most differential equations cannot be solved by hand. Thus numerical methods are not only convenient ways to find solutions of differential equations, in many cases they are essential.
+
+The downside of a computational approach arises now since we are *approximating* the true solution. We will cover more on this in the next lecture.
+:::
+
+## Example differential equation - an object in free fall
+
+Consider the following simple model for an object falling from a large height, based on the two assumptions:
+
+1. all objects are attracted downward with an acceleration due to gravity of $9.81\,\mathrm{m}/\mathrm{s}^2$;
+2. air resistance causes an object to decelerate in proportion to its speed (i.e. the faster it travels the greater the air resistance).
+
+The *net acceleration downwards* (i.e. rate of change of speed, $S'(t)$) is given by the sum of the two forces $g$ and $-k S(t)$:
+$$
+S'(t) = g - k S(t).
+$$
+
+---
+
+How can we solve this equation?
+
+We cannot solve this integral exactly:
+$$
+S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
+$$
+
+::: {.notes}
+- There are techniques to solve this problem analytically -- but we are simple computer scientists looking for simple computer-based solutions instead!
+- We can do similar to the above idea where we divide the time period into lots of small intervals and assume that everything is approximately constant on each time interval...
+:::
+
+---
+
+```{python}
+# | echo: True
+# | code-line-numbers: "1-6|8-10|12-14|16-20|22-26"
+def freefall(n):
+    """
+    Compute the trajectory of an object falling freely.
+    Input: n number of timesteps
+    Output: t (time steps) and s (speed at each time step)
+    """
+
+    tfinal = 50.0  # Select the final time
+    g = 9.81  # acceleration due to gravity (m/s)
+    k = 0.2  # air resistance coefficient
+
+    # initialise time and speed arrays array
+    t = np.zeros([n + 1, 1])
+    s = np.zeros([n + 1, 1])
+
+    # set initial conditions
+    s[0] = 0.0
+    t[0] = 0.0
+
+    dt = (tfinal - t[0]) / n  # calculate step size
+
+    # take n time steps, in which it is assumed that the acceleration
+    # is constant in each small time interval
+    for i in range(n):
+        t[i + 1] = t[i] + dt
+        s[i + 1] = s[i] + dt * (g - k * s[i])
+
+    return t, s
+
+
+```
+
+---
+
+```{python}
+for n in [10, 20, 40, 80]:
+    t, s = freefall(n)
+
+    plt.plot(t, s, label=f"${n=}$")
+
+plt.xlabel("$t$: time (s)")
+plt.ylabel("$y(t)$: speed (m/s)")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+We see that as we take more time steps, we converge to a smooth solution.
+
+## Euler's method
+
+> Solve differential equations numerically using Euler's method.
+
+---
+
+The general algorithm is very simple:
+
+1. Set initial values $t^{(0)}$ and $y^{(0)}$ from the initial condition.
+2. Loop over all time steps, until the final time $T$, updating using the formula:
+   \begin{align*}
+   y^{(i+1)} &= y^{(i)} + h f(t^{(i)}, y^{(i)}) \\
+   t^{(i+1)} &= t^{(i)} + h.
+   \end{align*}
+
+The algorithm has one free parameter: the number of time steps, $n$. Once the number of time steps is fixed, we can calculate the time step $h = (T - t_0) / (n-1)$.
+
+## An example
+
+Take two steps of Euler's method to approximate the solution of
+\begin{multline*}
+y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 2,
+\end{multline*}
+for $1 \le t \le 2$.
+
+::: {.notes}
+
+```{python}
+t0 = 1
+y0 = 2
+T = 2
+
+n = 2
+h = (T - t0) / n
+
+
+def f(t, y):
+    return -(y**2) + 3 * t**2
+
+
+s = f"""
+In this example we have:
+
+- $n={n}$
+- $t_0 = {t0}$
+- $y_0 = {y0}$
+- $T = {T}$
+- $h = ({T} - {t0})/{n} = {h}$
+- $f(t, y) = -y^2 + 3t^2$.
+
+We start with $t^{{(0)}} = {t0}$ and $y^{{(0)}} = {y0}$.
+
+"""
+
+t, y = t0, y0
+
+for step in range(n):
+    ynew = y + h * f(t, y)
+    tnew = t + h
+
+    s_step = f"""
+- Step {step + 1}:
+    \\begin{{align*}}
+      y^{{({step + 1})}} & = y^{{({step})}} + h
+       f(t^{{({step})}}, y^{{({step})}}) \\\\
+      & = {y} + {h} (-({y})^2 + 3 \\times {t}^{{2}}) = {ynew} \\\\
+      t^{{({step + 1})}} & = t^{{({step})}} + h \\\\
+      & = {t} + {h} = {tnew}
+    \\end{{align*}}
+    """
+    s += s_step
+
+    t, y = tnew, ynew
+
+
+Markdown(s)
+```
+:::
+
+. . .
+
+::: {#exr-euler}
+Complete the next two time steps from to find an approximation of the solution at $T = 3$.
+:::
+
+---
+
+**Remarks**
+
+- We see that Euler's method is a very general method that is very easy to apply.
+- We can very quickly apply lots of very small time steps for (what we hope will be) a good approximation of the solution.
+- This generality and simplicity is very powerful.
+
+In the next lecture, we will measure the error of this approach and see how we can use our understanding of the errors to find an improve formulation.
