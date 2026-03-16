@@ -19,12 +19,11 @@ This part of the module introduces numerical algorithms involving derivatives an
 
 ### Topics
 
-TODO - to update
-
 We will have 6 double lectures, 2 tutorials, and 3 labs. We break up the topics
 as follows:
 
 Lectures
+(*The following schedule is still to be confirmed*)
 
 1. Introduction to ordinary differential equations and Euler's method (week 9, L1)
 2. The midpoint method and systems of differential equations (week 9, L2)
@@ -46,9 +45,7 @@ Tutorials
 
 ### Learning outcomes
 
-Candidates should be able to:
-
-TODO
+Learning outcomes are provided in each section of the notes.
 
 ## Programming
 
