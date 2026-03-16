@@ -1450,6 +1450,7 @@ const initChalkboard = function ( Reveal ) {
 				var yOffset = drawingCanvas[ mode ].yOffset;
 
 				var touch = evt.touches[ 0 ];
+				if ( touch.touchType !== undefined && touch.touchType !== 'stylus' ) { return; }
 				mouseX = touch.pageX;
 				mouseY = touch.pageY;
         if ( color[ mode ]  < 0 ) {

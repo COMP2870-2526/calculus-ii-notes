@@ -464,7 +464,7 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 \]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
-<div id="45364aa8" class="cell" data-execution_count="2">
+<div id="0a142717" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
 F(x^{(0)}) = \frac14 \times (0)^4 - \frac112 \times (0)^3 - \frac12 \times (0)^2 + \frac14 \times (0) + \frac12 = 0.5
@@ -499,7 +499,7 @@ F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \fr
 &amp;= 0.3401020365336164.\end{align*}\]</span></p>
 </div>
 </div>
-<div id="b28c469b" class="cell" data-execution_count="3">
+<div id="2a364219" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -509,7 +509,7 @@ F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \fr
 </div>
 </div>
 <p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="9d8e1a3e" class="cell" data-execution_count="4">
+<div id="c3158775" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>iter  x           F(x)
  0    0.00000000  0.50000000
@@ -552,7 +552,7 @@ h\begin{pmatrix}
 4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
 \end{pmatrix}.
 \]</span></p>
-<div id="c3062742" class="cell" data-execution_count="5">
+<div id="d3e83af3" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Let <span class="math inline">\(x^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span> and <span class="math inline">\(h = 0.25\)</span>.</p>
 <p>Then we can compute that</p>
@@ -589,7 +589,7 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span> From the plots (in ??), we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
 <p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(h\)</span></p>
-<div id="78cb238a" class="cell" data-execution_count="6">
+<div id="2be4dee1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -654,7 +654,7 @@ x^{(i+1)} &amp;= x^{(i)} - h F'(x^{(i)}) &amp;&amp; \text{(gradient descent)}.
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
 <p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
-<div id="551f9adb" class="cell" data-execution_count="7">
+<div id="725e1c5b" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -678,7 +678,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 0 &amp; 8
 \end{pmatrix}.
 \]</span></p>
-<div id="adede960" class="cell" data-execution_count="8">
+<div id="f90a2367" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We start at <span class="math inline">\(\vec{x}^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span>.</p>
 <p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}

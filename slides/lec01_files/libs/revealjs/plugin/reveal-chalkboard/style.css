@@ -42,3 +42,6 @@ div.boardhandle > ul > li {
 		display: none!important; 
 	}
 }
+
+.chalkboard-eraser-btn { cursor: pointer; }
+.chalkboard-eraser-btn.active { outline: 2px solid white; border-radius: 3px; }

@@ -490,7 +490,7 @@ window.Quarto = {
 \text{Force} = \text{Mass} \times \text{Acceleration}.
 \]</span> Once we know the acceleration of an object we can solve differential equations to calculate its subsequent velocity and position…</p>
 <p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="e4a6e54c" class="cell" data-execution_count="2">
+<div id="a2b67bf3" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -527,7 +527,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <section id="python-implementation" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="python-implementation"><span class="header-section-number">4.3</span> Python implementation</h2>
 <p>We can implement our model using Euler’s method:</p>
-<div id="c28a433a" class="cell" data-execution_count="3">
+<div id="d71412c7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> projectile(n, T):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Simulate the 2D motion of a projectile using Euler's method.</span></span>
@@ -590,7 +590,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <span id="cb1-60"><a href="#cb1-60"></a></span>
 <span id="cb1-61"><a href="#cb1-61"></a>    <span class="cf">return</span> t, X, Y, U, V</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="58b8f819" class="cell" data-execution_count="5">
+<div id="5ae3aa22" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -616,7 +616,7 @@ y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
 <p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the following system of differential equations: <span class="math display">\[
 \vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
 \]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
-<div id="14e4e2ce" class="cell" data-execution_count="6">
+<div id="64e7859d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <ul>
 <li><p>Step 1:</p>
