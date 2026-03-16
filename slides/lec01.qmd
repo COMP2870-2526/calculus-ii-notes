@@ -43,7 +43,7 @@ Key topics:
 - We have online notes:
   <https://comp2870-2526.github.io/calculus-ii-notes/>
 
-- There are now lab sessions again -- check your timetable on Fri 27 March
+- Lab sessions resume this week -- check your timetable on Fri 27 March
 
 # Introduction to dynamic problems
 
@@ -88,18 +88,18 @@ Key topics:
 There are many models and problems where time plays an important role.
 
 1. Realistic behaviour within **computer** games requires an accurate and efficient *physics engine* which is used to predict the motion and impacts of e.g. projectiles, vehicles, people, etc. These are examples of dynamical models which must be solved and then rendered in "real time";
-2. Planning and scheduling complicated **robotic** tasks requires solving dynamic models for how the robotic will interact with its environment;
+2. Planning and scheduling complicated **robotic** tasks requires solving dynamic models for how the robot will interact with its environment;
 
 3. Most **financial technologies** require predicting the future price of some valuable object. This is typically done through solving dynamic models which need to be solved very quickly to achieve the best results;
-4. **Weather and climate** predictions are mode through solving very large dynamic models;
+4. **Weather and climate** predictions are made through solving very large dynamic models;
 5. Dynamic problems are everywhere in **scientific and engineering**: e.g., chemical reactions, electrical circuits, biological populations and mechanical vibrations.
 :::
 
 ## Why do computer scientists need to know this?
 
-- important methods for solving interesting problems often found in science and engineering, robotics and games design and more;
-- the idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;
-- measuring errors and efficiency of approaches with a view to balancing between them.
+- Important methods for solving interesting problems often found in science and engineering, robotics and games design and more;
+- The idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;
+- Measuring errors and efficiency of approaches with a view to balancing between them.
 
 ## Rates of change
 
@@ -172,13 +172,18 @@ plt.plot(t_, s_, label="exact")
 
 N = 10
 
-t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
-dt = T / (N - 1)
+t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
+dt = T / N
 s_[0] = S(0.0)
-for i in range(1, N):
-    t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
-    s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
-s_[-1] = S(T)
+for i in range(N):
+    t_left = i * dt
+    t_right = (i + 1) * dt
+    s_val = S(t_left)
+
+    t_[2 * i] = t_left
+    t_[2 * i + 1] = t_right
+    s_[2 * i] = s_val
+    s_[2 * i + 1] = s_val
 
 plt.plot(t_, s_, label=f"{N} steps")
 
@@ -224,13 +229,18 @@ s_ = S(t_)
 plt.plot(t_, s_, label="exact")
 
 for N in [10, 100]:
-    t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
-    dt = T / (N - 1)
+    t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
+    dt = T / N
     s_[0] = S(0.0)
-    for i in range(1, N):
-        t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
-        s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
-    s_[-1] = S(T)
+    for i in range(N):
+        t_left = i * dt
+        t_right = (i + 1) * dt
+        s_val = S(t_left)
+
+        t_[2 * i] = t_left
+        t_[2 * i + 1] = t_right
+        s_[2 * i] = s_val
+        s_[2 * i + 1] = s_val
 
     plt.plot(t_, s_, label=f"{N} steps")
 
@@ -271,13 +281,18 @@ s_ = S(t_)
 plt.plot(t_, s_, label="exact")
 
 for N in [10, 100, 1000]:
-    t_, s_ = np.zeros(2 * N - 1), np.zeros(2 * N - 1)
-    dt = T / (N - 1)
+    t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
+    dt = T / N
     s_[0] = S(0.0)
-    for i in range(1, N):
-        t_[2 * i - 1], t_[2 * i] = i * dt, i * dt
-        s_[2 * i - 1], s_[2 * i] = S((i - 1) * dt), S(i * dt)
-    s_[-1] = S(T)
+    for i in range(N):
+        t_left = i * dt
+        t_right = (i + 1) * dt
+        s_val = S(t_left)
+
+        t_[2 * i] = t_left
+        t_[2 * i + 1] = t_right
+        s_[2 * i] = s_val
+        s_[2 * i + 1] = s_val
 
     plt.plot(t_, s_, label=f"{N} steps")
 
@@ -340,7 +355,7 @@ Formally, we say that speed, $S(t)$, is the **derivative** of distance, $D(t)$, 
 
 ## Geometric picture
 
-We can plot the expression for the speed, $S(t)$, from \eqref{eq:speed-ex} and it's integral from 0 up to time $t$, which we call the distance. $D(t)$.
+We can plot the expression for the speed, $S(t)$, from \eqref{eq:speed-ex} and its integral from 0 up to time $t$, which we call the distance. $D(t)$.
 
 ```{python}
 # | fig-cap: Distance and speed examples as a function of time
@@ -435,7 +450,7 @@ def plot(dt=1.0):
     plt.plot([dt, dt, -2], [0, bump_func(dt), bump_func(dt)], "--")
 
     slope = (bump_func(dt) - bump_func(0)) / dt
-    plt.plot([0, dt], [bump_func(0), bump_func(dt)], label=f"{slope=:.1f}")
+    plt.plot([0, dt], [bump_func(0), bump_func(dt)], label=f"{slope=:.2f}")
 
     plt.xticks([0, dt], ["t", "t + dt"])
     plt.yticks([bump_func(0), bump_func(dt)], ["f(t)", "f(t + dt)"])
@@ -584,7 +599,7 @@ D(1) & = \int_0^1 S(t) \, \mathrm{d}t
 
 The rest of our section work in this week's lectures is to solve similar equations in the case that our formula for $S(t)$ would depend on $t$ and also $D$ when we can't do integration directly.
 
-## Differential equations
+# Differential equations
 
 ::: {.notes}
 We have already seen and solved one differential equation - when we solved for the distance travel as a function of time: $D'(t) = S(t)$. That equation related the derivative of $D$ to a function of time $S(t)$. When a model takes the form of an equation which involves one or more derivatives then it is called a **differential equation**.
@@ -606,7 +621,7 @@ The data (things given to us) are:
 - **the initial condition**: the initial value of $y$ at  $t_0$
 - the **right hand side function** $f$ which can be a function of both time and the solution $y$,
 
-and we must find a function $y \colon [0, T) \to \mathbb{R}$ for some final time $T$.
+and we must find a function $y \colon [t_0, T) \to \mathbb{R}$ for some final time $T$.
 
 ---
 
@@ -623,16 +638,19 @@ Consider the following simple model for an object falling from a large height, b
 1. all objects are attracted downward with an acceleration due to gravity of $9.81\,\mathrm{m}/\mathrm{s}^2$;
 2. air resistance causes an object to decelerate in proportion to its speed (i.e. the faster it travels the greater the air resistance).
 
-The *net acceleration downwards* (i.e. rate of change of speed, $S'(t)$) is given by the sum of the two forces $g$ and $-k S(t)$:
+---
+
+If we take downward as the positive direction, a simple model for the downward acceleration is:
 $$
-S'(t) = g - k S(t).
+S'(t) = g - k S(t),
 $$
+where $g$ is the gravitational acceleration and $k S(t)$ models air resistance.
 
 ---
 
 How can we solve this equation?
 
-We cannot solve this integral exactly:
+We cannot just solve this integral since $S(t)$ (our unknown solution) is inside the integral: To evaluate the integral, we would already need to know the solutions $S(t)$!
 $$
 S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 $$
@@ -649,7 +667,7 @@ $$
 # | code-line-numbers: "1-6|8-10|12-14|16-20|22-26"
 def freefall(n):
     """
-    Compute the trajectory of an object falling freely.
+    Compute the speed of an object falling freely.
     Input: n number of timesteps
     Output: t (time steps) and s (speed at each time step)
     """
@@ -659,8 +677,8 @@ def freefall(n):
     k = 0.2  # air resistance coefficient
 
     # initialise time and speed arrays array
-    t = np.zeros([n + 1, 1])
-    s = np.zeros([n + 1, 1])
+    t = np.zeros(n + 1)
+    s = np.zeros(n + 1)
 
     # set initial conditions
     s[0] = 0.0
@@ -688,14 +706,14 @@ for n in [10, 20, 40, 80]:
     plt.plot(t, s, label=f"${n=}$")
 
 plt.xlabel("$t$: time (s)")
-plt.ylabel("$y(t)$: speed (m/s)")
+plt.ylabel("$S(t)$: speed (m/s)")
 plt.grid(True)
 plt.legend()
 plt.show()
 ```
 We see that as we take more time steps, we converge to a smooth solution.
 
-## Euler's method
+# Euler's method
 
 > Solve differential equations numerically using Euler's method.
 
@@ -710,7 +728,8 @@ The general algorithm is very simple:
    t^{(i+1)} &= t^{(i)} + h.
    \end{align*}
 
-The algorithm has one free parameter: the number of time steps, $n$. Once the number of time steps is fixed, we can calculate the time step $h = (T - t_0) / (n-1)$.
+- The number of time steps: $n \longrightarrow h = (T - t_0) / n$.
+- Euler's method uses the current slope to predict the next value.
 
 ## An example
 
@@ -777,7 +796,7 @@ Markdown(s)
 . . .
 
 ::: {#exr-euler}
-Complete the next two time steps from to find an approximation of the solution at $T = 3$.
+Complete the next two time steps to find an approximation of the solution at $T = 3$.
 :::
 
 ---
