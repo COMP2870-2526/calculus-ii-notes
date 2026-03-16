@@ -522,7 +522,7 @@ x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
 <p><span class="theorem-title"><strong>Example 6.2</strong></span> We want to solve the quadratic equation <span class="math display">\[
 f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 \]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
-<div id="3d6cd7fe" class="cell" data-execution_count="2">
+<div id="6ade18ba" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># implementation of quadratic formula</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">def</span> quad(a, b, c):</span>
 <span id="cb1-3"><a href="#cb1-3"></a>    <span class="co">"""</span></span>
@@ -542,7 +542,7 @@ f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 </div>
 </div>
 <p>These values look reasonable, but let’s check the errors:</p>
-<div id="71d020e5" class="cell" data-execution_count="3">
+<div id="841b3f4a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># absolute and relative errors</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -571,7 +571,7 @@ f(x) = x^2 - 2.
 <p>An ellipse has two semi-axes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and we assume that <span class="math inline">\(a &gt; b\)</span>. We denote by <span class="math inline">\(e = \sqrt{1 - \frac{b^2}{a^2}}\)</span> the eccentricity of the ellipse. The closest point on the ellipse to the central body (i.e.&nbsp;planet or star, which is at one of the foci of the ellipse) of the object’s trajectory is called the periapsis.</p>
 <p>To connect time to position, it’s convenient to use an angle-like variable that increases at a constant rate - this variable is called the mean anomaly, <span class="math inline">\(M\)</span> (measured in radians). <span class="math inline">\(M = 0\)</span> corresponds to periapsis and <span class="math inline">\(M = \pi\)</span> corresponds to half an orbit later.</p>
 <p>There is a helpful intermediate angle called the eccentric anomaly which we write as <span class="math inline">\(E\)</span>. Since <span class="math inline">\(M\)</span> is not the actual geometric angle around the ellipse, we use <span class="math inline">\(E\)</span> as a useful angle from which we can compute quantities such that the coordinates of the object.</p>
-<div id="ce4a82f9" class="cell" data-execution_count="4">
+<div id="eeab8974" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -613,7 +613,7 @@ f'(E) = 1 - e \cos E \ge 1 - e &gt; 0,
 <section id="bisection-method" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="bisection-method"><span class="header-section-number">6.3</span> Bisection method</h2>
 <p>The first method that we introduce is the bisection method. This is a simple, slow but very robust method. It’s based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).</p>
-<div id="770afe84" class="cell" data-execution_count="5">
+<div id="4ba5870a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -647,7 +647,7 @@ f'(E) = 1 - e \cos E \ge 1 - e &gt; 0,
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="b6b715ee" class="cell" data-execution_count="7">
+<div id="5471974e" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  a        b        f(a)        f(b)
  1 1.000000 1.500000 -1.0000e+00 2.5000e-01
@@ -673,7 +673,7 @@ f(x) = x^2 - 2.
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="8d2d69c3" class="cell" data-execution_count="8">
+<div id="c7246b04" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  a        b        f(a)        f(b)
  1 0.000000 3.141593 -2.0000e+00 1.1416e+00
@@ -721,7 +721,7 @@ f(x) = x - 0.7 \sin(x) - 2.0
 <section id="newtons-method" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="newtons-method"><span class="header-section-number">6.4</span> Newton’s method</h2>
 <p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).</p>
-<div id="9f0725ec" class="cell" data-execution_count="9">
+<div id="80b9d61b" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -746,7 +746,7 @@ x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
 <p>Once we have our updated estimate <span class="math inline">\(x^{(1)}\)</span>, we can continue the iteration: <span class="math display">\[
 x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 \]</span></p>
-<div id="3c316e9f" class="cell" data-execution_count="10">
+<div id="1d10c619" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -770,7 +770,7 @@ x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="0751ab8f" class="cell" data-execution_count="12">
+<div id="9cd1050c" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  x        f(x)       df(x)
  1 1.500000 2.5000e-01 3.0000
@@ -785,7 +785,7 @@ f(x) = x^2 - 2.
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="bcd77a51" class="cell" data-execution_count="13">
+<div id="5b64a644" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  x        f(x)       df(x)
  1 2.470068 3.4541e-02 1.5480
@@ -826,7 +826,7 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 </div>
 <p>Another similar case is what if the derivative at the root is zero (i.e., <span class="math inline">\(f'(x^*) = 0\)</span>), in this case the iteration can still proceed but the iteration is <em>slower</em>.</p>
 <p>Consider <span class="math inline">\(f(x) = (x-1)^2 = x^2 - 2x + 1\)</span>:</p>
-<div id="89152613" class="cell" data-execution_count="15">
+<div id="9c669a36" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -835,7 +835,7 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 </div>
 </div>
 </div>
-<div id="2cd88534" class="cell" data-execution_count="16">
+<div id="b99f0c46" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  x        f(x)       df(x)
  1 1.500000 2.5000e-01 1.0000
@@ -854,7 +854,7 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 <p>There are also cases where Newton’s method does not converge even when a root exists!</p>
 <div id="exm-newton-non-convergence" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> Consider the function <span class="math inline">\(f(x) = x^{1/3}\)</span>. Clearly <span class="math inline">\(f\)</span> has a root at <span class="math inline">\(x^* = 0\)</span> (<span class="math inline">\(f(0) = 0\)</span>).</p>
-<div id="789d2b31" class="cell" data-execution_count="17">
+<div id="9b15750a" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -870,7 +870,7 @@ x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{
 <p>It is even possible for the iteration to simply cycle between two values repeatedly.</p>
 <div id="exm-newton-repeater" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.8</strong></span> Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This has derivative <span class="math inline">\(f'(x) = 3 x^2 - 2\)</span>.</p>
-<div id="46434706" class="cell" data-execution_count="19">
+<div id="d92ab591" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -880,7 +880,7 @@ x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{
 </div>
 </div>
 <p>Starting an iteration at <span class="math inline">\(x^{(0)} = 1\)</span> gives:</p>
-<div id="27fe8300" class="cell" data-execution_count="20">
+<div id="d155f2f3" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>it  x        f(x)       df(x)
  1 0.000000 2.0000e+00 -2.0000
