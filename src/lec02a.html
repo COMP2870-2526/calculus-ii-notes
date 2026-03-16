@@ -490,7 +490,7 @@ window.Quarto = {
 \text{Force} = \text{Mass} \times \text{Acceleration}.
 \]</span> Once we know the acceleration of an object we can solve differential equations to calculate its subsequent velocity and position…</p>
 <p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="2f455a2b" class="cell" data-execution_count="2">
+<div id="df1c1d37" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -527,43 +527,70 @@ Y(0) &amp;= 100 \, \text{m}.
 <section id="python-implementation" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="python-implementation"><span class="header-section-number">4.3</span> Python implementation</h2>
 <p>We can implement our model using Euler’s method:</p>
-<div id="52f311f0" class="cell" data-execution_count="3">
+<div id="1a77e4ab" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> projectile(n, T):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    </span><span class="al">TODO</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    """</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    <span class="co"># initialise all arrays</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>    t <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    U <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    V <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    X <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    Y <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Simulate the 2D motion of a projectile using Euler's method.</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    The model evolves position (X, Y) and velocity (U, V) from given initial</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">    conditions, under gravity and linear air resistance:</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">        U' = -k U</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">        V' = -k V - g</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">        X' = U</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">        Y' = V</span></span>
 <span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co"># set initial conditions</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    t[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>    U[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">20.0</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    V[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    X[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    Y[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">100.0</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">    Parameters</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">    ----------</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">    n : int</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">        Number of Euler time-steps.</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">    T : float</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">        Final time of the simulation. The step size is `h = T / n`.</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># define constants</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>    k <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>    g <span class="op">=</span> <span class="fl">9.81</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    <span class="co"># calculate step size</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>    h <span class="op">=</span> (T <span class="op">-</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
-<span id="cb1-25"><a href="#cb1-25"></a></span>
-<span id="cb1-26"><a href="#cb1-26"></a>    <span class="co"># perform euler steps</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-28"><a href="#cb1-28"></a>        U[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> U[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> U[i])</span>
-<span id="cb1-29"><a href="#cb1-29"></a>        V[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> V[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> V[i] <span class="op">-</span> g)</span>
-<span id="cb1-30"><a href="#cb1-30"></a>        X[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> X[i] <span class="op">+</span> h <span class="op">*</span> U[i]</span>
-<span id="cb1-31"><a href="#cb1-31"></a>        Y[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> Y[i] <span class="op">+</span> h <span class="op">*</span> V[i]</span>
-<span id="cb1-32"><a href="#cb1-32"></a>        t[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> t[i] <span class="op">+</span> h</span>
-<span id="cb1-33"><a href="#cb1-33"></a></span>
-<span id="cb1-34"><a href="#cb1-34"></a>    <span class="cf">return</span> t, X, Y, U, V</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">    Returns</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">    -------</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">    t : ndarray of shape (n+1,)</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">        Time points of the simulation.</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">    X : ndarray of shape (n+1,)</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co">        Horizontal position of the projectile at each time step.</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="co">    Y : ndarray of shape (n+1,)</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">        Vertical position of the projectile at each time step.</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co">    U : ndarray of shape (n+1,)</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="co">        Horizontal velocity at each time step.</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="co">    V : ndarray of shape (n+1,)</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="co">        Vertical velocity at each time step.</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="co">    """</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a>    <span class="co"># initialise all arrays</span></span>
+<span id="cb1-33"><a href="#cb1-33"></a>    t <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    U <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-35"><a href="#cb1-35"></a>    V <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-36"><a href="#cb1-36"></a>    X <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-37"><a href="#cb1-37"></a>    Y <span class="op">=</span> np.empty(n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-38"><a href="#cb1-38"></a></span>
+<span id="cb1-39"><a href="#cb1-39"></a>    <span class="co"># set initial conditions</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a>    t[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-41"><a href="#cb1-41"></a>    U[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">20.0</span></span>
+<span id="cb1-42"><a href="#cb1-42"></a>    V[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-43"><a href="#cb1-43"></a>    X[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a>    Y[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">100.0</span></span>
+<span id="cb1-45"><a href="#cb1-45"></a></span>
+<span id="cb1-46"><a href="#cb1-46"></a>    <span class="co"># define constants</span></span>
+<span id="cb1-47"><a href="#cb1-47"></a>    k <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb1-48"><a href="#cb1-48"></a>    g <span class="op">=</span> <span class="fl">9.81</span></span>
+<span id="cb1-49"><a href="#cb1-49"></a></span>
+<span id="cb1-50"><a href="#cb1-50"></a>    <span class="co"># calculate step size</span></span>
+<span id="cb1-51"><a href="#cb1-51"></a>    h <span class="op">=</span> (T <span class="op">-</span> <span class="dv">0</span>) <span class="op">/</span> n</span>
+<span id="cb1-52"><a href="#cb1-52"></a></span>
+<span id="cb1-53"><a href="#cb1-53"></a>    <span class="co"># perform euler steps</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-55"><a href="#cb1-55"></a>        U[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> U[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> U[i])</span>
+<span id="cb1-56"><a href="#cb1-56"></a>        V[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> V[i] <span class="op">+</span> h <span class="op">*</span> (<span class="op">-</span>k <span class="op">*</span> V[i] <span class="op">-</span> g)</span>
+<span id="cb1-57"><a href="#cb1-57"></a>        X[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> X[i] <span class="op">+</span> h <span class="op">*</span> U[i]</span>
+<span id="cb1-58"><a href="#cb1-58"></a>        Y[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> Y[i] <span class="op">+</span> h <span class="op">*</span> V[i]</span>
+<span id="cb1-59"><a href="#cb1-59"></a>        t[i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> t[i] <span class="op">+</span> h</span>
+<span id="cb1-60"><a href="#cb1-60"></a></span>
+<span id="cb1-61"><a href="#cb1-61"></a>    <span class="cf">return</span> t, X, Y, U, V</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="422048e9" class="cell" data-execution_count="5">
+<div id="addd1c4b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -589,7 +616,7 @@ y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
 <p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the following system of differential equations: <span class="math display">\[
 \vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
 \]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
-<div id="d7454928" class="cell" data-execution_count="6">
+<div id="c0f2559b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <ul>
 <li><p>Step 1:</p>
