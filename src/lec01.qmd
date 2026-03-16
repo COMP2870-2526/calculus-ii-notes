@@ -25,7 +25,11 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 There are many models and problems where time plays an important role.
 
-Examples TODO
+1. Realistic behaviour within computer games requires an accurate and efficient *physics engine* which is used to predict the motion and impacts of e.g. projectiles, vehicles, people, etc. These are examples of dynamical models which must be solved and then rendered in "real time";
+2. Planning and scheduling complicated robotic tasks requires solving dynamic models for how the robotic will interact with its environment;
+3. Most financial technologies require predicting the future price of some valuable object. This is typically done through solving dynamic models which need to be solved very quickly to achieve the best results;
+4. Weather and climate predicts are mode through solving very large dynamic models;
+5. Dynamic problems are everywhere in scientific and engineering: e.g., chemical reactions, electrical circuits, biological populations and mechanical vibrations.
 
 Often these models use the language of derivatives and calculus to express the underlying processes.
 We will spend the first two lectures of this part of the module covering how we can solve this type of dynamic problem using numerical methods.
