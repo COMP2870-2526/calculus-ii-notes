@@ -32,31 +32,64 @@ for f in plugin_files:
     )
     print(f"chalkboard palm rejection patch applied ({f})")
 
-    # Eraser button: inject a toggle <li> into the chalkboard palette only (mode 1, uses
-    # chalks).  Targeting the call site avoids adding a button to the notes canvas palette
-    # (mode 0).  Guard prevents double-injection if the script runs on an already-patched file.
-    if "chalkboard-eraser-btn" not in patched:
+    # Eraser button helper — shared toggle logic, defined once on window so both palettes
+    # can reference it regardless of which initialises first.
+    _eraser_toggle_fn = (
+        "\t\t\tif ( !window._toggleEraserMode ) {\n"
+        "\t\t\t\twindow._toggleEraserMode = function() {\n"
+        "\t\t\t\t\twindow._chalkboardEraserMode = !window._chalkboardEraserMode;\n"
+        "\t\t\t\t\tdocument.querySelectorAll( '.chalkboard-eraser-btn' ).forEach( function( b ) {\n"
+        "\t\t\t\t\t\tb.classList.toggle( 'active', !!window._chalkboardEraserMode );\n"
+        "\t\t\t\t\t\tb.setAttribute( 'aria-pressed', window._chalkboardEraserMode ? 'true' : 'false' );\n"
+        "\t\t\t\t\t} );\n"
+        "\t\t\t\t};\n"
+        "\t\t\t}\n"
+    )
+    _eraser_button_html = (
+        "\t\t\t\tvar eraserButton = document.createElement( 'li' );\n"
+        "\t\t\t\teraserButton.classList.add( 'chalkboard-eraser-btn' );\n"
+        "\t\t\t\teraserButton.innerHTML = '<i class=\"fa fa-eraser\"></i>';\n"
+        "\t\t\t\teraserButton.setAttribute( 'role', 'button' );\n"
+        "\t\t\t\teraserButton.setAttribute( 'aria-label', 'Toggle eraser mode' );\n"
+        "\t\t\t\teraserButton.setAttribute( 'aria-pressed', 'false' );\n"
+        "\t\t\t\teraserButton.addEventListener( 'click', window._toggleEraserMode );\n"
+        "\t\t\t\teraserButton.addEventListener( 'touchstart', function( e ) { e.stopPropagation(); e.preventDefault(); window._toggleEraserMode(); } );\n"
+        "\t\t\t\tpalette.querySelector( 'ul' ).appendChild( eraserButton );\n"
+    )
+
+    # Inject into mode-0 palette (boardmarkers — writing on slides).
+    # Guard: original append line still present means not yet patched.
+    _boardmarkers_original = (
+        "\t\t\t\tvar palette = createPalette( boardmarkers, colorButtons );\n"
+        "\t\t\t\tpalette.style.visibility = 'hidden'; // only show palette in drawing mode\n"
+        "\t\t\t\tcontainer.appendChild( palette );"
+    )
+    if _boardmarkers_original in patched:
         patched = patched.replace(
-            "\t\t\t\tvar palette = createPalette( chalks, colorButtons );\n"
-            "\t\t\t\tcontainer.appendChild( palette );",
-            "\t\t\t\tvar palette = createPalette( chalks, colorButtons );\n"
-            "\t\t\t\tvar eraserButton = document.createElement( 'li' );\n"
-            "\t\t\t\teraserButton.classList.add( 'chalkboard-eraser-btn' );\n"
-            "\t\t\t\teraserButton.innerHTML = '<i class=\"fa fa-eraser\"></i>';\n"
-            "\t\t\t\teraserButton.setAttribute( 'role', 'button' );\n"
-            "\t\t\t\teraserButton.setAttribute( 'aria-label', 'Toggle eraser mode' );\n"
-            "\t\t\t\teraserButton.setAttribute( 'aria-pressed', 'false' );\n"
-            "\t\t\t\tfunction _toggleEraserMode() {\n"
-            "\t\t\t\t\twindow._chalkboardEraserMode = !window._chalkboardEraserMode;\n"
-            "\t\t\t\t\tdocument.querySelectorAll( '.chalkboard-eraser-btn' ).forEach( function( b ) {\n"
-            "\t\t\t\t\t\tb.classList.toggle( 'active', !!window._chalkboardEraserMode );\n"
-            "\t\t\t\t\t\tb.setAttribute( 'aria-pressed', window._chalkboardEraserMode ? 'true' : 'false' );\n"
-            "\t\t\t\t\t} );\n"
-            "\t\t\t\t}\n"
-            "\t\t\t\teraserButton.addEventListener( 'click', _toggleEraserMode );\n"
-            "\t\t\t\teraserButton.addEventListener( 'touchstart', function( e ) { e.stopPropagation(); e.preventDefault(); _toggleEraserMode(); } );\n"
-            "\t\t\t\tpalette.querySelector( 'ul' ).appendChild( eraserButton );\n"
-            "\t\t\t\tcontainer.appendChild( palette );",
+            _boardmarkers_original,
+            _eraser_toggle_fn
+            + "\t\t\t\tvar palette = createPalette( boardmarkers, colorButtons );\n"
+            "\t\t\t\tpalette.style.visibility = 'hidden'; // only show palette in drawing mode\n"
+            + _eraser_button_html
+            + "\t\t\t\tcontainer.appendChild( palette );",
+            1,
+        )
+        print(f"notes-canvas eraser button patch applied ({f})")
+    else:
+        print(f"notes-canvas eraser button already present, skipping ({f})")
+
+    # Inject into mode-1 palette (chalks — chalkboard view).
+    _chalks_original = (
+        "\t\t\t\tvar palette = createPalette( chalks, colorButtons );\n"
+        "\t\t\t\tcontainer.appendChild( palette );"
+    )
+    if _chalks_original in patched:
+        patched = patched.replace(
+            _chalks_original,
+            _eraser_toggle_fn
+            + "\t\t\t\tvar palette = createPalette( chalks, colorButtons );\n"
+            + _eraser_button_html
+            + "\t\t\t\tcontainer.appendChild( palette );",
             1,
         )
         print(f"chalkboard eraser button patch applied ({f})")
