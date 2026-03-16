@@ -494,15 +494,15 @@ window.Quarto = {
 <li>Realistic behaviour within computer games requires an accurate and efficient <em>physics engine</em> which is used to predict the motion and impacts of e.g.&nbsp;projectiles, vehicles, people, etc. These are examples of dynamical models which must be solved and then rendered in “real time”;</li>
 <li>Planning and scheduling complicated robotic tasks requires solving dynamic models for how the robotic will interact with its environment;</li>
 <li>Most financial technologies require predicting the future price of some valuable object. This is typically done through solving dynamic models which need to be solved very quickly to achieve the best results;</li>
-<li>Weather and climate predicts are mode through solving very large dynamic models;</li>
+<li>Weather and climate predictions are mode through solving very large dynamic models;</li>
 <li>Dynamic problems are everywhere in scientific and engineering: e.g., chemical reactions, electrical circuits, biological populations and mechanical vibrations.</li>
 </ol>
 <p>Often these models use the language of derivatives and calculus to express the underlying processes. We will spend the first two lectures of this part of the module covering how we can solve this type of dynamic problem using numerical methods.</p>
 <p>As a computer scientist, this will help you in your future studies by introducing:</p>
 <ul>
-<li>important methods for solving interesting problems often found in science and engineering, robotics and games design;</li>
-<li>the idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;</li>
-<li>measuring errors and efficiency of approaches with a view to balancing between them.</li>
+<li>Important methods for solving interesting problems often found in science and engineering, robotics and games design;</li>
+<li>The idea of splitting up a continuous problem into a finite number of steps which makes a tractable problem for a computer to solve;</li>
+<li>Measuring errors and efficiency of approaches with a view to balancing between them.</li>
 </ul>
 <section id="rates-of-change" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="rates-of-change"><span class="header-section-number">2.1</span> Rates of change</h2>
@@ -524,7 +524,7 @@ window.Quarto = {
 \label{eq:speed-ex}
 S(t) = -(t-1)(t+0.5).
 \end{equation}\]</span></p>
-<div id="1595e87d" class="cell" data-execution_count="2">
+<div id="730a4418" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -536,7 +536,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 <p><strong>How far would the object travel in one second now?</strong></p>
 <p>We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the <span class="math inline">\(S(t)\)</span> is approximately constant in each interval):</p>
-<div id="29e00410" class="cell" data-execution_count="3">
+<div id="90210e78" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -546,7 +546,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="1fbff444" class="cell" data-execution_count="4">
+<div id="3cb98564" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -559,7 +559,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 <p>We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:</p>
-<div id="15428ced" class="cell" data-execution_count="5">
+<div id="60817dbb" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -569,7 +569,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="ae905fcc" class="cell" data-execution_count="6">
+<div id="9d171dc0" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
@@ -582,7 +582,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 <p>What about if we did a thousand steps</p>
-<div id="8393a6e5" class="cell" data-execution_count="7">
+<div id="5240c63d" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -592,7 +592,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="6cef064c" class="cell" data-execution_count="8">
+<div id="1d2f4284" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
@@ -605,7 +605,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 <p>In summary, we get</p>
-<div id="8741688e" class="cell" data-execution_count="9">
+<div id="29e4975e" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
@@ -672,7 +672,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <section id="geometric-picture" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="geometric-picture"><span class="header-section-number">2.2</span> Geometric picture</h2>
 <p>We can plot the expression for the speed, <span class="math inline">\(S(t)\)</span>, from <span class="math inline">\(\eqref{eq:speed-ex}\)</span> and it’s integral from 0 up to time <span class="math inline">\(t\)</span>, which we call the distance. <span class="math inline">\(D(t)\)</span>.</p>
-<div id="db0d1777" class="cell" data-execution_count="10">
+<div id="1ab3cc1d" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -692,7 +692,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <blockquote class="blockquote">
 <p>The function <span class="math inline">\(D'(t)\)</span> is the function whose value is equal to the slope (or gradient) of <span class="math inline">\(D(t)\)</span> at every value of <span class="math inline">\(t\)</span>.</p>
 </blockquote>
-<div id="d478e46b" class="cell" data-execution_count="11">
+<div id="145ae637" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -708,7 +708,7 @@ f(t) = m t + c.
 <p>For a curve (i.e.&nbsp;non-straight line), we can approximate the slope with a straight line approximation (“chord”): <span class="math display">\[
 \frac{f(t + h) - f(t)}{h}.
 \]</span> We can get a better approximation by taking a smaller value of <span class="math inline">\(h\)</span>…. This leads us back to the definition of derivative (<a href="#def-derivative" class="quarto-xref">Definition&nbsp;<span>2.1</span></a>).</p>
-<div id="992ab0a9" class="cell" data-execution_count="12">
+<div id="cf610a78" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -719,7 +719,7 @@ f(t) = m t + c.
 </div>
 </div>
 <p>We can apply similar understanding no matter what the underlying function is. For example, we could do the same things with more complicated real world data. Here is an example using climate data (<a href="https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html">data source: Met Office</a>).</p>
-<div id="95a60456" class="cell" data-execution_count="13">
+<div id="5e8e5123" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -838,7 +838,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 <li>There are techniques to solve this problem analytically (using so-called separation of variables) – but we are simple computer scientists looking for simple computer-based solutions instead!</li>
 <li>We can do similar to the above idea where we divide the time period into lots of small intervals and assume that everything is approximately constant on each time interval…</li>
 </ul>
-<div id="9f0dc2de" class="cell" data-execution_count="15">
+<div id="e3a2a185" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -868,7 +868,7 @@ t^{(i+1)} &amp;= t^{(i)} + h.
 <p><span class="theorem-title"><strong>Example 2.2</strong></span> Take two steps of Euler’s method to approximate the solution of <span class="math display">\[
 y'(t) = -(y(t))^2 + 3 t^2 \quad\text{subject to the initial condition}\quad y(1) = 2,
 \]</span> for <span class="math inline">\(1 \le t \le 2\)</span>.</p>
-<div id="4dcee51d" class="cell" data-execution_count="16">
+<div id="87202f9d" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
 <p>In this example we have:</p>
 <ul>
