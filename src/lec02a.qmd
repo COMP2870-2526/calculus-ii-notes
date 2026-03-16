@@ -137,7 +137,34 @@ We can implement our model using Euler's method:
 # | echo: True
 def projectile(n, T):
     """
-    TODO
+    Simulate the 2D motion of a projectile using Euler's method.
+
+    The model evolves position (X, Y) and velocity (U, V) from given initial
+    conditions, under gravity and linear air resistance:
+        U' = -k U
+        V' = -k V - g
+        X' = U
+        Y' = V
+
+    Parameters
+    ----------
+    n : int
+        Number of Euler time-steps.
+    T : float
+        Final time of the simulation. The step size is `h = T / n`.
+
+    Returns
+    -------
+    t : ndarray of shape (n+1,)
+        Time points of the simulation.
+    X : ndarray of shape (n+1,)
+        Horizontal position of the projectile at each time step.
+    Y : ndarray of shape (n+1,)
+        Vertical position of the projectile at each time step.
+    U : ndarray of shape (n+1,)
+        Horizontal velocity at each time step.
+    V : ndarray of shape (n+1,)
+        Vertical velocity at each time step.
     """
     # initialise all arrays
     t = np.empty(n + 1)

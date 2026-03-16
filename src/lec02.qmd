@@ -243,8 +243,6 @@ Sometimes we also care more about other, more physical based properties of our s
 
 ## Big $O$ notation
 
-TODO examples from the rest of the module. check this bit with Haiko
-
 When considering algorithm complexity, you have already seen big $O$ notation. For example:
 
 - Gaussian elimination requires $O(n^3)$ operations when $n$ is large,
