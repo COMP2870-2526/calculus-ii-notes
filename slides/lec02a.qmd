@@ -1,0 +1,314 @@
+---
+echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: A model for the trajectory of an object
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ../mathjax.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+    chalkboard:
+      theme: whiteboard
+---
+
+# Newton's laws of motion
+
+> Give an example of how we can derive differential equations
+
+```{python}
+
+import numpy as np
+from IPython.display import Markdown
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+def array_to_latex(array):
+    s = ""
+
+    s += "\\begin{pmatrix} "
+    s += " \\\\ ".join([" & ".join([str(v) for v in row]) for row in array])
+    s += " \\end{pmatrix}"
+
+    return s
+
+
+```
+
+## Why should you know this?
+
+- A large component of many computer games is the *physics engine*.
+- Planning robotic manoeuvring requires physics-based models too.
+
+Both applications typically spend large numbers of CPU cycles simulating the motion of bodies using Newton's laws, based on the forces that are exerted upon them.
+
+---
+
+In particular, Newton's second law of motion says that the net force on an object equals its mass multiplied by its acceleration:
+$$
+\text{Force} = \text{Mass} \times \text{Acceleration}.
+$$
+Once we know the acceleration of an object we can solve differential equations to calculate its subsequent velocity and position...
+
+---
+
+Consider an object being launched horiztonally from the top of a tall building.
+We know its initial position and speed in each direction and wish to predict its trajectory.
+
+```{python}
+def _projectile_hidden(n, t0, tfinal):
+    """
+    A hidden version of the projectile function for plotting only
+    """
+    t = np.empty(n + 1)  # Initialise the array t
+    U = np.empty(n + 1)  # Initialise the array U
+    V = np.empty(n + 1)  # Initialise the array V
+    X = np.empty(n + 1)  # Initialise the array X
+    Y = np.empty(n + 1)  # Initialise the array Y
+
+    ## define initial conditions
+    t[0] = t0
+    U[0] = 20.0
+    V[0] = 0.0
+    X[0] = 0.0
+    Y[0] = 100.0
+
+    ## define constants
+    k = 0.2
+    g = 9.81
+
+    ## Calculate size of each interval
+    dt = (tfinal - t0) / n
+
+    ## Take n steps of Euler’s method
+    for i in range(n):
+        U[i + 1] = U[i] + dt * (-k * U[i])
+        V[i + 1] = V[i] + dt * (-k * V[i] - g)
+        X[i + 1] = X[i] + dt * U[i]
+        Y[i + 1] = Y[i] + dt * V[i]
+        t[i + 1] = t[i] + dt
+
+    return t, X, Y, U, V
+
+
+t0 = 0.0
+tfinal = 6.0
+
+t, X, Y, U, V = _projectile_hidden(160, t0, tfinal)
+plt.plot(X, Y)
+
+plt.xlabel("x (meters)")
+plt.ylabel("y (meters)")
+plt.grid()
+plt.xlim(0.0, 100.0)
+plt.ylim(0.0, 100.0)
+plt.show()
+
+
+```
+
+## A mathematical model
+
+In order to produce a model, we need to decide which are the most important forces acting on the object.
+
+- **Gravity** only acts in the negative $y$ direction (not the $x$ direction), and always leads to a constant acceleration ($g = 9.81\,\text{m}/\text{s}^2$).
+- **Air resistance** *opposes* the motion in both $x$ and $y$ directions, and we will assume that the force is proportional to the speed in each direction. We will denote the constant of proportionality by $k$.
+
+---
+
+We use the following notation:
+
+- $X(t)$ the horizontal distance of the object at time $t$,
+- $Y(t)$ the vertical distance of the object at time $t$ (height above ground, increasing upwards),
+- $U(t)$ the horizontal speed of the object at time $t$,
+- $V(t)$ the vertical speed of the object at time $t$.
+
+---
+
+::: aside
+$X(t)$ and $Y(t)$ are horizontal and vertical distance, $U(t)$ and $V(t)$ are horizontal and vertical speed.
+:::
+
+The above model leads to the following two differential equations (assuming the mass of the object is $1\,\text{kg}$):
+\begin{align*}
+U'(t) &= - k U(t) \\
+V'(t) &= - k V(t) - g.
+\end{align*}
+We also know that, from the definition of speed (rate of change of distance), that
+\begin{align*}
+X'(t) &= U(t) \\
+Y'(t) &= V(t).
+\end{align*}
+
+---
+
+::: aside
+$X(t)$ and $Y(t)$ are horizontal and vertical distance, $U(t)$ and $V(t)$ are horizontal and vertical speed.
+:::
+
+We also need to know the initial conditions for the system.
+We choose one scenario: at $t = 0$,
+\begin{align*}
+U(0) &= 20  \, \text{m}/\text{s} \\
+V(0) &= 0  \, \text{m}/\text{s} \\
+X(0) &= 0  \, \text{m} \\
+Y(0) &= 100 \, \text{m}.
+\end{align*}
+
+From now on we will omit the units in our calculations and assume they are implicit.
+
+## Python implementation
+
+We can implement our model using Euler's method:
+
+```{python}
+# | echo: True
+# | code-line-numbers: "1-4|5-10|12-17|19-21|23-24|26-32|34"
+def projectile(n, T):
+    """
+    Simulate the 2D motion of a projectile using Euler's method.
+    """
+    # initialise all arrays
+    t = np.empty(n + 1)
+    U = np.empty(n + 1)
+    V = np.empty(n + 1)
+    X = np.empty(n + 1)
+    Y = np.empty(n + 1)
+
+    # set initial conditions
+    t[0] = 0.0
+    U[0] = 20.0
+    V[0] = 0.0
+    X[0] = 0.0
+    Y[0] = 100.0
+
+    # define constants
+    k = 0.2
+    g = 9.81
+
+    # calculate step size
+    h = (T - 0) / n
+
+    # perform euler steps
+    for i in range(n):
+        U[i + 1] = U[i] + h * (-k * U[i])
+        V[i + 1] = V[i] + h * (-k * V[i] - g)
+        X[i + 1] = X[i] + h * U[i]
+        Y[i + 1] = Y[i] + h * V[i]
+        t[i + 1] = t[i] + h
+
+    return t, X, Y, U, V
+
+
+```
+
+---
+
+```{python}
+data = {}
+T = 6.0
+
+for n in [10, 20, 40, 80, 160]:
+    t, X, Y, U, V = projectile(n, T)
+    data[n] = (t, X, Y, U, V)
+
+```
+
+```{python}
+for n, (_, X, Y, _, _) in data.items():
+    plt.plot(X, Y, label=f"{n=}")
+
+plt.xlabel("x (meters)")
+plt.ylabel("y (meters)")
+plt.xlim(0.0, 80.0)
+plt.ylim(0.0, 110.0)
+plt.legend()
+plt.grid()
+plt.show()
+```
+
+# System of equations
+
+> Apply numerical techniques to solve systems of differential equations
+
+---
+
+The above projectile example shows how to use Euler's method to solve a system of four differential equations.
+In general, a system of four differential equations will take the form:
+\begin{align*}
+y_1'(t) & = f_1(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
+y_2'(t) & = f_2(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
+y_3'(t) & = f_3(t, y_1(t), y_2(t), y_3(t), y_4(t)) \\
+y_4'(t) & = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
+\end{align*}
+
+::: {#exr-general-to-projectile}
+How does this general form relate to the projectile example?
+:::
+
+::: {.notes}
+It is possible to apply Euler's method or the midpoint method to a general system such as that.
+These examples may look quite complicated at first, but they are simply applying the same techniques to systems of differential equations rather than a single differential equation.
+:::
+
+
+## Example
+
+Consider the following system of differential equations:
+$$
+\vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+$$
+where $\vec{y}(t) = (y_1(t), y_2(t))^T$ and $A = \begin{pmatrix} -1 & 1 \\ 1 & -2 \end{pmatrix}$.
+Approximate the solution at time $T=1$ using 2 steps of Euler's method with $h = 0.5$.
+
+::: {.notes}
+```{python}
+A = np.array([[-1, 1], [1, -2]])
+h = 0.5
+n = 2
+
+t, y = 0, np.array([[0], [1]])
+
+s = ""
+
+for i in range(n):
+    tnew = t + h
+    ynew = y + h * A @ y
+
+    s_step = f"""
+- Step {i + 1}:
+
+  \\begin{{align*}}
+  \\vec{{y}}^{{({i + 1})}}
+  & = \\vec{{y}}^{{({i})}} + h A \\vec{{y}}^{{({i})}} \\\\
+  & = {array_to_latex(y)} + {h} {array_to_latex(A)} {array_to_latex(y)} \\\\
+  & = {array_to_latex(y)} + {h} {array_to_latex(A @ y)} \\\\
+  & = {array_to_latex(ynew)} \\\\
+  t^{{({i + 1})}} &= t^{{({i})}} + h \\\\
+  & = {t} + {h} = {tnew}.
+  \\end{{align*}}
+"""
+
+    t, y = tnew, ynew
+    s += s_step
+
+Markdown(s)
+
+```
+:::
+
+## Summary
+
+- We have seen that Euler's method can be applied to systems of differential equation.
+- The same ideas as here can be used to apply the midpoint method to systems of differential equations.
+- Systems of differential equations based on Newton's laws are extremely common in many applications including computer games and robotics.
+- There are a whole zoo of other methods which have specialist properties such as even higher order convergence or preserve physical properties better.
