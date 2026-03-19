@@ -248,7 +248,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <section class="slide level3">
 
 <p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="a3b542fc" class="cell" data-execution_count="2">
+<div id="71c7b89b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -307,7 +307,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <section id="python-implementation" class="title-slide slide level2 center">
 <h2>Python implementation</h2>
 <p>We can implement our model using Euler’s method:</p>
-<div id="547dd3f7" class="cell" data-execution_count="3">
+<div id="a6dd3a45" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1-4|5-10|12-17|19-21|23-24|26-32|34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> projectile(n, T):</span>
 <span id="cb1-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href=""></a><span class="co">    Simulate the 2D motion of a projectile using Euler's method.</span></span>
@@ -346,7 +346,7 @@ Y(0) &amp;= 100 \, \text{m}.
 </section>
 <section class="slide level3">
 
-<div id="8d7fadaa" class="cell" data-execution_count="5">
+<div id="3621fa07" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -395,7 +395,7 @@ y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
 \vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
 \]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
 <aside class="notes">
-<div id="118b986d" class="cell" data-execution_count="6">
+<div id="a5364018" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <ul>
 <li><p>Step 1:</p>
