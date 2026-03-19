@@ -374,7 +374,7 @@ We sketch the key ideas here only.
 Write $\vec v=(v_1,\dots,v_n)$ then for small $h$, $F(\vec x+h\vec v)-F(\vec x)$
 can be built up by changing one coordinate at a time:
 \begin{align*}
-& F(\vec x+h\vec v)-F(\vec x) \\
+F(&\vec x+h\vec v)-F(\vec x) \\
 = & \big(F(x_1 + h v_1, \ldots, x_n + h v_n) - F(x_1 + h v_1, \ldots, x_{n-1} + h v_{n-1}, x_n)\big) \\
 & + \big(F(x_1 + h v_1, \ldots, x_{n-1} + h v_{n-1}, x_n) - F(x_1 + h v_1, \ldots, x_{n-2} + h v_{n-2}, x_{n-1}, x_n)\big) \\
 & + \cdots \\

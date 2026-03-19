@@ -105,7 +105,7 @@ N = 10
 
 t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
 dt = T / N
-for i in range(1, N):
+for i in range(N):
     t_left = dt * i
     t_right = dt * (i + 1)
     s_val = S(t_left)
@@ -149,7 +149,7 @@ plt.plot(t_, s_, label="exact")
 for N in [10, 100]:
     t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
     dt = T / N
-    for i in range(1, N):
+    for i in range(N):
         t_left = dt * i
         t_right = dt * (i + 1)
         s_val = S(t_left)
@@ -193,7 +193,7 @@ plt.plot(t_, s_, label="exact")
 for N in [10, 100, 1000]:
     t_, s_ = np.zeros(2 * N), np.zeros(2 * N)
     dt = T / N
-    for i in range(1, N):
+    for i in range(N):
         t_left = dt * i
         t_right = dt * (i + 1)
         s_val = S(t_left)
