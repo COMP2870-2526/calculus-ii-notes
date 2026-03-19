@@ -109,6 +109,10 @@ y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
 at time $T=2$. What is the error between your computed solution and the exact solution ($y(2) = 8$)?
 :::
 
+::: aside
+Euler step: $y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)})$, $t^{(i+1)} = t^{(i)} + h$.
+:::
+
 ---
 
 We can also implement Euler's method in code:
@@ -360,6 +364,10 @@ $$
 y'(t) = -y(t)^2 \quad\text{subject to the initial condition} \quad y(0) = 2,
 $$
 for $0 \le t \le 2$.
+
+::: aside
+$k = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)}), m = t^{(i)} + \frac{h}{2}, y^{(i+1)} = y^{(i)} + h f(m, k), t^{(i+1)} = t^{(i)} + h.$
+:::
 
 ::: {.notes}
 ```{python}
