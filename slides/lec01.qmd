@@ -650,6 +650,10 @@ where $g$ is the gravitational acceleration and $k S(t)$ models air resistance.
 
 How can we solve this equation?
 
+$$
+S'(t) = g - k S(t),
+$$
+
 We cannot just solve this integral since $S(t)$ (our unknown solution) is inside the integral: To evaluate the integral, we would already need to know the solutions $S(t)$!
 $$
 S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
@@ -697,6 +701,10 @@ def freefall(n):
 
 ```
 
+::: aside
+Recall differential equation: $S'(t) = g - k S(t)$
+:::
+
 ---
 
 ```{python}
@@ -738,6 +746,10 @@ Take two steps of Euler's method to approximate the solution of
 y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 2,
 \end{multline*}
 for $1 \le t \le 2$.
+
+::: aside
+Euler step: $\qquad y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), \qquad t^{(i+1)} = t^{(i)} + h$
+:::
 
 ::: {.notes}
 
@@ -793,11 +805,22 @@ Markdown(s)
 ```
 :::
 
-. . .
+---
 
 ::: {#exr-euler}
 Complete the next two time steps to find an approximation of the solution at $T = 3$.
 :::
+
+::: aside
+Equation: $y'(t) = -(y(t))^2 + 3t^2\qquad y(1) = 2$
+
+Problem data: $h = 0.5, f(t, y) = -y^2 + 3t^2$
+
+Solution so far: $y^{(1)} = 1.5, y^{(2)} = 3.75$
+
+Euler step: $y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), t^{(i+1)} = t^{(i)} + h$
+:::
+
 
 ---
 
