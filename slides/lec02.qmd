@@ -1,14 +1,16 @@
 ---
 echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
-subtitle: Analysis of systems and systems of equations
+subtitle: Analysis of errors
 author:
   - name: Dr. Thomas Ranner (Tom)
     email: T.Ranner@leeds.ac.uk
     affiliation: School of Computer Science, University of Leeds
 code-line-numbers: true
 html-math-method: mathjax
-include-in-header: ../mathjax.html
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
 
 format:
   live-revealjs:
@@ -58,7 +60,7 @@ def table_styler(df):
 
 
 > Use exact solutions to calculate errors in numerical methods for differential equations,\
-> Calculate rates of convergence for differential equation solvers,
+> Calculate rates of convergence for differential equation solvers.
 
 ::: {.notes}
 In a small number of cases, it is possible to solve differential equations *exactly*. That is to write down a simple expression for the function which satisfies both the differential equation and its initial condition. This is rare and is the main reason why we use numerical methods. However, the special cases where we can find exact solutions are useful for testing our numerical methods.
@@ -86,9 +88,9 @@ We will use this differential equation where we know the exact solution to test 
 ---
 
 Recall that for a differential equation given by:
-$$
-y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
-$$
+\begin{multline*}
+y'(t) = f(t, y(t)) \\\text{subject to the initial condition}\quad y(t_0) = y_0.
+\end{multline*}
 
 Euler's method is given by:
 
@@ -101,16 +103,28 @@ Euler's method is given by:
 
 ---
 
+##  {.gridbg}
+
 ::: {#exr-euler-error}
 Compute two time steps of Euler's method to approximate the solution of
 \begin{equation}
 y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
 \end{equation}
 at time $T=2$. What is the error between your computed solution and the exact solution ($y(2) = 8$)?
+
+::: {.columns}
+::: {.column}
+Submit your solution using vevox.app ID 130-942-368.
+
+::: {style="color:#6f6f6f; font-size:0.9em;"}
+Euler step: $y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)})$, $t^{(i+1)} = t^{(i)} + h$.
+:::
 :::
 
-::: aside
-Euler step: $y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)})$, $t^{(i+1)} = t^{(i)} + h$.
+::: {.column}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h27v27H0z"></path><path stroke="#000000" d="M1 1.5h7m1 0h1m1 0h3m1 0h1m1 0h1m1 0h7M1 2.5h1m5 0h1m1 0h2m8 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h4m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m2 0h2m3 0h1m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m2 0h2m3 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h2m5 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h2m1 0h3M1 9.5h1m2 0h6m1 0h3m2 0h1m1 0h1m2 0h1m1 0h3M1 10.5h1m4 0h1m3 0h4m1 0h2m3 0h5M1 11.5h3m2 0h2m3 0h3m2 0h2m1 0h1m2 0h1m2 0h1M1 12.5h2m1 0h2m2 0h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h4M1 13.5h3m2 0h2m2 0h1m3 0h4m1 0h1m5 0h1M1 14.5h2m7 0h2m1 0h6m2 0h1m2 0h1M1 15.5h5m1 0h4m5 0h4m1 0h5M1 16.5h1m1 0h2m1 0h1m2 0h1m1 0h1m1 0h4m3 0h1m1 0h2m1 0h1M1 17.5h1m1 0h1m1 0h1m1 0h2m1 0h5m2 0h5m1 0h2M9 18.5h2m1 0h1m1 0h1m2 0h1m3 0h1m1 0h2M1 19.5h7m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h1M1 20.5h1m5 0h1m1 0h1m2 0h1m4 0h1m3 0h1M1 21.5h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h6m3 0h1M1 22.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m3 0h3m4 0h2M1 23.5h1m1 0h3m1 0h1m3 0h4m1 0h3m2 0h5M1 24.5h1m5 0h1m4 0h2m1 0h2m3 0h2m1 0h3M1 25.5h7m1 0h1m2 0h4m1 0h1m4 0h1m2 0h1"></path></svg>
+:::
+:::
 :::
 
 ---
@@ -298,11 +312,11 @@ In this notation, we can say that **the error in Euler's method is $O(h)$.**
 
 > Solve differential equations numerically using the midpoint method
 
----
-
-Let's assume that the error in Euler's method is exactly proportional to $h$. In this case, if we halve $h$, we halve the error. In this derivation, we will start from the initial condition and want to approximate the solution after a time $h$. We will label the exact solution at $t=h$ by $y_{\text{exact}}$.
+## {.gridbg}
 
 ::: {.notes}
+Let's assume that the error in Euler's method is exactly proportional to $h$. In this case, if we halve $h$, we halve the error. In this derivation, we will start from the initial condition and want to approximate the solution after a time $h$. We will label the exact solution at $t=h$ by $y_{\text{exact}}$.
+
 - Then, we continue by computing one time step from $y^{(0)}$ with time step $h$ - we call this solution $z_1$. We label error between the exact solution and $z_1$ by $E_1$.
 - We then take two time steps from $y^{(0)}$ now with time step $h/2$ - we call this solution $z_2$. We label the error between the exact solution and $z_2$ by $E_2$. Since in this derivation, the error is exactly proportional to the time step, we can see that $E_2 = \frac{E_1}{2}$.
 
@@ -358,15 +372,26 @@ y^{(i+1)}
 In the end the cost of this formulation of the midpoint method is twice as large as Euler's method.
 :::
 
-## Example
+## Example {.smaller .gridbg}
+
+::: {.columns}
+::: {.column}
 Take two steps of the midpoint rule to approximate the solution of
-$$
-y'(t) = -y(t)^2 \quad\text{subject to the initial condition} \quad y(0) = 2,
-$$
+\begin{multline*}
+y'(t) = -y(t)^2 \\\text{subject to the initial condition} \quad y(0) = 2,
+\end{multline*}
 for $0 \le t \le 2$.
 
-::: aside
-$k = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)}), m = t^{(i)} + \frac{h}{2}, y^{(i+1)} = y^{(i)} + h f(m, k), t^{(i+1)} = t^{(i)} + h.$
+::: {style="color:#6f6f6f; font-size:0.9em;"}
+$k = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)})$,
+$m = t^{(i)} + \frac{h}{2}$,
+$y^{(i+1)} = y^{(i)} + h f(m, k)$,
+$t^{(i+1)} = t^{(i)} + h$.
+:::
+:::
+
+::: {.column}
+:::
 :::
 
 ::: {.notes}
@@ -429,6 +454,34 @@ for step in range(n):
 
 Markdown(s)
 ```
+:::
+
+##  {.smaller .gridbg}
+
+::: {#exr-midpoint-error}
+Compute one time step of the midpoint method to approximate the solution of
+\begin{equation}
+y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
+\end{equation}
+at time $T=2$. What is the error between your computed solution and the exact solution ($y(2) = 8$)?
+
+::: {.columns}
+::: {.column}
+Submit your solution using vevox.app ID 130-942-368.
+
+::: {style="color:#6f6f6f; font-size:0.9em;"}
+$k = y^{(i)} + \frac{h}{2} f(t^{(i)}, y^{(i)})$,
+$m = t^{(i)} + \frac{h}{2}$,
+$y^{(i+1)} = y^{(i)} + h f(m, k)$,
+$t^{(i+1)} = t^{(i)} + h$.
+:::
+:::
+
+::: {.column}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h27v27H0z"></path><path stroke="#000000" d="M1 1.5h7m1 0h1m1 0h3m1 0h1m1 0h1m1 0h7M1 2.5h1m5 0h1m1 0h2m8 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h4m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m2 0h2m3 0h1m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m2 0h2m3 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h2m5 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h2m1 0h3M1 9.5h1m2 0h6m1 0h3m2 0h1m1 0h1m2 0h1m1 0h3M1 10.5h1m4 0h1m3 0h4m1 0h2m3 0h5M1 11.5h3m2 0h2m3 0h3m2 0h2m1 0h1m2 0h1m2 0h1M1 12.5h2m1 0h2m2 0h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h4M1 13.5h3m2 0h2m2 0h1m3 0h4m1 0h1m5 0h1M1 14.5h2m7 0h2m1 0h6m2 0h1m2 0h1M1 15.5h5m1 0h4m5 0h4m1 0h5M1 16.5h1m1 0h2m1 0h1m2 0h1m1 0h1m1 0h4m3 0h1m1 0h2m1 0h1M1 17.5h1m1 0h1m1 0h1m1 0h2m1 0h5m2 0h5m1 0h2M9 18.5h2m1 0h1m1 0h1m2 0h1m3 0h1m1 0h2M1 19.5h7m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h1M1 20.5h1m5 0h1m1 0h1m2 0h1m4 0h1m3 0h1M1 21.5h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h6m3 0h1M1 22.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m3 0h3m4 0h2M1 23.5h1m1 0h3m1 0h1m3 0h4m1 0h3m2 0h5M1 24.5h1m5 0h1m4 0h2m1 0h2m3 0h2m1 0h3M1 25.5h7m1 0h1m2 0h4m1 0h1m4 0h1m2 0h1"></path></svg>
+:::
+:::
+
 :::
 
 ## Numerical results
@@ -661,7 +714,7 @@ df_midpoint["Run time ratio"] = (
 ```{python}
 # | label: tbl-euler-error-cost
 # | tbl-cap: A convergence study for Euler's method with running costs
-table_styler(df_euler)
+table_styler(df_euler[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
 
 ```
 
@@ -670,7 +723,7 @@ table_styler(df_euler)
 ```{python}
 # | label: tbl-midpoint-error-cost
 # | tbl-cap: A convergence study for Midpoint's method with running costs
-table_styler(df_midpoint)
+table_styler(df_midpoint[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
 
 ```
 
