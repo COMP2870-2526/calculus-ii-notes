@@ -8,7 +8,9 @@ author:
     affiliation: School of Computer Science, University of Leeds
 code-line-numbers: true
 html-math-method: mathjax
-include-in-header: ../mathjax.html
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
 
 format:
   live-revealjs:
@@ -17,7 +19,6 @@ format:
     preview-links: auto
     chalkboard:
       theme: whiteboard
-    css: slides.css
 ---
 # Welcome to Calculus II
 
