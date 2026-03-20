@@ -98,7 +98,6 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="lec01_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
-  <link rel="stylesheet" href="slides.css">
   <link href="lec01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -199,6 +198,24 @@
       }
     };
   </script>
+  <style>
+
+  /* Ensure Reveal does not overwrite backgrounds */
+  .reveal .slide-background {
+    background-color: transparent !important;
+  }
+
+  /* Grid background for slides that have class .gridbg */
+  .reveal .slide-background.gridbg {
+    background-color: transparent !important;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 1em 1em;  /* adjust to taste */
+    background-repeat: repeat;
+  }
+
+  </style>
   <script type="module" src="lec01_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="lec01_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
@@ -353,7 +370,7 @@ S(t) = -(t-1)(t+0.5).
 
 <section id="rates-of-change-iii" class="title-slide slide level2 center">
 <h2>Rates of change iii</h2>
-<div id="42fe5773" class="cell" data-execution_count="2">
+<div id="e304a551" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -369,7 +386,7 @@ S(t) = -(t-1)(t+0.5).
 <section id="splitting-it-up" class="title-slide slide level2 center">
 <h2>Splitting it up</h2>
 <p>We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the <span class="math inline">\(S(t)\)</span> is approximately constant in each interval):</p>
-<div id="08a28ff4" class="cell" data-execution_count="3">
+<div id="1257fdf1" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -404,7 +421,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <p>We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div id="016e912e" class="cell" data-execution_count="4">
+<div id="4e8f062b" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -430,7 +447,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <div class="columns">
 <div class="column" style="width:60%;">
 <p>What about if we did a thousand steps</p>
-<div id="8244548b" class="cell" data-execution_count="5">
+<div id="7497dc9f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -454,7 +471,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <section class="slide level3">
 
 <p>In summary, we get</p>
-<div id="cb701a29" class="cell" data-execution_count="6">
+<div id="82b9d38b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <style scoped="">
@@ -538,7 +555,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <section id="geometric-picture" class="title-slide slide level2 center">
 <h2>Geometric picture</h2>
 <p>We can plot the expression for the speed, <span class="math inline">\(S(t)\)</span>, from <span class="math inline">\(\eqref{eq:speed-ex}\)</span> and its integral from 0 up to time <span class="math inline">\(t\)</span>, which we call the distance. <span class="math inline">\(D(t)\)</span>.</p>
-<div id="2b65f05f" class="cell" data-execution_count="7">
+<div id="da371304" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -573,7 +590,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <blockquote>
 <p>The function <span class="math inline">\(D'(t)\)</span> is the function whose value is equal to the slope (or gradient) of <span class="math inline">\(D(t)\)</span> at every value of <span class="math inline">\(t\)</span>.</p>
 </blockquote>
-<div id="c7b1aca8" class="cell" data-execution_count="8">
+<div id="e6b03c6c" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -595,7 +612,7 @@ f(t) = m t + c.
 </section>
 <section class="slide level3">
 
-<div id="235a2c34" class="cell" data-execution_count="9">
+<div id="2400f0c0" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -609,7 +626,7 @@ f(t) = m t + c.
 <section class="slide level3">
 
 <p>We can apply similar understanding no matter what the underlying function is. For example, we could do the same things with more complicated real world data. Here is an example using climate data (<a href="https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html">data source: Met Office</a>).</p>
-<div id="59fa7ca8" class="cell" data-execution_count="10">
+<div id="df11e18c" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -753,7 +770,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 </section>
 <section class="slide level3">
 
-<div id="bf32f6fc" class="cell" data-execution_count="11">
+<div id="ea16235a" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1-6|8-10|12-14|16-20|22-26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> freefall(n):</span>
 <span id="cb1-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href=""></a><span class="co">    Compute the speed of an object falling freely.</span></span>
@@ -789,7 +806,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 </div></aside></section>
 <section class="slide level3">
 
-<div id="f69647f6" class="cell" data-execution_count="12">
+<div id="45d1e084" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -837,7 +854,7 @@ y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 
 
 </div></div>
 <aside class="notes">
-<div id="2272714d" class="cell" data-execution_count="13">
+<div id="f0009963" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
 <p>In this example we have:</p>
 <ul>
