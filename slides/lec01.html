@@ -98,6 +98,7 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="lec01_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="slides.css">
   <link href="lec01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -235,7 +236,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <li>Dynamic problems and differential equations</li>
 <li>Optimisation and nonlinear solvers</li>
 <li>Partial derivatives</li>
-<li>Gradient flow</li>
+<li>Gradient descent algorithm</li>
 </ol>
 </section>
 <section id="reminders" class="title-slide slide level2 center">
@@ -352,12 +353,12 @@ S(t) = -(t-1)(t+0.5).
 
 <section id="rates-of-change-iii" class="title-slide slide level2 center">
 <h2>Rates of change iii</h2>
-<div id="c97a559a" class="cell" data-execution_count="2">
+<div id="42fe5773" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="lec01_files/figure-revealjs/cell-3-output-1.png" width="814" height="430"></p>
-<figcaption>A sample object speed over time</figcaption>
+<figcaption>A sample object speed over time: <span class="math inline">\(S(t) = -(t-1)(t+0.5)\)</span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -368,7 +369,7 @@ S(t) = -(t-1)(t+0.5).
 <section id="splitting-it-up" class="title-slide slide level2 center">
 <h2>Splitting it up</h2>
 <p>We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the <span class="math inline">\(S(t)\)</span> is approximately constant in each interval):</p>
-<div id="d2355de5" class="cell" data-execution_count="3">
+<div id="08a28ff4" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -403,11 +404,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <p>We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div id="e2247034" class="cell" data-execution_count="4">
+<div id="016e912e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="lec01_files/figure-revealjs/cell-5-output-1.png" width="814" height="430"></p>
+<p><img data-src="lec01_files/figure-revealjs/cell-5-output-1.png" width="516" height="430"></p>
 <figcaption>A sample object speed over time approximated over 100 steps</figcaption>
 </figure>
 </div>
@@ -429,11 +430,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <div class="columns">
 <div class="column" style="width:60%;">
 <p>What about if we did a thousand steps</p>
-<div id="3e9b8047" class="cell" data-execution_count="5">
+<div id="8244548b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="lec01_files/figure-revealjs/cell-6-output-1.png" width="814" height="430"></p>
+<p><img data-src="lec01_files/figure-revealjs/cell-6-output-1.png" width="516" height="430"></p>
 <figcaption>A sample object speed over time approximated over 1000 steps</figcaption>
 </figure>
 </div>
@@ -453,7 +454,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiRCwgdCA9IDAuMCwgMC4wXG5c
 <section class="slide level3">
 
 <p>In summary, we get</p>
-<div id="6353c05e" class="cell" data-execution_count="6">
+<div id="cb701a29" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <style scoped="">
@@ -537,7 +538,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <section id="geometric-picture" class="title-slide slide level2 center">
 <h2>Geometric picture</h2>
 <p>We can plot the expression for the speed, <span class="math inline">\(S(t)\)</span>, from <span class="math inline">\(\eqref{eq:speed-ex}\)</span> and its integral from 0 up to time <span class="math inline">\(t\)</span>, which we call the distance. <span class="math inline">\(D(t)\)</span>.</p>
-<div id="fba90075" class="cell" data-execution_count="7">
+<div id="2b65f05f" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -572,7 +573,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <blockquote>
 <p>The function <span class="math inline">\(D'(t)\)</span> is the function whose value is equal to the slope (or gradient) of <span class="math inline">\(D(t)\)</span> at every value of <span class="math inline">\(t\)</span>.</p>
 </blockquote>
-<div id="c4ecdefe" class="cell" data-execution_count="8">
+<div id="c7b1aca8" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -594,7 +595,7 @@ f(t) = m t + c.
 </section>
 <section class="slide level3">
 
-<div id="dbd86900" class="cell" data-execution_count="9">
+<div id="235a2c34" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -608,7 +609,7 @@ f(t) = m t + c.
 <section class="slide level3">
 
 <p>We can apply similar understanding no matter what the underlying function is. For example, we could do the same things with more complicated real world data. Here is an example using climate data (<a href="https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html">data source: Met Office</a>).</p>
-<div id="9b2122ce" class="cell" data-execution_count="10">
+<div id="59fa7ca8" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -631,13 +632,19 @@ f(t) = m t + c.
 <h2>Last year…</h2>
 <p>You learnt lots of formulae last year for computing derivatives and integrals. There is a brief recap in the notes!</p>
 </section>
-<section class="slide level3">
 
-<div id="rem-integral" class="proof remark">
-<p><span class="proof-title"><em>Remark 1</em>. </span>The problem of finding distance over the time interval <span class="math inline">\((0, 1)\)</span>, given speed, <span class="math inline">\(S(t)\)</span>, given in <span class="math inline">\(\eqref{eq:speed-ex}\)</span>, can be solved using integration.</p>
-<p>Indeed, using that <span class="math inline">\(D'(t) = S(t)\)</span>, the fundamental theorem of calculus tells us that <span class="math inline">\(D(t)\)</span> is the integral of <span class="math inline">\(S(t)\)</span> with respect to time: <span class="math display">\[
-D(1) = \int_0^1 S(t) \, \mathrm{d}t = \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t.
-\]</span></p>
+<section id="using-integration-directly" class="title-slide slide level2 smaller gridbg center">
+<h2>Using integration directly</h2>
+<div class="columns">
+<div class="column">
+<p>The problem of finding distance over the time interval <span class="math inline">\((0, 1)\)</span>, given speed, <span class="math inline">\(S(t)\)</span>, given in <span class="math inline">\(\eqref{eq:speed-ex}\)</span>, can be solved using integration.</p>
+<p>Indeed, using that <span class="math inline">\(D'(t) = S(t)\)</span>, the fundamental theorem of calculus tells us that <span class="math inline">\(D(t)\)</span> is the integral of <span class="math inline">\(S(t)\)</span> with respect to time:</p>
+</div><div class="column">
+<p><span class="math display">\[\begin{align*}
+D(1) &amp; = \int_0^1 S(t) \, \mathrm{d}t \\
+&amp; = \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t.
+\end{align*}\]</span></p>
+</div></div>
 <aside class="notes">
 <p><span class="math display">\[\begin{align*}
 D(1) &amp; = \int_0^1 S(t) \, \mathrm{d}t
@@ -658,7 +665,6 @@ D(1) &amp; = \int_0^1 S(t) \, \mathrm{d}t
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</div>
 </section>
 <section class="slide level3">
 
@@ -701,7 +707,7 @@ y'(t) = f(t, y(t)) \\\text{subject to the initial condition}\quad y(t_0) = y_0.
 <section class="slide level3">
 
 <div id="rem-euler" class="proof remark">
-<p><span class="proof-title"><em>Remark 2</em>. </span>One important consideration is that while many clever ways to solve differential equations exactly exist, most differential equations cannot be solved by hand. Thus numerical methods are not only convenient ways to find solutions of differential equations, in many cases they are essential.</p>
+<p><span class="proof-title"><em>Remark 1</em>. </span>One important consideration is that while many clever ways to solve differential equations exactly exist, most differential equations cannot be solved by hand. Thus numerical methods are not only convenient ways to find solutions of differential equations, in many cases they are essential.</p>
 <p>The downside of a computational approach arises now since we are <em>approximating</em> the true solution. We will cover more on this in the next lecture.</p>
 </div>
 </section>
@@ -747,7 +753,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 </section>
 <section class="slide level3">
 
-<div id="dde2355c" class="cell" data-execution_count="11">
+<div id="bf32f6fc" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1-6|8-10|12-14|16-20|22-26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> freefall(n):</span>
 <span id="cb1-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href=""></a><span class="co">    Compute the speed of an object falling freely.</span></span>
@@ -783,7 +789,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 </div></aside></section>
 <section class="slide level3">
 
-<div id="8b54b4f4" class="cell" data-execution_count="12">
+<div id="f69647f6" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -817,14 +823,21 @@ t^{(i+1)} &amp;= t^{(i)} + h.
 <li>Euler’s method uses the current slope to predict the next value.</li>
 </ul>
 </section>
-<section id="an-example" class="title-slide slide level2 center">
+<section id="an-example" class="title-slide slide level2 smaller gridbg center">
 <h2>An example</h2>
+<div class="columns">
+<div class="column">
 <p>Take two steps of Euler’s method to approximate the solution of <span class="math display">\[\begin{multline*}
 y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 2,
 \end{multline*}\]</span> for <span class="math inline">\(1 \le t \le 2\)</span>.</p>
+<div style="color:#6f6f6f; font-size:0.9em;">
+<p>Euler step: <span class="math inline">\(y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), t^{(i+1)} = t^{(i)} + h\)</span></p>
+</div>
+</div><div class="column">
 
+</div></div>
 <aside class="notes">
-<div id="d887cfd1" class="cell" data-execution_count="13">
+<div id="2272714d" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
 <p>In this example we have:</p>
 <ul>
@@ -865,14 +878,21 @@ y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><div>
-<p>Euler step: <span class="math inline">\(\qquad y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), \qquad t^{(i+1)} = t^{(i)} + h\)</span></p>
-</div></aside></section>
+</section>
 <section class="slide level3">
 
 <div id="exr-euler" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1</strong></span> Complete the next two time steps to find an approximation of the solution at <span class="math inline">\(T = 3\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 1</strong></span> Complete the next time step to find an approximation of the solution at <span class="math inline">\(T = 2.5\)</span>.</p>
 </div>
+<div class="columns">
+<div class="column">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50" shape-rendering="crispEdges">
+<path fill="#ffffff" d="M0 0h27v27H0z"></path><path stroke="#000000" d="M1 1.5h7m1 0h1m1 0h2m2 0h1m1 0h1m1 0h7M1 2.5h1m5 0h1m1 0h2m1 0h1m6 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h7m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m2 0h2m3 0h1m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m1 0h3m3 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h2m5 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h1m1 0h4M1 9.5h1m2 0h6m1 0h2m3 0h1m1 0h1m2 0h1m1 0h3M1 10.5h1m1 0h1m5 0h1m2 0h1m2 0h2m3 0h5M2 11.5h4m1 0h1m2 0h2m1 0h1m2 0h2m1 0h1m2 0h1m2 0h1M2 12.5h1m2 0h2m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h4M1 13.5h1m1 0h1m1 0h3m2 0h3m1 0h4m1 0h1m5 0h1M1 14.5h1m2 0h2m4 0h1m2 0h6m2 0h1m2 0h1M1 15.5h5m1 0h5m2 0h6m1 0h5M1 16.5h1m2 0h2m4 0h1m2 0h1m1 0h2m3 0h1m1 0h2m1 0h1M1 17.5h1m1 0h2m1 0h4m2 0h4m1 0h5m1 0h2M9 18.5h2m1 0h1m4 0h1m3 0h1m1 0h2M1 19.5h7m1 0h1m3 0h1m3 0h1m1 0h1m1 0h1m3 0h1M1 20.5h1m5 0h1m1 0h2m1 0h1m1 0h2m1 0h1m3 0h1M1 21.5h1m1 0h3m1 0h1m1 0h5m1 0h7m3 0h1M1 22.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m1 0h3m4 0h2M1 23.5h1m1 0h3m1 0h1m2 0h1m1 0h3m1 0h3m2 0h5M1 24.5h1m5 0h1m3 0h6m3 0h2m1 0h3M1 25.5h7m1 0h2m1 0h2m3 0h1m4 0h1m2 0h1"></path>
+</svg>
+</div><div class="column">
+<p>Give your answer in Vevox.app</p>
+<p>ID 132-153-638</p>
+</div></div>
 
 <aside><div>
 <p>Equation: <span class="math inline">\(y'(t) = -(y(t))^2 + 3t^2\qquad y(1) = 2\)</span></p>
