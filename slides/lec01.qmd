@@ -17,6 +17,7 @@ format:
     preview-links: auto
     chalkboard:
       theme: whiteboard
+    css: slides.css
 ---
 # Welcome to Calculus II
 
@@ -36,7 +37,7 @@ Key topics:
 1. Dynamic problems and differential equations
 2. Optimisation and nonlinear solvers
 3. Partial derivatives
-4. Gradient flow
+4. Gradient descent algorithm
 
 ## Reminders
 
@@ -136,7 +137,7 @@ S(t) = -(t-1)(t+0.5).
 ## Rates of change iii
 
 ```{python}
-# | fig-cap: A sample object speed over time
+# | fig-cap: "A sample object speed over time: $S(t) = -(t-1)(t+0.5)$."
 
 T = 1.0
 
@@ -223,6 +224,8 @@ We could consider the same calculation of hundredths of seconds assuming that th
 
 ```{python}
 # | fig-cap: A sample object speed over time approximated over 100 steps
+fig = plt.figure(figsize=(0.6 * 10, 5))
+
 t_ = np.linspace(0, T)
 s_ = S(t_)
 
@@ -275,6 +278,7 @@ What about if we did a thousand steps
 
 ```{python}
 # | fig-cap: A sample object speed over time approximated over 1000 steps
+fig = plt.figure(figsize=(0.6 * 10, 5))
 t_ = np.linspace(0, T)
 s_ = S(t_)
 
@@ -573,15 +577,21 @@ We will write $f'(x) := g(x)$ or $\frac{\mathrm{d}}{\mathrm{d}x} f(x) = g(x)$.
 
 You learnt lots of formulae last year for computing derivatives and integrals. There is a brief recap in the notes!
 
----
+## Using integration directly {.smaller .gridbg}
 
-::: {#rem-integral}
+::: {.columns}
+::: {.column}
 The problem of finding distance over the time interval $(0, 1)$, given speed, $S(t)$, given in \eqref{eq:speed-ex}, can be solved using integration.
 
 Indeed, using that $D'(t) = S(t)$, the fundamental theorem of calculus tells us that $D(t)$ is the integral of $S(t)$ with respect to time:
-$$
-D(1) = \int_0^1 S(t) \, \mathrm{d}t = \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t.
-$$
+:::
+::: {.column}
+\begin{align*}
+D(1) & = \int_0^1 S(t) \, \mathrm{d}t \\
+& = \int_0^1 -(t-1) (t + 0.5) \,\mathrm{d}t.
+\end{align*}
+:::
+:::
 
 ::: {.notes}
 \begin{align*}
@@ -592,7 +602,6 @@ D(1) & = \int_0^1 S(t) \, \mathrm{d}t
 & = (-\frac{1}{3} \times 1^3 + 0.25 \times 1^2 + 0.5 \times 1) - (-\frac{1}{3} \times 0^3 + 0.25 \times 0^2 + 0.5 \times 0) \\
 & = \frac{5}{12} \approx 0.416667.
 \end{align*}
-:::
 :::
 
 ---
@@ -739,16 +748,22 @@ The general algorithm is very simple:
 - The number of time steps: $n \longrightarrow h = (T - t_0) / n$.
 - Euler's method uses the current slope to predict the next value.
 
-## An example
+## An example {.smaller .gridbg}
 
+::: {.columns}
+::: {.column}
 Take two steps of Euler's method to approximate the solution of
 \begin{multline*}
 y'(t) = -(y(t))^2 + 3 t^2 \\\text{subject to the initial condition}\quad y(1) = 2,
 \end{multline*}
 for $1 \le t \le 2$.
 
-::: aside
-Euler step: $\qquad y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), \qquad t^{(i+1)} = t^{(i)} + h$
+::: {style="color:#6f6f6f; font-size:0.9em;"}
+Euler step: $y^{(i+1)} = y^{(i)} + h f(t^{(i)}, y^{(i)}), t^{(i+1)} = t^{(i)} + h$
+:::
+:::
+::: {.column}
+:::
 :::
 
 ::: {.notes}
@@ -808,7 +823,18 @@ Markdown(s)
 ---
 
 ::: {#exr-euler}
-Complete the next two time steps to find an approximation of the solution at $T = 3$.
+Complete the next time step to find an approximation of the solution at $T = 2.5$.
+:::
+
+::: {.columns}
+::: {.column}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h27v27H0z"></path><path stroke="#000000" d="M1 1.5h7m1 0h1m1 0h2m2 0h1m1 0h1m1 0h7M1 2.5h1m5 0h1m1 0h2m1 0h1m6 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h7m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m2 0h2m3 0h1m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m1 0h3m3 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h2m5 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h1m1 0h4M1 9.5h1m2 0h6m1 0h2m3 0h1m1 0h1m2 0h1m1 0h3M1 10.5h1m1 0h1m5 0h1m2 0h1m2 0h2m3 0h5M2 11.5h4m1 0h1m2 0h2m1 0h1m2 0h2m1 0h1m2 0h1m2 0h1M2 12.5h1m2 0h2m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h4M1 13.5h1m1 0h1m1 0h3m2 0h3m1 0h4m1 0h1m5 0h1M1 14.5h1m2 0h2m4 0h1m2 0h6m2 0h1m2 0h1M1 15.5h5m1 0h5m2 0h6m1 0h5M1 16.5h1m2 0h2m4 0h1m2 0h1m1 0h2m3 0h1m1 0h2m1 0h1M1 17.5h1m1 0h2m1 0h4m2 0h4m1 0h5m1 0h2M9 18.5h2m1 0h1m4 0h1m3 0h1m1 0h2M1 19.5h7m1 0h1m3 0h1m3 0h1m1 0h1m1 0h1m3 0h1M1 20.5h1m5 0h1m1 0h2m1 0h1m1 0h2m1 0h1m3 0h1M1 21.5h1m1 0h3m1 0h1m1 0h5m1 0h7m3 0h1M1 22.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m1 0h3m4 0h2M1 23.5h1m1 0h3m1 0h1m2 0h1m1 0h3m1 0h3m2 0h5M1 24.5h1m5 0h1m3 0h6m3 0h2m1 0h3M1 25.5h7m1 0h2m1 0h2m3 0h1m4 0h1m2 0h1"></path></svg>
+:::
+::: {.column}
+Give your answer in Vevox.app
+
+ID 132-153-638
+:::
 :::
 
 ::: aside
