@@ -8,7 +8,9 @@ author:
     affiliation: School of Computer Science, University of Leeds
 code-line-numbers: true
 html-math-method: mathjax
-include-in-header: ../mathjax.html
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
 
 format:
   live-revealjs:
@@ -261,14 +263,22 @@ These examples may look quite complicated at first, but they are simply applying
 :::
 
 
-## Example
+## Example {.smaller .gridbg}
 
+::: {.columns}
+::: {.column}
 Consider the following system of differential equations:
-$$
-\vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
-$$
+\begin{multline*}
+\vec{y}'(t) = A \vec{y} \\ \text{subject to} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+\end{multline*}
 where $\vec{y}(t) = (y_1(t), y_2(t))^T$ and $A = \begin{pmatrix} -1 & 1 \\ 1 & -2 \end{pmatrix}$.
+
 Approximate the solution at time $T=1$ using 2 steps of Euler's method with $h = 0.5$.
+:::
+
+::: {.columns}
+:::
+:::
 
 ::: {.notes}
 ```{python}
