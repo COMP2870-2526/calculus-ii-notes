@@ -10,6 +10,7 @@ from collections import defaultdict
 
 import numpy as np
 import pandas as pd
+import sympy as sp
 from IPython.display import Markdown
 from matplotlib import pyplot as plt
 
@@ -34,7 +35,7 @@ def table_styler(df):
             "Run time": sci_tex,
         },
         na_rep="---",
-    )
+    ).hide()
 
 
 ```
@@ -50,7 +51,7 @@ def table_styler(df):
 
 ## Exact derivatives and exact solutions
 
-In a small number of cases, it is possible to solve differential equations *exactly*. That is to write down a simple expression for the function which satisfies both the differential equation and its initial condition. This is rare and is the main reason why we use numerical methods. However, the special cases where we can find exact solutions are useful for testing our numerical methods.
+In a small number of cases, it is possible to solve differential equations *exactly*. That is to write down a simple expression for the function which satisfies both the differential equation and its initial condition. This is rare and is the main reason why we use numerical methods. However, the special cases where we can find exact solutions are useful for *testing* our numerical methods.
 
 ::: {#exm-derivative}
 Consider the function $y(t) = t^3$.
@@ -74,9 +75,9 @@ Hence, we know the solution to the following equation:
 \label{eq:diff-eq}
 y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
 \end{equation}
-If we solve this differential equation for $t$ between $1$ and $2$, say, then we know that the exact answer when $t=2$ is $y(2) = 8$.
+If we solve this differential equation for $t$ between $1$ and $2$, say, then we know that the exact answer when $t=2$ is $y(2) = =2^3 = 8$.
 
-Note here that we start from $t=1$ to avoid $t=0$.
+Note here that we start from $t=1$ to avoid dividing by zero $t=0$.
 :::
 
 We will use this differential equation where we know the exact solution to test Euler's method.
@@ -110,18 +111,19 @@ data = {}
 for n in [10, 20, 40, 80, 160]:
     # set up storage for all time steps
     h = (2 - 1) / n
-    t, y = np.empty((n + 1,)), np.empty((n + 1,))
+    t, y = np.empty(n + 1), np.empty(n + 1)
 
     # perform time stepping
     t[0], y[0] = 1.0, 1.0
     for i in range(n):
         t[i + 1], y[i + 1] = t[i] + h, y[i] + h * (3 * y[i]) / t[i]
 
-    # store data
+    # store solution
     data[n] = (t, y)
 ```
 
 ```{python}
+# | fig-cap: Plots of solution using Euler's method
 fig, axs = plt.subplots(1, 2)
 
 for n, (t, y) in data.items():
@@ -175,9 +177,10 @@ This table shows that indeed the absolute error is decreasing as $h \to 0$. We a
 What might we expect the computed solution to be if we halved $h$ one more time?
 :::
 
-Something interesting happens when we plot $h$ against the absolute error for Euler's method - we see that the errors all fall on a straight line. Perhaps this is not too strange since we think that the error is approximately proportional to step size, so this line should be straight either on a linear or log scale.
+Something interesting happens when we plot $h$ against the absolute error for Euler's method - we see that the errors all fall on a straight line when we use a logarthmic scale for both axes. Perhaps this is not too strange since we think that the error is approximately proportional to step size, so this line should be straight either on a linear or log scale.
 
 ```{python}
+# | fig-cap: Plot of errors for Euler's method
 fig, axs = plt.subplots(1, 2)
 axs[0].semilogx(
     error_table["h"], [8.0 for _ in error_table["h"]], label="exact"
@@ -208,6 +211,7 @@ Using log scales is really important when considering variables like $h$ or erro
 
 
 ```{python}
+# | fig-cap: Plot of errors for Euler's method not using logarthmic scales.
 fig, axs = plt.subplots(1, 2)
 axs[0].semilogx(
     error_table["h"], [8.0 for _ in error_table["h"]], label="exact"
@@ -249,7 +253,6 @@ When considering algorithm complexity, you have already seen big $O$ notation. F
 - Backward substitution requires $O(n^2)$ operations when $n$ is large.
 
 For large values of $n$ the *highest* powers of $n$ are the *most* significant. For smaller values of $h$, it is the *lowest* powers of $h$ that are the most significant. When $h = 0.001$, $h$ is much bigger than $h^2$, for example.
-
 We can make use of the big $O$ notation in either case.
 Formally, we say that $f(h) = O(h^p)$ as $h \to 0$ if there exists a constant $C > 0$ such that $|f(h)| < C |h|^p$ for all small enough $h$.
 
@@ -266,7 +269,7 @@ In this notation, we can say that **the error in Euler's method is $O(h)$.**
 
 We want to derive a new improved method for solving differential equations. We aim to produce a method with a smaller error for a similar amount of work per time step.
 
-Let's assume that the error in Euler's method is exactly proportional to $h$. In this case, if we halve $h$, we halve the error. In this derivation, we will start from the initial condition and want to approximate the solution after a time $h$. We will label the exact solution at $t=h$ by $y_{\text{exact}}$.
+Let's assume that the error in Euler's method is exactly proportional to $h$. Under this assumption, if we halve $h$, we halve the error. In this derivation, we will start from the initial condition and want to approximate the solution after a time $h$. We will label the exact solution at $t=h$ by $y_{\text{exact}}$.
 
 - Then, we continue by computing one time step from $y^{(0)}$ with time step $h$ - we call this solution $z_1$. We label error between the exact solution and $z_1$ by $E_1$.
 - We then take two time steps from $y^{(0)}$ now with time step $h/2$ - we call this solution $z_2$. We label the error between the exact solution and $z_2$ by $E_2$. Since in this derivation, the error is exactly proportional to the time step, we can see that $E_2 = \frac{E_1}{2}$.
@@ -330,16 +333,20 @@ $$
 for $0 \le t \le 2$.
 
 ```{python}
-t0 = 0
-y0 = 2
-T = 2
+t0 = sp.Integer(0)
+y0 = sp.Integer(2)
+T = sp.Integer(2)
 
-n = 2
+n = sp.Integer(2)
 h = (T - t0) / n
 
 
 def f(_, y):
     return -(y**2)
+
+
+def f_str(_, y):
+    return f"-\\left({y}\\right)^2"
 
 
 s = f"""
@@ -349,10 +356,10 @@ In this example we have:
 - $t_0 = {t0}$
 - $y_0 = {y0}$
 - $T = {T}$
-- $h = ({T} - {t0})/{n} = {h}$
+- $h = ({T} - {t0})/{n} = {sp.latex(h)}$
 - $f(t, y) = -y^2$.
 
-We start with $t^{{(0)}} = {t0}$ and $y^{{(0)}} = {y0}$.
+We start with $t^{{(0)}} = {sp.latex(t0)}$ and $y^{{(0)}} = {sp.latex(y0)}$.
 
 """
 
@@ -369,16 +376,20 @@ for step in range(n):
     \\begin{{align*}}
       k & = y^{{({step})}} + \\frac{{h}}{{2}} f(t^{{({step})}}, y^{{({step})}})
       \\\\
-      & = {y} + \\frac{{{h}}}{{2}} \\times (-({y})^2) \\\\
-      & = {y} + {h / 2} \\times {f(t, y)} = {k} \\\\
+      & = {sp.latex(y)} + \\frac{{{sp.latex(h)}}}{{2}} \\times
+      {f_str(sp.latex(t), sp.latex(y))} \\\\
+      & = {sp.latex(y)} + {sp.latex(h / 2)} \\times {sp.latex(f(t, y))}
+      = {sp.latex(k)} \\\\
       m & = t^{{({step})}} + \\frac{{h}}{{2}} \\\\
-      & = {t} + \\frac{{{h}}}{{2}} = {m} \\\\
+      & = {sp.latex(t)} + \\frac{{{sp.latex(h)}}}{{2}} = {sp.latex(m)} \\\\
       y^{{({step + 1})}} & = y^{{({step})}} + h
        f(m, k) \\\\
-      & = {y} + {h} (-({k})^2) \\\\
-      & = {y} + {h} \\times {f(m, k)} = {ynew} \\\\
+      & = {sp.latex(y)} + {sp.latex(h)} \\times
+      {f_str(sp.latex(m), sp.latex(k))} \\\\
+      & = {sp.latex(y)} + {sp.latex(h)} \\times {sp.latex(f(m, k))}
+      = {sp.latex(ynew)} \\\\
       t^{{({step + 1})}} & = t^{{({step})}} + h \\\\
-      & = {t} + {h} = {tnew}.
+      & = {sp.latex(t)} + {sp.latex(h)} = {sp.latex(tnew)}.
     \\end{{align*}}
     """
     s += s_step
@@ -411,6 +422,7 @@ for n in [10, 20, 40, 80, 160]:
 ```
 
 ```{python}
+# | fig-cap: Plot of solutions using the midpoint method
 fig, axs = plt.subplots(1, 2)
 
 for n, (t, y) in data_mp.items():
@@ -463,6 +475,7 @@ This is a significant improvement on Euler's method. We say that the midpoint me
 We can see the significant reduction in error by plotting the errors for both methods:
 
 ```{python}
+# | fig-cap: Errors for the midpoint method and Euler's method
 fig, axs = plt.subplots(1, 2)
 
 axs[0].plot(error_table["h"], [8.0 for _ in error_table["h"]], label="exact")
@@ -598,18 +611,19 @@ df_midpoint["Run time ratio"] = (
 ```{python}
 # | label: tbl-euler-error-cost
 # | tbl-cap: A convergence study for Euler's method with running costs
-table_styler(df_euler)
+table_styler(df_euler[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
 
 ```
 
 ```{python}
 # | label: tbl-midpoint-error-cost
 # | tbl-cap: A convergence study for Midpoint's method with running costs
-table_styler(df_midpoint)
+table_styler(df_midpoint[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
 
 ```
 
 ```{python}
+# | fig-cap: The computational cost of each method
 fig, axs = plt.subplots(1, 2)
 
 axs[0].loglog(df_euler["h"], df_euler["Run time"], ".-", label="Euler")
@@ -636,6 +650,7 @@ plt.show()
 However, we can make this plot another way by plotting the cost against the error.
 
 ```{python}
+# | fig-cap: The computational cost of each method against error
 fig, axs = plt.subplots(1, 2)
 
 axs[0].loglog(df_euler["Run time"], df_euler["Abs. error"], ".-", label="Euler")

@@ -27,9 +27,9 @@ Lectures
 
 1. Introduction to ordinary differential equations and Euler's method (week 9, L1)
 2. The midpoint method and systems of differential equations (week 9, L2)
-3. Introduction to optimisation and partial derivatives (week 10, L1)
+3. Introduction to optimisation (week 10, L1)
 4. Nonlinear solvers (week 10, L2)
-5. Gradient flow (week 11, L1)
+5. Partial derivatives and Gradient flow (week 11, L1)
 6. Using gradient flow to train a neural network (week 11, L2)
 
 Labs

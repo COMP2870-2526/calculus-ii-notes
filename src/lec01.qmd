@@ -9,10 +9,36 @@ import urllib.request
 
 import numpy as np
 import pandas as pd
+import sympy as sp
 from IPython.display import Markdown
 from matplotlib import pyplot as plt
 
 plt.style.use("seaborn-v0_8-colorblind")
+
+
+def sci_tex(x, sig=6):
+    if x == 0 or (isinstance(x, float) and np.isclose(x, 0)):
+        return "0"
+    if np.isnan(x):
+        return "---"
+    exp = int(np.floor(np.log10(abs(x))))
+    mant = x / (10**exp)
+    return rf"\({mant:.{sig - 1}f}\times 10^{{{exp}}}\)"
+
+
+def table_styler(df):
+    tbl = df.style.format(
+        {
+            "h": sci_tex,
+            "Abs. error": sci_tex,
+            "Run time": sci_tex,
+        },
+        na_rep="---",
+    )
+
+    return tbl.hide()
+
+
 ```
 
 ::: {.callout-tip}
@@ -55,7 +81,7 @@ What does this tell us about speed?
 
 We have that
 $$
-\text{Distance travelled} = \text{speed} \times \text{time},
+\text{distance travelled} = \text{speed} \times \text{time},
 $$
 or equivalently:
 $$
@@ -228,6 +254,9 @@ print(D, t)
 In summary, we get
 
 ```{python}
+# | tbl-cap: "Computing the distance travelled using smaller steps."
+# | label: tbl-distance-convergence
+
 data = []
 
 for j in range(6):
@@ -241,7 +270,7 @@ for j in range(6):
 
     data.append({"intervals": N, "increment size, h": dt, "total distance": D})
 
-pd.DataFrame(data)
+table_styler(pd.DataFrame(data))
 ```
 
 We appear to be converging to a limit as $h \to 0$...
@@ -320,7 +349,7 @@ plt.show()
 
 ```
 
-For a straight line, we can use the formula for a straight line to find the gradient. The equation of a straight line with slope $m$ is given by
+For a straight line, we can use the formula for a straight line to find its gradient. The equation of a straight line with slope $m$ is given by
 $$
 f(t) = m t + c.
 $$
@@ -329,7 +358,7 @@ For a curve (i.e. non-straight line), we can approximate the slope with a straig
 $$
 \frac{f(t + h) - f(t)}{h}.
 $$
-We can get a better approximation by taking a smaller value of $h$....
+We can get a better approximation by taking a smaller value of $h$...
 This leads us back to the definition of derivative (@def-derivative).
 
 ```{python}
@@ -548,13 +577,14 @@ D(1) & = \int_0^1 S(t) \, \mathrm{d}t
 & = (-\frac{1}{3} \times 1^3 + 0.25 \times 1^2 + 0.5 \times 1) - (-\frac{1}{3} \times 0^3 + 0.25 \times 0^2 + 0.5 \times 0) \\
 & = \frac{5}{12} \approx 0.416667.
 \end{align*}
+We compare this exact value to @tbl-distance-convergence, where for 100 000 intervals, we estimated the total distance to be $0.416669$.
 
 The rest of our section work in this week's lectures is to solve similar equations in the case that our formula for $S(t)$ would depend on $t$ and also $D$.
 :::
 
 ## Differential equations
 
-We have already seen and solved one differential equation - when we solved for the distance travel as a function of time: $D'(t) = S(t)$. That equation related the derivative of $D$ to a function of time $S(t)$. When a model takes the form of an equation which involves one or more derivatives then it is called a **differential equation**.
+We have already seen and solved one differential equation - when we solved for the distance travel as a function of time: $D'(t) = S(t)$. That equation related the derivative of $D(t)$ to a function of time $S(t)$. When a model takes the form of an equation which involves one or more derivatives then it is called a **differential equation**.
 
 Most models of dynamic processes take the form of differential equations including climate models, many models in engineering and science, financial models, physics engines in computer games and many more!
 
@@ -565,7 +595,7 @@ $$
 The data (things given to us) are:
 
 - the initial time $t_0$
-- the initial value of $y$ at the initial time $y_0$ - we call this the *initial condition*
+- the initial value $y_0$ of $y$ at the initial time $t_0$ - we call this the *initial condition*
 - the right hand side function $f$ which can be a function of both time and the solution $y$,
 
 and we must find a function $y \colon [t_0, T) \to \mathbb{R}$ for some final time $T$.
@@ -575,7 +605,7 @@ We have seen one example above with $f(t, y) = S(t) = -(t-1)(t+0.5)$, $t_0 = 0$ 
 ::: {#rem-euler}
 One important consideration is that while many clever ways to solve differential equations exactly exist, most differential equations cannot be solved by hand. Thus numerical methods are not only convenient ways to find solutions of differential equations, in many cases they are essential.
 
-The downside of a computational approach arises now since we are *approximating* the true solution. We will cover more on this in the next lecture.
+The downside of a computational approach arises since we are now *approximating* the true solution. We will cover more on this in the next lecture.
 :::
 
 ::: {#exm-freefall}
@@ -602,6 +632,7 @@ How can we solve this equation?
 - We can do similar to the above idea where we divide the time period into lots of small intervals and assume that everything is approximately constant on each time interval...
 
 ```{python}
+# | echo: True
 def freefall(n):
     """
     Compute the speed of an object falling freely.
@@ -651,7 +682,7 @@ We see that as we take more time steps, we converge to a smooth solution.
 
 ## Euler's method
 
-The approach used in @exm-freefall can be applied to any differential equation in the generic format:
+The approach used in @exm-freefall can be applied to any differential equation in the standard format:
 $$
 y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
 $$
@@ -677,59 +708,68 @@ $$
 for $1 \le t \le 2$.
 
 ```{python}
-t0 = 1
-y0 = 2
-T = 2
-
+# Symbols
+t0 = sp.Integer(1)
+y0 = sp.Integer(2)
+T = sp.Integer(2)
 n = 2
-h = (T - t0) / n
+
+h = (T - t0) / n  # symbolic, gives Rational(1,2)
+
+t, y = t0, y0
 
 
+# Define f(t, y) symbolically
 def f(t, y):
     return -(y**2) + 3 * t**2
 
 
+def f_str(t, y):
+    return f"-\\left({y}\\right)^2 + 3 \\times \\left({t}\\right)^2"
+
+
 s = f"""
-In this example we have:
+In this example using SymPy we have:
 
 - $n={n}$
 - $t_0 = {t0}$
 - $y_0 = {y0}$
 - $T = {T}$
-- $h = ({T} - {t0})/{n} = {h}$
+- $h = ({T} - {t0})/{n} = {sp.latex(h)}$
 - $f(t, y) = -y^2 + 3t^2$.
 
 We start with $t^{{(0)}} = {t0}$ and $y^{{(0)}} = {y0}$.
 
 """
 
-t, y = t0, y0
-
 for step in range(n):
-    ynew = y + h * f(t, y)
-    tnew = t + h
+    ynew = sp.simplify(y + h * f(t, y))
+    tnew = sp.simplify(t + h)
 
     s_step = f"""
 - Step {step + 1}:
     \\begin{{align*}}
-      y^{{({step + 1})}} & = y^{{({step})}} + h
-       f(t^{{({step})}}, y^{{({step})}}) \\\\
-      & = {y} + {h} (-({y})^2 + 3 \\times {t}^{{2}}) = {ynew} \\\\
-      t^{{({step + 1})}} & = t^{{({step})}} + h \\\\
-      & = {t} + {h} = {tnew}
+      y^{{({step + 1})}} &= y^{{({step})}} + h f(t^{{({step})}}, y^{{({step})}})
+      \\\\
+      &= {sp.latex(y)} + {sp.latex(h)} \\times
+      \\left({f_str(sp.latex(t), sp.latex(y))}\\right) \\\\
+      &= {sp.latex(y)} + {sp.latex(h)} \\times {sp.latex(f(t, y))} \\\\
+      &= {sp.latex(ynew)} \\\\
+      t^{{({step + 1})}} &= t^{{({step})}} + h \\\\
+      &= {sp.latex(t)} + {sp.latex(h)} = {sp.latex(tnew)}
     \\end{{align*}}
     """
-    s += s_step
 
+    s += s_step
     t, y = tnew, ynew
 
-
+# Display Markdown
 Markdown(s)
 ```
-:::
 
 ::: {#exr-euler}
 Complete the next two time steps from @exm-euler to find an approximation of the solution at $T = 3$.
+:::
 :::
 
 We see that Euler's method is a very general method that is very easy to apply.
@@ -742,4 +782,4 @@ In the next lecture, we will measure the error of this approach and see how we c
 
 This lecture introduces you to how we study dynamic problems, situations where things change over time, and why numerical methods are such powerful tools for computer scientists. You have explored familiar ideas like speed and distance, seeing how they connect through derivatives and integrals. From there, the lecture builds up your understanding of what a derivative really means (both as a limit and as a slope), how to compute them, and how integration reverses the process.
 
-Once these foundations are in place, you move into the world of differential equations, which are the backbone of models in physics, engineering, climate science, and even games. Because most real-world equations can’t be solved exactly, the lecture shows you how to approximate solutions using Euler's method: a simple, step‑by‑step numerical technique that computers can apply easily. By the end, you’ve seen how to turn a continuous, time-dependent problem into something you can compute, setting you up for deeper work on accuracy and error analysis in the next session.
+Once these foundations are in place, we can move into the world of differential equations, which are the backbone of models in physics, engineering, climate science, and even games. Because most real-world equations can’t be solved exactly, we have seen how to approximate solutions using Euler's method: a simple, step‑by‑step numerical technique that computers can apply easily. By the end, we've seen how to turn a continuous, time-dependent problem into something you can compute, setting us up for the next steps on accuracy and error analysis in the next session.
