@@ -6,10 +6,10 @@
 <script src="lec02a_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec02a_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec02a_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec02a_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec02a_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec02a_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec02a_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -19,6 +19,9 @@
   <link rel="stylesheet" href="lec02a_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lec02a_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -97,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec02a_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="lec02a_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="lec02a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec02a_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec02a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -198,6 +201,24 @@
       }
     };
   </script>
+  <style>
+
+  /* Ensure Reveal does not overwrite backgrounds */
+  .reveal .slide-background {
+    background-color: transparent !important;
+  }
+
+  /* Grid background for slides that have class .gridbg */
+  .reveal .slide-background.gridbg {
+    background-color: transparent !important;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 1em 1em;  /* adjust to taste */
+    background-repeat: repeat;
+  }
+
+  </style>
   <script type="module" src="lec02a_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
   <link href="lec02a_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 </head>
@@ -248,7 +269,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <section class="slide level3">
 
 <p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="5bd7d04b" class="cell" data-execution_count="2">
+<div id="2c420dec" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -307,7 +328,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <section id="python-implementation" class="title-slide slide level2 center">
 <h2>Python implementation</h2>
 <p>We can implement our model using Euler’s method:</p>
-<div id="a97aea05" class="cell" data-execution_count="3">
+<div id="178df0dc" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1-4|5-10|12-17|19-21|23-24|26-32|34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> projectile(n, T):</span>
 <span id="cb1-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href=""></a><span class="co">    Simulate the 2D motion of a projectile using Euler's method.</span></span>
@@ -346,7 +367,7 @@ Y(0) &amp;= 100 \, \text{m}.
 </section>
 <section class="slide level3">
 
-<div id="4901a023" class="cell" data-execution_count="5">
+<div id="4032e160" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -389,13 +410,20 @@ y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
           display:block!important;
       }</style></aside>
 </section>
-<section id="example" class="title-slide slide level2 center">
+<section id="example" class="title-slide slide level2 smaller gridbg center">
 <h2>Example</h2>
-<p>Consider the following system of differential equations: <span class="math display">\[
-\vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
-\]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
+<div class="columns">
+<div class="column">
+<p>Consider the following system of differential equations: <span class="math display">\[\begin{multline*}
+\vec{y}'(t) = A \vec{y} \\ \text{subject to} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+\end{multline*}\]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>.</p>
+<p>Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
+</div><div class="columns">
+
+</div>
+</div>
 <aside class="notes">
-<div id="6f058702" class="cell" data-execution_count="6">
+<div id="5d3185bf" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <ul>
 <li><p>Step 1:</p>
