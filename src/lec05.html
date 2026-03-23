@@ -27,7 +27,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -84,6 +84,9 @@ ul.task-list li input[type="checkbox"] {
     }
   };
 </script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -466,15 +469,17 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 \]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
-<div id="94f0411d" class="cell" data-execution_count="2">
+<div id="0816c277" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
-F(x^{(0)}) = \frac14 \times (0)^4 - \frac112 \times (0)^3 - \frac12 \times (0)^2 + \frac14 \times (0) + \frac12 = 0.5
+F(x^{(0)}) = \frac{1}{4} \times \left(0\right)^4 - \frac{1}{12} \times \left(0\right)^3 - \frac{1}{2} \times \left(0\right)^2 + \frac{1}{4} \times \left(0\right) + \frac{1}{2} = \frac{1}{2}
 \]</span> At <span class="math inline">\(x^{(0)} = 0\)</span>, we see that the derivative of <span class="math inline">\(F\)</span> is positive: <span class="math display">\[
-F'(0) = (0)^3 - \frac14 \times (0)^2 - (0) + \frac14 = 0.25 &gt; 0.
-\]</span> Hence, to decrease <span class="math inline">\(F\)</span> and get closer to the minimiser, we will take a small step in the opposite direction, i.e.&nbsp;in the <span class="math inline">\(- F'(x^{(0)})\)</span> direction. We use the update formula: <span class="math display">\[\begin{align*}
+F'(0) = \left(0\right)^3 - \frac14 \times \left(0\right)^2- \left(0\right) + \frac14
+= \frac{1}{4} &gt; 0.
+\]</span> Hence, to decrease <span class="math inline">\(F\)</span> and get closer to the minimiser, we will take a <em>small</em> step in the opposite direction, i.e.&nbsp;in the <span class="math inline">\(- F'(x^{(0)})\)</span> direction. We use the update formula: <span class="math display">\[\begin{align*}
 x^{(1)} &amp; = x^{(0)} - h F'(x^{(0)}) \\
-&amp; = 0 - h \times 0.25.\end{align*}\]</span> Here <span class="math inline">\(h &gt; 0\)</span> is the step size that we have to choose as a parameter inour algorithm.</p>
+&amp; = 0 - h \times \frac{1}{4}.
+\end{align*}\]</span> Here <span class="math inline">\(h &gt; 0\)</span> is the step size that we have to choose as a parameter in our algorithm.</p>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -484,24 +489,24 @@ x^{(1)} &amp; = x^{(0)} - h F'(x^{(0)}) \\
 </div>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>This plot shows our scenario. In this case, <span class="math inline">\(h = 0.6\)</span> seems a good choice so we set <span class="math display">\[
-x^{(1)} = x^{(0)} - h F'(x^{(0)})= {x0} - {h} \times {dF1(x0)}= {x1},
+<p>This plot shows our scenario. In this case, <span class="math inline">\(h = \frac{1}{2}\)</span> seems a good choice so we set <span class="math display">\[
+x^{(1)} = x^{(0)} - h F'(x^{(0)})= 0 - \frac{1}{2} \times \frac{1}{4}= - \frac{1}{8},
 \]</span> and note that <span class="math display">\[\begin{align*}
-F(x^{(1)}) &amp;= \frac14 \times (-0.15)^4 - \frac112 \times (-0.15)^3 - \frac12 \times (-0.15)^2 + \frac14 \times (-0.15) + \frac12 \\
-&amp;= 0.45165781250000003.\end{align*}\]</span></p>
+F(x^{(1)}) &amp;= \frac{1}{4} \times \left(- \frac{1}{8}\right)^4 - \frac{1}{12} \times \left(- \frac{1}{8}\right)^3 - \frac{1}{2} \times \left(- \frac{1}{8}\right)^2 + \frac{1}{4} \times \left(- \frac{1}{8}\right) + \frac{1}{2} \\
+&amp;= \frac{22667}{49152} = 0.461161295572917.\end{align*}\]</span></p>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Then, we iterate to find <span class="math inline">\(x^{(2)}\)</span>: <span class="math display">\[\begin{align*}
 x^{(2)} &amp;= x^{(1)} - h F'(x^{(1)}) \\
-&amp;= -0.15 - 0.6 \times \left((-0.15)^3 - \frac14 \times (-0.15)^2 - (-0.15) + \frac14\right) \\
-&amp;= -0.15 - 0.6 \times \left(0.391\right) \\
-&amp;= -0.3846,
+&amp;= - \frac{1}{8} - \frac{1}{2} \times \left(\left(- \frac{1}{8}\right)^3 - \frac14 \times \left(- \frac{1}{8}\right)^2- \left(- \frac{1}{8}\right) + \frac14\right) \\
+&amp;= - \frac{1}{8} - \frac{1}{2} \times \left(\frac{189}{512}\right) \\
+&amp;= - \frac{317}{1024} = -0.309570312500000,
 \end{align*}\]</span> and note that <span class="math display">\[\begin{align*}
-F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \frac12 \times (-0.3846)^2 + \frac14 \times (-0.3846) + \frac12 \\
-&amp;= 0.3401020365336164.\end{align*}\]</span></p>
+F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1}{12} \times \left(- \frac{317}{1024}\right)^3 - \frac{1}{2} \times \left(- \frac{317}{1024}\right)^2 + \frac{1}{4} \times \left(- \frac{317}{1024}\right) + \frac{1}{2} \\
+&amp;= \frac{5006632820723}{13194139533312} = 0.379458835347502.\end{align*}\]</span></p>
 </div>
 </div>
-<div id="7f83a2eb" class="cell" data-execution_count="3">
+<div id="ebc4a02e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -511,20 +516,77 @@ F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \fr
 </div>
 </div>
 <p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="f6bc91d0" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>iter  x           F(x)
- 0    0.00000000  0.50000000
- 1   -0.15000000  0.45165781
- 2   -0.38460000  0.34010204
- 3   -0.70903906  0.16426299
- 4   -0.99517620  0.08336230
- 5   -1.00236659  0.08334035
- 6   -0.99880577  0.08333511
- 7   -1.00059433  0.08333378
- 8   -0.99970214  0.08333344
- 9   -1.00014875  0.08333336
-10   -0.99992558  0.08333334</code></pre>
+<div id="abacf8f8" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<style type="text/css">
+</style>
+
+<table id="T_29365" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_29365_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_29365_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_29365_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">F(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_29365_row0_col0" class="data row0 col0">0</td>
+<td id="T_29365_row0_col1" class="data row0 col1">-0.125000000000000</td>
+<td id="T_29365_row0_col2" class="data row0 col2">0.461161295572917</td>
+</tr>
+<tr class="even">
+<td id="T_29365_row1_col0" class="data row1 col0">1</td>
+<td id="T_29365_row1_col1" class="data row1 col1">-0.309570312500000</td>
+<td id="T_29365_row1_col2" class="data row1 col2">0.379458835347502</td>
+</tr>
+<tr class="odd">
+<td id="T_29365_row2_col0" class="data row2 col0">2</td>
+<td id="T_29365_row2_col1" class="data row2 col1">-0.562542600091547</td>
+<td id="T_29365_row2_col2" class="data row2 col2">0.241007985998170</td>
+</tr>
+<tr class="even">
+<td id="T_29365_row3_col0" class="data row3 col0">3</td>
+<td id="T_29365_row3_col1" class="data row3 col1">-0.840247650276027</td>
+<td id="T_29365_row3_col2" class="data row3 col2">0.110980417157527</td>
+</tr>
+<tr class="odd">
+<td id="T_29365_row4_col0" class="data row4 col0">4</td>
+<td id="T_29365_row4_col1" class="data row4 col1">-1.00050527085337</td>
+<td id="T_29365_row4_col2" class="data row4 col2">0.0833336525963882</td>
+</tr>
+<tr class="even">
+<td id="T_29365_row5_col0" class="data row5 col0">5</td>
+<td id="T_29365_row5_col1" class="data row5 col1">-0.999873267361878</td>
+<td id="T_29365_row5_col2" class="data row5 col2">0.0833333534075803</td>
+</tr>
+<tr class="odd">
+<td id="T_29365_row6_col0" class="data row6 col0">6</td>
+<td id="T_29365_row6_col1" class="data row6 col1">-1.00003165706116</td>
+<td id="T_29365_row6_col2" class="data row6 col2">0.0833333345860796</td>
+</tr>
+<tr class="even">
+<td id="T_29365_row7_col0" class="data row7 col0">7</td>
+<td id="T_29365_row7_col1" class="data row7 col1">-0.999992084106168</td>
+<td id="T_29365_row7_col2" class="data row7 col2">0.0833333334116595</td>
+</tr>
+<tr class="odd">
+<td id="T_29365_row8_col0" class="data row8 col0">8</td>
+<td id="T_29365_row8_col1" class="data row8 col1">-1.00000197887163</td>
+<td id="T_29365_row8_col2" class="data row8 col2">0.0833333333382282</td>
+</tr>
+<tr class="even">
+<td id="T_29365_row9_col0" class="data row9 col0">9</td>
+<td id="T_29365_row9_col1" class="data row9 col1">-0.999999505275728</td>
+<td id="T_29365_row9_col2" class="data row9 col2">0.0833333333336392</td>
+</tr>
+<tr class="odd">
+<td id="T_29365_row10_col0" class="data row10 col0">10</td>
+<td id="T_29365_row10_col1" class="data row10 col1">-1.00000012368067</td>
+<td id="T_29365_row10_col2" class="data row10 col2">0.0833333333333524</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -535,7 +597,7 @@ F(x^{(2)}) &amp;= \frac14 \times (-0.3846)^4 - \frac112 \times (-0.3846)^3 - \fr
 </div>
 </div>
 </div>
-<p>We can use a similar idea when working in <span class="math inline">\(\mathbb{R}^n\)</span>. The key idea is to note that the gradient of <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> points in the direction of the steepest increase in <span class="math inline">\(F\)</span> (<span class="quarto-unresolved-ref">?lem-XX</span>). So, starting at a point <span class="math inline">\(\vec{x}^{(0)}\)</span>, if we want to reduce <span class="math inline">\(F\)</span>, we should take a small step in the direction <span class="math inline">\(-\nabla F(\vec{x}^{(0)})\)</span>. This is the <strong>gradient descent algorithm</strong> which, for a given step size <span class="math inline">\(h\)</span>, uses the update formula: <span class="math display">\[
+<p>We can use a similar idea when working in <span class="math inline">\(\mathbb{R}^n\)</span>. The key idea is to note that the gradient of <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> points in the direction of the steepest increase in <span class="math inline">\(F\)</span> (<a href="lec04.html#lem-grad-slope-max" class="quarto-xref">Lemma&nbsp;<span>7.2</span></a>). So, starting at a point <span class="math inline">\(\vec{x}^{(0)}\)</span>, if we want to reduce <span class="math inline">\(F\)</span>, we should take a small step in the direction <span class="math inline">\(-\nabla F(\vec{x}^{(0)})\)</span>. This is the <strong>gradient descent algorithm</strong> which, for a given step size <span class="math inline">\(h\)</span>, uses the update formula: <span class="math display">\[
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
 \]</span></p>
 <div id="exm-gradient-descent" class="theorem example">
@@ -554,23 +616,23 @@ h\begin{pmatrix}
 4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
 \end{pmatrix}.
 \]</span></p>
-<div id="72b069c3" class="cell" data-execution_count="5">
+<div id="4546d69d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>Let <span class="math inline">\(x^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span> and <span class="math inline">\(h = 0.25\)</span>.</p>
+<p>Let <span class="math inline">\(x^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span> and <span class="math inline">\(h = 1/4\)</span>.</p>
 <p>Then we can compute that</p>
 <p><span class="math display">\[\begin{align*}
 \vec{x}^{(1)} &amp;= \vec{x}^{(0)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
-&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times\nabla F(1.0, 0.75) \\
-&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times\begin{pmatrix}4 \times (1.0)^3 - 2 \times (1.0) + 2 \\8 \times (0.75)\end{pmatrix} \\
-&amp; = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} - 0.25 \times{array_to_latex(grad_F(x[0], x[1]))} \\
-&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix}
+&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\nabla F(1, \frac{3}{4}) \\
+&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\begin{pmatrix}4 \times (1)^3 - 2 \times (1) + 2 \\8 \times (\frac{3}{4})\end{pmatrix} \\
+&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\left(\begin{matrix}4\\6\end{matrix}\right) \\
+&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right)
 \end{align*}\]</span></p>
 <p><span class="math display">\[\begin{align*}
 \vec{x}^{(2)} &amp;= \vec{x}^{(1)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
-&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times\nabla F(0.0, -0.75) \\
-&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times\begin{pmatrix}4 \times (0.0)^3 - 2 \times (0.0) + 2 \\8 \times (-0.75)\end{pmatrix} \\
-&amp; = \begin{pmatrix} 0.0\\ -0.75 \end{pmatrix} - 0.25 \times{array_to_latex(grad_F(x[0], x[1]))} \\
-&amp; = \begin{pmatrix} -0.5\\ 0.75 \end{pmatrix}
+&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\nabla F(0, - \frac{3}{4}) \\
+&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\begin{pmatrix}4 \times (0)^3 - 2 \times (0) + 2 \\8 \times (- \frac{3}{4})\end{pmatrix} \\
+&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\left(\begin{matrix}2\\-6\end{matrix}\right) \\
+&amp; = \left(\begin{matrix}- \frac{1}{2}\\\frac{3}{4}\end{matrix}\right)
 \end{align*}\]</span></p>
 </div>
 </div>
@@ -580,8 +642,9 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 \]</span></p>
 </div>
 </div>
-<div class="proof remark">
-<p><span class="proof-title"><em>Remark</em>. </span>We always need an initial value for the gradient descent algorithm. If <span class="math inline">\(F\)</span> is convex, the choice of starting point does not affect the location of the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.</p>
+<div id="rem-starting-value" class="proof remark">
+<p><span class="proof-title"><em>Remark 8.2</em>. </span>We always need an initial value for the gradient descent algorithm. If <span class="math inline">\(F\)</span> is convex, the choice of starting point does not affect whether we converge or not towards the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.</p>
+<p>However, in the non-convex case, different starting values converge to different local minima. In fact, this is a way to try to find a global minimum through using lots of different local minima and finding which one minimises <span class="math inline">\(F\)</span>.</p>
 </div>
 <section id="choice-of-the-step-size-h" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="choice-of-the-step-size-h"><span class="header-section-number">8.1</span> Choice of the step size <span class="math inline">\(h\)</span></h2>
@@ -589,9 +652,9 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 <div id="exm-choosing-h" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.3</strong></span> We consider again the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
-\]</span> From the plots (in ??), we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
+\]</span> From the plots in <a href="lec04.html#fig-2d_func" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>, we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
 <p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(h\)</span></p>
-<div id="992c563b" class="cell" data-execution_count="6">
+<div id="dca8a8f9" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -604,7 +667,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 <ul>
 <li>for <span class="math inline">\(h = 10^{1}\)</span> or <span class="math inline">\(10^{0}\)</span>, the time step is too large and the iterations quickly diverge;</li>
 <li>for <span class="math inline">\(h = 10^{-3}\)</span> or <span class="math inline">\(10^{-4}\)</span>, the time step is too small and the function does not decrease quickly enough;</li>
-<li>for <span class="math inline">\(h = 10^{-1}\)</span>, we see a nice decrease in the function values and quick convergence to the minimum!</li>
+<li>for <span class="math inline">\(h = 10^{-1}\)</span> or <span class="math inline">\(10^{-2}\)</span>, we see a nice decrease in the function values and quick convergence to the minimum!</li>
 </ul>
 </div>
 <div id="exr-step-size" class="theorem exercise">
@@ -634,14 +697,14 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span> or we can integrate additionally to see: <span class="math display">\[
 F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le F(\vec{x}^{(0)}).
 \]</span> In words, these equations show that along solutions of the gradient flow equation, the quantity <span class="math inline">\(F(\vec{x}(t))\)</span> is non-increasing.</p>
-<p>Note there is no step size here: effectively, this is the case for <span class="math inline">\(h \to 0\)</span>, and we see that <span class="math inline">\(h\)</span> is small enough for the function value to <em>always</em> decrease.</p>
 <p>Now, if we take apply Euler’s method to solve the gradient descent differential equation with step size <span class="math inline">\(h\)</span>, we arrive at the scheme: <span class="math display">\[
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}).
 \]</span> So Euler’s method applied to the gradient flow equation gives exactly the gradient descent algorithm!</p>
+<p>Note there is no step size in the gradient flow differential equation: effectively, this is the case for <span class="math inline">\(h \to 0\)</span>, and we see that <span class="math inline">\(h\)</span> is small enough for the function value to <em>always</em> decrease.</p>
 <div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.</p>
 <p>For example, one approach called the <em>heavy ball</em> method (or momentum approach), uses a numerical method to solve the differential equation: <span class="math display">\[
-\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}, \vec{x}'(0) = \vec{v}^{(0)}.
+\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to appropriate initial conditions}.
 \]</span></p>
 </div>
 </section>
@@ -656,7 +719,7 @@ x^{(i+1)} &amp;= x^{(i)} - h F'(x^{(i)}) &amp;&amp; \text{(gradient descent)}.
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
 <p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
-<div id="f8c029f3" class="cell" data-execution_count="7">
+<div id="ae007ee2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -680,25 +743,25 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 0 &amp; 8
 \end{pmatrix}.
 \]</span></p>
-<div id="b7e7ab6f" class="cell" data-execution_count="8">
+<div id="a80a4dfc" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display cell-output-markdown">
-<p>We start at <span class="math inline">\(\vec{x}^{(0)} = \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix}\)</span>.</p>
+<p>We start at <span class="math inline">\(\vec{x}^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span>.</p>
 <p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}
-\nabla F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}4 \times (1.0)^3 - 2 \times (1.0) + 2 \\ 8 \times (0.75)\end{pmatrix}= \begin{pmatrix} 4.0\\ 6.0 \end{pmatrix} \\
-\nabla^2 F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}12 \times (1.0)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \begin{pmatrix} 10.0 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}.
+\nabla F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}4 \times (1)^3 - 2 \times (1) + 2 \\ 8 \times (3/4)\end{pmatrix}= \left(\begin{matrix}4\\6\end{matrix}\right) \\
+\nabla^2 F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}12 \times (1)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \left(\begin{matrix}10 &amp; 0\\0 &amp; 8\end{matrix}\right).
 \end{align*}\]</span> So we need to solve <span class="math display">\[
-\begin{pmatrix} 10.0 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\begin{pmatrix} 4.0\\ 6.0 \end{pmatrix}.\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
-\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \begin{pmatrix} -0.4\\ -0.75 \end{pmatrix}.\]</span> Then we see that <span class="math display">\[\begin{align*}
+\left(\begin{matrix}10 &amp; 0\\0 &amp; 8\end{matrix}\right)\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\left(\begin{matrix}4\\6\end{matrix}\right).\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
+\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \left(\begin{matrix}- \frac{2}{5}\\- \frac{3}{4}\end{matrix}\right) = \left(\begin{matrix}-0.4\\-0.75\end{matrix}\right).\]</span> Then we see that <span class="math display">\[\begin{align*}
 \vec{x}^{(1)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
-&amp;= \begin{pmatrix} 1.0\\ 0.75 \end{pmatrix} + \begin{pmatrix} -0.4\\ -0.75 \end{pmatrix}= \begin{pmatrix} 0.6\\ 0.0 \end{pmatrix}
+&amp;= \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) + \left(\begin{matrix}- \frac{2}{5}\\- \frac{3}{4}\end{matrix}\right)= \left(\begin{matrix}\frac{3}{5}\\0\end{matrix}\right) = \left(\begin{matrix}0.6\\0\end{matrix}\right)
 \end{align*}\]</span> <strong>Iteration 2.</strong> We compute that <span class="math display">\[\begin{align*}
-\nabla F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}4 \times (0.6)^3 - 2 \times (0.6) + 2 \\ 8 \times (0.0)\end{pmatrix}= \begin{pmatrix} 1.664\\ 0.0 \end{pmatrix} \\
-\nabla^2 F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}12 \times (0.6)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \begin{pmatrix} 2.3200000000000003 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}.
+\nabla F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}4 \times (3/5)^3 - 2 \times (3/5) + 2 \\ 8 \times (0)\end{pmatrix}= \left(\begin{matrix}\frac{208}{125}\\0\end{matrix}\right) \\
+\nabla^2 F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}12 \times (3/5)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \left(\begin{matrix}\frac{58}{25} &amp; 0\\0 &amp; 8\end{matrix}\right).
 \end{align*}\]</span> So we need to solve <span class="math display">\[
-\begin{pmatrix} 2.3200000000000003 &amp; 0.0 \\ 0.0 &amp; 8.0 \end{pmatrix}\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\begin{pmatrix} 1.664\\ 0.0 \end{pmatrix}.\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
-\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \begin{pmatrix} -0.7172413793103447\\ 0.0 \end{pmatrix}.\]</span> Then we see that <span class="math display">\[\begin{align*}
+\left(\begin{matrix}\frac{58}{25} &amp; 0\\0 &amp; 8\end{matrix}\right)\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\left(\begin{matrix}\frac{208}{125}\\0\end{matrix}\right).\]</span> The matrix is again diagonal so we read off that the solution is:<span class="math display">\[
+\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \left(\begin{matrix}- \frac{104}{145}\\0\end{matrix}\right) = \left(\begin{matrix}-0.717241379310345\\0\end{matrix}\right).\]</span> Then we see that <span class="math display">\[\begin{align*}
 \vec{x}^{(2)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
-&amp;= \begin{pmatrix} 0.6\\ 0.0 \end{pmatrix} + \begin{pmatrix} -0.7172413793103447\\ 0.0 \end{pmatrix}= \begin{pmatrix} -0.11724137931034473\\ 0.0 \end{pmatrix}
+&amp;= \left(\begin{matrix}\frac{3}{5}\\0\end{matrix}\right) + \left(\begin{matrix}- \frac{104}{145}\\0\end{matrix}\right)= \left(\begin{matrix}- \frac{17}{145}\\0\end{matrix}\right) = \left(\begin{matrix}-0.117241379310345\\0\end{matrix}\right)
 \end{align*}\]</span></p>
 </div>
 </div>

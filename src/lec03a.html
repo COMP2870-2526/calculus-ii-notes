@@ -62,7 +62,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -119,6 +119,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   };
 </script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -498,7 +501,7 @@ window.Quarto = {
 </ol>
 </div>
 </div>
-<p>In one dimension, we will proceed with a simple idea: to find candidate minima of functions <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we will find points at which the derivative of <span class="math inline">\(F\)</span> is 0. To help us with notation, in this section we will write <span class="math inline">\(F' = f\)</span>. The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.</p>
+<p>In one dimension, we will proceed with a simple idea: to find candidate minima of functions <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span>, we will find points at which the derivative of <span class="math inline">\(F\)</span> is 0. To help us with notation, in this section we will write <span class="math inline">\(f := F'\)</span>. The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.</p>
 <blockquote class="blockquote">
 <p>Given a smooth function <span class="math inline">\(f(x)\)</span>, the problem is to find a point <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*) = 0\)</span>. That is, <span class="math inline">\(x^*\)</span> is a solution of the equation <span class="math inline">\(f(x) = 0\)</span> and is called a <strong>root of <span class="math inline">\(f(x)\)</span></strong>.</p>
 </blockquote>
@@ -524,7 +527,7 @@ x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
 <p><span class="theorem-title"><strong>Example 6.2</strong></span> We want to solve the quadratic equation <span class="math display">\[
 f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 \]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
-<div id="2652d71a" class="cell" data-execution_count="2">
+<div id="ae7177d4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># implementation of quadratic formula</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">def</span> quad(a, b, c):</span>
 <span id="cb1-3"><a href="#cb1-3"></a>    <span class="co">"""</span></span>
@@ -544,7 +547,7 @@ f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 </div>
 </div>
 <p>These values look reasonable, but let’s check the errors:</p>
-<div id="d1a01902" class="cell" data-execution_count="3">
+<div id="417023cd" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># absolute and relative errors</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -573,7 +576,7 @@ f(x) = x^2 - 2.
 <p>An ellipse has two semi-axes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and we assume that <span class="math inline">\(a &gt; b\)</span>. We denote by <span class="math inline">\(e = \sqrt{1 - \frac{b^2}{a^2}}\)</span> the eccentricity of the ellipse. The closest point on the ellipse to the central body (i.e.&nbsp;planet or star, which is at one of the foci of the ellipse) of the object’s trajectory is called the periapsis.</p>
 <p>To connect time to position, it’s convenient to use an angle-like variable that increases at a constant rate - this variable is called the mean anomaly, <span class="math inline">\(M\)</span> (measured in radians). <span class="math inline">\(M = 0\)</span> corresponds to periapsis and <span class="math inline">\(M = \pi\)</span> corresponds to half an orbit later.</p>
 <p>There is a helpful intermediate angle called the eccentric anomaly which we write as <span class="math inline">\(E\)</span>. Since <span class="math inline">\(M\)</span> is not the actual geometric angle around the ellipse, we use <span class="math inline">\(E\)</span> as a useful angle from which we can compute quantities such that the coordinates of the object.</p>
-<div id="c268b7f0" class="cell" data-execution_count="4">
+<div id="4b5fd21e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -615,7 +618,7 @@ f'(E) = 1 - e \cos E \ge 1 - e &gt; 0,
 <section id="bisection-method" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="bisection-method"><span class="header-section-number">6.3</span> Bisection method</h2>
 <p>The first method that we introduce is the bisection method. This is a simple, slow but very robust method. It’s based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).</p>
-<div id="4ce8e0ca" class="cell" data-execution_count="5">
+<div id="e922a501" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -646,57 +649,320 @@ f'(E) = 1 - e \cos E \ge 1 - e &gt; 0,
 </section>
 <section id="examples" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">6.3.3</span> Examples</h3>
+<div id="3a82c59e" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> bisection(f, a, b, tol):</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">    Find a root of a scalar function using the bisection method.</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">    The bisection method is a bracketing root-finder. Given an interval</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">    ``[a, b]`` such that ``f(a)`` and ``f(b)`` have opposite signs, the method</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">    repeatedly halves the interval and selects the subinterval that still</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">    brackets a root. The returned estimate is the midpoint of the final</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">    interval once its width is less than ``tol``.</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">    Parameters</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">    ----------</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">    f : callable</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">        Scalar function of one variable, ``f(x)``, whose root is sought.</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">        Must be defined and (ideally) continuous on the interval ``[a, b]``.</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">    a : float</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">        Left endpoint of the initial bracket.</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">    b : float</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">        Right endpoint of the initial bracket. Must satisfy ``b &gt; a``.</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">    tol : float</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">        Absolute tolerance on the interval width. Iteration stops when</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co">        ``b - a &lt;= tol``.</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="co">    Returns</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a><span class="co">    -------</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="co">    data: list[dict]</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="co">        Iteration data for analysing results</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">    Raises</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">    ------</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">    AssertionError</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">        If the initial interval does not bracket a root, i.e. if</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a><span class="co">        ``f(a) * f(b) &gt;= 0``. Note that with the current implementation this</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="co">        also rejects cases where ``f(a) == 0`` or ``f(b) == 0`` (an endpoint is</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="co">        exactly a root).</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="co">    """</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a>    <span class="co"># initial bracket check</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a>    <span class="cf">assert</span> f(a) <span class="op">*</span> f(b) <span class="op">&lt;</span> <span class="fl">0.0</span>, <span class="ss">f"(</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">) does not bracket the root"</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a></span>
+<span id="cb5-40"><a href="#cb5-40"></a>    data <span class="op">=</span> []</span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a>    <span class="co"># the iteration</span></span>
+<span id="cb5-43"><a href="#cb5-43"></a>    it <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-44"><a href="#cb5-44"></a>    <span class="cf">while</span> b <span class="op">-</span> a <span class="op">&gt;</span> tol:</span>
+<span id="cb5-45"><a href="#cb5-45"></a>        <span class="co"># find midpoint</span></span>
+<span id="cb5-46"><a href="#cb5-46"></a>        c <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb5-47"><a href="#cb5-47"></a>        <span class="co"># update bracket</span></span>
+<span id="cb5-48"><a href="#cb5-48"></a>        <span class="cf">if</span> f(a) <span class="op">*</span> f(c) <span class="op">&gt;</span> <span class="fl">0.0</span>:</span>
+<span id="cb5-49"><a href="#cb5-49"></a>            a <span class="op">=</span> c</span>
+<span id="cb5-50"><a href="#cb5-50"></a>        <span class="cf">else</span>:</span>
+<span id="cb5-51"><a href="#cb5-51"></a>            b <span class="op">=</span> c</span>
+<span id="cb5-52"><a href="#cb5-52"></a></span>
+<span id="cb5-53"><a href="#cb5-53"></a>        it <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb5-54"><a href="#cb5-54"></a></span>
+<span id="cb5-55"><a href="#cb5-55"></a>        data.append({<span class="st">"it"</span>: it, <span class="st">"a"</span>: a, <span class="st">"b"</span>: b, <span class="st">"f(a)"</span>: f(a), <span class="st">"f(b)"</span>: f(b)})</span>
+<span id="cb5-56"><a href="#cb5-56"></a></span>
+<span id="cb5-57"><a href="#cb5-57"></a>    <span class="cf">return</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="4dd7c324" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  a        b        f(a)        f(b)
- 1 1.000000 1.500000 -1.0000e+00 2.5000e-01
- 2 1.250000 1.500000 -4.3750e-01 2.5000e-01
- 3 1.375000 1.500000 -1.0938e-01 2.5000e-01
- 4 1.375000 1.437500 -1.0938e-01 6.6406e-02
- 5 1.406250 1.437500 -2.2461e-02 6.6406e-02
- 6 1.406250 1.421875 -2.2461e-02 2.1729e-02
- 7 1.414062 1.421875 -4.2725e-04 2.1729e-02
- 8 1.414062 1.417969 -4.2725e-04 1.0635e-02
- 9 1.414062 1.416016 -4.2725e-04 5.1003e-03
-10 1.414062 1.415039 -4.2725e-04 2.3355e-03
-11 1.414062 1.414551 -4.2725e-04 9.5391e-04
-12 1.414062 1.414307 -4.2725e-04 2.6327e-04
-13 1.414185 1.414307 -8.2001e-05 2.6327e-04
-14 1.414185 1.414246 -8.2001e-05 9.0633e-05</code></pre>
-</div>
+<div id="9d85079f" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>1.414215087890625</code></pre>
+<style type="text/css">
+</style>
+
+<table id="T_8fa21" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_8fa21_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_8fa21_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">a</th>
+<th id="T_8fa21_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">b</th>
+<th id="T_8fa21_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f(a)</th>
+<th id="T_8fa21_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">f(b)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_8fa21_row0_col0" class="data row0 col0">1</td>
+<td id="T_8fa21_row0_col1" class="data row0 col1">1.000000</td>
+<td id="T_8fa21_row0_col2" class="data row0 col2">1.500000</td>
+<td id="T_8fa21_row0_col3" class="data row0 col3">-1.000000</td>
+<td id="T_8fa21_row0_col4" class="data row0 col4">0.250000</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row1_col0" class="data row1 col0">2</td>
+<td id="T_8fa21_row1_col1" class="data row1 col1">1.250000</td>
+<td id="T_8fa21_row1_col2" class="data row1 col2">1.500000</td>
+<td id="T_8fa21_row1_col3" class="data row1 col3">-0.437500</td>
+<td id="T_8fa21_row1_col4" class="data row1 col4">0.250000</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row2_col0" class="data row2 col0">3</td>
+<td id="T_8fa21_row2_col1" class="data row2 col1">1.375000</td>
+<td id="T_8fa21_row2_col2" class="data row2 col2">1.500000</td>
+<td id="T_8fa21_row2_col3" class="data row2 col3">-0.109375</td>
+<td id="T_8fa21_row2_col4" class="data row2 col4">0.250000</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row3_col0" class="data row3 col0">4</td>
+<td id="T_8fa21_row3_col1" class="data row3 col1">1.375000</td>
+<td id="T_8fa21_row3_col2" class="data row3 col2">1.437500</td>
+<td id="T_8fa21_row3_col3" class="data row3 col3">-0.109375</td>
+<td id="T_8fa21_row3_col4" class="data row3 col4">0.066406</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row4_col0" class="data row4 col0">5</td>
+<td id="T_8fa21_row4_col1" class="data row4 col1">1.406250</td>
+<td id="T_8fa21_row4_col2" class="data row4 col2">1.437500</td>
+<td id="T_8fa21_row4_col3" class="data row4 col3">-0.022461</td>
+<td id="T_8fa21_row4_col4" class="data row4 col4">0.066406</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row5_col0" class="data row5 col0">6</td>
+<td id="T_8fa21_row5_col1" class="data row5 col1">1.406250</td>
+<td id="T_8fa21_row5_col2" class="data row5 col2">1.421875</td>
+<td id="T_8fa21_row5_col3" class="data row5 col3">-0.022461</td>
+<td id="T_8fa21_row5_col4" class="data row5 col4">0.021729</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row6_col0" class="data row6 col0">7</td>
+<td id="T_8fa21_row6_col1" class="data row6 col1">1.414062</td>
+<td id="T_8fa21_row6_col2" class="data row6 col2">1.421875</td>
+<td id="T_8fa21_row6_col3" class="data row6 col3">-0.000427</td>
+<td id="T_8fa21_row6_col4" class="data row6 col4">0.021729</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row7_col0" class="data row7 col0">8</td>
+<td id="T_8fa21_row7_col1" class="data row7 col1">1.414062</td>
+<td id="T_8fa21_row7_col2" class="data row7 col2">1.417969</td>
+<td id="T_8fa21_row7_col3" class="data row7 col3">-0.000427</td>
+<td id="T_8fa21_row7_col4" class="data row7 col4">0.010635</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row8_col0" class="data row8 col0">9</td>
+<td id="T_8fa21_row8_col1" class="data row8 col1">1.414062</td>
+<td id="T_8fa21_row8_col2" class="data row8 col2">1.416016</td>
+<td id="T_8fa21_row8_col3" class="data row8 col3">-0.000427</td>
+<td id="T_8fa21_row8_col4" class="data row8 col4">0.005100</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row9_col0" class="data row9 col0">10</td>
+<td id="T_8fa21_row9_col1" class="data row9 col1">1.414062</td>
+<td id="T_8fa21_row9_col2" class="data row9 col2">1.415039</td>
+<td id="T_8fa21_row9_col3" class="data row9 col3">-0.000427</td>
+<td id="T_8fa21_row9_col4" class="data row9 col4">0.002336</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row10_col0" class="data row10 col0">11</td>
+<td id="T_8fa21_row10_col1" class="data row10 col1">1.414062</td>
+<td id="T_8fa21_row10_col2" class="data row10 col2">1.414551</td>
+<td id="T_8fa21_row10_col3" class="data row10 col3">-0.000427</td>
+<td id="T_8fa21_row10_col4" class="data row10 col4">0.000954</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row11_col0" class="data row11 col0">12</td>
+<td id="T_8fa21_row11_col1" class="data row11 col1">1.414062</td>
+<td id="T_8fa21_row11_col2" class="data row11 col2">1.414307</td>
+<td id="T_8fa21_row11_col3" class="data row11 col3">-0.000427</td>
+<td id="T_8fa21_row11_col4" class="data row11 col4">0.000263</td>
+</tr>
+<tr class="odd">
+<td id="T_8fa21_row12_col0" class="data row12 col0">13</td>
+<td id="T_8fa21_row12_col1" class="data row12 col1">1.414185</td>
+<td id="T_8fa21_row12_col2" class="data row12 col2">1.414307</td>
+<td id="T_8fa21_row12_col3" class="data row12 col3">-0.000082</td>
+<td id="T_8fa21_row12_col4" class="data row12 col4">0.000263</td>
+</tr>
+<tr class="even">
+<td id="T_8fa21_row13_col0" class="data row13 col0">14</td>
+<td id="T_8fa21_row13_col1" class="data row13 col1">1.414185</td>
+<td id="T_8fa21_row13_col2" class="data row13 col2">1.414246</td>
+<td id="T_8fa21_row13_col3" class="data row13 col3">-0.000082</td>
+<td id="T_8fa21_row13_col4" class="data row13 col4">0.000091</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>We see that it takes 14 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="858fd0fa" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  a        b        f(a)        f(b)
- 1 0.000000 3.141593 -2.0000e+00 1.1416e+00
- 2 1.570796 3.141593 -1.1292e+00 1.1416e+00
- 3 2.356194 3.141593 -1.3878e-01 1.1416e+00
- 4 2.356194 2.748894 -1.3878e-01 4.8102e-01
- 5 2.356194 2.552544 -1.3878e-01 1.6364e-01
- 6 2.356194 2.454369 -1.3878e-01 1.0294e-02
- 7 2.405282 2.454369 -6.4809e-02 1.0294e-02
- 8 2.429826 2.454369 -2.7395e-02 1.0294e-02
- 9 2.442097 2.454369 -8.5847e-03 1.0294e-02
-10 2.442097 2.448233 -8.5847e-03 8.4623e-04
-11 2.445165 2.448233 -3.8713e-03 8.4623e-04
-12 2.446699 2.448233 -1.5131e-03 8.4623e-04
-13 2.447466 2.448233 -3.3356e-04 8.4623e-04
-14 2.447466 2.447850 -3.3356e-04 2.5630e-04
-15 2.447658 2.447850 -3.8638e-05 2.5630e-04
-16 2.447658 2.447754 -3.8638e-05 1.0883e-04</code></pre>
-</div>
+<div id="7e438526" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>2.4477060315696475</code></pre>
+<style type="text/css">
+</style>
+
+<table id="T_9a915" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_9a915_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_9a915_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">a</th>
+<th id="T_9a915_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">b</th>
+<th id="T_9a915_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f(a)</th>
+<th id="T_9a915_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">f(b)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_9a915_row0_col0" class="data row0 col0">1</td>
+<td id="T_9a915_row0_col1" class="data row0 col1">0.000000</td>
+<td id="T_9a915_row0_col2" class="data row0 col2">3.141593</td>
+<td id="T_9a915_row0_col3" class="data row0 col3">-2.000000</td>
+<td id="T_9a915_row0_col4" class="data row0 col4">1.141593</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row1_col0" class="data row1 col0">2</td>
+<td id="T_9a915_row1_col1" class="data row1 col1">1.570796</td>
+<td id="T_9a915_row1_col2" class="data row1 col2">3.141593</td>
+<td id="T_9a915_row1_col3" class="data row1 col3">-1.129204</td>
+<td id="T_9a915_row1_col4" class="data row1 col4">1.141593</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row2_col0" class="data row2 col0">3</td>
+<td id="T_9a915_row2_col1" class="data row2 col1">2.356194</td>
+<td id="T_9a915_row2_col2" class="data row2 col2">3.141593</td>
+<td id="T_9a915_row2_col3" class="data row2 col3">-0.138780</td>
+<td id="T_9a915_row2_col4" class="data row2 col4">1.141593</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row3_col0" class="data row3 col0">4</td>
+<td id="T_9a915_row3_col1" class="data row3 col1">2.356194</td>
+<td id="T_9a915_row3_col2" class="data row3 col2">2.748894</td>
+<td id="T_9a915_row3_col3" class="data row3 col3">-0.138780</td>
+<td id="T_9a915_row3_col4" class="data row3 col4">0.481015</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row4_col0" class="data row4 col0">5</td>
+<td id="T_9a915_row4_col1" class="data row4 col1">2.356194</td>
+<td id="T_9a915_row4_col2" class="data row4 col2">2.552544</td>
+<td id="T_9a915_row4_col3" class="data row4 col3">-0.138780</td>
+<td id="T_9a915_row4_col4" class="data row4 col4">0.163645</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row5_col0" class="data row5 col0">6</td>
+<td id="T_9a915_row5_col1" class="data row5 col1">2.356194</td>
+<td id="T_9a915_row5_col2" class="data row5 col2">2.454369</td>
+<td id="T_9a915_row5_col3" class="data row5 col3">-0.138780</td>
+<td id="T_9a915_row5_col4" class="data row5 col4">0.010294</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row6_col0" class="data row6 col0">7</td>
+<td id="T_9a915_row6_col1" class="data row6 col1">2.405282</td>
+<td id="T_9a915_row6_col2" class="data row6 col2">2.454369</td>
+<td id="T_9a915_row6_col3" class="data row6 col3">-0.064809</td>
+<td id="T_9a915_row6_col4" class="data row6 col4">0.010294</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row7_col0" class="data row7 col0">8</td>
+<td id="T_9a915_row7_col1" class="data row7 col1">2.429826</td>
+<td id="T_9a915_row7_col2" class="data row7 col2">2.454369</td>
+<td id="T_9a915_row7_col3" class="data row7 col3">-0.027395</td>
+<td id="T_9a915_row7_col4" class="data row7 col4">0.010294</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row8_col0" class="data row8 col0">9</td>
+<td id="T_9a915_row8_col1" class="data row8 col1">2.442097</td>
+<td id="T_9a915_row8_col2" class="data row8 col2">2.454369</td>
+<td id="T_9a915_row8_col3" class="data row8 col3">-0.008585</td>
+<td id="T_9a915_row8_col4" class="data row8 col4">0.010294</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row9_col0" class="data row9 col0">10</td>
+<td id="T_9a915_row9_col1" class="data row9 col1">2.442097</td>
+<td id="T_9a915_row9_col2" class="data row9 col2">2.448233</td>
+<td id="T_9a915_row9_col3" class="data row9 col3">-0.008585</td>
+<td id="T_9a915_row9_col4" class="data row9 col4">0.000846</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row10_col0" class="data row10 col0">11</td>
+<td id="T_9a915_row10_col1" class="data row10 col1">2.445165</td>
+<td id="T_9a915_row10_col2" class="data row10 col2">2.448233</td>
+<td id="T_9a915_row10_col3" class="data row10 col3">-0.003871</td>
+<td id="T_9a915_row10_col4" class="data row10 col4">0.000846</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row11_col0" class="data row11 col0">12</td>
+<td id="T_9a915_row11_col1" class="data row11 col1">2.446699</td>
+<td id="T_9a915_row11_col2" class="data row11 col2">2.448233</td>
+<td id="T_9a915_row11_col3" class="data row11 col3">-0.001513</td>
+<td id="T_9a915_row11_col4" class="data row11 col4">0.000846</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row12_col0" class="data row12 col0">13</td>
+<td id="T_9a915_row12_col1" class="data row12 col1">2.447466</td>
+<td id="T_9a915_row12_col2" class="data row12 col2">2.448233</td>
+<td id="T_9a915_row12_col3" class="data row12 col3">-0.000334</td>
+<td id="T_9a915_row12_col4" class="data row12 col4">0.000846</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row13_col0" class="data row13 col0">14</td>
+<td id="T_9a915_row13_col1" class="data row13 col1">2.447466</td>
+<td id="T_9a915_row13_col2" class="data row13 col2">2.447850</td>
+<td id="T_9a915_row13_col3" class="data row13 col3">-0.000334</td>
+<td id="T_9a915_row13_col4" class="data row13 col4">0.000256</td>
+</tr>
+<tr class="odd">
+<td id="T_9a915_row14_col0" class="data row14 col0">15</td>
+<td id="T_9a915_row14_col1" class="data row14 col1">2.447658</td>
+<td id="T_9a915_row14_col2" class="data row14 col2">2.447850</td>
+<td id="T_9a915_row14_col3" class="data row14 col3">-0.000039</td>
+<td id="T_9a915_row14_col4" class="data row14 col4">0.000256</td>
+</tr>
+<tr class="even">
+<td id="T_9a915_row15_col0" class="data row15 col0">16</td>
+<td id="T_9a915_row15_col1" class="data row15 col1">2.447658</td>
+<td id="T_9a915_row15_col2" class="data row15 col2">2.447754</td>
+<td id="T_9a915_row15_col3" class="data row15 col3">-0.000039</td>
+<td id="T_9a915_row15_col4" class="data row15 col4">0.000109</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>We see that it takes 16 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
@@ -716,14 +982,14 @@ f(x) = x - 0.7 \sin(x) - 2.0
 <ul>
 <li>finding an initial bracket is not always easy;</li>
 <li>it can take a very large number of iterations to obtain an accurate answer;</li>
-<li>it can never find a solution of <span class="math inline">\(f(x)\)</span> for which <span class="math inline">\(f\)</span> does not change sign (e.g.&nbsp;<span class="math inline">\(f(x) = (x-1)^2\)</span>).</li>
+<li>it can never find a solution of <span class="math inline">\(f(x)\)</span> for which <span class="math inline">\(f\)</span> does not change sign (e.g.&nbsp;<span class="math inline">\(f(x) = (x-1)^2\)</span>) since we cannot find a bracket for the root!</li>
 </ul>
 </section>
 </section>
 <section id="newtons-method" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="newtons-method"><span class="header-section-number">6.4</span> Newton’s method</h2>
 <p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).</p>
-<div id="841fc39a" class="cell" data-execution_count="9">
+<div id="33d67c60" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -748,7 +1014,7 @@ x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
 <p>Once we have our updated estimate <span class="math inline">\(x^{(1)}\)</span>, we can continue the iteration: <span class="math display">\[
 x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 \]</span></p>
-<div id="222f9ce1" class="cell" data-execution_count="10">
+<div id="ace9b086" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -769,33 +1035,146 @@ x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 </div>
 <section id="examples-1" class="level3" data-number="6.4.1">
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="examples-1"><span class="header-section-number">6.4.1</span> Examples</h3>
+<div id="8862fd6f" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> newton(f, df, x0, tol, maxiter<span class="op">=</span><span class="dv">20</span>):</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">    Find a root of a scalar function using Newton's method.</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">    Newton's method (also called the Newton–Raphson method) generates a sequence</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">    of iterates</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">    ``x_{k+1} = x_k - f(x_k) / df(x_k)``</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">    which (when it converges) typically converges rapidly to a root ``x*`` such</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">    that ``f(x*) = 0``. This implementation stops when ``abs(f(x)) &lt;= tol`` or</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">    when ``maxiter`` iterations have been performed.</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">    Parameters</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">    ----------</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">    f : callable</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">        Scalar function of one variable, ``f(x)``, whose root is sought.</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">    df : callable</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">        Derivative of ``f``, i.e. ``df(x) = f'(x)``. Must be defined at each</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">        iterate visited by the algorithm.</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">    x0 : float</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">        Initial guess for the root.</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">    tol : float</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">        Absolute tolerance on the residual. Iteration stops when</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">        ``abs(f(x)) &lt;= tol``.</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">    maxiter : int, optional</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">        Maximum number of iterations to perform. Default is 20.</span></span>
+<span id="cb6-26"><a href="#cb6-26"></a></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co">    Returns</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co">    -------</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a><span class="co">    data: list[dict]</span></span>
+<span id="cb6-30"><a href="#cb6-30"></a><span class="co">        Iteration data for analysing results</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a><span class="co">    """</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a>    data <span class="op">=</span> []</span>
+<span id="cb6-33"><a href="#cb6-33"></a></span>
+<span id="cb6-34"><a href="#cb6-34"></a>    <span class="co"># the iteration</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a>    it <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a>    x <span class="op">=</span> x0</span>
+<span id="cb6-37"><a href="#cb6-37"></a>    data.append({<span class="st">"it"</span>: it, <span class="st">"x"</span>: x, <span class="st">"f(x)"</span>: f(x), <span class="st">"f'(x)"</span>: df(x)})</span>
+<span id="cb6-38"><a href="#cb6-38"></a></span>
+<span id="cb6-39"><a href="#cb6-39"></a>    <span class="cf">while</span> <span class="bu">abs</span>(f(x)) <span class="op">&gt;</span> tol <span class="kw">and</span> it <span class="op">&lt;</span> maxiter:</span>
+<span id="cb6-40"><a href="#cb6-40"></a>        x_new <span class="op">=</span> x <span class="op">-</span> f(x) <span class="op">/</span> df(x)</span>
+<span id="cb6-41"><a href="#cb6-41"></a></span>
+<span id="cb6-42"><a href="#cb6-42"></a>        x <span class="op">=</span> x_new</span>
+<span id="cb6-43"><a href="#cb6-43"></a>        it <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb6-44"><a href="#cb6-44"></a></span>
+<span id="cb6-45"><a href="#cb6-45"></a>        data.append({<span class="st">"it"</span>: it, <span class="st">"x"</span>: x, <span class="st">"f(x)"</span>: f(x), <span class="st">"f'(x)"</span>: df(x)})</span>
+<span id="cb6-46"><a href="#cb6-46"></a></span>
+<span id="cb6-47"><a href="#cb6-47"></a>    <span class="cf">return</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="6f9c80bf" class="cell" data-execution_count="12">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  x        f(x)       df(x)
- 1 1.500000 2.5000e-01 3.0000
- 2 1.416667 6.9444e-03 2.8333
- 3 1.414216 6.0073e-06 2.8284</code></pre>
-</div>
+<div id="e12ddc72" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>1.4142156862745099</code></pre>
+<style type="text/css">
+</style>
+
+<table id="T_f15c1" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_f15c1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_f15c1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_f15c1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">f(x)</th>
+<th id="T_f15c1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f'(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_f15c1_row0_col0" class="data row0 col0">0</td>
+<td id="T_f15c1_row0_col1" class="data row0 col1">1.000000</td>
+<td id="T_f15c1_row0_col2" class="data row0 col2">-1.000000</td>
+<td id="T_f15c1_row0_col3" class="data row0 col3">2.000000</td>
+</tr>
+<tr class="even">
+<td id="T_f15c1_row1_col0" class="data row1 col0">1</td>
+<td id="T_f15c1_row1_col1" class="data row1 col1">1.500000</td>
+<td id="T_f15c1_row1_col2" class="data row1 col2">0.250000</td>
+<td id="T_f15c1_row1_col3" class="data row1 col3">3.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_f15c1_row2_col0" class="data row2 col0">2</td>
+<td id="T_f15c1_row2_col1" class="data row2 col1">1.416667</td>
+<td id="T_f15c1_row2_col2" class="data row2 col2">0.006944</td>
+<td id="T_f15c1_row2_col3" class="data row2 col3">2.833333</td>
+</tr>
+<tr class="even">
+<td id="T_f15c1_row3_col0" class="data row3 col0">3</td>
+<td id="T_f15c1_row3_col1" class="data row3 col1">1.414216</td>
+<td id="T_f15c1_row3_col2" class="data row3 col2">0.000006</td>
+<td id="T_f15c1_row3_col3" class="data row3 col3">2.828431</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>We see that it takes <em>only</em> 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="bc933378" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  x        f(x)       df(x)
- 1 2.470068 3.4541e-02 1.5480
- 2 2.447754 1.0943e-04 1.5382
- 3 2.447683 1.1329e-09 1.5381</code></pre>
-</div>
+<div id="285f3c6d" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>np.float64(2.447683215352491)</code></pre>
+<style type="text/css">
+</style>
+
+<table id="T_8df51" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_8df51_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_8df51_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_8df51_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">f(x)</th>
+<th id="T_8df51_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f'(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_8df51_row0_col0" class="data row0 col0">0</td>
+<td id="T_8df51_row0_col1" class="data row0 col1">3.141593</td>
+<td id="T_8df51_row0_col2" class="data row0 col2">1.141593</td>
+<td id="T_8df51_row0_col3" class="data row0 col3">1.700000</td>
+</tr>
+<tr class="even">
+<td id="T_8df51_row1_col0" class="data row1 col0">1</td>
+<td id="T_8df51_row1_col1" class="data row1 col1">2.470068</td>
+<td id="T_8df51_row1_col2" class="data row1 col2">0.034541</td>
+<td id="T_8df51_row1_col3" class="data row1 col3">1.548012</td>
+</tr>
+<tr class="odd">
+<td id="T_8df51_row2_col0" class="data row2 col0">2</td>
+<td id="T_8df51_row2_col1" class="data row2 col1">2.447754</td>
+<td id="T_8df51_row2_col2" class="data row2 col2">0.000109</td>
+<td id="T_8df51_row2_col3" class="data row2 col3">1.538158</td>
+</tr>
+<tr class="even">
+<td id="T_8df51_row3_col0" class="data row3 col0">3</td>
+<td id="T_8df51_row3_col1" class="data row3 col1">2.447683</td>
+<td id="T_8df51_row3_col2" class="data row3 col2">0.000000</td>
+<td id="T_8df51_row3_col3" class="data row3 col3">1.538126</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>We see that it takes 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
@@ -828,39 +1207,82 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 </div>
 <p>Another similar case is what if the derivative at the root is zero (i.e., <span class="math inline">\(f'(x^*) = 0\)</span>), in this case the iteration can still proceed but the iteration is <em>slower</em>.</p>
 <p>Consider <span class="math inline">\(f(x) = (x-1)^2 = x^2 - 2x + 1\)</span>:</p>
-<div id="ab5388aa" class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec03a_files/figure-html/cell-16-output-1.png" width="590" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="fd4066bf" class="cell" data-execution_count="16">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  x        f(x)       df(x)
- 1 1.500000 2.5000e-01 1.0000
- 2 1.250000 6.2500e-02 0.5000
- 3 1.125000 1.5625e-02 0.2500
- 4 1.062500 3.9062e-03 0.1250
- 5 1.031250 9.7656e-04 0.0625
- 6 1.015625 2.4414e-04 0.0312
- 7 1.007812 6.1035e-05 0.0156</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>1.0078125</code></pre>
+<div id="a8bc4c45" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<style type="text/css">
+</style>
+
+<table id="T_d24be" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_d24be_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_d24be_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_d24be_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">f(x)</th>
+<th id="T_d24be_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f'(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_d24be_row0_col0" class="data row0 col0">0</td>
+<td id="T_d24be_row0_col1" class="data row0 col1">2.000000</td>
+<td id="T_d24be_row0_col2" class="data row0 col2">1.000000</td>
+<td id="T_d24be_row0_col3" class="data row0 col3">2.000000</td>
+</tr>
+<tr class="even">
+<td id="T_d24be_row1_col0" class="data row1 col0">1</td>
+<td id="T_d24be_row1_col1" class="data row1 col1">1.500000</td>
+<td id="T_d24be_row1_col2" class="data row1 col2">0.250000</td>
+<td id="T_d24be_row1_col3" class="data row1 col3">1.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_d24be_row2_col0" class="data row2 col0">2</td>
+<td id="T_d24be_row2_col1" class="data row2 col1">1.250000</td>
+<td id="T_d24be_row2_col2" class="data row2 col2">0.062500</td>
+<td id="T_d24be_row2_col3" class="data row2 col3">0.500000</td>
+</tr>
+<tr class="even">
+<td id="T_d24be_row3_col0" class="data row3 col0">3</td>
+<td id="T_d24be_row3_col1" class="data row3 col1">1.125000</td>
+<td id="T_d24be_row3_col2" class="data row3 col2">0.015625</td>
+<td id="T_d24be_row3_col3" class="data row3 col3">0.250000</td>
+</tr>
+<tr class="odd">
+<td id="T_d24be_row4_col0" class="data row4 col0">4</td>
+<td id="T_d24be_row4_col1" class="data row4 col1">1.062500</td>
+<td id="T_d24be_row4_col2" class="data row4 col2">0.003906</td>
+<td id="T_d24be_row4_col3" class="data row4 col3">0.125000</td>
+</tr>
+<tr class="even">
+<td id="T_d24be_row5_col0" class="data row5 col0">5</td>
+<td id="T_d24be_row5_col1" class="data row5 col1">1.031250</td>
+<td id="T_d24be_row5_col2" class="data row5 col2">0.000977</td>
+<td id="T_d24be_row5_col3" class="data row5 col3">0.062500</td>
+</tr>
+<tr class="odd">
+<td id="T_d24be_row6_col0" class="data row6 col0">6</td>
+<td id="T_d24be_row6_col1" class="data row6 col1">1.015625</td>
+<td id="T_d24be_row6_col2" class="data row6 col2">0.000244</td>
+<td id="T_d24be_row6_col3" class="data row6 col3">0.031250</td>
+</tr>
+<tr class="even">
+<td id="T_d24be_row7_col0" class="data row7 col0">7</td>
+<td id="T_d24be_row7_col1" class="data row7 col1">1.007812</td>
+<td id="T_d24be_row7_col2" class="data row7 col2">0.000061</td>
+<td id="T_d24be_row7_col3" class="data row7 col3">0.015625</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>It takes 7 iterations to find the root in this case (more than the other Newton examples). We note here also that the convergence criterion is <span class="math inline">\(|f(x^{(i)})| &lt; TOL\)</span> which does not guarantee that <span class="math inline">\(|x^* - x^{(i)}| &lt; TOL\)</span>!</p>
 <p>There are also cases where Newton’s method does not converge even when a root exists!</p>
 <div id="exm-newton-non-convergence" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> Consider the function <span class="math inline">\(f(x) = x^{1/3}\)</span>. Clearly <span class="math inline">\(f\)</span> has a root at <span class="math inline">\(x^* = 0\)</span> (<span class="math inline">\(f(0) = 0\)</span>).</p>
-<div id="3e4bee96" class="cell" data-execution_count="17">
+<div id="7e5cc819" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03a_files/figure-html/cell-18-output-1.png" width="609" height="429" class="figure-img"></p>
+<p><img src="lec03a_files/figure-html/cell-16-output-1.png" width="609" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -868,46 +1290,188 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 <p>The derivative is <span class="math inline">\(f'(x) = \frac{1}{3} x^{-2/3}\)</span> and the Newton iteration is <span class="math display">\[
 x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
 \]</span> We can see that the general term in this sequence is <span class="math inline">\(x^{(i)} = (-2)^i x^{(0)}\)</span> – this is clearly not going to converge to 0!</p>
+<div id="74911ac0" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<style type="text/css">
+</style>
+
+<table id="T_60df7" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_60df7_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_60df7_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_60df7_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">f(x)</th>
+<th id="T_60df7_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f'(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_60df7_row0_col0" class="data row0 col0">0</td>
+<td id="T_60df7_row0_col1" class="data row0 col1">1.000000</td>
+<td id="T_60df7_row0_col2" class="data row0 col2">1.000000</td>
+<td id="T_60df7_row0_col3" class="data row0 col3">0.333333</td>
+</tr>
+<tr class="even">
+<td id="T_60df7_row1_col0" class="data row1 col0">1</td>
+<td id="T_60df7_row1_col1" class="data row1 col1">-2.000000</td>
+<td id="T_60df7_row1_col2" class="data row1 col2">-1.259921</td>
+<td id="T_60df7_row1_col3" class="data row1 col3">0.209987</td>
+</tr>
+<tr class="odd">
+<td id="T_60df7_row2_col0" class="data row2 col0">2</td>
+<td id="T_60df7_row2_col1" class="data row2 col1">4.000000</td>
+<td id="T_60df7_row2_col2" class="data row2 col2">1.587401</td>
+<td id="T_60df7_row2_col3" class="data row2 col3">0.132283</td>
+</tr>
+<tr class="even">
+<td id="T_60df7_row3_col0" class="data row3 col0">3</td>
+<td id="T_60df7_row3_col1" class="data row3 col1">-8.000000</td>
+<td id="T_60df7_row3_col2" class="data row3 col2">-2.000000</td>
+<td id="T_60df7_row3_col3" class="data row3 col3">0.083333</td>
+</tr>
+<tr class="odd">
+<td id="T_60df7_row4_col0" class="data row4 col0">4</td>
+<td id="T_60df7_row4_col1" class="data row4 col1">16.000000</td>
+<td id="T_60df7_row4_col2" class="data row4 col2">2.519842</td>
+<td id="T_60df7_row4_col3" class="data row4 col3">0.052497</td>
+</tr>
+<tr class="even">
+<td id="T_60df7_row5_col0" class="data row5 col0">5</td>
+<td id="T_60df7_row5_col1" class="data row5 col1">-32.000000</td>
+<td id="T_60df7_row5_col2" class="data row5 col2">-3.174802</td>
+<td id="T_60df7_row5_col3" class="data row5 col3">0.033071</td>
+</tr>
+<tr class="odd">
+<td id="T_60df7_row6_col0" class="data row6 col0">6</td>
+<td id="T_60df7_row6_col1" class="data row6 col1">64.000000</td>
+<td id="T_60df7_row6_col2" class="data row6 col2">4.000000</td>
+<td id="T_60df7_row6_col3" class="data row6 col3">0.020833</td>
+</tr>
+<tr class="even">
+<td id="T_60df7_row7_col0" class="data row7 col0">7</td>
+<td id="T_60df7_row7_col1" class="data row7 col1">-128.000000</td>
+<td id="T_60df7_row7_col2" class="data row7 col2">-5.039684</td>
+<td id="T_60df7_row7_col3" class="data row7 col3">0.013124</td>
+</tr>
+<tr class="odd">
+<td id="T_60df7_row8_col0" class="data row8 col0">8</td>
+<td id="T_60df7_row8_col1" class="data row8 col1">256.000000</td>
+<td id="T_60df7_row8_col2" class="data row8 col2">6.349604</td>
+<td id="T_60df7_row8_col3" class="data row8 col3">0.008268</td>
+</tr>
+<tr class="even">
+<td id="T_60df7_row9_col0" class="data row9 col0">9</td>
+<td id="T_60df7_row9_col1" class="data row9 col1">-512.000000</td>
+<td id="T_60df7_row9_col2" class="data row9 col2">-8.000000</td>
+<td id="T_60df7_row9_col3" class="data row9 col3">0.005208</td>
+</tr>
+<tr class="odd">
+<td id="T_60df7_row10_col0" class="data row10 col0">10</td>
+<td id="T_60df7_row10_col1" class="data row10 col1">1024.000000</td>
+<td id="T_60df7_row10_col2" class="data row10 col2">10.079368</td>
+<td id="T_60df7_row10_col3" class="data row10 col3">0.003281</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <p>It is even possible for the iteration to simply cycle between two values repeatedly.</p>
 <div id="exm-newton-repeater" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.8</strong></span> Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This has derivative <span class="math inline">\(f'(x) = 3 x^2 - 2\)</span>.</p>
-<div id="4b1a840f" class="cell" data-execution_count="19">
+<div id="7fa3811b" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03a_files/figure-html/cell-20-output-1.png" width="571" height="433" class="figure-img"></p>
+<p><img src="lec03a_files/figure-html/cell-19-output-1.png" width="571" height="433" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Starting an iteration at <span class="math inline">\(x^{(0)} = 1\)</span> gives:</p>
-<div id="5da67913" class="cell" data-execution_count="20">
-<div class="cell-output cell-output-stdout">
-<pre><code>it  x        f(x)       df(x)
- 1 0.000000 2.0000e+00 -2.0000
- 2 1.000000 1.0000e+00 1.0000
- 3 0.000000 2.0000e+00 -2.0000
- 4 1.000000 1.0000e+00 1.0000
- 5 0.000000 2.0000e+00 -2.0000
- 6 1.000000 1.0000e+00 1.0000
- 7 0.000000 2.0000e+00 -2.0000
- 8 1.000000 1.0000e+00 1.0000
- 9 0.000000 2.0000e+00 -2.0000
-10 1.000000 1.0000e+00 1.0000
-11 0.000000 2.0000e+00 -2.0000
-12 1.000000 1.0000e+00 1.0000
-13 0.000000 2.0000e+00 -2.0000
-14 1.000000 1.0000e+00 1.0000
-15 0.000000 2.0000e+00 -2.0000
-16 1.000000 1.0000e+00 1.0000
-17 0.000000 2.0000e+00 -2.0000
-18 1.000000 1.0000e+00 1.0000
-19 0.000000 2.0000e+00 -2.0000
-20 1.000000 1.0000e+00 1.0000</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="20">
-<pre><code>1.0</code></pre>
+<div id="1fe8b35a" class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="19">
+<style type="text/css">
+</style>
+
+<table id="T_dbf47" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th id="T_dbf47_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_dbf47_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_dbf47_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">f(x)</th>
+<th id="T_dbf47_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">f'(x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_dbf47_row0_col0" class="data row0 col0">0</td>
+<td id="T_dbf47_row0_col1" class="data row0 col1">1.000000</td>
+<td id="T_dbf47_row0_col2" class="data row0 col2">1.000000</td>
+<td id="T_dbf47_row0_col3" class="data row0 col3">1.000000</td>
+</tr>
+<tr class="even">
+<td id="T_dbf47_row1_col0" class="data row1 col0">1</td>
+<td id="T_dbf47_row1_col1" class="data row1 col1">0.000000</td>
+<td id="T_dbf47_row1_col2" class="data row1 col2">2.000000</td>
+<td id="T_dbf47_row1_col3" class="data row1 col3">-2.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_dbf47_row2_col0" class="data row2 col0">2</td>
+<td id="T_dbf47_row2_col1" class="data row2 col1">1.000000</td>
+<td id="T_dbf47_row2_col2" class="data row2 col2">1.000000</td>
+<td id="T_dbf47_row2_col3" class="data row2 col3">1.000000</td>
+</tr>
+<tr class="even">
+<td id="T_dbf47_row3_col0" class="data row3 col0">3</td>
+<td id="T_dbf47_row3_col1" class="data row3 col1">0.000000</td>
+<td id="T_dbf47_row3_col2" class="data row3 col2">2.000000</td>
+<td id="T_dbf47_row3_col3" class="data row3 col3">-2.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_dbf47_row4_col0" class="data row4 col0">4</td>
+<td id="T_dbf47_row4_col1" class="data row4 col1">1.000000</td>
+<td id="T_dbf47_row4_col2" class="data row4 col2">1.000000</td>
+<td id="T_dbf47_row4_col3" class="data row4 col3">1.000000</td>
+</tr>
+<tr class="even">
+<td id="T_dbf47_row5_col0" class="data row5 col0">5</td>
+<td id="T_dbf47_row5_col1" class="data row5 col1">0.000000</td>
+<td id="T_dbf47_row5_col2" class="data row5 col2">2.000000</td>
+<td id="T_dbf47_row5_col3" class="data row5 col3">-2.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_dbf47_row6_col0" class="data row6 col0">6</td>
+<td id="T_dbf47_row6_col1" class="data row6 col1">1.000000</td>
+<td id="T_dbf47_row6_col2" class="data row6 col2">1.000000</td>
+<td id="T_dbf47_row6_col3" class="data row6 col3">1.000000</td>
+</tr>
+<tr class="even">
+<td id="T_dbf47_row7_col0" class="data row7 col0">7</td>
+<td id="T_dbf47_row7_col1" class="data row7 col1">0.000000</td>
+<td id="T_dbf47_row7_col2" class="data row7 col2">2.000000</td>
+<td id="T_dbf47_row7_col3" class="data row7 col3">-2.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_dbf47_row8_col0" class="data row8 col0">8</td>
+<td id="T_dbf47_row8_col1" class="data row8 col1">1.000000</td>
+<td id="T_dbf47_row8_col2" class="data row8 col2">1.000000</td>
+<td id="T_dbf47_row8_col3" class="data row8 col3">1.000000</td>
+</tr>
+<tr class="even">
+<td id="T_dbf47_row9_col0" class="data row9 col0">9</td>
+<td id="T_dbf47_row9_col1" class="data row9 col1">0.000000</td>
+<td id="T_dbf47_row9_col2" class="data row9 col2">2.000000</td>
+<td id="T_dbf47_row9_col3" class="data row9 col3">-2.000000</td>
+</tr>
+<tr class="odd">
+<td id="T_dbf47_row10_col0" class="data row10 col0">10</td>
+<td id="T_dbf47_row10_col1" class="data row10 col1">1.000000</td>
+<td id="T_dbf47_row10_col2" class="data row10 col2">1.000000</td>
+<td id="T_dbf47_row10_col3" class="data row10 col3">1.000000</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
