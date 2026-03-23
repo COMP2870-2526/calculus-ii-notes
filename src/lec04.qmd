@@ -34,8 +34,11 @@ $$
 F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 $$
+This function has a unique minimum at $\vec{x}^* = (-1, 0)$ where $F* = 0$.
 
 ```{python}
+# | label: fig-2d_func
+# | fig-cap: Isocolour plot of $F$ showing unique minimum.
 def F2(x, y):
     return x**4 - x**2 + 2 * x + 4 * y**2 + 2
 
@@ -62,7 +65,7 @@ plt.show()
 
 ## Directional derivatives
 
-Somehow we want to have the idea that if you move away from the minimum in *any* direction then the function increases.
+Somehow we want to use the idea that if you move away from the minimum in *any* direction then the function increases.
 Mathematically, we could write this as saying: A point $\vec{x}^*$ is a local minimum if, for *any* direction $\vec{v} \in \mathbb{R}^n$, the value $h = 0$ is a local minimum of:
 $$
 \gamma_{\vec{v}}(h) = F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
@@ -119,7 +122,7 @@ and the directions $\vec{v} = (1, 0)^T, (0, 1)^T$ and $(1, 1)^T$. Find $\gamma_{
    \gamma'_{\vec{v}}(h) = 4 h^3 - 12 h^2 + 18 h.
    \end{align*}
 
-We note that each derivative depends on $h$ and that for each derivative we have $\gamma'_{\vec{v}}(0) = 0$ so perhaps we do have a candidate local minimum of $F$? (c.f. @prop-minimiser)
+We note that each derivative depends on $h$ and that for each derivative we have $\gamma'_{\vec{v}}(0) = 0$ so perhaps we do have a candidate local minimum of $F$? (c.f. @prp-minimiser)
 :::
 
 The object we have been computing in this example is called the *directional derivative*:
@@ -163,7 +166,7 @@ F'_{\vec{v}}(\vec{x}) = \gamma'_{\vec{v}}(0) \frac{1}{\|\vec{v}\|}
 = \frac{1}{\|\vec{v}\|} \sum_{j=1}^n v_j F'_{\vec{e}^{(j)}}(\vec{x}).
 $$
 
-This idea is special enough that we give the terms $F'_{\vec{e}^{(j)}}$ a special name: a *partial derivative*, and there is a slightly simpler way to calculate them.
+This idea is special enough that we give the terms $F'_{\vec{e}^{(j)}}$ a special name: *partial derivatives*, and there is a slightly simpler way to calculate them.
 
 ## Partial derivatives
 
@@ -275,7 +278,7 @@ The ideas in these examples let us see that many of the properties of usual deri
 
 ## Gradient
 
-From a calculation point of view, the gradient is really just a stack of partial derivatives put together. However, it turns out to be a useful construction too.
+From a calculation point of view, the gradient is really just a stack of partial derivatives put together. However, it turns out to be a useful construction beyond this too.
 
 ::: {#def-gradient}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$.
@@ -417,7 +420,7 @@ F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
 $$
 We can see that this is maximised for $\vec{v} = \nabla F(\vec{x})$ (e.g. using the dot product formula $\vec{a}\cdot\vec{b} = \|\vec{a}\| \|\vec{b}\| \cos\theta$) where
 $$
-F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \vec{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
+F'_{\vec{v}}(\nabla F(\vec{x})) = \nabla F(\vec{x}) \cdot \frac{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
 $$
 In the final calculation we assume that $\|\nabla F(\vec{x})\| \neq 0$. Otherwise, $\nabla F(\vec{x}) = \vec{0}$ and all directional derivatives are zero so any $\vec{v}$ can maximise the expression.
 :::
@@ -428,7 +431,7 @@ This result is very significant. It gives us an idea of how to manipulate a poin
 
 ## The Hessian
 
-For scalar domain problems, we used the second derivative to characterise convexity of functions. For functions with a higher dimension domain, we can also use second derivatives.
+For scalar domain problems, we used the second derivative to characterise convexity of functions. For functions with a higher dimension domain, we can also use second derivatives - only now there are lots of them.
 
 ::: {#def-hessian}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the **Hessian matrix** of $F$ is a square $n \times n$ matrix of second partial derivatives defined and arranged as:
@@ -519,8 +522,8 @@ F(\vec{x}^*) \le F(\vec{x}) \quad\text{for all}\quad \vec{x} \in B(\vec{x}^*, r)
 $$
 :::
 
-::: {.remark}
-Comparing to @def-local-minimum, we see that the biggest change is swapping the absolute value for a ball.
+::: {#rem-comparison-to-1d}
+Comparing to @def-local-minimiser, we see that the biggest change is swapping the absolute value and an interval for a Euclidean norm and a ball.
 :::
 
 ::: {#lem-dir-deriv-minima}
@@ -539,9 +542,9 @@ F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*),
 $$
 or equivalently for $\gamma_{\vec{v}}$, we have
 $$
-\gamma_{\vec{v}}(h) \ge \gamma_{\vec{v}}(0) \quad\text{for} h \text{small enough}.
+\gamma_{\vec{v}}(h) \ge \gamma_{\vec{v}}(0) \quad\text{for $h$ small enough}.
 $$
-That is that $h = 0$ is a local minimiser of $\gamma_{\vec{v}}$. Since we have found a local minimiser, we know that (@prop-minimiser)
+That is that $h = 0$ is a local minimiser of $\gamma_{\vec{v}}$. Since we have found a local minimiser, we know that (@prp-minimiser)
 $$
 0 = \gamma_{\vec{v}}'(0) = F'_{\vec{v}}(\vec{x}^*) \| \vec{v} \|.
 $$
@@ -571,7 +574,7 @@ Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the follow
    $$
    F(\vec{x}) \ge F(\vec{y}) + \nabla F(\vec{y}) \cdot (\vec{x}- \vec{y}) \quad\text{for all}\quad \vec{x}, \vec{y} \in B.
    $$
-3. The eigenvalues of the Hessian of $F(\vec{x})$ are non-negative for any $\vec{x} \in B$. (this property is normally said that $\nabla^2 F$ is positive semi-definite).
+3. The eigenvalues of the Hessian of $F(\vec{x})$ are non-negative for any $\vec{x} \in B$. (This property is normally stated by writing that $\nabla^2 F$ is *positive semi-definite*).
 :::
 
 ::: {.proof}
@@ -686,7 +689,7 @@ This is a diagonal matrix so we can read off the eigenvalues as:
 $$
 \lambda_1 = 12 x_1^2 - 2 \quad\text{and}\quad \lambda_2 = 8.
 $$
-We can see that $\lambda_1$ is negative for $|x_1| < 1/\sqrt{6}$ hence $F$ is not convex.
+We can see that $\lambda_1$ is negative for $|x_1| < 1/\sqrt{6}$ hence $F$ is not (globally) convex.
 :::
 
 ::: {#exr-convexity-Rn}
@@ -697,7 +700,11 @@ $$
 convex? First, find the Hessian of $F$ and then the eigenvalues of $\nabla^2 F(\vec{x})$. What do they show you?
 :::
 
-# What about a chain rule?
+::: {#rem-convex-exam}
+In exam questions, we will only expect you to be able to find eigenvalues in simple cases -- e.g. for a $2 \times 2$ matrix or a diagonal matrix. We will not expect you to apply the QR factorsation for larger matrices.
+:::
+
+## What about a chain rule?
 
 When introducing partial derivatives, we say that many of the rules from usual derivatives passed over including the sum rule and product rule. However, we did not mention the chain rule. Things are a little more complicated for partial derivatives here.
 
@@ -746,10 +753,10 @@ F(\vec{x} + h \vec{e}^{(j)}) - F(\vec{x})
 $$
 So the whole problem becomes: how does $W$ change when *all* of its inputs ($y_1, y_2$) change by a small amount. We handle that by changing the inputs one at a time.
 
-We have $(y_1, y_2) = \vec{V}(x_1, x_2)$ and we also add the notation:
+We have $\vec{y} = (y_1, y_2) = \vec{V}(x_1, x_2)$ and we also add the notation:
 \begin{align*}
 \vec{d}(h) = (d_1(h), d_2(h)) & = \vec{V}(\vec{x} + h \vec{e}^{(j)}) - \vec{V}(\vec{x}) \\
-= \vec{V}(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - \vec{V}(x_1, x_2).
+& = \vec{V}(x_1 + h e^{(j)}_1, x_2 + h e^{(j)}_2) - \vec{V}(x_1, x_2).
 \end{align*}
 Then
 $$

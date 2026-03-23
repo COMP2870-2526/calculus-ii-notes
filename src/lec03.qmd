@@ -23,7 +23,7 @@ plt.style.use("seaborn-v0_8-colorblind")
 4. State and apply conditions to check a functions $F \colon \mathbb{R} \to \mathbb{R}$ is convex.
 :::
 
-So far we have studied dynamical problems, where derivatives describe change over time. We now turn to a second major use of derivatives: identifying optimal choices. Later we will see these themes reunite, when optimisation methods are interpreted dynamically through a technique called gradient flow.
+So far we have studied dynamical problems, where derivatives describe change over time. We now turn to a second major use of derivatives: identifying optimal choices. Later we will see these themes reunite, when optimisation methods are interpreted dynamically through a technique called gradient descent.
 
 Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:
 
@@ -68,6 +68,11 @@ We call $x^*$ the **minimiser** and $F^*$ the **minimising value** or **minimal 
 We note that the argmin may not be a single value but may be a set (containing more than one point). In examples, we often denote one such minimiser by $x^*$.
 :::
 
+::: {#rem-proofs}
+In this section of the notes, we have included some proofs to demonstrate why many of the results are true. However, they will not be covered in the lectures and are not assessable (i.e. no questions on them will be in the exam).
+However, we do expect you to understand the results and statements (without proofs).
+:::
+
 ## Some interesting examples
 
 It is sometimes easy to see where the minimum of a function is by plotting the function.
@@ -79,6 +84,7 @@ F(x) = x^2 - 2x + 2.
 $$
 
 ```{python}
+# | fig-cap: Example minimum in one dimension
 def F1(x):
     return x**2 - 2 * x + 2
 
@@ -93,8 +99,9 @@ plt.annotate(
     "min at $x^* = 1$",
     (1, 1),
     textcoords="offset points",
-    xytext=(8, -12),
+    xytext=(0, 12),
     color="C2",
+    ha="center",
 )
 
 plt.xlabel("$x$")
@@ -117,6 +124,7 @@ F(\vec{x}) = F(x_1, x_2)
 $$
 
 ```{python}
+# | fig-cap: Example minimum in two dimensions in isocolour plot
 def F2(x, y):
     return (x - 1) ** 2 * (x + 1) ** 2 + 4 * y**2 + (x + 1) ** 2
 
@@ -148,6 +156,36 @@ plt.show()
 ```
 Here we can see a minimum at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
 
+We can also show a similar plot, but now make a three dimensional surface where the height of the surface corresponds to the value of the function.
+```{python}
+# | fig-cap: Three dimensional surface plot of function $F$
+# 3D surface plot for F2
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+F = F2(X, Y)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+
+# Surface plot
+surf = ax.plot_surface(X, Y, F, cmap="viridis", edgecolor="none", alpha=0.9)
+
+# Minimum point
+ax.scatter(-1, 0, F2(-1, 0), color="C2", s=60)
+ax.text(-1, 0, F2(-1, 0), "  minimum", color="C2")
+
+ax.set_xlabel("$x_1$")
+ax.set_ylabel("$x_2$")
+ax.set_zlabel("$F(x_1, x_2)$")
+
+fig.colorbar(surf, ax=ax, shrink=0.6, label="$F(x_1,x_2)$")
+plt.tight_layout()
+plt.show()
+
+
+```
+
 
 Before we come to some useful ways to find minimisers, we want to explore some other interesting cases.
 
@@ -159,6 +197,7 @@ F(x) = (x^2 - 1)^2
 $$
 we have two minima at $x^* = -1$ and $1$ which both have $F^* = 0$.
 ```{python}
+# | fig-cap: An example of a function with two distinct minima
 def F3(x):
     return ((x - 1) * (x + 1)) ** 2
 
@@ -213,6 +252,7 @@ $$
 F(x) = 1 + \sin^2(x).
 $$
 ```{python}
+# | fig-cap: An example of a function with infinitely many distinct minima
 def F4(x):
     return 1 + np.sin(x) ** 2
 
@@ -289,8 +329,9 @@ For
 $$
 F(x) = -x^2,
 $$
-there is no minimiser in $\mathbb{R}$:
+there is no minimiser in $\mathbb{R}$. Indeed, for any candidate minimiser, we can always find a point where $F$ takes a lesser value.
 ```{python}
+# | fig-cap: An example of a function with no minima
 def F5(x):
     return -(x**2)
 
@@ -313,6 +354,7 @@ plt.show()
 In two (or more) dimensions, the same things can happen. We can also have that minimisers lie on a straight line or curve:
 For example for $F(x_1, x_2) = (x_1 - x_2^2)^2$ the minimisers lie on the curve $x_1 = x_2^2$ with $F^* = 0$.
 ```{python}
+# | fig-cap: An example of a two dimensional function with minima along a curve
 def F6(x, y):
     return (x - y**2) ** 2
 
@@ -349,6 +391,7 @@ $$
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 $$
 ```{python}
+# | fig-cap: Plot of function with local and global minima
 def F7(x):
     return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
 
@@ -397,8 +440,8 @@ Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global mi
 
 ## How to determine a local minimiser in the scalar domain case
 
-Looking again at the examples above, we can see that at all minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
-We can say this as the derivative of $F$ is zero or $F'(x_*) = 0$.
+Looking again at the examples above, we can see that at all (local or global) minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
+We can express this mathematically by saying that the derivative of $F$ is zero or $F'(x_*) = 0$.
 However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!
 
 ::: {#prp-minimiser}
@@ -407,8 +450,6 @@ Then $F'(x^*) = 0$.
 :::
 
 ::: {.proof}
-(*We do not expect you to learn this proof but the result is very important!*)
-
 We see that the definition of local minima says that for $h$ small enough that
 \begin{align*}
 F(x^* + h) - F(x^*) \ge 0,
@@ -430,7 +471,7 @@ has a single value. The results of limits say that in this case \eqref{eq:positi
 :::
 
 ::: {#exm-local-minimiser}
-Let $F(x) = x^2 - 6x + 12$.
+Let $F(x) = (x-3)^2 + 3 = x^2 - 6x + 12$. For the completed square form, we see that $F$ has a minimum at $x^* = 3$.
 
 We can compute that $F'(x)$ is given by
 $$
@@ -442,14 +483,11 @@ F'(x) = 2 x - 6 & = 0 \\
 2 x & = 6 \\
 x & = \frac{6}{2} = 3.
 \end{align*}
-Thus, there is a local minima at $x^* = 3$ with $F^* = F(x^*) = 3^2 - 6\times3 + 12 = 3$.
-
-
 :::
 
 
 ::: {#exr-local-minimiser}
-Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
+Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any potential local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
 :::
 
 We next revisit the example from the start of this section
@@ -463,6 +501,7 @@ $$
 Looking at the graph, we can see the $F'$ is zero at three points, $x = -1, 1$ (orange and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (purple).
 
 ```{python}
+# | fig-cap: Zeros of the derivative of $F$.
 def dF7(x):
     return x**3 - 0.25 * x**2 - x + 0.25
 
@@ -483,7 +522,7 @@ for p in points:
 
 # One centred label in axes coordinates
 label_xy_axes = (0.5, 0.8)  # move up/down as needed
-label_text = r"Stationary points ($F'(x)=0$) at $x=-1, \frac{1}{4}$ and $x=1$"
+label_text = r"$F'(x)=0$ at $x=-1, \frac{1}{4}$ and $x=1$"
 
 # Arrow 2: arrow-only to x = 1/4
 ax.annotate(
@@ -571,6 +610,7 @@ This proof can be made rigorous with the help of further results from mathematic
 Next, let us compare two examples:
 
 ```{python}
+# | fig-cap: Examples of functions and chords between points
 _, axs = plt.subplots(1, 2)
 
 
@@ -635,7 +675,11 @@ Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function. Then the followin
     \label{eq:convex-diff}
     F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
     \end{equation}
-3. The second derivative of $F$ is positive in $B$: $F''(x) \ge 0$ for all $x \in B$.
+3. The second derivative of $F$ is positive in $B$:
+   \begin{equation}
+   \label{eq:convex-diff2}
+   F''(x) \ge 0 \quad\text{for all}\quad x \in B.
+   \end{equation}
 :::
 
 ::: {#rem-convexity-equiv}
@@ -645,8 +689,6 @@ Condition 3 links directly to the idea of linking local and global minima throug
 :::
 
 ::: {.proof}
-[don't need to know this one either]
-
 We prove (1) is equivalent to (2) and (2) is equivalent to (3).
 
 **(1) $\Rightarrow$ (2).**
@@ -688,7 +730,7 @@ $$
 a F(x) + (1-a) F(y) \ge F(z) = F(a x + (1-a) y).
 $$
 
-(2) $\Rightarrow$ (3).
+**(2) $\Rightarrow$ (3).**
 
 We can apply \eqref{eq:convex-diff} to see that for any $x, y \in B$, we have
 \begin{align*}
@@ -703,16 +745,16 @@ This inequality says that $F'$ is nondecreasing on $B$. If we let $y = x + h$ fo
 $$
 \frac{F'(x + h) - F'(x)}{h} \ge 0.
 $$
-Taking the limit $h \to 0$ shows that $F''(x) \ge 0$.
+Taking the limit $h \to 0$ shows that $F''(x) \ge 0$ \eqref{eq:convex-diff2}.
 
-(3) $\Rightarrow$ (2).
+**(3) $\Rightarrow$ (2).**
 
 This result is a little hard and relies on a result from mathematical analysis (the Mean Value Theorem) which is not covered by this course.
-The key idea is to show that $F''(x) \ge 0$ implies that $F'$ is nondecreasing and then if $F'$ is nondecreasing that \eqref{eq:convex-diff} holds.
+The key idea is to show that $F''(x) \ge 0$ \eqref{eq:convex-diff2} implies that $F'$ is nondecreasing and then if $F'$ is nondecreasing that \eqref{eq:convex-diff} holds.
 :::
 
 ::: {#exm-convex-diff2}
-We see that condition 3 in @lem-convexity-equiv is often the easiest to show.
+We see that Condition 3 in @lem-convexity-equiv is often the easiest to show.
 
 1.  Take for example $F(x) = x^2 - 4 x + 5$.
     Then
@@ -723,18 +765,24 @@ We see that condition 3 in @lem-convexity-equiv is often the easiest to show.
 
     This example, is somewhat of a prototypical example. It is often helpful when thinking of convex functions to think of something like a quadratic function with positive leading coefficient.
 
-2.  (hard) Take $F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}$, then we can factor $F''$ as
+2.  (hard) Take $F(x) = \frac{1}{4} x^4 - 3 x^3 + 15 x^2 - 5 x + 4$
+    \begin{align*}
+    F'(x) & = x^3 - 9 x^2 + 30 x \\
+    F''(x) & = 3 x^2 - 18 x + 30.
+    \end{align*}
+    We can complete the square to see that
     $$
-    F''(x) =  3(x - \tfrac{2}{3})(x + \tfrac{1}{2}).
+    F''(x) = 3 (x - 3)^2 + 3 \ge 3 > 0.
     $$
-    We can see that $F''$ is negative if one of the factors on the right hand side is negative. That happens when $-\tfrac{1}{2} < x < \tfrac{2}{3}$.
-    Hence, we can infer that $F$ is not globally convex.
+    We can see that $F''$ is in fact strictly positive.
+    Hence, we can infer that $F$ is globally convex.
 :::
 
 ::: {#exr-convex-diff2}
 Show that the following functions are or are not convex on $\mathbb{R}$:
+
 1. $F(x) = x^2 - 6x + 12$
-2. $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$
+2. $F(x) = \frac{1}{6} x^4 - \frac{8}{3} x^3 + 15 x^2 + 6 x + 1$.
 :::
 
 ::: {#prp-convexity}
@@ -743,8 +791,6 @@ If $F$ is locally convex in a region $B$ with $x^* \in B$ then $x^*$ is a local 
 :::
 
 ::: {.proof}
-(*We do not expect you to learn this proof but the result is very important!*)
-
 Let $y \in B$, then from @lem-convexity-equiv, we have
 $$
 F(y) \ge F(x^*) + F'(x^*)(y - x^*).
@@ -763,7 +809,7 @@ Then any local minimiser is a global minimiser.
 
 ::: {.proof}
 Let $x^*$ be a local minimiser of $F$, then $F'(x^*) = 0$ (from @prp-minimiser).
-Applying @lem-convexity-diff, we see that for any $y$, we have
+Applying @lem-convexity-equiv, we see that for any $y$, we have
 $$
 F(y) \ge F(x^*) + F'(x^*)(y - x^*) = F(x^*).
 $$
@@ -797,6 +843,9 @@ F(x) =
 \end{cases}
 $$
 ```{python}
+# | fig-cap: Example of a convex function with non-unique minima
+
+
 def F99(x):
     if x < -1:
         return (x + 1) ** 4
