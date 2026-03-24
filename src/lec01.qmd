@@ -687,6 +687,21 @@ $$
 y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
 $$
 
+For motivation, we assume we want to compute the solution at time $t_0 + h$. This can be given by the integral equation:
+$$
+y(t_0 + h) = y(t_0) + \int_{t_0}^{t_0 + h} f(t, y(t)) \, \mathrm{d}t.
+$$
+We can *approximate* the term inside the integral by it's value at $t_0$ (which we know since this uses the initial condition):
+$$
+y(t_0 + h) \approx y(t_0) + \int_{t_0}^{t_0 + h} f(t_0, y_0) \, \mathrm{d}t.
+$$
+This gives us an integral, we can evaluate since the term inside the integral is constant:
+\begin{align*}
+y(t_0 + h) & \approx y(t_0) + (t_0 + h - t_0) f(t_0, y_0) \\
+& = y(t_0) + h f(t_0, y_0).
+\end{align*}
+We can apply similar thinking to approximate the solution at time $t_0 + 2h$. This leads to Euler's method.
+
 The general algorithm is very simple:
 
 1. Set initial values $t^{(0)}$ and $y^{(0)}$ from the initial condition.
