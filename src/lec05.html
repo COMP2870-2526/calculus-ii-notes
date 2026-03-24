@@ -469,7 +469,7 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 \]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
-<div id="0816c277" class="cell" data-execution_count="2">
+<div id="07dd8767" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
 F(x^{(0)}) = \frac{1}{4} \times \left(0\right)^4 - \frac{1}{12} \times \left(0\right)^3 - \frac{1}{2} \times \left(0\right)^2 + \frac{1}{4} \times \left(0\right) + \frac{1}{2} = \frac{1}{2}
@@ -506,7 +506,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 &amp;= \frac{5006632820723}{13194139533312} = 0.379458835347502.\end{align*}\]</span></p>
 </div>
 </div>
-<div id="ebc4a02e" class="cell" data-execution_count="3">
+<div id="931f0472" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -516,74 +516,74 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 </div>
 </div>
 <p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="abacf8f8" class="cell" data-execution_count="4">
+<div id="d5bb4701" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<table id="T_29365" class="caption-top table table-sm table-striped small">
+<table id="T_6e86c" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_29365_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
-<th id="T_29365_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
-<th id="T_29365_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">F(x)</th>
+<th id="T_6e86c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">it</th>
+<th id="T_6e86c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">x</th>
+<th id="T_6e86c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">F(x)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_29365_row0_col0" class="data row0 col0">0</td>
-<td id="T_29365_row0_col1" class="data row0 col1">-0.125000000000000</td>
-<td id="T_29365_row0_col2" class="data row0 col2">0.461161295572917</td>
+<td id="T_6e86c_row0_col0" class="data row0 col0">0</td>
+<td id="T_6e86c_row0_col1" class="data row0 col1">-0.125000000000000</td>
+<td id="T_6e86c_row0_col2" class="data row0 col2">0.461161295572917</td>
 </tr>
 <tr class="even">
-<td id="T_29365_row1_col0" class="data row1 col0">1</td>
-<td id="T_29365_row1_col1" class="data row1 col1">-0.309570312500000</td>
-<td id="T_29365_row1_col2" class="data row1 col2">0.379458835347502</td>
+<td id="T_6e86c_row1_col0" class="data row1 col0">1</td>
+<td id="T_6e86c_row1_col1" class="data row1 col1">-0.309570312500000</td>
+<td id="T_6e86c_row1_col2" class="data row1 col2">0.379458835347502</td>
 </tr>
 <tr class="odd">
-<td id="T_29365_row2_col0" class="data row2 col0">2</td>
-<td id="T_29365_row2_col1" class="data row2 col1">-0.562542600091547</td>
-<td id="T_29365_row2_col2" class="data row2 col2">0.241007985998170</td>
+<td id="T_6e86c_row2_col0" class="data row2 col0">2</td>
+<td id="T_6e86c_row2_col1" class="data row2 col1">-0.562542600091547</td>
+<td id="T_6e86c_row2_col2" class="data row2 col2">0.241007985998170</td>
 </tr>
 <tr class="even">
-<td id="T_29365_row3_col0" class="data row3 col0">3</td>
-<td id="T_29365_row3_col1" class="data row3 col1">-0.840247650276027</td>
-<td id="T_29365_row3_col2" class="data row3 col2">0.110980417157527</td>
+<td id="T_6e86c_row3_col0" class="data row3 col0">3</td>
+<td id="T_6e86c_row3_col1" class="data row3 col1">-0.840247650276027</td>
+<td id="T_6e86c_row3_col2" class="data row3 col2">0.110980417157527</td>
 </tr>
 <tr class="odd">
-<td id="T_29365_row4_col0" class="data row4 col0">4</td>
-<td id="T_29365_row4_col1" class="data row4 col1">-1.00050527085337</td>
-<td id="T_29365_row4_col2" class="data row4 col2">0.0833336525963882</td>
+<td id="T_6e86c_row4_col0" class="data row4 col0">4</td>
+<td id="T_6e86c_row4_col1" class="data row4 col1">-1.00050527085337</td>
+<td id="T_6e86c_row4_col2" class="data row4 col2">0.0833336525963882</td>
 </tr>
 <tr class="even">
-<td id="T_29365_row5_col0" class="data row5 col0">5</td>
-<td id="T_29365_row5_col1" class="data row5 col1">-0.999873267361878</td>
-<td id="T_29365_row5_col2" class="data row5 col2">0.0833333534075803</td>
+<td id="T_6e86c_row5_col0" class="data row5 col0">5</td>
+<td id="T_6e86c_row5_col1" class="data row5 col1">-0.999873267361878</td>
+<td id="T_6e86c_row5_col2" class="data row5 col2">0.0833333534075803</td>
 </tr>
 <tr class="odd">
-<td id="T_29365_row6_col0" class="data row6 col0">6</td>
-<td id="T_29365_row6_col1" class="data row6 col1">-1.00003165706116</td>
-<td id="T_29365_row6_col2" class="data row6 col2">0.0833333345860796</td>
+<td id="T_6e86c_row6_col0" class="data row6 col0">6</td>
+<td id="T_6e86c_row6_col1" class="data row6 col1">-1.00003165706116</td>
+<td id="T_6e86c_row6_col2" class="data row6 col2">0.0833333345860796</td>
 </tr>
 <tr class="even">
-<td id="T_29365_row7_col0" class="data row7 col0">7</td>
-<td id="T_29365_row7_col1" class="data row7 col1">-0.999992084106168</td>
-<td id="T_29365_row7_col2" class="data row7 col2">0.0833333334116595</td>
+<td id="T_6e86c_row7_col0" class="data row7 col0">7</td>
+<td id="T_6e86c_row7_col1" class="data row7 col1">-0.999992084106168</td>
+<td id="T_6e86c_row7_col2" class="data row7 col2">0.0833333334116595</td>
 </tr>
 <tr class="odd">
-<td id="T_29365_row8_col0" class="data row8 col0">8</td>
-<td id="T_29365_row8_col1" class="data row8 col1">-1.00000197887163</td>
-<td id="T_29365_row8_col2" class="data row8 col2">0.0833333333382282</td>
+<td id="T_6e86c_row8_col0" class="data row8 col0">8</td>
+<td id="T_6e86c_row8_col1" class="data row8 col1">-1.00000197887163</td>
+<td id="T_6e86c_row8_col2" class="data row8 col2">0.0833333333382282</td>
 </tr>
 <tr class="even">
-<td id="T_29365_row9_col0" class="data row9 col0">9</td>
-<td id="T_29365_row9_col1" class="data row9 col1">-0.999999505275728</td>
-<td id="T_29365_row9_col2" class="data row9 col2">0.0833333333336392</td>
+<td id="T_6e86c_row9_col0" class="data row9 col0">9</td>
+<td id="T_6e86c_row9_col1" class="data row9 col1">-0.999999505275728</td>
+<td id="T_6e86c_row9_col2" class="data row9 col2">0.0833333333336392</td>
 </tr>
 <tr class="odd">
-<td id="T_29365_row10_col0" class="data row10 col0">10</td>
-<td id="T_29365_row10_col1" class="data row10 col1">-1.00000012368067</td>
-<td id="T_29365_row10_col2" class="data row10 col2">0.0833333333333524</td>
+<td id="T_6e86c_row10_col0" class="data row10 col0">10</td>
+<td id="T_6e86c_row10_col1" class="data row10 col1">-1.00000012368067</td>
+<td id="T_6e86c_row10_col2" class="data row10 col2">0.0833333333333524</td>
 </tr>
 </tbody>
 </table>
@@ -616,7 +616,7 @@ h\begin{pmatrix}
 4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
 \end{pmatrix}.
 \]</span></p>
-<div id="4546d69d" class="cell" data-execution_count="5">
+<div id="edf2ad06" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Let <span class="math inline">\(x^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span> and <span class="math inline">\(h = 1/4\)</span>.</p>
 <p>Then we can compute that</p>
@@ -654,7 +654,7 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span> From the plots in <a href="lec04.html#fig-2d_func" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>, we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
 <p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(h\)</span></p>
-<div id="dca8a8f9" class="cell" data-execution_count="6">
+<div id="76909f50" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -719,7 +719,7 @@ x^{(i+1)} &amp;= x^{(i)} - h F'(x^{(i)}) &amp;&amp; \text{(gradient descent)}.
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
 <p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
-<div id="ae007ee2" class="cell" data-execution_count="7">
+<div id="ed964ef4" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -743,7 +743,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 0 &amp; 8
 \end{pmatrix}.
 \]</span></p>
-<div id="a80a4dfc" class="cell" data-execution_count="8">
+<div id="148a52b2" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We start at <span class="math inline">\(\vec{x}^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span>.</p>
 <p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}

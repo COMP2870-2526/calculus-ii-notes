@@ -526,7 +526,7 @@ window.Quarto = {
 \label{eq:speed-ex}
 S(t) = -(t-1)(t+0.5).
 \end{equation}\]</span></p>
-<div id="f2769a35" class="cell" data-execution_count="2">
+<div id="b9d54923" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -538,7 +538,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 <p><strong>How far would the object travel in one second now?</strong></p>
 <p>We could consider each tenth of a second separately and estimate the distance covered at each tenth of a second (assuming the <span class="math inline">\(S(t)\)</span> is approximately constant in each interval):</p>
-<div id="9834cf5e" class="cell" data-execution_count="3">
+<div id="bc97774b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -548,7 +548,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="15e70e3b" class="cell" data-execution_count="4">
+<div id="976fd484" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -561,7 +561,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 <p>We could consider the same calculation of hundredths of seconds assuming that the speed is approximately constant in each interval:</p>
-<div id="56515659" class="cell" data-execution_count="5">
+<div id="7b709c7a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -571,7 +571,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="96709ab9" class="cell" data-execution_count="6">
+<div id="3dad0f59" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
@@ -584,7 +584,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 <p>What about if we did a thousand steps</p>
-<div id="a21bfe14" class="cell" data-execution_count="7">
+<div id="1e4c5fa5" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -594,7 +594,7 @@ S(t) = -(t-1)(t+0.5).
 </div>
 </div>
 </div>
-<div id="0096726c" class="cell" data-execution_count="8">
+<div id="b4135431" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>D, t <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="cf">for</span> _i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
@@ -618,44 +618,44 @@ Table&nbsp;2.1: Computing the distance travelled using smaller steps.
 <style type="text/css">
 </style>
 
-<table id="T_447e0" class="cell caption-top table table-sm table-striped small">
+<table id="T_243ad" class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_447e0_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">intervals</th>
-<th id="T_447e0_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">increment size, h</th>
-<th id="T_447e0_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">total distance</th>
+<th id="T_243ad_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">intervals</th>
+<th id="T_243ad_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">increment size, h</th>
+<th id="T_243ad_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">total distance</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_447e0_row0_col0" class="data row0 col0">1</td>
-<td id="T_447e0_row0_col1" class="data row0 col1">1.000000</td>
-<td id="T_447e0_row0_col2" class="data row0 col2">0.500000</td>
+<td id="T_243ad_row0_col0" class="data row0 col0">1</td>
+<td id="T_243ad_row0_col1" class="data row0 col1">1.000000</td>
+<td id="T_243ad_row0_col2" class="data row0 col2">0.500000</td>
 </tr>
 <tr class="even">
-<td id="T_447e0_row1_col0" class="data row1 col0">10</td>
-<td id="T_447e0_row1_col1" class="data row1 col1">0.100000</td>
-<td id="T_447e0_row1_col2" class="data row1 col2">0.440000</td>
+<td id="T_243ad_row1_col0" class="data row1 col0">10</td>
+<td id="T_243ad_row1_col1" class="data row1 col1">0.100000</td>
+<td id="T_243ad_row1_col2" class="data row1 col2">0.440000</td>
 </tr>
 <tr class="odd">
-<td id="T_447e0_row2_col0" class="data row2 col0">100</td>
-<td id="T_447e0_row2_col1" class="data row2 col1">0.010000</td>
-<td id="T_447e0_row2_col2" class="data row2 col2">0.419150</td>
+<td id="T_243ad_row2_col0" class="data row2 col0">100</td>
+<td id="T_243ad_row2_col1" class="data row2 col1">0.010000</td>
+<td id="T_243ad_row2_col2" class="data row2 col2">0.419150</td>
 </tr>
 <tr class="even">
-<td id="T_447e0_row3_col0" class="data row3 col0">1000</td>
-<td id="T_447e0_row3_col1" class="data row3 col1">0.001000</td>
-<td id="T_447e0_row3_col2" class="data row3 col2">0.416916</td>
+<td id="T_243ad_row3_col0" class="data row3 col0">1000</td>
+<td id="T_243ad_row3_col1" class="data row3 col1">0.001000</td>
+<td id="T_243ad_row3_col2" class="data row3 col2">0.416916</td>
 </tr>
 <tr class="odd">
-<td id="T_447e0_row4_col0" class="data row4 col0">10000</td>
-<td id="T_447e0_row4_col1" class="data row4 col1">0.000100</td>
-<td id="T_447e0_row4_col2" class="data row4 col2">0.416692</td>
+<td id="T_243ad_row4_col0" class="data row4 col0">10000</td>
+<td id="T_243ad_row4_col1" class="data row4 col1">0.000100</td>
+<td id="T_243ad_row4_col2" class="data row4 col2">0.416692</td>
 </tr>
 <tr class="even">
-<td id="T_447e0_row5_col0" class="data row5 col0">100000</td>
-<td id="T_447e0_row5_col1" class="data row5 col1">0.000010</td>
-<td id="T_447e0_row5_col2" class="data row5 col2">0.416669</td>
+<td id="T_243ad_row5_col0" class="data row5 col0">100000</td>
+<td id="T_243ad_row5_col1" class="data row5 col1">0.000010</td>
+<td id="T_243ad_row5_col2" class="data row5 col2">0.416669</td>
 </tr>
 </tbody>
 </table>
@@ -674,7 +674,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <section id="geometric-picture" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="geometric-picture"><span class="header-section-number">2.2</span> Geometric picture</h2>
 <p>We can plot the expression for the speed, <span class="math inline">\(S(t)\)</span>, from <span class="math inline">\(\eqref{eq:speed-ex}\)</span> and it’s integral from 0 up to time <span class="math inline">\(t\)</span>, which we call the distance. <span class="math inline">\(D(t)\)</span>.</p>
-<div id="7a9bd5cb" class="cell" data-execution_count="10">
+<div id="f27be8d5" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -694,7 +694,7 @@ S(t) = \lim_{h \to 0} \frac{D(t + h) - D(t)}{h},
 <blockquote class="blockquote">
 <p>The function <span class="math inline">\(D'(t)\)</span> is the function whose value is equal to the slope (or gradient) of <span class="math inline">\(D(t)\)</span> at every value of <span class="math inline">\(t\)</span>.</p>
 </blockquote>
-<div id="83a67fc3" class="cell" data-execution_count="11">
+<div id="48310bfd" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -710,7 +710,7 @@ f(t) = m t + c.
 <p>For a curve (i.e.&nbsp;non-straight line), we can approximate the slope with a straight line approximation (“chord”): <span class="math display">\[
 \frac{f(t + h) - f(t)}{h}.
 \]</span> We can get a better approximation by taking a smaller value of <span class="math inline">\(h\)</span>… This leads us back to the definition of derivative (<a href="#def-derivative" class="quarto-xref">Definition&nbsp;<span>2.1</span></a>).</p>
-<div id="04746cd5" class="cell" data-execution_count="12">
+<div id="fbd08f07" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -721,7 +721,7 @@ f(t) = m t + c.
 </div>
 </div>
 <p>We can apply similar understanding no matter what the underlying function is. For example, we could do the same things with more complicated real world data. Here is an example using climate data (<a href="https://www.metoffice.gov.uk/hadobs/hadcet/data/download.html">data source: Met Office</a>).</p>
-<div id="e4de3ee6" class="cell" data-execution_count="13">
+<div id="49528e5e" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -840,7 +840,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 <li>There are techniques to solve this problem analytically (using so-called separation of variables) – but we are simple computer scientists looking for simple computer-based solutions instead!</li>
 <li>We can do similar to the above idea where we divide the time period into lots of small intervals and assume that everything is approximately constant on each time interval…</li>
 </ul>
-<div id="e80bbb7f" class="cell" data-execution_count="14">
+<div id="8d9db82e" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> freefall(n):</span>
 <span id="cb7-2"><a href="#cb7-2"></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">    Compute the speed of an object falling freely.</span></span>
@@ -870,7 +870,7 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 <span id="cb7-27"><a href="#cb7-27"></a></span>
 <span id="cb7-28"><a href="#cb7-28"></a>    <span class="cf">return</span> t, s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4f3d0e75" class="cell" data-execution_count="15">
+<div id="8243e544" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -887,6 +887,14 @@ S(t) = S(0) + \int_0^T g - k S(t) \, \mathrm{d}t.
 <p>The approach used in <a href="#exm-freefall" class="quarto-xref">Example&nbsp;<span>2.1</span></a> can be applied to any differential equation in the standard format: <span class="math display">\[
 y'(t) = f(t, y(t)) \quad\text{subject to the initial condition}\quad y(t_0) = y_0.
 \]</span></p>
+<p>For motivation, we assume we want to compute the solution at time <span class="math inline">\(t_0 + h\)</span>. This can be given by the integral equation: <span class="math display">\[
+y(t_0 + h) = y(t_0) + \int_{t_0}^{t_0 + h} f(t, y(t)) \, \mathrm{d}t.
+\]</span> We can <em>approximate</em> the term inside the integral by it’s value at <span class="math inline">\(t_0\)</span> (which we know since this uses the initial condition): <span class="math display">\[
+y(t_0 + h) \approx y(t_0) + \int_{t_0}^{t_0 + h} f(t_0, y_0) \, \mathrm{d}t.
+\]</span> This gives us an integral, we can evaluate since the term inside the integral is constant: <span class="math display">\[\begin{align*}
+y(t_0 + h) &amp; \approx y(t_0) + (t_0 + h - t_0) f(t_0, y_0) \\
+&amp; = y(t_0) + h f(t_0, y_0).
+\end{align*}\]</span> We can apply similar thinking to approximate the solution at time <span class="math inline">\(t_0 + 2h\)</span>. This leads to Euler’s method.</p>
 <p>The general algorithm is very simple:</p>
 <ol type="1">
 <li>Set initial values <span class="math inline">\(t^{(0)}\)</span> and <span class="math inline">\(y^{(0)}\)</span> from the initial condition.</li>
@@ -901,9 +909,9 @@ t^{(i+1)} &amp;= t^{(i)} + h.
 <p><span class="theorem-title"><strong>Example 2.2</strong></span> Take two steps of Euler’s method to approximate the solution of <span class="math display">\[
 y'(t) = -(y(t))^2 + 3 t^2 \quad\text{subject to the initial condition}\quad y(1) = 2,
 \]</span> for <span class="math inline">\(1 \le t \le 2\)</span>.</p>
-<div id="55366a71" class="cell" data-execution_count="16">
+<div id="85984699" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
-<p>In this example using SymPy we have:</p>
+<p>In this example using Euler’s method, we have:</p>
 <ul>
 <li><span class="math inline">\(n=2\)</span></li>
 <li><span class="math inline">\(t_0 = 1\)</span></li>
