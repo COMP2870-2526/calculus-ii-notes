@@ -729,7 +729,7 @@ def f_str(t, y):
 
 
 s = f"""
-In this example using SymPy we have:
+In this example using Euler's method, we have:
 
 - $n={n}$
 - $t_0 = {t0}$
