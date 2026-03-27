@@ -14,29 +14,7 @@ import sympy as sp
 from IPython.display import Markdown
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
-
-
-def sci_tex(x, sig=6):
-    if x == 0 or (isinstance(x, float) and np.isclose(x, 0)):
-        return "0"
-    if np.isnan(x):
-        return "---"
-    exp = int(np.floor(np.log10(abs(x))))
-    mant = x / (10**exp)
-    return rf"\({mant:.{sig - 1}f}\times 10^{{{exp}}}\)"
-
-
-def table_styler(df):
-    return df.style.format(
-        {
-            "h": sci_tex,
-            "Abs. error": sci_tex,
-            "Run time": sci_tex,
-        },
-        na_rep="---",
-    ).hide()
-
+from utils import table_styler
 
 ```
 
@@ -153,6 +131,7 @@ where $y^{(n)}$ is the solution at the final time step.
 ```{python}
 # | label: tbl-euler-errors
 # | tbl-cap: A convergence study for Euler's method
+# | output: asis
 error_table = defaultdict(list)
 
 for n, (_, y) in data.items():
@@ -166,9 +145,10 @@ for n, (_, y) in data.items():
     error_table["Abs. error"].append(abs_error)
 
 df = pd.DataFrame(error_table)
-df["ratio"] = df["Abs. error"] / df["Abs. error"].shift()
+df["Ratio"] = df["Abs. error"] / df["Abs. error"].shift()
+df["Ratio"] = df["Ratio"].fillna("---")
 
-table_styler(df)
+print(table_styler(df))
 ```
 
 This table shows that indeed the absolute error is decreasing as $h \to 0$. We also compute the ratio between different errors. We see that each time $h$ is halved, that the error is approximately halved. In other words, the error is approximately proportional to $h$.
@@ -450,6 +430,7 @@ Let's compute the errors:
 ```{python}
 # | label: tbl-midpoint-errors
 # | tbl-cap: A convergence study for the midpoint method
+# | output: asis
 error_table_mp = defaultdict(list)
 
 for n, (_, y) in data_mp.items():
@@ -463,9 +444,10 @@ for n, (_, y) in data_mp.items():
     error_table_mp["Abs. error"].append(abs_error)
 
 df_mp = pd.DataFrame(error_table_mp)
-df_mp["ratio"] = df_mp["Abs. error"] / df_mp["Abs. error"].shift()
+df_mp["Ratio"] = df_mp["Abs. error"] / df_mp["Abs. error"].shift()
+df["Ratio"] = df_mp["Ratio"].fillna("---")
 
-table_styler(df_mp)
+print(table_styler(df_mp))
 ```
 
 We now see that the error reduces by a *quarter* each time we reduce $h$ by half. This means that the error is approximately proportional to $h^2$, or equivalently, we can say that the error is $O(h^2)$ as $h \to 0$.
@@ -611,14 +593,23 @@ df_midpoint["Run time ratio"] = (
 ```{python}
 # | label: tbl-euler-error-cost
 # | tbl-cap: A convergence study for Euler's method with running costs
-table_styler(df_euler[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
-
+# | output: asis
+print(
+    table_styler(
+        df_euler[["n", "h", "Run time", "Rhs evals", "Run time ratio"]]
+    )
+)
 ```
 
 ```{python}
 # | label: tbl-midpoint-error-cost
 # | tbl-cap: A convergence study for Midpoint's method with running costs
-table_styler(df_midpoint[["n", "h", "Run time", "Rhs evals", "Run time ratio"]])
+# | output: asis
+print(
+    table_styler(
+        df_midpoint[["n", "h", "Run time", "Rhs evals", "Run time ratio"]]
+    )
+)
 
 ```
 

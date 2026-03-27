@@ -1,0 +1,5 @@
+# Slides {.unnumbered}
+
+- [Introduction to dynamical problems](lec01.html)
+- [Analysis of errors](lec02.html)
+- [Systems of differential equations](lec02a.html)

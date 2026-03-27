@@ -13,31 +13,7 @@ import sympy as sp
 from IPython.display import Markdown
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
-
-
-def sci_tex(x, sig=6):
-    if x == 0 or (isinstance(x, float) and np.isclose(x, 0)):
-        return "0"
-    if np.isnan(x):
-        return "---"
-    exp = int(np.floor(np.log10(abs(x))))
-    mant = x / (10**exp)
-    return rf"\({mant:.{sig - 1}f}\times 10^{{{exp}}}\)"
-
-
-def table_styler(df):
-    tbl = df.style.format(
-        {
-            "h": sci_tex,
-            "Abs. error": sci_tex,
-            "Run time": sci_tex,
-        },
-        na_rep="---",
-    )
-
-    return tbl.hide()
-
+from utils import table_styler
 
 ```
 
@@ -256,6 +232,7 @@ In summary, we get
 ```{python}
 # | tbl-cap: "Computing the distance travelled using smaller steps."
 # | label: tbl-distance-convergence
+# | output: asis
 
 data = []
 
@@ -270,7 +247,7 @@ for j in range(6):
 
     data.append({"intervals": N, "increment size, h": dt, "total distance": D})
 
-table_styler(pd.DataFrame(data))
+print(table_styler(pd.DataFrame(data)))
 ```
 
 We appear to be converging to a limit as $h \to 0$...

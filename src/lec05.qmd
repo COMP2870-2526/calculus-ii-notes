@@ -5,36 +5,13 @@ echo: false
 # Optimisation in $\mathbb{R}^n$
 
 ```{python}
-
-
 import numpy as np
 import pandas as pd
 import sympy as sp
 from IPython.display import Markdown, display
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
-
-
-def sci_tex(x, sig=6):
-    if x == 0 or (isinstance(x, float) and np.isclose(x, 0)):
-        return "0"
-    if np.isnan(x):
-        return "---"
-    exp = int(np.floor(np.log10(abs(x))))
-    mant = x / (10**exp)
-    return rf"\({mant:.{sig - 1}f}\times 10^{{{exp}}}\)"
-
-
-def table_styler(df):
-    return df.style.format(
-        {
-            "h": sci_tex,
-            "Abs. error": sci_tex,
-            "Run time": sci_tex,
-        },
-        na_rep="---",
-    ).hide()
+from utils import table_styler
 
 
 def array_to_latex(array):
