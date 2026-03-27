@@ -64,6 +64,8 @@ jobs:
         run: |
           mkdir -p _output/slides
           for q in slides/*.qmd; do
+            # Skip slides/index.qmd
+            [[ "$q" == "slides/index.qmd" ]] && continue
             uv run quarto render "$q"
             mv "${q/.qmd/.html}" _output/slides/
             mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
