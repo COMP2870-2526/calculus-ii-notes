@@ -101,8 +101,6 @@ Euler's method is given by:
    t^{(i+1)} &= t^{(i)} + h.
    \end{align*}
 
----
-
 ##  {.gridbg}
 
 ::: {#exr-euler-error}
