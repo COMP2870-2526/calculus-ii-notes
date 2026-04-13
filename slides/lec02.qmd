@@ -241,7 +241,8 @@ plt.show()
 ```
 
 ---
-::: {#rem-log-scale}
+
+:::: {#rem-log-scale}
 Using log scales is really important when considering variables like $h$ or error. Contrast the above nice plot, with nice evenly spread data points, with these linear scaled plots:
 
 
@@ -271,14 +272,12 @@ plt.show()
 ::: {#exr-log-scale}
 Why don't we use a log scale for solution too?
 :::
-:::
+::::
 
 ::: {.notes}
-::: {#rem-de-error}
 It is important to note that in this lecture, we are measuring the error at the final time point as a measure of how good our method is. This is a *global error* that measures the accumulation of *local errors* which happen at each time step. Other possible global errors include finding the maximum or average error over all time steps.
 
 Sometimes we also care more about other, more physical based properties of our solution. For example, in long-time simulations scientists often want to ensure that the laws of thermodynamics are implemented exactly -- i.e. that energy is conserved and that entropy increases.
-:::
 :::
 
 ## Big $O$ notation
