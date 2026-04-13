@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>8&nbsp; Optimisation in \mathbb{R}^n – COMP2870 Theoretical Foundations: Calculus II</title>
+<title>Slides – COMP2870 Theoretical Foundations: Calculus II</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -34,8 +34,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../src/lec06.html" rel="next">
-<link href="../src/lec04.html" rel="prev">
+<link href="../src/lec06.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -297,7 +296,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec05.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/index.html">Slides</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -371,7 +370,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link active">
+  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></span></a>
   </div>
 </li>
@@ -383,7 +382,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Slides</span></a>
   </div>
 </li>
@@ -392,17 +391,8 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#choice-of-the-step-size-h" id="toc-choice-of-the-step-size-h" class="nav-link active" data-scroll-target="#choice-of-the-step-size-h"><span class="header-section-number">8.1</span> Choice of the step size <span class="math inline">\(h\)</span></a></li>
-  <li><a href="#stopping-criteria" id="toc-stopping-criteria" class="nav-link" data-scroll-target="#stopping-criteria"><span class="header-section-number">8.2</span> Stopping criteria</a></li>
-  <li><a href="#relation-to-differential-equations" id="toc-relation-to-differential-equations" class="nav-link" data-scroll-target="#relation-to-differential-equations"><span class="header-section-number">8.3</span> Relation to differential equations</a></li>
-  <li><a href="#newtons-method" id="toc-newtons-method" class="nav-link" data-scroll-target="#newtons-method"><span class="header-section-number">8.4</span> Newton’s method</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -410,7 +400,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Optimisation in <span class="math inline">\(\mathbb{R}^n\)</span></span></h1>
+<h1 class="title">Slides</h1>
 </div>
 
 
@@ -440,270 +430,13 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Module learning objective
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Define and apply the gradient descent algorithm for functions <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>,</li>
-<li>Explain some of the properties of the gradient descent algorithm,</li>
-<li>Relate the gradient descent algorithm to the gradient flow differential equation,</li>
-<li>Apply the Newton method to solve optimsation problems.</li>
-</ol>
-</div>
-</div>
-<p>TODO change step size to <span class="math inline">\(\alpha\)</span></p>
-<p>We return to our basic optimisation problem. We want to find a minimiser <span class="math inline">\(x^*\)</span> of the function <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span>: <span class="math display">\[
-x^* = \mathop{\arg\min}\limits_{x \in \mathbb{R}^n} F(x).
-\]</span> In this lecture, we are going to propose an iterative algorithm for approximating solutions called <strong>gradient descent</strong>. Roughly speaking, if <span class="math inline">\(F\)</span> is smooth and convex, then for a sufficiently small step size the method converges to a minimiser. If <span class="math inline">\(F\)</span> is not convex, gradient descent may still be useful, but in general it is only guaranteed to seek a point with <span class="math inline">\(\nabla F = 0\)</span>; this may be a local minimiser but may not be!</p>
-<div id="rem-nn" class="proof remark">
-<p><span class="proof-title"><em>Remark 8.1</em>. </span>The methods used to train neural network models are based on gradient descent. We will see an example of this later.</p>
-</div>
-<p>We first illustrate the algorithm in one dimension:</p>
-<div id="exm-grad-descent-1d" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> Consider <span class="math display">\[
-F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
-\]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
-F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
-\]</span></p>
-<div id="6dabb65a" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
-F(x^{(0)}) = \frac{1}{4} \times \left(0\right)^4 - \frac{1}{12} \times \left(0\right)^3 - \frac{1}{2} \times \left(0\right)^2 + \frac{1}{4} \times \left(0\right) + \frac{1}{2} = \frac{1}{2}
-\]</span> At <span class="math inline">\(x^{(0)} = 0\)</span>, we see that the derivative of <span class="math inline">\(F\)</span> is positive: <span class="math display">\[
-F'(0) = \left(0\right)^3 - \frac14 \times \left(0\right)^2- \left(0\right) + \frac14
-= \frac{1}{4} &gt; 0.
-\]</span> Hence, to decrease <span class="math inline">\(F\)</span> and get closer to the minimiser, we will take a <em>small</em> step in the opposite direction, i.e.&nbsp;in the <span class="math inline">\(- F'(x^{(0)})\)</span> direction. We use the update formula: <span class="math display">\[\begin{align*}
-x^{(1)} &amp; = x^{(0)} - h F'(x^{(0)}) \\
-&amp; = 0 - h \times \frac{1}{4}.
-\end{align*}\]</span> Here <span class="math inline">\(h &gt; 0\)</span> is the step size that we have to choose as a parameter in our algorithm.</p>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec05_files/figure-html/cell-3-output-2.png" width="590" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>This plot shows our scenario. In this case, <span class="math inline">\(h = \frac{1}{2}\)</span> seems a good choice so we set <span class="math display">\[
-x^{(1)} = x^{(0)} - h F'(x^{(0)})= 0 - \frac{1}{2} \times \frac{1}{4}= - \frac{1}{8},
-\]</span> and note that <span class="math display">\[\begin{align*}
-F(x^{(1)}) &amp;= \frac{1}{4} \times \left(- \frac{1}{8}\right)^4 - \frac{1}{12} \times \left(- \frac{1}{8}\right)^3 - \frac{1}{2} \times \left(- \frac{1}{8}\right)^2 + \frac{1}{4} \times \left(- \frac{1}{8}\right) + \frac{1}{2} \\
-&amp;= \frac{22667}{49152} = 0.461161295572917.\end{align*}\]</span></p>
-</div>
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Then, we iterate to find <span class="math inline">\(x^{(2)}\)</span>: <span class="math display">\[\begin{align*}
-x^{(2)} &amp;= x^{(1)} - h F'(x^{(1)}) \\
-&amp;= - \frac{1}{8} - \frac{1}{2} \times \left(\left(- \frac{1}{8}\right)^3 - \frac14 \times \left(- \frac{1}{8}\right)^2- \left(- \frac{1}{8}\right) + \frac14\right) \\
-&amp;= - \frac{1}{8} - \frac{1}{2} \times \left(\frac{189}{512}\right) \\
-&amp;= - \frac{317}{1024} = -0.309570312500000,
-\end{align*}\]</span> and note that <span class="math display">\[\begin{align*}
-F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1}{12} \times \left(- \frac{317}{1024}\right)^3 - \frac{1}{2} \times \left(- \frac{317}{1024}\right)^2 + \frac{1}{4} \times \left(- \frac{317}{1024}\right) + \frac{1}{2} \\
-&amp;= \frac{5006632820723}{13194139533312} = 0.379458835347502.\end{align*}\]</span></p>
-</div>
-</div>
-<div id="a972c496" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec05_files/figure-html/cell-4-output-1.png" width="590" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="579c8ec2" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<pre><code>'|   it |         x |      F(x) |\n|-----:|----------:|----------:|\n|    0 | -0.125    | 0.461161  |\n|    1 | -0.30957  | 0.379459  |\n|    2 | -0.562543 | 0.241008  |\n|    3 | -0.840248 | 0.11098   |\n|    4 | -1.00051  | 0.0833337 |\n|    5 | -0.999873 | 0.0833334 |\n|    6 | -1.00003  | 0.0833333 |\n|    7 | -0.999992 | 0.0833333 |\n|    8 | -1        | 0.0833333 |\n|    9 | -1        | 0.0833333 |\n|   10 | -1        | 0.0833333 |'</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec05_files/figure-html/cell-5-output-2.png" width="590" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>We can use a similar idea when working in <span class="math inline">\(\mathbb{R}^n\)</span>. The key idea is to note that the gradient of <span class="math inline">\(F \colon \mathbb{R}^n \to \mathbb{R}\)</span> points in the direction of the steepest increase in <span class="math inline">\(F\)</span> (<a href="lec04.html#lem-grad-slope-max" class="quarto-xref">Lemma&nbsp;<span>7.2</span></a>). So, starting at a point <span class="math inline">\(\vec{x}^{(0)}\)</span>, if we want to reduce <span class="math inline">\(F\)</span>, we should take a small step in the direction <span class="math inline">\(-\nabla F(\vec{x}^{(0)})\)</span>. This is the <strong>gradient descent algorithm</strong> which, for a given step size <span class="math inline">\(h\)</span>, uses the update formula: <span class="math display">\[
-\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
-\]</span></p>
-<div id="exm-gradient-descent" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> Consider the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
-\]</span> We previously computed (<a href="lec04.html#exm-gradient" class="quarto-xref">Example&nbsp;<span>7.3</span></a>) that <span class="math display">\[
-\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2).
-\]</span> So the gradient descent update formula is: <span class="math display">\[
-\begin{pmatrix}
-x_1^{(i+1)} \\ x_2^{(i+1)}
-\end{pmatrix} =
-\begin{pmatrix}
-x_1^{(i)} \\ x_2^{(i)}
-\end{pmatrix} -
-h\begin{pmatrix}
-4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
-\end{pmatrix}.
-\]</span></p>
-<div id="3bd6aef3" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>Let <span class="math inline">\(x^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span> and <span class="math inline">\(h = 1/4\)</span>.</p>
-<p>Then we can compute that</p>
-<p><span class="math display">\[\begin{align*}
-\vec{x}^{(1)} &amp;= \vec{x}^{(0)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
-&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\nabla F(1, \frac{3}{4}) \\
-&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\begin{pmatrix}4 \times (1)^3 - 2 \times (1) + 2 \\8 \times (\frac{3}{4})\end{pmatrix} \\
-&amp; = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\left(\begin{matrix}4\\6\end{matrix}\right) \\
-&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right)
-\end{align*}\]</span></p>
-<p><span class="math display">\[\begin{align*}
-\vec{x}^{(2)} &amp;= \vec{x}^{(1)}- h \nabla F(\vec{{x}}^{{({i})}}) \\
-&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\nabla F(0, - \frac{3}{4}) \\
-&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\begin{pmatrix}4 \times (0)^3 - 2 \times (0) + 2 \\8 \times (- \frac{3}{4})\end{pmatrix} \\
-&amp; = \left(\begin{matrix}0\\- \frac{3}{4}\end{matrix}\right) - \frac{1}{4} \times\left(\begin{matrix}2\\-6\end{matrix}\right) \\
-&amp; = \left(\begin{matrix}- \frac{1}{2}\\\frac{3}{4}\end{matrix}\right)
-\end{align*}\]</span></p>
-</div>
-</div>
-<div id="exr-gradient-descent" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Take two steps of gradient descent for <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
-\]</span></p>
-</div>
-</div>
-<div id="rem-starting-value" class="proof remark">
-<p><span class="proof-title"><em>Remark 8.2</em>. </span>We always need an initial value for the gradient descent algorithm. If <span class="math inline">\(F\)</span> is convex, the choice of starting point does not affect whether we converge or not towards the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.</p>
-<p>However, in the non-convex case, different starting values converge to different local minima. In fact, this is a way to try to find a global minimum through using lots of different local minima and finding which one minimises <span class="math inline">\(F\)</span>.</p>
-</div>
-<section id="choice-of-the-step-size-h" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="choice-of-the-step-size-h"><span class="header-section-number">8.1</span> Choice of the step size <span class="math inline">\(h\)</span></h2>
-<p>The choice of step size has a major effect on the performance of gradient descent. If <span class="math inline">\(h\)</span> is too small, we do not make enough progress towards the minimiser, but if <span class="math inline">\(h\)</span> is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).</p>
-<div id="exm-choosing-h" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.3</strong></span> We consider again the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
-\]</span> From the plots in <a href="lec04.html#fig-2d_func" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>, we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
-<p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(h\)</span></p>
-<div id="599ecbf8" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec05_files/figure-html/cell-7-output-1.png" width="662" height="469" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>We see that:</p>
 <ul>
-<li>for <span class="math inline">\(h = 10^{1}\)</span> or <span class="math inline">\(10^{0}\)</span>, the time step is too large and the iterations quickly diverge;</li>
-<li>for <span class="math inline">\(h = 10^{-3}\)</span> or <span class="math inline">\(10^{-4}\)</span>, the time step is too small and the function does not decrease quickly enough;</li>
-<li>for <span class="math inline">\(h = 10^{-1}\)</span> or <span class="math inline">\(10^{-2}\)</span>, we see a nice decrease in the function values and quick convergence to the minimum!</li>
+<li><a href="lec01.html">Introduction to dynamical problems</a></li>
+<li><a href="lec02.html">Analysis of errors</a></li>
+<li><a href="lec02a.html">Systems of differential equations</a></li>
 </ul>
-</div>
-<div id="exr-step-size" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 8.2</strong></span> What would the <em>best</em> step size be? What if we know the second derivative of <span class="math inline">\(F\)</span> as well? (<em>Hint</em>: think of 1d first, then think how this might work in higher dimensions). More on this later!</p>
-</div>
-</section>
-<section id="stopping-criteria" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="stopping-criteria"><span class="header-section-number">8.2</span> Stopping criteria</h2>
-<p>There are several possible stopping criteria available, similar to those used for other iterative schemes:</p>
-<ol type="1">
-<li><p><strong>Stop after a fixed number of iterations</strong>: This is the simplest option. This does not guarantee that we are close to the correct solution but does stop us from computing if the solution will never converge (e.g.&nbsp;if the step size is too large). But how do we know we aren’t just converging slowly?</p></li>
-<li><p><strong>Stop when things stop changing</strong>: We can monitor (i) the change in <span class="math inline">\(\vec{x}^{(i)}\)</span>, (ii) the change in <span class="math inline">\(F(\vec{x}^{(i)})\)</span> or (iii) the magnitude of <span class="math inline">\(\nabla F(\vec{x}^{(i)})\)</span>. All three can be used relatively straightforwardly to test if we have converged by comparing these values against a given tolerance <span class="math inline">\(TOL\)</span>.</p></li>
-<li><p><strong>Stop if the function values are too large</strong>: This again avoids us continuing to compute when the iteration will not converge. But how large is too large as part of an iteration?</p></li>
-</ol>
-</section>
-<section id="relation-to-differential-equations" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="relation-to-differential-equations"><span class="header-section-number">8.3</span> Relation to differential equations</h2>
-<p>There is another important way to derive the gradient descent algorithm: via a differential equation, often called the <strong>gradient flow differential equation</strong>:</p>
-<p>Find <span class="math inline">\(\vec{x}(t)\)</span> such that <span class="math display">\[
-\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
-\]</span> If we take the scalar product of this equation with <span class="math inline">\(\vec{x}'(t)\)</span>, we see <span class="math display">\[
-\vec{x}'(t) \cdot \vec{x}'(t) = - \nabla F(\vec{x}(t)) \vec{x}'(t).
-\]</span> We can identify the left hand side here as <span class="math inline">\(\|\vec{x}'(t)\|^2\)</span> which is always non-negative, and using the chain rule, we see that <span class="math display">\[
-- \nabla F(\vec{x}(t)) \vec{x}'(t) = -\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big).
-\]</span> Thus, we can see that <span class="math display">\[
-\frac{\mathrm{d}}{\mathrm{d}t} \big( F(\vec{x}(t)) \big) = - \|\vec{x}'(t)\|^2 \le 0,
-\]</span> or we can integrate additionally to see: <span class="math display">\[
-F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le F(\vec{x}^{(0)}).
-\]</span> In words, these equations show that along solutions of the gradient flow equation, the quantity <span class="math inline">\(F(\vec{x}(t))\)</span> is non-increasing.</p>
-<p>Now, if we take apply Euler’s method to solve the gradient descent differential equation with step size <span class="math inline">\(h\)</span>, we arrive at the scheme: <span class="math display">\[
-\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}).
-\]</span> So Euler’s method applied to the gradient flow equation gives exactly the gradient descent algorithm!</p>
-<p>Note there is no step size in the gradient flow differential equation: effectively, this is the case for <span class="math inline">\(h \to 0\)</span>, and we see that <span class="math inline">\(h\)</span> is small enough for the function value to <em>always</em> decrease.</p>
-<div class="proof remark">
-<p><span class="proof-title"><em>Remark</em>. </span>The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.</p>
-<p>For example, one approach called the <em>heavy ball</em> method (or momentum approach), uses a numerical method to solve the differential equation: <span class="math display">\[
-\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to appropriate initial conditions}.
-\]</span></p>
-</div>
-</section>
-<section id="newtons-method" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="newtons-method"><span class="header-section-number">8.4</span> Newton’s method</h2>
-<p>In one dimension, we applied Newton’s method to find a root of <span class="math inline">\(F'\)</span> which we hoped would be a minimiser. We can relate the gradient descent algorithm to Newton’s method for <span class="math inline">\(F'\)</span>: <span class="math display">\[\begin{align*}
-x^{(i+1)} &amp;= x^{(i)} - \frac{F'(x^{(i)})}{F''(x^{(i)})} &amp;&amp; \text{(Newton's method)} \\
-x^{(i+1)} &amp;= x^{(i)} - h F'(x^{(i)}) &amp;&amp; \text{(gradient descent)}.
-\end{align*}\]</span> We saw that Newton’s method seem to converge very quickly, even faster than gradient descent!</p>
-<div id="exm-newton-vs-gradient" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.4</strong></span> Consider the function from before: <span class="math display">\[
-F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
-\]</span></p>
-<p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
-<div id="2dce727e" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="lec05_files/figure-html/cell-8-output-1.png" width="611" height="430" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>This can also be made to work for problems in <span class="math inline">\(\mathbb{R}^n\)</span> too. The idea is to replace division by the second derivative in one dimension with the solution of a linear system involving the Hessian in higher dimensions. More precisely, rather than finding the inverse of the Hessian, we solve a system of linear equations! At each step, we solve the system of linear equations: <span class="math display">\[
-(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
-\]</span></p>
-<div id="exm-newton-Rn" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.5</strong></span> Consider the function <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
-\]</span> We previously computed (<a href="lec04.html#exm-gradient" class="quarto-xref">Example&nbsp;<span>7.3</span></a>) that <span class="math display">\[
-\nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2),
-\]</span> and the Hessian is <span class="math display">\[
-\nabla^2 F(x_1, x_2) = \begin{pmatrix}
-12 x_1^2 - 2 &amp; 0 \\
-0 &amp; 8
-\end{pmatrix}.
-\]</span></p>
-<div id="9ade2a3f" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display cell-output-markdown">
-<p>We start at <span class="math inline">\(\vec{x}^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span>.</p>
-<p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}
-\nabla F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}4 \times (1)^3 - 2 \times (1) + 2 \\ 8 \times (3/4)\end{pmatrix}= \left(\begin{matrix}4\\6\end{matrix}\right) \\
-\nabla^2 F(\vec{x}^{(0)}) &amp; = \begin{pmatrix}12 \times (1)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \left(\begin{matrix}10 &amp; 0\\0 &amp; 8\end{matrix}\right).
-\end{align*}\]</span> So we need to solve <span class="math display">\[
-\left(\begin{matrix}10 &amp; 0\\0 &amp; 8\end{matrix}\right)\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\left(\begin{matrix}4\\6\end{matrix}\right).\]</span> In general, we could use Gaussian elimination (or another linearsolver) to solve this system, but we recognise that the matrix isdiagonal so we can immediately read off that the solution is:<span class="math display">\[
-\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \left(\begin{matrix}- \frac{2}{5}\\- \frac{3}{4}\end{matrix}\right) = \left(\begin{matrix}-0.4\\-0.75\end{matrix}\right).\]</span> Then we see that <span class="math display">\[\begin{align*}
-\vec{x}^{(1)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
-&amp;= \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right) + \left(\begin{matrix}- \frac{2}{5}\\- \frac{3}{4}\end{matrix}\right)= \left(\begin{matrix}\frac{3}{5}\\0\end{matrix}\right) = \left(\begin{matrix}0.6\\0\end{matrix}\right)
-\end{align*}\]</span> <strong>Iteration 2.</strong> We compute that <span class="math display">\[\begin{align*}
-\nabla F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}4 \times (3/5)^3 - 2 \times (3/5) + 2 \\ 8 \times (0)\end{pmatrix}= \left(\begin{matrix}\frac{208}{125}\\0\end{matrix}\right) \\
-\nabla^2 F(\vec{x}^{(1)}) &amp; = \begin{pmatrix}12 \times (3/5)^2 - 2 &amp; 0 \\ 0 &amp; 8\end{pmatrix}= \left(\begin{matrix}\frac{58}{25} &amp; 0\\0 &amp; 8\end{matrix}\right).
-\end{align*}\]</span> So we need to solve <span class="math display">\[
-\left(\begin{matrix}\frac{58}{25} &amp; 0\\0 &amp; 8\end{matrix}\right)\begin{pmatrix} d_1 \\ d_2 \end{pmatrix} = -\left(\begin{matrix}\frac{208}{125}\\0\end{matrix}\right).\]</span> The matrix is again diagonal so we read off that the solution is:<span class="math display">\[
-\begin{pmatrix} d_1 \\ d_2 \end{pmatrix}= \left(\begin{matrix}- \frac{104}{145}\\0\end{matrix}\right) = \left(\begin{matrix}-0.717241379310345\\0\end{matrix}\right).\]</span> Then we see that <span class="math display">\[\begin{align*}
-\vec{x}^{(2)} &amp; = \vec{x}^{(i)}+ \begin{pmatrix} d_1 \\ d_2 \end{pmatrix} \\
-&amp;= \left(\begin{matrix}\frac{3}{5}\\0\end{matrix}\right) + \left(\begin{matrix}- \frac{104}{145}\\0\end{matrix}\right)= \left(\begin{matrix}- \frac{17}{145}\\0\end{matrix}\right) = \left(\begin{matrix}-0.117241379310345\\0\end{matrix}\right)
-\end{align*}\]</span></p>
-</div>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1121,14 +854,11 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../src/lec04.html" class="pagination-link" aria-label="What about functions with higher dimension domains?">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">What about functions with higher dimension domains?</span></span>
+      <a href="../src/lec06.html" class="pagination-link" aria-label="An introduction to training neural networks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec06.html" class="pagination-link" aria-label="An introduction to training neural networks">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1139,7 +869,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/slides/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/slides/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

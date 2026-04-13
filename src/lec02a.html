@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,14 +77,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f0d2d48caa7054da9de90918d157e5dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c3aa2ee29f58ae116ffc288336f8ea4b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-f0d2d48caa7054da9de90918d157e5dc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b733f95858fad3e55432bf36d8f905f2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6915fd69f78ef52ff16c6b69d940f537.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b733f95858fad3e55432bf36d8f905f2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -416,6 +416,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">An introduction to training neural networks</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../slides/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -492,7 +498,7 @@ window.Quarto = {
 \text{Force} = \text{Mass} \times \text{Acceleration}.
 \]</span> Once we know the acceleration of an object we can solve differential equations to calculate its subsequent velocity and position…</p>
 <p>Consider an object being launched horiztonally from the top of a tall building. We know its initial position and speed in each direction and wish to predict its trajectory.</p>
-<div id="3744508d" class="cell" data-execution_count="2">
+<div id="25a8e718" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -529,7 +535,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <section id="python-implementation" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="python-implementation"><span class="header-section-number">4.3</span> Python implementation</h2>
 <p>We can implement our model using Euler’s method:</p>
-<div id="d57ee538" class="cell" data-execution_count="3">
+<div id="981e6885" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> projectile(n, T):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Simulate the 2D motion of a projectile using Euler's method.</span></span>
@@ -592,7 +598,7 @@ Y(0) &amp;= 100 \, \text{m}.
 <span id="cb1-60"><a href="#cb1-60"></a></span>
 <span id="cb1-61"><a href="#cb1-61"></a>    <span class="cf">return</span> t, X, Y, U, V</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="767b6cb2" class="cell" data-execution_count="5">
+<div id="cf7696d0" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -618,7 +624,7 @@ y_4'(t) &amp; = f_4(t, y_1(t), y_2(t), y_3(t), y_4(t)).
 <p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the following system of differential equations: <span class="math display">\[
 \vec{y}'(t) = A \vec{y} \quad \text{subject to the initial condition} \quad \vec{y}(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
 \]</span> where <span class="math inline">\(\vec{y}(t) = (y_1(t), y_2(t))^T\)</span> and <span class="math inline">\(A = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -2 \end{pmatrix}\)</span>. Approximate the solution at time <span class="math inline">\(T=1\)</span> using 2 steps of Euler’s method with <span class="math inline">\(h = 0.5\)</span>.</p>
-<div id="c9f4d550" class="cell" data-execution_count="6">
+<div id="fdfa9c33" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <ul>
 <li><p>Step 1: <span class="math display">\[\begin{align*}
