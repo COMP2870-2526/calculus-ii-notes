@@ -121,12 +121,12 @@ We want to train a neural network to recognise handwritten digits 0-9.
 
 We will solve this using gradient descent to "train" the neural network. We will use the chain rule to find the gradient of a composite function.
 
-We will use a dataset to help us called the MNST handwritten digit dataset (available at TODO). It contains 70,000 images all labelled with the correct digit.
-Each image is $28 \times 28$ greyscale image, so each image contains 784 pixel values.
+We will use a dataset to help us called the MNIST handwritten digit dataset. It contains 70,000 images all labelled with the correct digit.
+Each image is a $28 \times 28$ greyscale image, so each image contains 784 pixel values.
 The task is to assign the image to one of the ten classes $\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$.
 
 ```{python}
-# Show the first 5 test images
+# Show the first 5 training set images
 figure, axes = plt.subplots(1, 5)
 
 for i in range(5):
@@ -175,8 +175,8 @@ for i in range(5):
 
 ## The neural network
 
-We will work with what is called a dense neural network with one input layer, one output lay and one hidden layer.
-We the input layer represents the pixel values in the flattened image (784 values) and the output layer represents the output prediction of the correct label (10 values).
+We will work with what is called a dense neural network with one input layer, one output layer and one hidden layer.
+The input layer represents the pixel values in the flattened image (784 values) and the output layer represents the output prediction of the correct label (10 values).
 The hidden layer is what brings everything together and we will use $64$ values in this layer.
 
 ```{python}
@@ -297,7 +297,15 @@ def draw_neural_network():
                 color="white",
             )
 
-    ax.text(x_hidden, 0.50, r"$\vdots$", fontsize=18, ha="center", va="center")
+    ax.text(
+        x_hidden,
+        0.50,
+        r"$\vdots$",
+        fontsize=18,
+        ha="center",
+        va="center",
+        color="white",
+    )
 
     for i, y in enumerate(output_y):
         ax.text(x_output + 0.05, y, f"$z_{i}$", va="center", fontsize=11)
@@ -353,22 +361,26 @@ draw_neural_network()
 
 The function $\vec{\mathcal{F}}$ is composed of the following functions.
 
-1. We first form the affine map $\vec{r} = \vec{r}(\vec{x}) =  A \vec{x} + \vec{a}$ for $A \in \mathbb{R}^{64, 784}$ and $\vec{b} \in \mathbb{64}$
+1. We first form the affine map $\vec{r} = \vec{r}(\vec{x}) =  A \vec{x} + \vec{a}$ for $A \in \mathbb{R}^{64 \times 784}$ and $\vec{a} \in \mathbb{R}^{64}$
 
-2. Then, we applying a sigmoid function to each component of the output $\vec{r}$: $\vec{y} = \vec{y}(\vec{r})$ with $y_k = \sigma(r_k)$. The output $\vec{y}$ is called the "hidden layer". In this example, we will use the function $\sigma$
+2. Then, we apply a sigmoid function to each component of the output $\vec{r}$: $\vec{y} = \vec{y}(\vec{r})$ with $y_k = \sigma(r_k)$. The output $\vec{y}$ is called the "hidden layer". In this example, we will use the function $\sigma$
    $$
    \sigma(t) = \frac{1}{1 + \exp(-t)}.
    $$
 
-3. Then, we form a second affine map $\vec{s} = B \vec{y} + \vec{b}$ for $B \in \mathbb{R}^{10, 64}$ and $\vec{b} \in \mathbb{R}^{10}$
+3. Then, we form a second affine map $\vec{s} = B \vec{y} + \vec{b}$ for $B \in \mathbb{R}^{10 \times 64}$ and $\vec{b} \in \mathbb{R}^{10}$
 
-4. Finally, we apply the sigmoid to each component the output $\vec{s}$: $\vec{z} = \vec{z}(\vec{z})$ with $z_i = \sigma(s_i)$.
+4. Finally, we apply the sigmoid to each component of the output $\vec{s}$: $\vec{z} = \vec{z}(\vec{s})$ with $z_i = \sigma(s_i)$.
 
 The full map $\vec{\mathcal{F}}$ is the composition:
 $$
-\vec{F}(\vec{x}) = \vec{z}(\vec{s}(\vec{y}(\vec{r}(\vec{x}))))
+\vec{\mathcal{F}}(\vec{x}) = \vec{z}(\vec{s}(\vec{y}(\vec{r}(\vec{x}))))
 $$
-This gives function $\vec{\mathcal{F}} \colon \mathbb{R}^{782} \to \mathbb{R}^{10}$.
+This gives function $\vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}$.
+
+In the mathematical discussion below, we first describe the network for a single image $\vec{x} \in \mathbb{R}^{784}$.
+In the implementation, however, we process many images at once using matrix notation.
+We store all $N$ flattened training images as the columns of a matrix $\mathbb{R}^{784 \times N}$ and store the labels as $\mathbb{R}^{10 \times N}$. The numpy code is therefore a *vectorised* version of the same formulas, applied to all the training samples simultaneously.
 
 ```{python}
 # | echo: True
@@ -378,7 +390,7 @@ def sigma(t):
 
 
 def forward_map(x, A, a, B, b):
-    # broadcast multiplcation in all values at the same time using [:, None]
+    # broadcast multiplication in all values at the same time using [:, None]
     r = A @ x + a[:, None]
     y = sigma(r)
 
@@ -392,17 +404,17 @@ def forward_map(x, A, a, B, b):
 
 ## The objective function
 
-To train the network, we need a quantity to minimise. Since we want the labels to make the neural network output, the simplest choices uses the square of the Euclidean norm. For a single (flattened) image $\vec{x}$ this means
+To train the network, we need a quantity to minimise. Since we want the neural network output to match the labels, the simplest choice uses the square of the Euclidean norm. For a single (flattened) image $\vec{x}$ this means
 $$
 J(\vec{x}) = \frac{1}{2} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2
 $$
 For the full training set, we simply average this quantity over all $N$ (flattened) images in $X$.
 $$
-F = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2.
+F = \frac{1}{N} \sum_{\vec{x} \in X} J(\vec{x}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2.
 $$
 
-As we mentioned previously, we want to optimise the for parameters in the function $\vec{\mathcal{F}}$. Precisely, these are the values $A$ (size $782 \times 64$), $a$ (size $64$), $B$ (size $64 \times 10$) and $\vec{b}$ (size $10$).
-In total this corresponds to $50,762$ parameters so we can say that $F \colon R^{50,762} \to \mathbb{R}$.
+As we mentioned previously, we want to optimise for parameters in the function $\vec{\mathcal{F}}$. Precisely, these are the values $A$ (size $64 \times 784$), $a$ (size $64$), $B$ (size $10 \times 64$) and $\vec{b}$ (size $10$).
+In total this corresponds to $50,890$ parameters so we can say that $F \colon \mathbb{R}^{50\,890} \to \mathbb{R}$.
 
 ```{python}
 # | echo: True
@@ -412,9 +424,9 @@ def objective(z, targets):
     return 0.5 * np.mean(np.sum((L - z) ** 2, axis=0))
 
 
-def classification_accuracy(output_probabilities, targets):
+def classification_accuracy(z, targets):
     # measures how many targets we have correct
-    predicted_targets = np.argmax(output_probabilities, axis=0)
+    predicted_targets = np.argmax(z, axis=0)
     return np.mean(predicted_targets == targets)
 
 
@@ -429,19 +441,20 @@ def evaluate(x, targets, A, a, B, b):
 
 ## Gradient descent
 
-We gradient descent algorithm will update the parameters $A, \vec{a}, B$ and $\vec{b}$ using the rules:
+The gradient descent algorithm will update the parameters $A, \vec{a}, B$ and $\vec{b}$ using the rules:
 \begin{align*}
-A_{ij} & \leftarrow A_{ij} - \alpha \frac{\partial J}{\partial A_{j}}, &\qquad
-a_i & \leftarrow a_i - \alpha \frac{\partial J}{\partial a_i}, \\
-B_{ij} & \leftarrow B_{ij} - \alpha \frac{\partial J}{\partial B_{j}}, &\qquad
-b_i & \leftarrow b_i - \alpha \frac{\partial J}{\partial b_i}.
+A_{ij} & \leftarrow A_{ij} - \alpha \frac{\partial F}{\partial A_{ij}}, &\qquad
+a_i & \leftarrow a_i - \alpha \frac{\partial F}{\partial a_i}, \\
+B_{ij} & \leftarrow B_{ij} - \alpha \frac{\partial F}{\partial B_{ij}}, &\qquad
+b_i & \leftarrow b_i - \alpha \frac{\partial F}{\partial b_i}.
 \end{align*}
 Note, here we are not tracking the iteration numbers in this notation.
 
 The values of the parameters are well hidden in our definition of both the neural network operator and our objective function! But we can see that there are lots of compositions going on that need resolving!
 
-We compute the gradients of each component in term working from inner-most to outer-most functions.
-To help writing these functions, we will make use of the Kronecker delta (identify matrix) $\delta$ which has entries $\delta_{ij} = 1$ if $i = j$ and $0$ otherwise.
+We compute the gradients component by component in turn, working from outer-most to inner-most functions by applying the chain rule.
+The code then implements the same calculations in vectorised matrix form so that all training examples are processed simultaneously.
+To help writing these functions, we will make use of the Kronecker delta (identity matrix) $\delta$ which has entries $\delta_{ij} = 1$ if $i = j$ and $0$ otherwise.
 
 1. We have
    $$
@@ -480,7 +493,7 @@ To help writing these functions, we will make use of the Kronecker delta (identi
    = \frac{\partial F(\vec{s})}{\partial s_k} y_l \\
    & = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k) y_l, \\
    \frac{\partial F(B, \vec{b})}{\partial b_k}
-   & =  \sum_{j=0}^{0} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial b_{kl}}
+   & =  \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial b_{k}}
    = \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \delta_{jk}
    = \frac{\partial F(\vec{s})}{\partial s_k} \\
    & = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k).
@@ -498,7 +511,7 @@ To help writing these functions, we will make use of the Kronecker delta (identi
    = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jk}.
    $$
 
-5. Then we compute derivatives with resect to $\vec{r}$. We have $y_k = \sigma(r_k)$ so we can compute that
+5. Then we compute derivatives with respect to $\vec{r}$. We have $y_k = \sigma(r_k)$ so we can compute that
    $$
    \frac{\partial y_k}{\partial r_l} = \delta_{kl} \sigma'(r_l),
    $$
@@ -514,8 +527,8 @@ To help writing these functions, we will make use of the Kronecker delta (identi
 6. Finally, we can compute the derivatives with respect the first parametric matrix and offset vector
    From $\vec{r} = A \vec{x} + a$, we have
    $$
-   \frac{\partial r_l}{A_{mn}} = \delta_{lm} x_n, \quad\text{and}\quad
-   \frac{\partial r_l}{a_m} = \delta_{lm},
+   \frac{\partial r_l}{\partial A_{mn}} = \delta_{lm} x_n, \quad\text{and}\quad
+   \frac{\partial r_l}{\partial a_m} = \delta_{lm},
    $$
    so
    \begin{align*}
@@ -590,7 +603,6 @@ def train_network(x, targets, test_inputs, test_targets):
     for _ in range(1, iterations + 1):
         # Forward map
         (_, y, _, z) = forward_map(x, A, a, B, b)
-        current_objective = objective(z, targets)
 
         # --------------------------------------------------------
         # Gradient via chain rule (backpropagation)
@@ -629,7 +641,11 @@ def train_network(x, targets, test_inputs, test_targets):
         B = B - alpha * dF_dB
         b = b - alpha * dF_db
 
-        # test on hidden data set
+        # test on training data
+        (_, _, _, z) = forward_map(x, A, a, B, b)
+        current_objective = objective(z, targets)
+
+        # test on test data
         test_objective, test_accuracy = evaluate(
             test_inputs, test_targets, A, a, B, b
         )
@@ -674,7 +690,7 @@ We can now do the training:
 # | echo: True
 training_inputs, training_targets, test_inputs, test_targets = load_mnist()
 
-# take transpose of images so that each row is a flattened image
+# take transpose so that each column is a flattened image
 training_inputs = training_inputs.T
 test_inputs = test_inputs.T
 
@@ -708,13 +724,13 @@ plt.xlabel("Iterations")
 plt.legend()
 plt.show()
 
-final_objective, final_accuracy = (
-    accuracy_measures["objective"][-1],
-    accuracy_measures["test accuracy"][-1],
-)
-print()
-print(f"Final test objective: {final_objective:.6f}")
-print(f"Final test accuracy:  {final_accuracy:.2f}%")
+final_train_objective = accuracy_measures["objective"][-1]
+final_test_objective = accuracy_measures["test objective"][-1]
+final_test_accuracy = accuracy_measures["test accuracy"][-1]
+
+print(f"Final train objective: {final_train_objective:.6f}")
+print(f"Final test objective:  {final_test_objective:.6f}")
+print(f"Final test accuracy:   {final_test_accuracy:.2f}%")
 ```
 
 We see that we are achieving more than 90% accuracy within 1000 iterations and we have not converged to the best solution yet.
@@ -741,7 +757,7 @@ plt.show()
 
 I don't think this is too bad!
 
-For the one we have wrong, we can also check all $\vec{z}$ values that have:
+For one incorrect prediction (predicted 6 instead of 5), we can also check all $\vec{z}$ values that have:
 ```{python}
 i = 8
 x_single = test_inputs[:, [i]]  # shape (784, 1)
