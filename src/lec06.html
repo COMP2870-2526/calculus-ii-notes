@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -392,8 +427,18 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#problem" id="toc-problem" class="nav-link active" data-scroll-target="#problem"><span class="header-section-number">9.1</span> Problem</a></li>
+  <li><a href="#the-neural-network" id="toc-the-neural-network" class="nav-link" data-scroll-target="#the-neural-network"><span class="header-section-number">9.2</span> The neural network</a></li>
+  <li><a href="#the-objective-function" id="toc-the-objective-function" class="nav-link" data-scroll-target="#the-objective-function"><span class="header-section-number">9.3</span> The objective function</a></li>
+  <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent"><span class="header-section-number">9.4</span> Gradient descent</a></li>
+  <li><a href="#testing-it-out" id="toc-testing-it-out" class="nav-link" data-scroll-target="#testing-it-out"><span class="header-section-number">9.5</span> Testing it out</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -431,6 +476,19 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These notes are to support the lecture which gives ideas of how to apply the gradient descent algorithm to train a simple neural network. This material is not directly examinable but understanding the material may help you with your exam preparations.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -446,8 +504,384 @@ window.Quarto = {
 </ol>
 </div>
 </div>
+<section id="problem" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="problem"><span class="header-section-number">9.1</span> Problem</h2>
+<p>We want to train a neural network to recognise handwritten digits 0-9.</p>
+<p>We will solve this using gradient descent to “train” the neural network. We will use the chain rule to find the gradient of a composite function.</p>
+<p>We will use a dataset to help us called the MNIST handwritten digit dataset. It contains 70,000 images all labelled with the correct digit. Each image is a <span class="math inline">\(28 \times 28\)</span> greyscale image, so each image contains 784 pixel values. The task is to assign the image to one of the ten classes <span class="math inline">\(\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</span>.</p>
+<div id="7d4dba62" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec06_files/figure-html/cell-4-output-1.png" width="662" height="156" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The input <span class="math inline">\(28 \times 28\)</span> images are “flattened” row-by-row by rearranging the pixel values into a single column vector <span class="math inline">\(\vec{x} \in \mathbb{R}^{784}\)</span>.</p>
+<p>For output, we want the network to give (approximately) a value 1 in the correct position of a 10 dimensional vector.</p>
+<p>We express this mathematically by saying that we want a function: <span class="math display">\[
+\vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}
+\]</span></p>
+<p>The function, we want to optimise should capture the given labels for a subset of all images (called the training set). This will leave further sample labels to test to see how well our method is performing. The optimisation will be over some parameters (which we define shortly) in the function <span class="math inline">\(\vec{\mathcal{F}}\)</span>. We will call <span class="math inline">\(X\)</span> the set of training images (of size <span class="math inline">\(N\)</span>) and suppose we have a labelling function <span class="math inline">\(L \colon X \to \mathbb{R}^{10}\)</span> which takes an image in the training set and gives the correct label. We will use the notation <span class="math inline">\(L = (L_1, \ldots, L_10)\)</span>.</p>
+<div id="d5b4909b" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> indicator_matrix(targets, number_of_classes<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="co"># convert one label per image to a 10 dimensional output for comparison</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    matrix <span class="op">=</span> np.zeros((number_of_classes, targets.shape[<span class="dv">0</span>]), dtype<span class="op">=</span>np.float32)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    matrix[targets, np.arange(targets.shape[<span class="dv">0</span>])] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="cf">return</span> matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="a538faf4" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>image 0 has L = 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0
+image 1 has L = 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+image 2 has L = 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0
+image 3 has L = 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+image 4 has L = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0</code></pre>
+</div>
+</div>
+</section>
+<section id="the-neural-network" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="the-neural-network"><span class="header-section-number">9.2</span> The neural network</h2>
+<p>We will work with what is called a dense neural network with one input layer, one output layer and one hidden layer. The input layer represents the pixel values in the flattened image (784 values) and the output layer represents the output prediction of the correct label (10 values). The hidden layer is what brings everything together and we will use <span class="math inline">\(64\)</span> values in this layer.</p>
+<div id="7930a566" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec06_files/figure-html/cell-7-output-1.png" width="662" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The function <span class="math inline">\(\vec{\mathcal{F}}\)</span> is composed of the following functions.</p>
+<ol type="1">
+<li><p>We first form the affine map <span class="math inline">\(\vec{r} = \vec{r}(\vec{x}) =  A \vec{x} + \vec{a}\)</span> for <span class="math inline">\(A \in \mathbb{R}^{64 \times 784}\)</span> and <span class="math inline">\(\vec{a} \in \mathbb{R}^{64}\)</span></p></li>
+<li><p>Then, we apply a sigmoid function to each component of the output <span class="math inline">\(\vec{r}\)</span>: <span class="math inline">\(\vec{y} = \vec{y}(\vec{r})\)</span> with <span class="math inline">\(y_k = \sigma(r_k)\)</span>. The output <span class="math inline">\(\vec{y}\)</span> is called the “hidden layer”. In this example, we will use the function <span class="math inline">\(\sigma\)</span> <span class="math display">\[
+\sigma(t) = \frac{1}{1 + \exp(-t)}.
+\]</span></p></li>
+<li><p>Then, we form a second affine map <span class="math inline">\(\vec{s} = B \vec{y} + \vec{b}\)</span> for <span class="math inline">\(B \in \mathbb{R}^{10 \times 64}\)</span> and <span class="math inline">\(\vec{b} \in \mathbb{R}^{10}\)</span></p></li>
+<li><p>Finally, we apply the sigmoid to each component of the output <span class="math inline">\(\vec{s}\)</span>: <span class="math inline">\(\vec{z} = \vec{z}(\vec{s})\)</span> with <span class="math inline">\(z_i = \sigma(s_i)\)</span>.</p></li>
+</ol>
+<p>The full map <span class="math inline">\(\vec{\mathcal{F}}\)</span> is the composition: <span class="math display">\[
+\vec{\mathcal{F}}(\vec{x}) = \vec{z}(\vec{s}(\vec{y}(\vec{r}(\vec{x}))))
+\]</span> This gives function <span class="math inline">\(\vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}\)</span>.</p>
+<p>In the mathematical discussion below, we first describe the network for a single image <span class="math inline">\(\vec{x} \in \mathbb{R}^{784}\)</span>. In the implementation, however, we process many images at once using matrix notation. We store all <span class="math inline">\(N\)</span> flattened training images as the columns of a matrix <span class="math inline">\(\mathbb{R}^{784 \times N}\)</span> and store the labels as <span class="math inline">\(\mathbb{R}^{10 \times N}\)</span>. The numpy code is therefore a <em>vectorised</em> version of the same formulas, applied to all the training samples simultaneously.</p>
+<div id="0eeb2444" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> sigma(t):</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="co"># sigmoid activation</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="cf">return</span> <span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>t))</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="kw">def</span> forward_map(x, A, a, B, b):</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    <span class="co"># broadcast multiplication in all values at the same time using [:, None]</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>    r <span class="op">=</span> A <span class="op">@</span> x <span class="op">+</span> a[:, <span class="va">None</span>]</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    y <span class="op">=</span> sigma(r)</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    s <span class="op">=</span> B <span class="op">@</span> y <span class="op">+</span> b[:, <span class="va">None</span>]</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    z <span class="op">=</span> sigma(s)</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>    <span class="cf">return</span> (r, y, s, z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-objective-function" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="the-objective-function"><span class="header-section-number">9.3</span> The objective function</h2>
+<p>To train the network, we need a quantity to minimise. Since we want the neural network output to match the labels, the simplest choice uses the square of the Euclidean norm. For a single (flattened) image <span class="math inline">\(\vec{x}\)</span> this means <span class="math display">\[
+J(\vec{x}) = \frac{1}{2} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2
+\]</span> For the full training set, we simply average this quantity over all <span class="math inline">\(N\)</span> (flattened) images in <span class="math inline">\(X\)</span>. <span class="math display">\[
+F = \frac{1}{N} \sum_{\vec{x} \in X} J(\vec{x}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2.
+\]</span></p>
+<p>As we mentioned previously, we want to optimise for parameters in the function <span class="math inline">\(\vec{\mathcal{F}}\)</span>. Precisely, these are the values <span class="math inline">\(A\)</span> (size <span class="math inline">\(64 \times 784\)</span>), <span class="math inline">\(a\)</span> (size <span class="math inline">\(64\)</span>), <span class="math inline">\(B\)</span> (size <span class="math inline">\(10 \times 64\)</span>) and <span class="math inline">\(\vec{b}\)</span> (size <span class="math inline">\(10\)</span>). In total this corresponds to <span class="math inline">\(50,890\)</span> parameters so we can say that <span class="math inline">\(F \colon \mathbb{R}^{50\,890} \to \mathbb{R}\)</span>.</p>
+<div id="fe89d5a6" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> objective(z, targets):</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="co"># objective function F</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>    L <span class="op">=</span> indicator_matrix(targets, number_of_classes<span class="op">=</span>z.shape[<span class="dv">0</span>])</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(np.<span class="bu">sum</span>((L <span class="op">-</span> z) <span class="op">**</span> <span class="dv">2</span>, axis<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">def</span> classification_accuracy(z, targets):</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="co"># measures how many targets we have correct</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>    predicted_targets <span class="op">=</span> np.argmax(z, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a>    <span class="cf">return</span> np.mean(predicted_targets <span class="op">==</span> targets)</span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="kw">def</span> evaluate(x, targets, A, a, B, b):</span>
+<span id="cb4-14"><a href="#cb4-14"></a>    _, _, _, z <span class="op">=</span> forward_map(x, A, a, B, b)</span>
+<span id="cb4-15"><a href="#cb4-15"></a>    current_objective <span class="op">=</span> objective(z, targets)</span>
+<span id="cb4-16"><a href="#cb4-16"></a>    current_accuracy <span class="op">=</span> classification_accuracy(z, targets)</span>
+<span id="cb4-17"><a href="#cb4-17"></a>    <span class="cf">return</span> current_objective, current_accuracy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="gradient-descent" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="gradient-descent"><span class="header-section-number">9.4</span> Gradient descent</h2>
+<p>The gradient descent algorithm will update the parameters <span class="math inline">\(A, \vec{a}, B\)</span> and <span class="math inline">\(\vec{b}\)</span> using the rules: <span class="math display">\[\begin{align*}
+A_{ij} &amp; \leftarrow A_{ij} - \alpha \frac{\partial F}{\partial A_{ij}}, &amp;\qquad
+a_i &amp; \leftarrow a_i - \alpha \frac{\partial F}{\partial a_i}, \\
+B_{ij} &amp; \leftarrow B_{ij} - \alpha \frac{\partial F}{\partial B_{ij}}, &amp;\qquad
+b_i &amp; \leftarrow b_i - \alpha \frac{\partial F}{\partial b_i}.
+\end{align*}\]</span> Note, here we are not tracking the iteration numbers in this notation.</p>
+<p>The values of the parameters are well hidden in our definition of both the neural network operator and our objective function! But we can see that there are lots of compositions going on that need resolving!</p>
+<p>We compute the gradients component by component in turn, working from outer-most to inner-most functions by applying the chain rule. The code then implements the same calculations in vectorised matrix form so that all training examples are processed simultaneously. To help writing these functions, we will make use of the Kronecker delta (identity matrix) <span class="math inline">\(\delta\)</span> which has entries <span class="math inline">\(\delta_{ij} = 1\)</span> if <span class="math inline">\(i = j\)</span> and <span class="math inline">\(0\)</span> otherwise.</p>
+<ol type="1">
+<li><p>We have <span class="math display">\[
+F(\vec{z}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{z} \|^2,
+\]</span> so, <span class="math display">\[
+\frac{\partial F(\vec{z})}{\partial z_i} = \frac{1}{N} \sum_{\vec{x} \in X} z_i - L_i(\vec{x}).
+\]</span></p></li>
+<li><p>Next, we have <span class="math inline">\(\vec{z}_i = \sigma(s_i)\)</span> so we have <span class="math display">\[
+\frac{\partial z_i}{\partial s_j} = \delta_{ij} \sigma'(s_j).
+\]</span> So we can compute that <span class="math display">\[\begin{align*}
+\frac{\partial F(\vec{s})}{\partial s_j}
+&amp; = \sum_{i=0}^{9} \frac{\partial J(\vec{z})}{\partial z_i} \frac{\partial z_i}{\partial s_j}
+= \sum_{i=0}^{9} \frac{\partial J(\vec{z})}{\partial z_i} \delta_{ij} \sigma'(s_j)
+= \frac{\partial J(\vec{z})}{\partial z_j} \sigma'(s_j) \\
+&amp; =\frac{1}{N} \sum_{\vec{x} \in X} (z_j - L_j(\vec{x})) \sigma'(s_j).
+\end{align*}\]</span></p></li>
+<li><p>We can compute partial derivatives with respect to the second matrix and offset vector <span class="math inline">\(B\)</span> and <span class="math inline">\(\vec{b}\)</span>. We have <span class="math inline">\(\vec{s} = B \vec{y} + \vec{b}\)</span>, so <span class="math display">\[
+\frac{\partial s_j}{\partial B_{kl}} = \delta_{jk} y_l, \quad\text{and}\quad
+\frac{\partial s_j}{\partial b_k} = \delta_{jk},
+\]</span> and we can compute that <span class="math display">\[\begin{align*}
+\frac{\partial F(B, \vec{b})}{\partial B_{kl}}
+&amp; = \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial B_{kl}}
+= \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \delta_{jk} y_l
+= \frac{\partial F(\vec{s})}{\partial s_k} y_l \\
+&amp; = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k) y_l, \\
+\frac{\partial F(B, \vec{b})}{\partial b_k}
+&amp; =  \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial b_{k}}
+= \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \delta_{jk}
+= \frac{\partial F(\vec{s})}{\partial s_k} \\
+&amp; = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k).
+\end{align*}\]</span></p></li>
+<li><p>Then we continue with derivatives with respect to <span class="math inline">\(\vec{y}\)</span>. Recall, we have <span class="math inline">\(\vec{s} = B \vec{y} + \vec{b}\)</span> so <span class="math display">\[
+\frac{\partial s_j}{\partial y_k} = B_{jk},
+\]</span> and we can compute that <span class="math display">\[
+\frac{\partial F}{\partial y_k}
+= \sum_{j=0}^{9} \frac{\partial F}{\partial s_j} \frac{\partial s_j}{\partial y_k}
+= \sum_{j=0}^{9} \frac{\partial F}{\partial s_j} B_{jk}
+= \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jk}.
+\]</span></p></li>
+<li><p>Then we compute derivatives with respect to <span class="math inline">\(\vec{r}\)</span>. We have <span class="math inline">\(y_k = \sigma(r_k)\)</span> so we can compute that <span class="math display">\[
+\frac{\partial y_k}{\partial r_l} = \delta_{kl} \sigma'(r_l),
+\]</span> and <span class="math display">\[\begin{align*}
+\frac{\partial F}{\partial r_l}
+&amp; = \sum_{k=1}^{64} \frac{\partial F}{\partial y_k} \frac{\partial y_k}{\partial r_l}
+= \sum_{k=1}^{64} \frac{\partial F}{\partial y_k} \delta_{kl} \sigma'(r_l)
+= \frac{\partial F}{\partial y_l} \sigma'(r_l) \\
+&amp; = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jl} \sigma'(r_l).
+\end{align*}\]</span></p></li>
+<li><p>Finally, we can compute the derivatives with respect the first parametric matrix and offset vector From <span class="math inline">\(\vec{r} = A \vec{x} + a\)</span>, we have <span class="math display">\[
+\frac{\partial r_l}{\partial A_{mn}} = \delta_{lm} x_n, \quad\text{and}\quad
+\frac{\partial r_l}{\partial a_m} = \delta_{lm},
+\]</span> so <span class="math display">\[\begin{align*}
+\frac{\partial F}{\partial A_{mn}}
+&amp; = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \frac{\partial r_l}{\partial A_{mn}}
+= \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \delta_{lm} x_n
+= \frac{\partial F}{\partial r_m} x_n \\
+&amp; = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jm} \sigma'(r_m) x_n, \\
+\frac{\partial F}{\partial a_m}
+&amp; = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \frac{\partial r_l}{\partial a_m}
+= \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \delta_{lm}
+= \frac{\partial F}{\partial r_m} \\
+&amp; = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jm} \sigma'(r_m).
+\end{align*}\]</span></p></li>
+</ol>
+<p>This can be implemented in code.</p>
+<p>We use one final helper function. The sigmoid function is often chosen to help simplify the calculation of the derivative of the <span class="math inline">\(\sigma\)</span> function. We can use this same trick here:</p>
+<div id="81a28743" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> sigma_prime_from_value(sigma_value):</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># derivative of sigmoid when the sigmoid value is already known</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>    <span class="cf">return</span> sigma_value <span class="op">*</span> (<span class="fl">1.0</span> <span class="op">-</span> sigma_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="53b876f9" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># Parameter initialisation</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># ----------------------------</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">def</span> initialise_parameters(random_number_generator):</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    A <span class="op">=</span> random_number_generator.normal(</span>
+<span id="cb6-8"><a href="#cb6-8"></a>        <span class="fl">0.0</span>,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>        np.sqrt(<span class="fl">1.0</span> <span class="op">/</span> input_dimension),</span>
+<span id="cb6-10"><a href="#cb6-10"></a>        size<span class="op">=</span>(hidden_dimension, input_dimension),</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    ).astype(np.float32)</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>    a <span class="op">=</span> np.zeros((hidden_dimension,), dtype<span class="op">=</span>np.float32)</span>
+<span id="cb6-14"><a href="#cb6-14"></a></span>
+<span id="cb6-15"><a href="#cb6-15"></a>    B <span class="op">=</span> random_number_generator.normal(</span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="fl">0.0</span>,</span>
+<span id="cb6-17"><a href="#cb6-17"></a>        np.sqrt(<span class="fl">1.0</span> <span class="op">/</span> hidden_dimension),</span>
+<span id="cb6-18"><a href="#cb6-18"></a>        size<span class="op">=</span>(output_dimension, hidden_dimension),</span>
+<span id="cb6-19"><a href="#cb6-19"></a>    ).astype(np.float32)</span>
+<span id="cb6-20"><a href="#cb6-20"></a></span>
+<span id="cb6-21"><a href="#cb6-21"></a>    b <span class="op">=</span> np.zeros((output_dimension,), dtype<span class="op">=</span>np.float32)</span>
+<span id="cb6-22"><a href="#cb6-22"></a></span>
+<span id="cb6-23"><a href="#cb6-23"></a>    <span class="cf">return</span> A, a, B, b</span>
+<span id="cb6-24"><a href="#cb6-24"></a></span>
+<span id="cb6-25"><a href="#cb6-25"></a></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co"># ----------------------------</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co"># Gradient descent</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co"># ----------------------------</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a><span class="kw">def</span> train_network(x, targets, test_inputs, test_targets):</span>
+<span id="cb6-30"><a href="#cb6-30"></a>    random_number_generator <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb6-31"><a href="#cb6-31"></a></span>
+<span id="cb6-32"><a href="#cb6-32"></a>    A, a, B, b <span class="op">=</span> initialise_parameters(random_number_generator)</span>
+<span id="cb6-33"><a href="#cb6-33"></a></span>
+<span id="cb6-34"><a href="#cb6-34"></a>    L <span class="op">=</span> indicator_matrix(targets, output_dimension)</span>
+<span id="cb6-35"><a href="#cb6-35"></a>    N <span class="op">=</span> x.shape[<span class="dv">1</span>]</span>
+<span id="cb6-36"><a href="#cb6-36"></a></span>
+<span id="cb6-37"><a href="#cb6-37"></a>    accuracy_measures <span class="op">=</span> {</span>
+<span id="cb6-38"><a href="#cb6-38"></a>        <span class="st">"objective"</span>: [],</span>
+<span id="cb6-39"><a href="#cb6-39"></a>        <span class="st">"test objective"</span>: [],</span>
+<span id="cb6-40"><a href="#cb6-40"></a>        <span class="st">"test accuracy"</span>: [],</span>
+<span id="cb6-41"><a href="#cb6-41"></a>    }</span>
+<span id="cb6-42"><a href="#cb6-42"></a></span>
+<span id="cb6-43"><a href="#cb6-43"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, iterations <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb6-44"><a href="#cb6-44"></a>        <span class="co"># Forward map</span></span>
+<span id="cb6-45"><a href="#cb6-45"></a>        (_, y, _, z) <span class="op">=</span> forward_map(x, A, a, B, b)</span>
+<span id="cb6-46"><a href="#cb6-46"></a></span>
+<span id="cb6-47"><a href="#cb6-47"></a>        <span class="co"># --------------------------------------------------------</span></span>
+<span id="cb6-48"><a href="#cb6-48"></a>        <span class="co"># Gradient via chain rule (backpropagation)</span></span>
+<span id="cb6-49"><a href="#cb6-49"></a>        <span class="co"># --------------------------------------------------------</span></span>
+<span id="cb6-50"><a href="#cb6-50"></a>        sigma_p_z <span class="op">=</span> sigma_prime_from_value(z)</span>
+<span id="cb6-51"><a href="#cb6-51"></a>        sigma_p_y <span class="op">=</span> sigma_prime_from_value(y)</span>
+<span id="cb6-52"><a href="#cb6-52"></a></span>
+<span id="cb6-53"><a href="#cb6-53"></a>        <span class="co"># gradient of objective wrt to s</span></span>
+<span id="cb6-54"><a href="#cb6-54"></a>        dF_ds <span class="op">=</span> ((z <span class="op">-</span> L) <span class="op">*</span> sigma_p_z) <span class="op">/</span> N  <span class="co"># componentwise multiply</span></span>
+<span id="cb6-55"><a href="#cb6-55"></a></span>
+<span id="cb6-56"><a href="#cb6-56"></a>        <span class="co"># Gradients for the second parameter matrix and offset vector</span></span>
+<span id="cb6-57"><a href="#cb6-57"></a>        <span class="co"># dF / dB</span></span>
+<span id="cb6-58"><a href="#cb6-58"></a>        dF_dB <span class="op">=</span> dF_ds <span class="op">@</span> y.T</span>
+<span id="cb6-59"><a href="#cb6-59"></a>        <span class="co"># dF / db</span></span>
+<span id="cb6-60"><a href="#cb6-60"></a>        dF_db <span class="op">=</span> np.<span class="bu">sum</span>(dF_ds, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-61"><a href="#cb6-61"></a></span>
+<span id="cb6-62"><a href="#cb6-62"></a>        <span class="co"># Move the gradient back to the hidden layer</span></span>
+<span id="cb6-63"><a href="#cb6-63"></a>        <span class="co"># dF / dy</span></span>
+<span id="cb6-64"><a href="#cb6-64"></a>        dF_dy <span class="op">=</span> B.T <span class="op">@</span> dF_ds</span>
+<span id="cb6-65"><a href="#cb6-65"></a></span>
+<span id="cb6-66"><a href="#cb6-66"></a>        <span class="co"># Gradient of objective wrt to r</span></span>
+<span id="cb6-67"><a href="#cb6-67"></a>        <span class="co"># dF / dr</span></span>
+<span id="cb6-68"><a href="#cb6-68"></a>        dF_dr <span class="op">=</span> dF_dy <span class="op">*</span> sigma_p_y  <span class="co"># component wise multiply</span></span>
+<span id="cb6-69"><a href="#cb6-69"></a></span>
+<span id="cb6-70"><a href="#cb6-70"></a>        <span class="co"># Gradients for the first parameter matrix and offset vector</span></span>
+<span id="cb6-71"><a href="#cb6-71"></a>        <span class="co"># dF / dA</span></span>
+<span id="cb6-72"><a href="#cb6-72"></a>        dF_dA <span class="op">=</span> dF_dr <span class="op">@</span> x.T</span>
+<span id="cb6-73"><a href="#cb6-73"></a>        <span class="co"># dF / da</span></span>
+<span id="cb6-74"><a href="#cb6-74"></a>        dF_da <span class="op">=</span> np.<span class="bu">sum</span>(dF_dr, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-75"><a href="#cb6-75"></a></span>
+<span id="cb6-76"><a href="#cb6-76"></a>        <span class="co"># --------------------------------------------------------</span></span>
+<span id="cb6-77"><a href="#cb6-77"></a>        <span class="co"># Gradient descent step</span></span>
+<span id="cb6-78"><a href="#cb6-78"></a>        <span class="co"># --------------------------------------------------------</span></span>
+<span id="cb6-79"><a href="#cb6-79"></a>        A <span class="op">=</span> A <span class="op">-</span> alpha <span class="op">*</span> dF_dA</span>
+<span id="cb6-80"><a href="#cb6-80"></a>        a <span class="op">=</span> a <span class="op">-</span> alpha <span class="op">*</span> dF_da</span>
+<span id="cb6-81"><a href="#cb6-81"></a>        B <span class="op">=</span> B <span class="op">-</span> alpha <span class="op">*</span> dF_dB</span>
+<span id="cb6-82"><a href="#cb6-82"></a>        b <span class="op">=</span> b <span class="op">-</span> alpha <span class="op">*</span> dF_db</span>
+<span id="cb6-83"><a href="#cb6-83"></a></span>
+<span id="cb6-84"><a href="#cb6-84"></a>        <span class="co"># test on training data</span></span>
+<span id="cb6-85"><a href="#cb6-85"></a>        (_, _, _, z) <span class="op">=</span> forward_map(x, A, a, B, b)</span>
+<span id="cb6-86"><a href="#cb6-86"></a>        current_objective <span class="op">=</span> objective(z, targets)</span>
+<span id="cb6-87"><a href="#cb6-87"></a></span>
+<span id="cb6-88"><a href="#cb6-88"></a>        <span class="co"># test on test data</span></span>
+<span id="cb6-89"><a href="#cb6-89"></a>        test_objective, test_accuracy <span class="op">=</span> evaluate(</span>
+<span id="cb6-90"><a href="#cb6-90"></a>            test_inputs, test_targets, A, a, B, b</span>
+<span id="cb6-91"><a href="#cb6-91"></a>        )</span>
+<span id="cb6-92"><a href="#cb6-92"></a></span>
+<span id="cb6-93"><a href="#cb6-93"></a>        accuracy_measures[<span class="st">"objective"</span>].append(current_objective)</span>
+<span id="cb6-94"><a href="#cb6-94"></a>        accuracy_measures[<span class="st">"test objective"</span>].append(test_objective)</span>
+<span id="cb6-95"><a href="#cb6-95"></a>        accuracy_measures[<span class="st">"test accuracy"</span>].append(<span class="fl">100.0</span> <span class="op">*</span> test_accuracy)</span>
+<span id="cb6-96"><a href="#cb6-96"></a></span>
+<span id="cb6-97"><a href="#cb6-97"></a>    <span class="cf">return</span> (A, a, B, b, accuracy_measures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="testing-it-out" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="testing-it-out"><span class="header-section-number">9.5</span> Testing it out</h2>
+<p>We set some important parameters for the algorithm</p>
+<p>We also use an extra function to pick out the output <span class="math inline">\(\vec{z}\)</span> with the highest value to make our prediction of the final output value:</p>
+<div id="43e2561a" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> predict(x, A, a, B, b):</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    _, _, _, z <span class="op">=</span> forward_map(x, A, a, B, b)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="cf">return</span> np.argmax(z, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can now do the training:</p>
+<div id="1c26b2b8" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>training_inputs, training_targets, test_inputs, test_targets <span class="op">=</span> load_mnist()</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co"># take transpose so that each column is a flattened image</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>training_inputs <span class="op">=</span> training_inputs.T</span>
+<span id="cb8-5"><a href="#cb8-5"></a>test_inputs <span class="op">=</span> test_inputs.T</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="bu">print</span>(<span class="st">"training inputs shape:"</span>, training_inputs.shape)</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="bu">print</span>(<span class="st">"training targets shape:"</span>, training_targets.shape)</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="bu">print</span>(<span class="st">"test inputs shape:    "</span>, test_inputs.shape)</span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="bu">print</span>(<span class="st">"test targets shape:   "</span>, test_targets.shape)</span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="bu">print</span>()</span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a>start <span class="op">=</span> time.perf_counter()</span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a>A, a, B, b, accuracy_measures <span class="op">=</span> train_network(</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    training_inputs,</span>
+<span id="cb8-17"><a href="#cb8-17"></a>    training_targets,</span>
+<span id="cb8-18"><a href="#cb8-18"></a>    test_inputs,</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    test_targets,</span>
+<span id="cb8-20"><a href="#cb8-20"></a>)</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a>end <span class="op">=</span> time.perf_counter()</span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="bu">print</span>(<span class="ss">f"completed </span><span class="sc">{</span>iterations<span class="sc">}</span><span class="ss"> iterations in time </span><span class="sc">{</span>end <span class="op">-</span> start<span class="sc">:.4f}</span><span class="ss">s."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>training inputs shape: (784, 60000)
+training targets shape: (60000,)
+test inputs shape:     (784, 10000)
+test targets shape:    (10000,)
+
+completed 1000 iterations in time 190.2923s.</code></pre>
+</div>
+</div>
+<p>Let’s see how well we’ve done:</p>
+<div id="25c31a32" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec06_files/figure-html/cell-15-output-1.png" width="603" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Final train objective: 0.090323
+Final test objective:  0.086149
+Final test accuracy:   90.97%</code></pre>
+</div>
+</div>
+<p>We see that we are achieving more than 90% accuracy within 1000 iterations and we have not converged to the best solution yet.</p>
+<p>Let’s see some examples of the classes and our predictions</p>
+<div id="186f03a4" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec06_files/figure-html/cell-16-output-1.png" width="662" height="387" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I don’t think this is too bad!</p>
+<p>For one incorrect prediction (predicted 6 instead of 5), we can also check all <span class="math inline">\(\vec{z}\)</span> values that have:</p>
+<div id="c81d175f" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-stdout">
+<pre><code>z values:
+0: 0.032788
+1: 0.002198
+2: 0.085792
+3: 0.000049
+4: 0.108685
+5: 0.025088
+6: 0.593296
+7: 0.001090
+8: 0.008090
+9: 0.012378</code></pre>
+</div>
+</div>
+<p>We see that we were quite confident in our prediction and weren’t close to predicting 5!</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -883,7 +1317,7 @@ window.Quarto = {
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2026, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/calculus-ii-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
