@@ -769,3 +769,25 @@ for j in range(10):
     print(f"{j}: {z[j, 0]:.6f}")
 ```
 We see that we were quite confident in our prediction and weren't close to predicting 5!
+
+## Summary and outlook
+
+We have demonstrated the simplest possible approach to training a neural network for the task for recognising hand-written numbers.
+
+There are a few changes recommended to improve the performance of our neural network.
+
+1. Replace the second sigmoid function by a *softmax*. This would mean $\vec{z} = \vec{z}(\vec{s})$ is given by:
+   $$
+   z_i(\vec{s}) = \frac{\exp(s_i)}{\sum_{j=0}^9 \exp(s_j)},
+   $$
+   and replace the L2 loss function by a *cross-entropy loss*. Then $J$ would be given by:
+   $$
+   J(\vec{x}) = - \sum_{i=0}^9 L_i(\vec{x}) \log z_i.
+   $$
+
+3. Replace the first sigmoid with a different activation function such as *ReLU*:
+   $$
+   y_k = \max(0, r_k).
+   $$
+
+4. Add one or more network layers...
