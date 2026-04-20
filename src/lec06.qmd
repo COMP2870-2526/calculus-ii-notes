@@ -4,9 +4,16 @@ echo: false
 
 # An introduction to training neural networks
 
+::: {.callout-important}
+These notes are to support the lecture which gives ideas of how to apply the gradient descent algorithm to train a simple neural network. This material is not directly examinable but understanding the material may help you with your exam preparations.
+:::
+
 ```{python}
 
 
+import time
+
+import numpy as np
 from matplotlib import pyplot as plt
 
 plt.style.use("seaborn-v0_8-colorblind")
@@ -19,3 +26,730 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 1. Explain at a high level how the gradient descent algorithm can be applied to train a simple neural network.
 :::
+
+```{python}
+# ----------------------------
+# Data cache and file names
+# ----------------------------
+cache_directory = ".mnist_cache"
+
+base_urls = [
+    "https://storage.googleapis.com/cvdf-datasets/mnist/",
+    "https://ossci-datasets.s3.amazonaws.com/mnist/",
+]
+
+training_images_file = "train-images-idx3-ubyte.gz"
+training_targets_file = "train-labels-idx1-ubyte.gz"
+test_images_file = "t10k-images-idx3-ubyte.gz"
+test_targets_file = "t10k-labels-idx1-ubyte.gz"
+
+
+# ----------------------------
+# Download and cache data
+# ----------------------------
+def data_source():
+    return np.lib.npyio.DataSource(cache_directory)
+
+
+def fetch_bytes(file_name):
+    ds = data_source()
+    last_error = None
+
+    for base_url in base_urls:
+        try:
+            with ds.open(base_url + file_name, "rb") as file_handle:
+                return file_handle.read()
+        except Exception as error:
+            last_error = error
+
+    raise RuntimeError(
+        "Could not download " + file_name + ". Last error: " + str(last_error)
+    )
+
+
+def parse_idx_images(raw_bytes):
+    magic_number = int.from_bytes(raw_bytes[0:4], "big")
+    if magic_number != 2051:
+        raise ValueError(
+            "Invalid image file magic number: " + str(magic_number)
+        )
+
+    number_of_images = int.from_bytes(raw_bytes[4:8], "big")
+    number_of_rows = int.from_bytes(raw_bytes[8:12], "big")
+    number_of_columns = int.from_bytes(raw_bytes[12:16], "big")
+
+    images = np.frombuffer(raw_bytes, dtype=np.uint8, offset=16)
+    images = images.reshape(
+        number_of_images, number_of_rows * number_of_columns
+    )
+    images = images.astype(np.float32) / 255.0
+    return images
+
+
+def parse_idx_targets(raw_bytes):
+    magic_number = int.from_bytes(raw_bytes[0:4], "big")
+    if magic_number != 2049:
+        raise ValueError(
+            "Invalid target file magic number: " + str(magic_number)
+        )
+
+    number_of_targets = int.from_bytes(raw_bytes[4:8], "big")
+    targets = np.frombuffer(raw_bytes, dtype=np.uint8, offset=8)
+
+    if targets.shape[0] != number_of_targets:
+        raise ValueError("Target count mismatch")
+
+    return targets.astype(np.int64)
+
+
+def load_mnist():
+    training_inputs = parse_idx_images(fetch_bytes(training_images_file))
+    training_targets = parse_idx_targets(fetch_bytes(training_targets_file))
+    test_inputs = parse_idx_images(fetch_bytes(test_images_file))
+    test_targets = parse_idx_targets(fetch_bytes(test_targets_file))
+
+    return training_inputs, training_targets, test_inputs, test_targets
+
+
+# Load data
+training_inputs, training_targets, test_inputs, test_targets = load_mnist()
+```
+
+## Problem
+
+We want to train a neural network to recognise handwritten digits 0-9.
+
+We will solve this using gradient descent to "train" the neural network. We will use the chain rule to find the gradient of a composite function.
+
+We will use a dataset to help us called the MNST handwritten digit dataset (available at TODO). It contains 70,000 images all labelled with the correct digit.
+Each image is $28 \times 28$ greyscale image, so each image contains 784 pixel values.
+The task is to assign the image to one of the ten classes $\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$.
+
+```{python}
+# Show the first 5 test images
+figure, axes = plt.subplots(1, 5)
+
+for i in range(5):
+    image = training_inputs[i].reshape(28, 28)
+    axes[i].imshow(image, cmap="gray")
+    axes[i].set_title(f"Label: {training_targets[i]}")
+    axes[i].axis("off")
+
+plt.tight_layout()
+plt.show()
+```
+
+The input $28 \times 28$ images are "flattened" row-by-row by rearranging the pixel values into a single column vector $\vec{x} \in \mathbb{R}^{784}$.
+
+For output, we want the network to give (approximately) a value 1 in the correct position of a 10 dimensional vector.
+
+We express this mathematically by saying that we want a function:
+$$
+\vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}
+$$
+
+The function, we want to optimise should capture the given labels for a subset of all images (called the training set). This will leave further sample labels to test to see how well our method is performing.
+The optimisation will be over some parameters (which we define shortly) in the function $\vec{\mathcal{F}}$.
+We will call $X$ the set of training images (of size $N$) and suppose we have a labelling function $L \colon X \to \mathbb{R}^{10}$ which takes an image in the training set and gives the correct label.
+We will use the notation $L = (L_1, \ldots, L_10)$.
+
+```{python}
+# | echo: True
+
+
+def indicator_matrix(targets, number_of_classes=10):
+    # convert one label per image to a 10 dimensional output for comparison
+    matrix = np.zeros((number_of_classes, targets.shape[0]), dtype=np.float32)
+    matrix[targets, np.arange(targets.shape[0])] = 1.0
+    return matrix
+
+
+```
+```{python}
+L = indicator_matrix(training_targets)
+for i in range(5):
+    print(f"image {i} has L = {', '.join(str(L_) for L_ in L[:, i])}")
+
+
+```
+
+## The neural network
+
+We will work with what is called a dense neural network with one input layer, one output lay and one hidden layer.
+We the input layer represents the pixel values in the flattened image (784 values) and the output layer represents the output prediction of the correct label (10 values).
+The hidden layer is what brings everything together and we will use $64$ values in this layer.
+
+```{python}
+def draw_neural_network():
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    # ------------------------------------------------------------
+    # Layer positions
+    # ------------------------------------------------------------
+    x_input = 0.15
+    x_hidden = 0.50
+    x_output = 0.85
+
+    # We only draw a few nodes from each layer for clarity
+    input_y = np.linspace(0.15, 0.85, 6)
+    hidden_y = np.linspace(0.20, 0.80, 5)
+    output_y = np.linspace(0.15, 0.85, 10)
+
+    radius = 0.025
+
+    # ------------------------------------------------------------
+    # Draw nodes
+    # ------------------------------------------------------------
+    def draw_nodes(x, ys, colour, edge="black"):
+        for y in ys:
+            circle = plt.Circle(
+                (x, y), radius, facecolor=colour, edgecolor=edge, lw=0.0
+            )
+            ax.add_patch(circle)
+
+    draw_nodes(x_input, input_y, colour="C0")
+    draw_nodes(x_hidden, hidden_y, colour="C1")
+    draw_nodes(x_output, output_y, colour="C2")
+
+    # ------------------------------------------------------------
+    # Draw connections
+    # ------------------------------------------------------------
+    for yi in input_y:
+        for yh in hidden_y:
+            ax.plot(
+                [x_input + radius, x_hidden - radius],
+                [yi, yh],
+                color="gray",
+                alpha=0.35,
+                lw=0.8,
+            )
+
+    for yh in hidden_y:
+        for yo in output_y:
+            ax.plot(
+                [x_hidden + radius, x_output - radius],
+                [yh, yo],
+                color="gray",
+                alpha=0.35,
+                lw=0.8,
+            )
+
+    # ------------------------------------------------------------
+    # Labels for nodes
+    # ------------------------------------------------------------
+    for i, y in enumerate(input_y):
+        if i == 0:
+            ax.text(x_input - 0.08, y, r"$x_1$", va="center", fontsize=12)
+        elif i == 1:
+            ax.text(x_input - 0.08, y, r"$x_2$", va="center", fontsize=12)
+        elif i == len(input_y) - 2:
+            ax.text(x_input - 0.08, y, r"$x_{783}$", va="center", fontsize=12)
+        elif i == len(input_y) - 1:
+            ax.text(x_input - 0.08, y, r"$x_{784}$", va="center", fontsize=12)
+
+    # Ellipsis for omitted input nodes
+    ax.text(
+        x_input - 0.02, 0.50, r"$\vdots$", fontsize=18, ha="center", va="center"
+    )
+
+    for i, y in enumerate(hidden_y):
+        if i == 0:
+            ax.text(
+                x_hidden,
+                y,
+                r"$y_1$",
+                ha="center",
+                va="center",
+                fontsize=10,
+                color="white",
+            )
+        elif i == 1:
+            ax.text(
+                x_hidden,
+                y,
+                r"$y_2$",
+                ha="center",
+                va="center",
+                fontsize=10,
+                color="white",
+            )
+        elif i == len(hidden_y) - 2:
+            ax.text(
+                x_hidden,
+                y,
+                r"$y_{63}$",
+                ha="center",
+                va="center",
+                fontsize=10,
+                color="white",
+            )
+        elif i == len(hidden_y) - 1:
+            ax.text(
+                x_hidden,
+                y,
+                r"$y_{64}$",
+                ha="center",
+                va="center",
+                fontsize=10,
+                color="white",
+            )
+
+    ax.text(x_hidden, 0.50, r"$\vdots$", fontsize=18, ha="center", va="center")
+
+    for i, y in enumerate(output_y):
+        ax.text(x_output + 0.05, y, f"$z_{i}$", va="center", fontsize=11)
+
+    # ------------------------------------------------------------
+    # Layer titles
+    # ------------------------------------------------------------
+    ax.text(x_input, 0.93, "Input layer", ha="center", fontsize=12)
+    ax.text(x_hidden, 0.93, "Hidden layer", ha="center", fontsize=12)
+    ax.text(x_output, 0.93, "Output layer", ha="center", fontsize=12)
+
+    ax.text(x_input, 0.88, "(784 inputs)", ha="center", fontsize=11)
+    ax.text(x_hidden, 0.88, "(64 units)", ha="center", fontsize=11)
+    ax.text(x_output, 0.88, "(10 outputs)", ha="center", fontsize=11)
+
+    # ------------------------------------------------------------
+    # Mathematical labels between layers
+    # ------------------------------------------------------------
+    ax.text(
+        0.32, 0.06, r"$\vec{r} = A \vec{x} + \vec{a}$", ha="center", fontsize=13
+    )
+    ax.text(
+        0.50, 0.02, r"$\vec{y} = \sigma(\vec{r})$", ha="center", fontsize=13
+    )
+
+    ax.text(
+        0.68, 0.06, r"$\vec{s} = B \vec{y} + \vec{b}$", ha="center", fontsize=13
+    )
+    ax.text(
+        0.85, 0.02, r"$\vec{z} = \sigma(\vec{s})$", ha="center", fontsize=13
+    )
+
+    # ------------------------------------------------------------
+    # Target / loss annotation
+    # ------------------------------------------------------------
+    ax.text(
+        0.50,
+        -0.08,
+        # r"Loss for one image: $J = \frac12 \|L - z\|^2$",
+        "Loss",
+        ha="center",
+        fontsize=14,
+    )
+
+    plt.tight_layout()
+    plt.show()
+
+
+draw_neural_network()
+
+
+```
+
+The function $\vec{\mathcal{F}}$ is composed of the following functions.
+
+1. We first form the affine map $\vec{r} = \vec{r}(\vec{x}) =  A \vec{x} + \vec{a}$ for $A \in \mathbb{R}^{64, 784}$ and $\vec{b} \in \mathbb{64}$
+
+2. Then, we applying a sigmoid function to each component of the output $\vec{r}$: $\vec{y} = \vec{y}(\vec{r})$ with $y_k = \sigma(r_k)$. The output $\vec{y}$ is called the "hidden layer". In this example, we will use the function $\sigma$
+   $$
+   \sigma(t) = \frac{1}{1 + \exp(-t)}.
+   $$
+
+3. Then, we form a second affine map $\vec{s} = B \vec{y} + \vec{b}$ for $B \in \mathbb{R}^{10, 64}$ and $\vec{b} \in \mathbb{R}^{10}$
+
+4. Finally, we apply the sigmoid to each component the output $\vec{s}$: $\vec{z} = \vec{z}(\vec{z})$ with $z_i = \sigma(s_i)$.
+
+The full map $\vec{\mathcal{F}}$ is the composition:
+$$
+\vec{F}(\vec{x}) = \vec{z}(\vec{s}(\vec{y}(\vec{r}(\vec{x}))))
+$$
+This gives function $\vec{\mathcal{F}} \colon \mathbb{R}^{782} \to \mathbb{R}^{10}$.
+
+```{python}
+# | echo: True
+def sigma(t):
+    # sigmoid activation
+    return 1.0 / (1.0 + np.exp(-t))
+
+
+def forward_map(x, A, a, B, b):
+    # broadcast multiplcation in all values at the same time using [:, None]
+    r = A @ x + a[:, None]
+    y = sigma(r)
+
+    s = B @ y + b[:, None]
+    z = sigma(s)
+
+    return (r, y, s, z)
+
+
+```
+
+## The objective function
+
+To train the network, we need a quantity to minimise. Since we want the labels to make the neural network output, the simplest choices uses the square of the Euclidean norm. For a single (flattened) image $\vec{x}$ this means
+$$
+J(\vec{x}) = \frac{1}{2} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2
+$$
+For the full training set, we simply average this quantity over all $N$ (flattened) images in $X$.
+$$
+F = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2.
+$$
+
+As we mentioned previously, we want to optimise the for parameters in the function $\vec{\mathcal{F}}$. Precisely, these are the values $A$ (size $782 \times 64$), $a$ (size $64$), $B$ (size $64 \times 10$) and $\vec{b}$ (size $10$).
+In total this corresponds to $50,762$ parameters so we can say that $F \colon R^{50,762} \to \mathbb{R}$.
+
+```{python}
+# | echo: True
+def objective(z, targets):
+    # objective function F
+    L = indicator_matrix(targets, number_of_classes=z.shape[0])
+    return 0.5 * np.mean(np.sum((L - z) ** 2, axis=0))
+
+
+def classification_accuracy(output_probabilities, targets):
+    # measures how many targets we have correct
+    predicted_targets = np.argmax(output_probabilities, axis=0)
+    return np.mean(predicted_targets == targets)
+
+
+def evaluate(x, targets, A, a, B, b):
+    _, _, _, z = forward_map(x, A, a, B, b)
+    current_objective = objective(z, targets)
+    current_accuracy = classification_accuracy(z, targets)
+    return current_objective, current_accuracy
+
+
+```
+
+## Gradient descent
+
+We gradient descent algorithm will update the parameters $A, \vec{a}, B$ and $\vec{b}$ using the rules:
+\begin{align*}
+A_{ij} & \leftarrow A_{ij} - \alpha \frac{\partial J}{\partial A_{j}}, &\qquad
+a_i & \leftarrow a_i - \alpha \frac{\partial J}{\partial a_i}, \\
+B_{ij} & \leftarrow B_{ij} - \alpha \frac{\partial J}{\partial B_{j}}, &\qquad
+b_i & \leftarrow b_i - \alpha \frac{\partial J}{\partial b_i}.
+\end{align*}
+Note, here we are not tracking the iteration numbers in this notation.
+
+The values of the parameters are well hidden in our definition of both the neural network operator and our objective function! But we can see that there are lots of compositions going on that need resolving!
+
+We compute the gradients of each component in term working from inner-most to outer-most functions.
+To help writing these functions, we will make use of the Kronecker delta (identify matrix) $\delta$ which has entries $\delta_{ij} = 1$ if $i = j$ and $0$ otherwise.
+
+1. We have
+   $$
+   F(\vec{z}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{z} \|^2,
+   $$
+   so,
+   $$
+   \frac{\partial F(\vec{z})}{\partial z_i} = \frac{1}{N} \sum_{\vec{x} \in X} z_i - L_i(\vec{x}).
+   $$
+
+2. Next, we have $\vec{z}_i = \sigma(s_i)$ so we have
+   $$
+   \frac{\partial z_i}{\partial s_j} = \delta_{ij} \sigma'(s_j).
+   $$
+   So we can compute that
+   \begin{align*}
+   \frac{\partial F(\vec{s})}{\partial s_j}
+   & = \sum_{i=0}^{9} \frac{\partial J(\vec{z})}{\partial z_i} \frac{\partial z_i}{\partial s_j}
+   = \sum_{i=0}^{9} \frac{\partial J(\vec{z})}{\partial z_i} \delta_{ij} \sigma'(s_j)
+   = \frac{\partial J(\vec{z})}{\partial z_j} \sigma'(s_j) \\
+   & =\frac{1}{N} \sum_{\vec{x} \in X} (z_j - L_j(\vec{x})) \sigma'(s_j).
+   \end{align*}
+
+3. We can compute partial derivatives with respect to the second matrix and offset vector $B$ and $\vec{b}$.
+   We have $\vec{s} = B \vec{y} + \vec{b}$,
+   so
+   $$
+   \frac{\partial s_j}{\partial B_{kl}} = \delta_{jk} y_l, \quad\text{and}\quad
+   \frac{\partial s_j}{\partial b_k} = \delta_{jk},
+   $$
+   and we can compute that
+   \begin{align*}
+   \frac{\partial F(B, \vec{b})}{\partial B_{kl}}
+   & = \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial B_{kl}}
+   = \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \delta_{jk} y_l
+   = \frac{\partial F(\vec{s})}{\partial s_k} y_l \\
+   & = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k) y_l, \\
+   \frac{\partial F(B, \vec{b})}{\partial b_k}
+   & =  \sum_{j=0}^{0} \frac{\partial F(\vec{s})}{\partial s_j} \frac{\partial s_j}{\partial b_{kl}}
+   = \sum_{j=0}^{9} \frac{\partial F(\vec{s})}{\partial s_j} \delta_{jk}
+   = \frac{\partial F(\vec{s})}{\partial s_k} \\
+   & = \frac{1}{N} \sum_{\vec{x} \in X} (z_k - L_k(\vec{x})) \sigma'(s_k).
+   \end{align*}
+
+4. Then we continue with derivatives with respect to $\vec{y}$. Recall, we have $\vec{s} = B \vec{y} + \vec{b}$ so
+   $$
+   \frac{\partial s_j}{\partial y_k} = B_{jk},
+   $$
+   and we can compute that
+   $$
+   \frac{\partial F}{\partial y_k}
+   = \sum_{j=0}^{9} \frac{\partial F}{\partial s_j} \frac{\partial s_j}{\partial y_k}
+   = \sum_{j=0}^{9} \frac{\partial F}{\partial s_j} B_{jk}
+   = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jk}.
+   $$
+
+5. Then we compute derivatives with resect to $\vec{r}$. We have $y_k = \sigma(r_k)$ so we can compute that
+   $$
+   \frac{\partial y_k}{\partial r_l} = \delta_{kl} \sigma'(r_l),
+   $$
+   and
+   \begin{align*}
+   \frac{\partial F}{\partial r_l}
+   & = \sum_{k=1}^{64} \frac{\partial F}{\partial y_k} \frac{\partial y_k}{\partial r_l}
+   = \sum_{k=1}^{64} \frac{\partial F}{\partial y_k} \delta_{kl} \sigma'(r_l)
+   = \frac{\partial F}{\partial y_l} \sigma'(r_l) \\
+   & = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jl} \sigma'(r_l).
+   \end{align*}
+
+6. Finally, we can compute the derivatives with respect the first parametric matrix and offset vector
+   From $\vec{r} = A \vec{x} + a$, we have
+   $$
+   \frac{\partial r_l}{A_{mn}} = \delta_{lm} x_n, \quad\text{and}\quad
+   \frac{\partial r_l}{a_m} = \delta_{lm},
+   $$
+   so
+   \begin{align*}
+   \frac{\partial F}{\partial A_{mn}}
+   & = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \frac{\partial r_l}{\partial A_{mn}}
+   = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \delta_{lm} x_n
+   = \frac{\partial F}{\partial r_m} x_n \\
+   & = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jm} \sigma'(r_m) x_n, \\
+   \frac{\partial F}{\partial a_m}
+   & = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \frac{\partial r_l}{\partial a_m}
+   = \sum_{l=1}^{64} \frac{\partial F}{\partial r_l} \delta_{lm}
+   = \frac{\partial F}{\partial r_m} \\
+   & = \frac{1}{N} \sum_{\vec{x} \in X} \sum_{j=0}^{9}  (z_j - L_j(\vec{x})) \sigma'(s_j) B_{jm} \sigma'(r_m).
+   \end{align*}
+
+This can be implemented in code.
+
+We use one final helper function. The sigmoid function is often chosen to help simplify the calculation of the derivative of the $\sigma$ function. We can use this same trick here:
+```{python}
+# | echo: True
+def sigma_prime_from_value(sigma_value):
+    # derivative of sigmoid when the sigmoid value is already known
+    return sigma_value * (1.0 - sigma_value)
+
+
+```
+
+```{python}
+# | echo: True
+# ----------------------------
+# Parameter initialisation
+# ----------------------------
+
+
+def initialise_parameters(random_number_generator):
+    A = random_number_generator.normal(
+        0.0,
+        np.sqrt(1.0 / input_dimension),
+        size=(hidden_dimension, input_dimension),
+    ).astype(np.float32)
+
+    a = np.zeros((hidden_dimension,), dtype=np.float32)
+
+    B = random_number_generator.normal(
+        0.0,
+        np.sqrt(1.0 / hidden_dimension),
+        size=(output_dimension, hidden_dimension),
+    ).astype(np.float32)
+
+    b = np.zeros((output_dimension,), dtype=np.float32)
+
+    return A, a, B, b
+
+
+# ----------------------------
+# Gradient descent
+# ----------------------------
+def train_network(x, targets, test_inputs, test_targets):
+    random_number_generator = np.random.default_rng(seed)
+
+    A, a, B, b = initialise_parameters(random_number_generator)
+
+    L = indicator_matrix(targets, output_dimension)
+    N = x.shape[1]
+
+    accuracy_measures = {
+        "objective": [],
+        "test objective": [],
+        "test accuracy": [],
+    }
+
+    for _ in range(1, iterations + 1):
+        # Forward map
+        (_, y, _, z) = forward_map(x, A, a, B, b)
+        current_objective = objective(z, targets)
+
+        # --------------------------------------------------------
+        # Gradient via chain rule (backpropagation)
+        # --------------------------------------------------------
+        sigma_p_z = sigma_prime_from_value(z)
+        sigma_p_y = sigma_prime_from_value(y)
+
+        # gradient of objective wrt to s
+        dF_ds = ((z - L) * sigma_p_z) / N  # componentwise multiply
+
+        # Gradients for the second parameter matrix and offset vector
+        # dF / dB
+        dF_dB = dF_ds @ y.T
+        # dF / db
+        dF_db = np.sum(dF_ds, axis=1)
+
+        # Move the gradient back to the hidden layer
+        # dF / dy
+        dF_dy = B.T @ dF_ds
+
+        # Gradient of objective wrt to r
+        # dF / dr
+        dF_dr = dF_dy * sigma_p_y  # component wise multiply
+
+        # Gradients for the first parameter matrix and offset vector
+        # dF / dA
+        dF_dA = dF_dr @ x.T
+        # dF / da
+        dF_da = np.sum(dF_dr, axis=1)
+
+        # --------------------------------------------------------
+        # Gradient descent step
+        # --------------------------------------------------------
+        A = A - alpha * dF_dA
+        a = a - alpha * dF_da
+        B = B - alpha * dF_dB
+        b = b - alpha * dF_db
+
+        # test on hidden data set
+        test_objective, test_accuracy = evaluate(
+            test_inputs, test_targets, A, a, B, b
+        )
+
+        accuracy_measures["objective"].append(current_objective)
+        accuracy_measures["test objective"].append(test_objective)
+        accuracy_measures["test accuracy"].append(100.0 * test_accuracy)
+
+    return (A, a, B, b, accuracy_measures)
+
+
+```
+
+## Testing it out
+
+We set some important parameters for the algorithm
+```{python}
+input_dimension = 28 * 28
+hidden_dimension = 64
+output_dimension = 10
+
+iterations = 1000  # epochs
+alpha = 1.0  # learning rate
+seed = 42  # to help with initialisation
+
+
+```
+
+We also use an extra function to pick out the output $\vec{z}$ with the highest value to make our prediction of the final output value:
+```{python}
+# | echo: True
+def predict(x, A, a, B, b):
+    _, _, _, z = forward_map(x, A, a, B, b)
+    return np.argmax(z, axis=0)
+
+
+```
+
+We can now do the training:
+
+```{python}
+# | echo: True
+training_inputs, training_targets, test_inputs, test_targets = load_mnist()
+
+# take transpose of images so that each row is a flattened image
+training_inputs = training_inputs.T
+test_inputs = test_inputs.T
+
+print("training inputs shape:", training_inputs.shape)
+print("training targets shape:", training_targets.shape)
+print("test inputs shape:    ", test_inputs.shape)
+print("test targets shape:   ", test_targets.shape)
+print()
+
+start = time.perf_counter()
+
+A, a, B, b, accuracy_measures = train_network(
+    training_inputs,
+    training_targets,
+    test_inputs,
+    test_targets,
+)
+
+end = time.perf_counter()
+
+print(f"completed {iterations} iterations in time {end - start:.4f}s.")
+```
+
+Let's see how well we've done:
+
+```{python}
+plt.semilogy(accuracy_measures["objective"], label="objective")
+plt.semilogy(accuracy_measures["test objective"], label="test objective")
+plt.grid(True)
+plt.xlabel("Iterations")
+plt.legend()
+plt.show()
+
+final_objective, final_accuracy = (
+    accuracy_measures["objective"][-1],
+    accuracy_measures["test accuracy"][-1],
+)
+print()
+print(f"Final test objective: {final_objective:.6f}")
+print(f"Final test accuracy:  {final_accuracy:.2f}%")
+```
+
+We see that we are achieving more than 90% accuracy within 1000 iterations and we have not converged to the best solution yet.
+
+Let's see some examples of the classes and our predictions
+```{python}
+
+first_predictions = predict(test_inputs[:, :20], A, a, B, b)
+
+# Show the first 10 test images
+figure, axes = plt.subplots(2, 5)
+
+for i, ax in enumerate(axes.flatten()):
+    image = test_inputs[:, i].reshape(28, 28)
+    ax.imshow(image, cmap="gray")
+    ax.set_title(
+        f"Label: {test_targets[i]}\nPrediction: {first_predictions[i]}"
+    )
+    ax.axis("off")
+
+plt.tight_layout()
+plt.show()
+```
+
+I don't think this is too bad!
+
+For the one we have wrong, we can also check all $\vec{z}$ values that have:
+```{python}
+i = 8
+x_single = test_inputs[:, [i]]  # shape (784, 1)
+
+r, y, s, z = forward_map(x_single, A, a, B, b)
+
+print("z values:")
+for j in range(10):
+    print(f"{j}: {z[j, 0]:.6f}")
+```
+We see that we were quite confident in our prediction and weren't close to predicting 5!
