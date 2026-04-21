@@ -29,8 +29,6 @@ def array_to_latex(array):
 4. Apply the Newton method to solve optimsation problems.
 :::
 
-TODO change step size to $\alpha$
-
 We return to our basic optimisation problem. We want to find a minimiser $x^*$ of the function $F \colon \mathbb{R}^n \to \mathbb{R}$:
 $$
 x^* = \mathop{\arg\min}\limits_{x \in \mathbb{R}^n} F(x).
@@ -103,10 +101,10 @@ Hence, to decrease $F$ and get closer to the minimiser, we will take a
  direction.
 We use the update formula:
 \\begin{{align*}}
-x^{{(1)}} & = x^{{(0)}} - h F'(x^{{(0)}}) \\\\
-& = {sp.latex(x0)} - h \\times {sp.latex(dF1(x0))}.
+x^{{(1)}} & = x^{{(0)}} - \\alpha F'(x^{{(0)}}) \\\\
+& = {sp.latex(x0)} - \\alpha \\times {sp.latex(dF1(x0))}.
 \\end{{align*}}
-Here $h > 0$ is the step size that we have to choose as a parameter in
+Here $\\alpha > 0$ is the step size that we have to choose as a parameter in
 our algorithm.
 """
 
@@ -134,7 +132,7 @@ for h in [0.5, 2.5, 5]:
     x1 = x0 - h * dF1(x0)
     plt.plot([x1], [F1(x0) + (x1 - x0) * dF1(x0)], "C2o")
     plt.annotate(
-        rf"$x^{{(1)}}(h={h})$",
+        rf"$x^{{(1)}}(\alpha={h})$",
         (x1, F1(x0) + (x1 - x0) * dF1(x0)),
         xytext=(10, -10),
         textcoords="offset points",
@@ -151,9 +149,9 @@ h = sp.Rational(1, 2)
 x1 = x0 - h * dF1(x0)
 
 s = "This plot shows our scenario.\n"
-s += f"In this case, $h = {sp.latex(h)}$ seems a good choice so we set\n"
+s += f"In this case, $\\alpha = {sp.latex(h)}$ seems a good choice so we set\n"
 s += "$$\n"
-s += "x^{(1)} = x^{(0)} - h F'(x^{(0)})"
+s += "x^{(1)} = x^{(0)} - \\alpha F'(x^{(0)})"
 s += f"= {sp.latex(x0)} - {sp.latex(h)} \\times {sp.latex(dF1(x0))}"
 s += f"= {sp.latex(x1)},\n"
 s += "$$\n"
@@ -169,7 +167,7 @@ x2 = x1 - h * dF1(x1)
 
 s = "Then, we iterate to find $x^{(2)}$:\n"
 s += "\\begin{align*}\n"
-s += "x^{(2)} &= x^{(1)} - h F'(x^{(1)}) \\\\ \n"
+s += "x^{(2)} &= x^{(1)} - \\alpha F'(x^{(1)}) \\\\ \n"
 s += f"&= {sp.latex(x1)} - {sp.latex(h)} \\times"
 s += f" \\left({dF1_str(sp.latex(x1))}\\right) \\\\ \n"
 s += f"&= {sp.latex(x1)} - {sp.latex(h)} \\times"
@@ -214,7 +212,7 @@ plt.plot([x1, x2_max], [F1(x1), F1(x1) + (x2_max - x1) * dF1(x1)], "C3--")
 x2 = x1 - h * dF1(x1)
 plt.plot([x2], [F1(x1) + (x2 - x1) * dF1(x1)], "C3o")
 plt.annotate(
-    rf"$x^{{(2)}}(h={h})$",
+    rf"$x^{{(2)}}(\alpha={h})$",
     (x2, F1(x1) + (x2 - x1) * dF1(x1)),
     xytext=(10, -10),
     textcoords="offset points",
@@ -266,7 +264,7 @@ plt.show()
 
 We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$ (@lem-grad-slope-max). So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $h$, uses the update formula:
 $$
-\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
 $$
 
 ::: {#exm-gradient-descent}
@@ -319,7 +317,7 @@ def grad_F_str(x, y):
 x = sp.Matrix([1, sp.Rational(3, 4)])
 h = sp.Rational(1, 4)
 
-s = f"Let $x^{{(0)}} = {array_to_latex(x)}$ and $h = {h}$.\n\n"
+s = f"Let $x^{{(0)}} = {array_to_latex(x)}$ and $\\alpha = {h}$.\n\n"
 
 s += "Then we can compute that\n\n"
 
@@ -328,7 +326,7 @@ for i in range(2):
     s += (
         "\\begin{align*} \n"
         f"\\vec{{x}}^{{({i + 1})}} &= \\vec{{x}}^{{({i})}}"
-        "- h \\nabla F(\\vec{{x}}^{{({i})}}) \\\\ \n"
+        "- \\alpha \\nabla F(\\vec{{x}}^{{({i})}}) \\\\ \n"
         f"& = {array_to_latex(x)} - {sp.latex(h)} \\times"
         f"\\nabla F({sp.latex(x[0])}, {sp.latex(x[1])}) \\\\ \n"
         f"& = {array_to_latex(x)} - {sp.latex(h)} \\times"
@@ -360,9 +358,9 @@ We always need an initial value for the gradient descent algorithm. If $F$ is co
 However, in the non-convex case, different starting values converge to different local minima. In fact, this is a way to try to find a global minimum through using lots of different local minima and finding which one minimises $F$.
 :::
 
-## Choice of the step size $h$
+## Choice of the step size $\alpha$
 
-The choice of step size has a major effect on the performance of gradient descent. If $h$ is too small, we do not make enough progress towards the minimiser, but if $h$ is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).
+The choice of step size has a major effect on the performance of gradient descent. If $\alpha$ is too small, we do not make enough progress towards the minimiser, but if $\alpha$ is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).
 
 ::: {#exm-choosing-h}
 We consider again the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
@@ -371,7 +369,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 $$
 From the plots in @fig-2d_func, we can see we have a minimiser at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
 
-We implement the iteration in code and plot the function values for different values of $h$
+We implement the iteration in code and plot the function values for different values of $\alpha$
 
 ```{python}
 def F3(x):
@@ -399,8 +397,8 @@ for h_exp in range(-1, 5):
         if F3(x) > 12:
             break
 
-    ax[0].plot(F_values, label=f"$h=10^{{{-h_exp}}}$")
-    ax[1].semilogy(errors, label=f"$h=10^{{{-h_exp}}}$")
+    ax[0].plot(F_values, label=f"$\\alpha=10^{{{-h_exp}}}$")
+    ax[1].semilogy(errors, label=f"$\\alpha=10^{{{-h_exp}}}$")
 
 ax[0].set_ylim([0, 12])
 ax[1].set_ylim([1e-8, 1e1])
@@ -422,9 +420,9 @@ plt.show()
 
 We see that:
 
-- for $h = 10^{1}$ or $10^{0}$, the time step is too large and the iterations quickly diverge;
-- for $h = 10^{-3}$ or $10^{-4}$, the time step is too small and the function does not decrease quickly enough;
-- for $h = 10^{-1}$ or $10^{-2}$, we see a nice decrease in the function values and quick convergence to the minimum!
+- for $\alpha = 10^{1}$ or $10^{0}$, the time step is too large and the iterations quickly diverge;
+- for $\alpha = 10^{-3}$ or $10^{-4}$, the time step is too small and the function does not decrease quickly enough;
+- for $\alpha = 10^{-1}$ or $10^{-2}$, we see a nice decrease in the function values and quick convergence to the minimum!
 :::
 
 ::: {#exr-step-size}
@@ -468,13 +466,13 @@ F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le
 $$
 In words, these equations show that along solutions of the gradient flow equation, the quantity $F(\vec{x}(t))$ is non-increasing.
 
-Now, if we take apply Euler's method to solve the gradient descent differential equation with step size $h$, we arrive at the scheme:
+Now, if we take apply Euler's method to solve the gradient descent differential equation with step size $h = \alpha$, we arrive at the scheme:
 $$
-\vec{x}^{(i+1)} = \vec{x}^{(i)} - h \nabla F(\vec{x}^{(i)}).
+\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}).
 $$
 So Euler's method applied to the gradient flow equation gives exactly the gradient descent algorithm!
 
-Note there is no step size in the gradient flow differential equation: effectively, this is the case for $h \to 0$, and we see that $h$ is small enough for the function value to *always* decrease.
+Note there is no step size in the gradient flow differential equation: effectively, this is the case for $\alpha \to 0$, and we see that $\alpha$ is small enough for the function value to *always* decrease.
 
 ::: {.remark}
 The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.
@@ -491,7 +489,7 @@ In one dimension, we applied Newton's method to find a root of $F'$ which we hop
 We can relate the gradient descent algorithm to Newton's method for $F'$:
 \begin{align*}
 x^{(i+1)} &= x^{(i)} - \frac{F'(x^{(i)})}{F''(x^{(i)})} && \text{(Newton's method)} \\
-x^{(i+1)} &= x^{(i)} - h F'(x^{(i)}) && \text{(gradient descent)}.
+x^{(i+1)} &= x^{(i)} - \alpha F'(x^{(i)}) && \text{(gradient descent)}.
 \end{align*}
 We saw that Newton's method seem to converge very quickly, even faster than gradient descent!
 
@@ -534,7 +532,7 @@ for _ in range(100):
     x = x - h * dF1(x)
     gf.append(abs(dF1(x)))
 
-plt.semilogy(gf, label=f"Gradient descent (h={h})")
+plt.semilogy(gf, label=f"Gradient descent ($\\alpha={h}$)")
 
 plt.ylabel("$|F'(x^{(i)})|$")
 plt.xlabel("Iteration count ($i$)")
