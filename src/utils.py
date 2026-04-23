@@ -17,13 +17,14 @@ def float_tex(x: float | str, sig: int = 6):
 
 
 def sci_tex(x, sig=6):
+    if isinstance(x, str):
+        return x
     if x == 0 or (isinstance(x, float) and np.isclose(x, 0)):
         return "$0$"
-    if np.isnan(x):
+    if np.isnan(x) or np.isinf(x):
         return "---"
-    exp = int(np.floor(np.log10(abs(x))))
-    mant = x / (10**exp)
-    return rf"${mant:.{sig - 1}f}\times 10^{{{exp}}}$"
+
+    return rf"${x:.{sig}e}$"
 
 
 def _sty(df, formats=None, sig=6, hide_index=True):
