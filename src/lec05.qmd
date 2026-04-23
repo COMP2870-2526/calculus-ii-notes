@@ -262,7 +262,7 @@ plt.show()
 ```
 :::
 
-We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$ (@lem-grad-slope-max). So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $h$, uses the update formula:
+We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$ (@lem-grad-slope-max). So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $\alpha$, uses the update formula:
 $$
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
 $$

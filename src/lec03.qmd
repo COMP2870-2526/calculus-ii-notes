@@ -592,7 +592,7 @@ F''(1) & = 3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac
 \end{align*}
 
 ::: {#prp-local-to-global}
-Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^* \in \mathbb{R}$ such that $F'(x^*) = 0$ and $F''(x^*) \ge 0$. Then $x^*$ is a local minimiser of $F$.
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^* \in \mathbb{R}$ such that $F'(x^*) = 0$ and $F''(x^*) > 0$. Then $x^*$ is a local minimiser of $F$.
 :::
 
 ::: {.proof}

@@ -564,7 +564,7 @@ $$
 We say that $F$ is **convex** if it is convex on $\mathbb{R}^n$ (i.e. convex for any ball $B \subset \mathbb{R}^n$).
 :::
 
-Similar to @lem-convex-equiv, we have the following equivalence characterisations of convexity on a ball:
+Similar to @lem-convexity-equiv, we have the following equivalence characterisations of convexity on a ball:
 
 ::: {#lem-convex-equiv-Rn}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the following are equivalent:
