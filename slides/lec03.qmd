@@ -1,0 +1,831 @@
+---
+execute:
+  echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: Introduction to optimisation
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+    chalkboard:
+      theme: whiteboard
+---
+
+## What is optimisation?
+
+```{python}
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+```
+
+
+> Give some examples of continuous optimisation problems
+
+###
+
+Optimisation is one of the key problems of all numerical computation. It corresponds to many real world problems:
+
+1. When making business decisions, we often want to find a solution which maximises our financial returns;
+2. When doing medical procedures, we may want to maximise the effectiveness of the procedure or minimise any potential side effects;
+3. When writing computer code, we (normally) want our code to run as fast as possible;
+
+---
+
+4. When scheduling a train timetable, we may want to maximise the usage of the network, or minimise the cost of running the network, or maximise the robustness to delays of our timetable.
+5. When designing a social media app, we want to find the algorithm that encourages people to stay on the app the longest.
+6. When controlling a robotic arm, we may want to minimise the time or energy the solution takes.
+
+---
+
+7. When doing any problem with data, we want to find the model or parameters that best fit the data.
+8. When training a neural network, we want to find the parameters of the network to best match the training data.
+
+### Discrete vs continuous
+
+We make a distinction between problems where the set of possible solutions (admissible states) are continuous or discrete. For example:
+
+1. Choosing between distinct medical procedures is a discrete optimisation problem.
+2. Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.
+
+This part of the module will deal with **continuous optimisation problems**.
+
+
+### Mathematical formulation
+
+The idea of optimisation is to find the best value $x^*$ in $\mathcal{A}$ which minimises $F$ and the value of $F^* = F(x^*)$ of the minimal cost.
+
+::: {#def-global-minimiser}
+We will write:
+\begin{equation}
+\label{eq:global-minimiser}
+\begin{aligned}
+F^* = \min_{x \in \mathcal{A}} F(x) \\
+x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
+\end{aligned}
+\end{equation}
+We call $x^*$ the **minimiser** and $F^*$ the **minimising value** or **minimal value**.
+:::
+
+::: {.aside}
+In our examples, where we compute things, we will always have $\mathcal{A} = \mathbb{R}$ or $\mathbb{R}^n$.
+:::
+
+---
+
+::: {#rem-proofs}
+In this section of the notes, we have included some proofs to demonstrate why many of the results are true.
+
+However, they will not be covered in the lectures and are not assessable (i.e. no questions on them will be in the exam).
+
+However, we do expect you to understand the results and statements (without proofs).
+:::
+
+## Some interesting examples
+
+It is sometimes easy to see where the minimum of a function is by plotting the function.
+
+In one dimension, we can simply plot the graph of the function...
+
+---
+
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be given by
+$$
+F(x) = x^2 - 2x + 2.
+$$
+
+```{python}
+# | fig-cap: Example minimum in one dimension
+def F1(x):
+    return x**2 - 2 * x + 2
+
+
+x = np.linspace(0, 2)
+F = F1(x)
+
+plt.plot(x, F)
+
+plt.plot(1, 1, "C2o")
+plt.annotate(
+    "min at $x^* = 1$",
+    (1, 1),
+    textcoords="offset points",
+    xytext=(0, 12),
+    color="C2",
+    ha="center",
+)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.grid()
+plt.tight_layout()
+plt.show()
+
+
+```
+
+::: {.notes}
+We can see that the minimum is $F^* = 1$ at $x^* = 1$.
+:::
+
+---
+
+Let $F \colon \mathbb{R}^2 \to \mathbb{R}$ be given by
+$$
+F(\vec{x}) = F(x_1, x_2)
+= x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
+$$
+
+```{python}
+# | fig-cap: Example minimum in two dimensions in isocolour plot
+def F2(x, y):
+    return (x - 1) ** 2 * (x + 1) ** 2 + 4 * y**2 + (x + 1) ** 2
+
+
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+F = F2(X, Y)
+
+plt.pcolormesh(X, Y, F)
+plt.colorbar(label="$F(x_1, x_2)$")
+
+plt.plot([-1], [0], "C2o")
+plt.annotate(
+    "min at $\\vec{x}^* = (-1, 0)$",
+    (-1, 0),
+    textcoords="offset points",
+    xytext=(8, -12),
+    color="C2",
+)
+
+plt.xlabel("$x_1$")
+plt.ylabel("$x_2$")
+
+plt.grid()
+plt.show()
+
+
+```
+
+::: {.notes}
+Here we can see a minimum at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
+:::
+
+---
+
+```{python}
+# | fig-cap: Three dimensional surface plot of function $F$
+# 3D surface plot for F2
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.0, 1.0, 200)
+X, Y = np.meshgrid(x, y)
+F = F2(X, Y)
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+
+# Surface plot
+surf = ax.plot_surface(X, Y, F, cmap="viridis", edgecolor="none", alpha=0.9)
+
+# Minimum point
+ax.scatter(-1, 0, F2(-1, 0), color="C2", s=60)
+ax.text(-1, 0, F2(-1, 0), "  minimum", color="C2")
+
+ax.set_xlabel("$x_1$")
+ax.set_ylabel("$x_2$")
+ax.set_zlabel("$F(x_1, x_2)$")
+
+fig.colorbar(surf, ax=ax, shrink=0.6, label="$F(x_1,x_2)$")
+plt.tight_layout()
+plt.show()
+
+
+```
+
+---
+
+$$
+F(x) = (x^2 - 1)^2
+$$
+
+```{python}
+# | fig-cap: An example of a function with two distinct minima
+def F3(x):
+    return ((x - 1) * (x + 1)) ** 2
+
+
+x = np.linspace(-1.5, 1.5, 1000)
+F = F3(x)
+
+plt.plot(x, F)
+
+# Mark the two minima
+plt.plot([-1, 1], [F3(-1), F3(-1)], "C2o")
+
+
+# Place one text label at the middle of the axes (50% width, 22% height)
+label_xy_axes = (0.5, 0.22)
+label_text = r"minima at $x^*=\pm 1$ ($F^*=0$)"
+
+# Annotation 2: arrow-only from the same text position to the right minimum
+plt.annotate(
+    "",
+    xy=(1, F3(1)),  # point to right minimum
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={"arrowstyle": "->", "color": "C2", "lw": 1.8},
+)
+
+# Annotation 1: text + arrow to the left minimum
+plt.annotate(
+    label_text,
+    xy=(-1, F3(-1)),  # point to left minimum
+    xycoords="data",
+    xytext=label_xy_axes,  # place text in the middle (axes coords)
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={"arrowstyle": "->", "color": "C2", "lw": 1.8},
+    bbox={"boxstyle": "round,pad=0.2", "fc": "white", "ec": "none"},
+    color="C2",
+)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+```
+
+---
+
+$$
+F(x) = 1 + \sin^2(x).
+$$
+```{python}
+# | fig-cap: An example of a function with infinitely many distinct minima
+def F4(x):
+    return 1 + np.sin(x) ** 2
+
+
+x = np.linspace(-2.5 * np.pi, 2.5 * np.pi, 1000)
+F = F4(x)
+
+fig, ax = plt.subplots()
+ax.plot(x, F)
+
+# Mark minima at integer multiples of pi within the plotted range
+mins_x = [p * np.pi for p in range(-2, 3)]
+ax.plot(mins_x, [F4(v) for v in mins_x], "C2o")
+
+ax.set_xlabel("$x$")
+ax.set_ylabel("$F(x)$")
+ax.grid(True)
+
+# One centred label in axes coordinates
+label_xy_axes = (
+    0.5,
+    0.28,
+)  # (x%, y%) of axes; adjust y if you want it higher/lower
+label_text = r"minima at $x^*=m\pi$ ($F^*=1$)"
+
+# Annotation 2: arrow-only from the same text position to the right nearest
+# minimum (+π, 1)
+ax.annotate(
+    "",
+    xy=(np.pi, F4(np.pi)),  # right nearest minimum
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": "C2",
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",
+    },
+)
+
+# Annotation 1: text + arrow to the left nearest minimum (-π, 1)
+ax.annotate(
+    label_text,
+    xy=(-np.pi, F4(-np.pi)),  # left nearest minimum
+    xycoords="data",
+    xytext=label_xy_axes,  # centred label
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": "C2",
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",  # slight curve to avoid overlap
+    },
+    bbox={
+        "boxstyle": "round,pad=0.2",
+        "fc": "white",
+        "ec": "none",
+        "alpha": 0.85,
+    },
+)
+
+fig.tight_layout()
+plt.show()
+
+
+```
+
+$$
+F(x) = -x^2,
+$$
+```{python}
+# | fig-cap: An example of a function with no minima
+def F5(x):
+    return -(x**2)
+
+
+x = np.linspace(-1.2, 1.2)
+F = F5(x)
+
+plt.plot(x, F)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.xlim(-1 - 0.05, 1 + 0.05)
+plt.ylim(-1 - 0.05, 0.05)
+
+plt.grid()
+plt.show()
+
+
+```
+
+---
+
+$$
+F(x_1, x_2) = (x_1 - x_2^2)^2
+$$
+
+```{python}
+# | fig-cap: An example of a two dimensional function with minima along a curve
+def F6(x, y):
+    return (x - y**2) ** 2
+
+
+x = np.linspace(-1.5, 1.5, 300)
+y = np.linspace(-1.5, 1.5, 200)
+X, Y = np.meshgrid(x, y)
+F = F6(X, Y)
+
+plt.pcolormesh(X, Y, F)
+plt.contourf(X, Y, F, levels=100)
+plt.colorbar(label="$F(x_1, x_2)$")
+
+y_ = np.linspace(-1.5, 1.5)
+x_ = y_**2
+plt.plot(x_, y_, "C2", label="minisers on $x_1 = x_2^2$")
+
+plt.xlabel("$x_1$")
+plt.ylabel("$x_2$")
+
+plt.xlim([-1.5, 1.5])
+
+plt.grid()
+plt.legend()
+plt.show()
+
+
+```
+
+## Global and local minimisers
+
+$$
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+$$
+```{python}
+# | fig-cap: Plot of function with local and global minima
+def F7(x):
+    return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
+
+
+x = np.linspace(-1.5, 1.5)
+F = F7(x)
+
+plt.plot(x, F)
+
+plt.plot([-1], [F7(-1)], "C2o")
+plt.plot([1], [F7(1)], "C1o")
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+
+plt.annotate(
+    "min at $x^* = -1$",
+    (-1, F7(-1)),
+    textcoords="offset points",
+    xytext=(8, -8),
+    color="C2",
+)
+plt.annotate(
+    "another interesting point $x = 1$",
+    (1, F7(1)),
+    textcoords="offset points",
+    xytext=(8, -12),
+    color="C1",
+    ha="center",
+)
+
+plt.grid()
+plt.show()
+
+
+```
+
+::: {.notes}
+This function has a minimum at $x_* = -1$ with value $F_* = \frac{1}{12}$ (orange), but there is another interesting value at $x = 1$ (where $F(x) = 5/12$, green). The point $x = 1$ is clearly not a minimiser of the entire function, but the value at $x = 1$ is less than values nearby. This motivates the idea of a *local minimum*.
+
+Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global minimiser). By this we mean that we are looking for the value that is the least across all possible values of $x$. This is a very hard problem! When designing numerical algorithms, we instead often look for **local minimisers**. Later we will see a condition where we can guarantee local minimisers are global minimisers.
+:::
+
+### Definitions
+
+::: {#def-local-minimiser}
+**Scalar domain case**: Given a smooth function $F \colon \mathbb{R} \to \mathbb{R}$, we say that a point $x^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $y \in \mathbb{R}$ with $|y - x^*| < b$, $F(x^*) \le F(y)$.
+
+**Vector domain case**: Given a smooth function $F \colon \mathbb{R}^n \to \mathbb{R}$, we say that a point $\vec{x}^*$ is a **local minimiser** of $F$ if there exists a value $b$ such that  for all $\vec{y} \in \mathbb{R}^n$ with $\|\vec{y} - \vec{x}^*\| < b$, $F(\vec{x}^*) \le F(\vec{y})$.
+:::
+
+## How to determine a local minimiser in the scalar domain case
+
+
+::: {.notes}
+Looking again at the examples above, we can see that at all (local or global) minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
+We can express this mathematically by saying that the derivative of $F$ is zero or $F'(x_*) = 0$.
+However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!
+:::
+
+::: {#prp-minimiser}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and let $x^*$ be a local minimiser of $F$.
+Then $F'(x^*) = 0$.
+:::
+
+---
+
+::: {#exm-local-minimiser}
+Let $F(x) = (x-3)^2 + 3 = x^2 - 6x + 12$. For the completed square form, we see that $F$ has a minimum at $x^* = 3$.
+
+:::
+
+::: {.notes}
+We can compute that $F'(x)$ is given by
+$$
+F'(x) = 2 x - 6.
+$$
+If we set $F'(x) = 0$ we can rearrange to see
+\begin{align*}
+F'(x) = 2 x - 6 & = 0 \\
+2 x & = 6 \\
+x & = \frac{6}{2} = 3.
+\end{align*}
+:::
+
+---
+
+::: {#exr-local-minimiser}
+Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any potential local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
+:::
+
+---
+
+We next revisit the example from the start of this section
+$$
+F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
+$$
+We can compute the derivative as:
+$$
+F'(x) = \phantom{x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}}
+$$
+
+---
+
+::: {.notes}
+Looking at the graph, we can see the $F'$ is zero at three points, $x = -1, 1$ (orange and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (purple).
+:::
+
+```{python}
+# | fig-cap: Zeros of the derivative of $F$.
+def dF7(x):
+    return x**3 - 0.25 * x**2 - x + 0.25
+
+
+x = np.linspace(-1.5, 1.5, 400)
+dF = dF7(x)
+
+fig, ax = plt.subplots()
+ax.plot(x, dF, label=r"$F'(x)$")
+
+# Stationary points and colours
+points = [-1.0, 0.25, 1.0]
+colours = {"-1.0": "C2", "0.25": "C3", "1.0": "C1"}
+
+# Plot the stationary points
+for p in points:
+    ax.plot(p, dF7(p), marker="o", color=colours[str(p)], zorder=3)
+
+# One centred label in axes coordinates
+label_xy_axes = (0.5, 0.8)  # move up/down as needed
+label_text = r"$F'(x)=0$ at $x=-1, \frac{1}{4}$ and $x=1$"
+
+# Arrow 2: arrow-only to x = 1/4
+ax.annotate(
+    "",
+    xy=(0.25, dF7(0.25)),
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["0.25"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=-0.12",
+    },
+)
+
+# Arrow 3: arrow-only to x = 1
+ax.annotate(
+    "",
+    xy=(1.0, dF7(1.0)),
+    xycoords="data",
+    xytext=label_xy_axes,
+    textcoords="axes fraction",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["1.0"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.12",
+    },
+)
+
+# Arrow 1: text + arrow to x = -1
+ax.annotate(
+    label_text,
+    xy=(-1.0, dF7(-1.0)),  # left stationary point
+    xycoords="data",
+    xytext=label_xy_axes,  # centred label
+    textcoords="axes fraction",
+    ha="center",
+    va="center",
+    arrowprops={
+        "arrowstyle": "->",
+        "color": colours["-1.0"],
+        "lw": 1.8,
+        "connectionstyle": "arc3,rad=0.18",
+    },
+    bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "none"},
+)
+
+ax.set_xlabel("$x$")
+ax.set_ylabel("$F'(x)$")
+ax.grid(True)
+ax.margins(y=0.15)  # give some headroom for the label
+fig.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+We see that at the local minima (red and green points) the derivative is *increasing* but at the other point (orange), the derivative is decreasing. More formally, we can say that at local minima the second derivative is strictly positive. In this instance, we have
+:::
+
+---
+
+$$
+F''(x) = \phantom{3 x^2 - \frac{1}{2} x - 1,}
+$$
+so that
+\begin{align*}
+F''(-1) &= \phantom{3 \times (-1)^2 - \frac{1}{2} \times (-1) - 1 = 3 + \frac{1}{2} - 1 = \frac{5}{2} = 2.5 > 0} \\
+F''(\tfrac{1}{4}) &= \phantom{3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \frac{1}{4} - 1 = \frac{3}{16} - \frac{1}{8} - 1 = -\frac{15}{16} = -0.9375 < 0} \\
+F''(1) & = \phantom{3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 > 0.}
+\end{align*}
+
+---
+
+::: {#prp-local-to-global}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^* \in \mathbb{R}$ such that $F'(x^*) = 0$ and $F''(x^*) > 0$. Then $x^*$ is a local minimiser of $F$.
+:::
+
+---
+
+Next, let us compare two examples:
+
+```{python}
+# | fig-cap: Examples of functions and chords between points
+_, axs = plt.subplots(1, 2)
+
+
+def F7(x):
+    return 0.25 * x**4 - (1 / 12) * x**3 - 0.5 * x**2 + 0.25 * x + 0.5
+
+
+xa = np.linspace(-1.5, 1.5)
+Fa = F7(xa)
+
+
+def F8(x):
+    return x**2 - 4 * x + 5
+
+
+xb = np.linspace(1, 3)
+Fb = F8(xb)
+
+axs[0].plot(xa, Fa)
+axs[1].plot(xb, Fb)
+
+for p in [-1, 1, 0.25]:
+    t = np.array([p - 0.2, p + 0.25])
+    axs[0].plot(t, F7(t), ".--", color="C1")
+
+t = np.array([2.0 - 0.5, 2.0 + 0.7])
+axs[1].plot(t, F8(t), ".--", color="C1")
+
+for ax in axs:
+    ax.set_xlabel("$x$")
+    ax.set_ylabel("$F(x)$")
+    ax.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+
+```
+
+::: {.notes}
+For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line).
+We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points.
+This idea is expressed mathematically through the idea of *convexity*.
+:::
+
+---
+
+::: {#def-convexity}
+A function $F \colon \mathbb{R} \to \mathbb{R}$ is **locally convex in an interval $B \subset \mathbb{R}$** if
+for all points $x, y \in B$:
+$$
+a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1].
+$$
+We say that $F$ is **convex** if it is convex on $\mathbb{R}$ (i.e., on every interval $B \subset \mathbb{R}$).
+:::
+
+---
+
+::: {#lem-convexity-equiv}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function. Then the following are equivalent:
+
+1. $F$ is locally convex on an interval $B$
+2. The derivative of $F$ satisfies
+    \begin{equation}
+    \label{eq:convex-diff}
+    F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
+    \end{equation}
+3. The second derivative of $F$ is positive in $B$:
+   \begin{equation}
+   \label{eq:convex-diff2}
+   F''(x) \ge 0 \quad\text{for all}\quad x \in B.
+   \end{equation}
+:::
+
+::: {.notes}
+Condition 2  can be expressed informally as saying that the graph of $F$ lies above its tangent.
+
+Condition 3 links directly to the idea of linking local and global minima through @prp-local-to-global.
+:::
+
+---
+
+1.  Take for example $F(x) = x^2 - 4 x + 5$.
+
+::: {.notes}
+Then
+$$
+F'(x) = 2 x - 4 \quad\text{and}\quad F''(x) = 2 > 0.
+$$
+Hence we can see that $F$ is convex.
+
+This example, is somewhat of a prototypical example. It is often helpful when thinking of convex functions to think of something like a quadratic function with positive leading coefficient.
+:::
+
+---
+
+2.  (hard) Take $F(x) = \frac{1}{4} x^4 - 3 x^3 + 15 x^2 - 5 x + 4$
+
+::: {.notes}
+\begin{align*}
+F'(x) & = x^3 - 9 x^2 + 30 x \\
+F''(x) & = 3 x^2 - 18 x + 30.
+\end{align*}
+We can complete the square to see that
+$$
+F''(x) = 3 (x - 3)^2 + 3 \ge 3 > 0.
+$$
+We can see that $F''$ is in fact strictly positive.
+Hence, we can infer that $F$ is globally convex.
+:::
+
+---
+
+::: {#exr-convex-diff2}
+Show that the following functions are or are not convex on $\mathbb{R}$:
+
+1. $F(x) = x^2 - 6x + 12$
+2. $F(x) = \frac{1}{6} x^4 - \frac{8}{3} x^3 + 15 x^2 + 6 x + 1$.
+:::
+
+---
+
+::: {#prp-convexity}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ and $x^*$ be a point such that $F'(x^*) = 0$.
+If $F$ is locally convex in a region $B$ with $x^* \in B$ then $x^*$ is a local minimiser of $F$.
+:::
+
+::: {#thm-convex-local-minimisers}
+Let $F \colon \mathbb{R} \to \mathbb{R}$ be convex.
+Then any local minimiser is a global minimiser.
+:::
+
+---
+
+::: {#exm-convex-minimum}
+Take the same example as before $F(x) = x^2 - 4 x + 5$.
+Then
+$$
+F'(x) = 2 x - 4.
+$$
+We can easily see that $F'(2) = 0$ hence $x^* = 2$ is a local and indeed a global minimiser since $F$ is convex.
+
+We can also see this by completing the square:
+\begin{equation*}
+F(x) = x^2 - 4 x + 5 = (x-2)^2 + 1.
+\end{equation*}
+We can read off that $F$ has a minimum at the same point that $(x-2)^2 = 0$, i.e. that $x^* = 2$.
+:::
+
+---
+
+$$
+F(x) =
+\begin{cases}
+(x+1)^4 & \text{for}\quad x \le -1 \\
+0 & \text{for} \quad -1 < x < 1 \\
+(x-1)^4 & \text{for}\quad x \ge 1.
+\end{cases}
+$$
+```{python}
+# | fig-cap: Example of a convex function with non-unique minima
+
+
+def F99(x):
+    if x < -1:
+        return (x + 1) ** 4
+    elif x > 1:
+        return (x - 1) ** 4
+    else:
+        return 0.0
+
+
+x = np.linspace(-2, 2)
+plt.plot(x, [F99(x_) for x_ in x])
+plt.plot([-1, 1], [0, 0], "C2", label="min at all $x \\in [-1,1]$")
+
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+$F$ is a convex, smooth function, but all points $x \in [-1, 1]$ are minimisers.
+
+## Summary
+
+- Optimisation is a wide area of numerical computation with many different application areas.
+- In this module, we will only consider continuous optimisation problems.
+- We have provided several examples of how different types of minima can occur in one and two dimensions using plots to identify minima.
+- In one dimension, we have provided a characterisation of local minima and how to link them to global minima using the idea convexity.
