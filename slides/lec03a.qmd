@@ -22,7 +22,8 @@ format:
       theme: whiteboard
 ---
 
-# Root finding methods for one dimensional optimisation
+## A one dimensional problem
+
 
 ```{python}
 import numpy as np
@@ -34,28 +35,23 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
-::: {.callout-tip}
-## Module learning objective
+> Explain why numerical methods are required for finding minima/solving nonlinear equations in one dimension
 
-1. Explain why numerical methods are required for finding minima/solving nonlinear equations in one dimension,
-2. Explain the idea of an iterative method,
-3. Apply the Bisection Method and understand its properties,
-4. Apply Newton's method and understand its properties.
-:::
+---
 
-## A one dimensional problem
+### The problem
 
-> Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f(x)$**.
+> Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f$**.
 
 ::: {#rem-1d-opt}
-In one dimension, a local minimum occurs at point where $F'(x) = 0$, but not every root of $F'$ is a minimum. The focus on this lecture is finding possible minima.
+In one dimension, a local minimum occurs at a point where $F'(x) = 0$, but not every root of $F'$ is a minimum. The focus of this lecture is finding possible minima.
 :::
 
 ---
 
 ::: {#exm-root-finder}
 1. The linear equation $f(x) = ax + b = 0$ has a single solution at $x^* = \frac{-b}{a}$.
-2. The quadratic equation $f(x) = a x^2 + b x + c = 0$ is nonlinear, but simple enough to have a known formula for the solutions:
+2. The quadratic equation $f(x) = a x^2 + b x + c = 0$ is nonlinear, but simple enough to have a known formula for the roots:
    $$
    x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
    $$
@@ -311,6 +307,10 @@ We should be careful to find a solution only in $[0, 2\pi)$. In our tests we wil
 
 ## Iterative methods
 
+> Explain the idea of an iterative method
+
+---
+
 All our methods will use the idea of **iteration** (or **iterative improvement**). We saw this idea when we were using Jacobi and Gauss-Seidel iteration to solve systems of linear equations.
 
 - Given an initial estimate of the root $x^{(0)}$, try to generate a better approximate $x^{(1)}$ of the root.
@@ -336,6 +336,10 @@ The number of time steps is a given parameter when solving a differential equati
 :::
 
 ## Bisection method
+
+> Apply the Bisection Method and understand its properties
+
+---
 
 ::: {.columns}
 :::: {.column}
@@ -440,8 +444,8 @@ axes[0].set_xlabel("iterations")
 axes[0].legend()
 axes[0].grid(True)
 
-axes[1].semilogy(df["f(a)"], ".-", label="$f(a)$")
-axes[1].semilogy(df["f(b)"], ".-", label="$f(b)$")
+axes[1].semilogy(abs(df["f(a)"]), ".-", label="$|f(a)|$")
+axes[1].semilogy(abs(df["f(b)"]), ".-", label="$|f(b)|$")
 axes[1].semilogy(df["b"] - df["a"], ".-", label="$b-a$")
 
 axes[1].set_xlabel("iterations")
@@ -489,7 +493,7 @@ plt.show()
 
 ```
 
-We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem.
 
 ---
 
@@ -511,6 +515,10 @@ Bisection is a reliable method for finding solutions of $f(x) = 0$ provided an i
 - it can never find a solution of $f(x)$ for which $f$ does not change sign (e.g. $f(x) = (x-1)^2$) since we cannot find a bracket for the root!
 
 ## Newton's method
+
+> Apply Newton's method and understand its properties.
+
+---
 
 ```{python}
 x = np.linspace(-1, 1)
@@ -722,7 +730,7 @@ plt.show()
 
 ```
 
-This is quite a messy plot but it appears the Newton's method converges very quickly!
+This is quite a messy plot but it appears Newton's method converges very quickly!
 
 ::: {#rem-newton}
 1. The iteration formula requires an initial guess at the solution $x^{(0)}$.
@@ -832,12 +840,16 @@ plt.show()
 
 ```
 
-We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem.
 
 ---
 
 ::: {#exm-newton}
 Consider $f(x) = x^2 - 5$ and $x^{(0)} = 2$.
+:::
+
+::: {.aside}
+Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
 :::
 
 ::: {.notes}
@@ -848,7 +860,7 @@ $$
 The iteration then proceeds as:
 \begin{align*}
 x^{(1)} & = \frac{(x^{(0)})^2 + 5}{2 x^{(0)}} = \frac{2^2 + 5}{2 \times 2} = \frac{9}{4} = 2.25. \\
-x^{(2)} & = \frac{(x^{(1})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
+x^{(2)} & = \frac{(x^{(1)})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
 \end{align*}
 Note that $\sqrt{5} = 2.23607\ldots$.
 :::
@@ -862,10 +874,18 @@ Write down an expression for the Newton iteration formula for the following func
 2. $f(x) = x^3 - 2$ with $x^{(0)} = 1$.
 :::
 
+::: {.aside}
+Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
+:::
+
 ### Challenges for Newton's method
 
 The first obvious challenge for Newton's method comes from the idea that we divide by something that might be zero in our update formula -- what if $f'(x^{(i)}) = 0$?
 In this case, there isn't much we can do and Newton's method will fail.
+
+::: {.aside}
+Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
+:::
 
 ---
 
@@ -875,13 +895,17 @@ This gives $f'(x) = 3 x^2 + 4 x + 1$.
 Starting from $x^{(0)} = 0$, we get:
 \begin{align*}
 x^{(1)} &= x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}
-= 0 - \frac{0^3 + 2 \times 0 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
+= 0 - \frac{0^3 + 2 \times 0^2 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
 \end{align*}
 But we see that
 $$
 f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 $$
 So the iteration cannot proceed.
+:::
+
+::: {.aside}
+Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
 :::
 
 ---
@@ -948,7 +972,7 @@ plt.show()
 ```
 
 ::: {.notes}
-The derivative is $f'(x) = \frac{1}{3} x^{-2/3}$ and the Newton iteration is
+The derivative is $f'(x) = \frac{1}{3} x^{-2/3}$ (note not defined at $0$) and the Newton iteration is
 $$
 x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
 $$

@@ -26,15 +26,15 @@ from utils import table_styler
 In one dimension, we will proceed with a simple idea: to find candidate minima of functions $F \colon \mathbb{R} \to \mathbb{R}$, we will find points at which the derivative of $F$ is 0. To help us with notation, in this section we will write $f := F'$.
 The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.
 
-> Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f(x)$**.
+> Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f$**.
 
 ::: {#rem-1d-opt}
-In one dimension, a local minimum occurs at point where $F'(x) = 0$, but not every root of $F'$ is a minimum. The focus on this lecture is finding possible minima.
+In one dimension, a local minimum occurs at a point where $F'(x) = 0$, but not every root of $F'$ is a minimum. The focus of this lecture is finding possible minima.
 :::
 
 ::: {#exm-root-finder}
 1. The linear equation $f(x) = ax + b = 0$ has a single solution at $x^* = \frac{-b}{a}$.
-2. The quadratic equation $f(x) = a x^2 + b x + c = 0$ is nonlinear, but simple enough to have a known formula for the solutions:
+2. The quadratic equation $f(x) = a x^2 + b x + c = 0$ is nonlinear, but simple enough to have a known formula for the roots:
    $$
    x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
    $$
@@ -446,7 +446,7 @@ data = bisection(f2, 0.0, 2.0 * np.pi, 1.0e-4)
 table_styler(pd.DataFrame(data))
 ```
 
-We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem.
 
 ::: {#exr-bisection}
 For the square root problem, for which of the following brackets do you expect the algorithm to find a solution? For cases where you expect the algorithm to find a solution, how many iterations do you expect for a tolerance of $10^{-4}$?
@@ -610,7 +610,7 @@ plt.show()
 
 ```
 
-This is quite a messy plot but it appears the Newton's method converges very quickly!
+This is quite a messy plot but it appears Newton's method converges very quickly!
 
 ::: {#rem-newton}
 1. The iteration formula requires an initial guess at the solution $x^{(0)}$.
@@ -714,7 +714,7 @@ table_styler(pd.DataFrame(data))
 
 ```
 
-We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem.
 
 ::: {#exm-newton}
 Consider $f(x) = x^2 - 5$ and $x^{(0)} = 2$.
@@ -725,7 +725,7 @@ $$
 The iteration then proceeds as:
 \begin{align*}
 x^{(1)} & = \frac{(x^{(0)})^2 + 5}{2 x^{(0)}} = \frac{2^2 + 5}{2 \times 2} = \frac{9}{4} = 2.25. \\
-x^{(2)} & = \frac{(x^{(1})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
+x^{(2)} & = \frac{(x^{(1)})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
 \end{align*}
 Note that $\sqrt{5} = 2.23607\ldots$.
 :::
@@ -748,7 +748,7 @@ This gives $f'(x) = 3 x^2 + 4 x + 1$.
 Starting from $x^{(0)} = 0$, we get:
 \begin{align*}
 x^{(1)} &= x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}
-= 0 - \frac{0^3 + 2 \times 0 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
+= 0 - \frac{0^3 + 2 \times 0^2 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
 \end{align*}
 But we see that
 $$
@@ -804,7 +804,7 @@ plt.show()
 
 ```
 
-The derivative is $f'(x) = \frac{1}{3} x^{-2/3}$ and the Newton iteration is
+The derivative is $f'(x) = \frac{1}{3} x^{-2/3}$ (note this isn't defined at $x=0$) and the Newton iteration is
 $$
 x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
 $$
