@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec03a_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec03a_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec03a_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec03a_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec03a_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec03a_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec03a_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lec03a_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="lec03a_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
+  <title>COMP2870 Theoretical Foundations of Computer Science II</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec03a_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec03a_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec03a_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link href="lec03a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec03a_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec03a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec03a_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="lec03a_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="lec03a_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        tags: 'ams'  // should be 'ams', 'none', or 'all'
+      }
+    };
+  </script>
+  <style>
+
+  /* Ensure Reveal does not overwrite backgrounds */
+  .reveal .slide-background {
+    background-color: transparent !important;
+  }
+
+  /* Grid background for slides that have class .gridbg */
+  .reveal .slide-background.gridbg {
+    background-color: transparent !important;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 1em 1em;  /* adjust to taste */
+    background-repeat: repeat;
+  }
+
+  </style>
+  <script type="module" src="lec03a_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="lec03a_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">COMP2870 Theoretical Foundations of Computer Science II</h1>
+  <p class="subtitle">Root finding methods for one dimensional optimisation</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr.&nbsp;Thomas Ranner (Tom) 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>
+</div>
+        <p class="quarto-title-affiliation">
+            School of Computer Science, University of Leeds
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="root-finding-methods-for-one-dimensional-optimisation" class="title-slide slide level1 center">
+<h1>Root finding methods for one dimensional optimisation</h1>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Explain why numerical methods are required for finding minima/solving nonlinear equations in one dimension,</li>
+<li>Explain the idea of an iterative method,</li>
+<li>Apply the Bisection Method and understand its properties,</li>
+<li>Apply Newton’s method and understand its properties.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="a-one-dimensional-problem" class="title-slide slide level2 center">
+<h2>A one dimensional problem</h2>
+<blockquote>
+<p>Given a smooth function <span class="math inline">\(f(x)\)</span>, the problem is to find a point <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*) = 0\)</span>. That is, <span class="math inline">\(x^*\)</span> is a solution of the equation <span class="math inline">\(f(x) = 0\)</span> and is called a <strong>root of <span class="math inline">\(f(x)\)</span></strong>.</p>
+</blockquote>
+<div id="rem-1d-opt" class="proof remark">
+<p><span class="proof-title"><em>Remark 1</em>. </span>In one dimension, a local minimum occurs at point where <span class="math inline">\(F'(x) = 0\)</span>, but not every root of <span class="math inline">\(F'\)</span> is a minimum. The focus on this lecture is finding possible minima.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-root-finder" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1</strong></span> &nbsp;</p>
+<ol type="1">
+<li>The linear equation <span class="math inline">\(f(x) = ax + b = 0\)</span> has a single solution at <span class="math inline">\(x^* = \frac{-b}{a}\)</span>.</li>
+<li>The quadratic equation <span class="math inline">\(f(x) = a x^2 + b x + c = 0\)</span> is nonlinear, but simple enough to have a known formula for the solutions: <span class="math display">\[
+x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
+\]</span></li>
+<li>A general nonlinear equation <span class="math inline">\(f(x) = 0\)</span> rarely has a formula like those above which can be used to calculate its roots.</li>
+</ol>
+</div>
+</section>
+<section class="slide level3">
+
+<p>It is also sometimes better to use numerical methods to solve an equation even if an exact formula exists:</p>
+<ul>
+<li>the exact formula may have difficulties due to rounding errors;</li>
+<li>the exact formula may be more expensive to compute.</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<p>We want to solve the quadratic equation <span class="math display">\[
+f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
+\]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
+<div id="68f73c91" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># implementation of quadratic formula</span></span>
+<span id="cb1-2"><a href=""></a><span class="kw">def</span> quad(a, b, c):</span>
+<span id="cb1-3"><a href=""></a>    <span class="co">"""</span></span>
+<span id="cb1-4"><a href=""></a><span class="co">    Return the roots of the quadratic polynomial a x^2 + b x + c = 0.</span></span>
+<span id="cb1-5"><a href=""></a><span class="co">    """</span></span>
+<span id="cb1-6"><a href=""></a>    d <span class="op">=</span> np.sqrt(b <span class="op">*</span> b <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> a <span class="op">*</span> c)</span>
+<span id="cb1-7"><a href=""></a>    <span class="cf">return</span> (<span class="op">-</span>b <span class="op">+</span> d) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> a), (<span class="op">-</span>b <span class="op">-</span> d) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="fe2eebff" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># test for m = 1e8</span></span>
+<span id="cb2-2"><a href=""></a>m <span class="op">=</span> <span class="fl">1e8</span></span>
+<span id="cb2-3"><a href=""></a>roots <span class="op">=</span> quad(<span class="dv">1</span>, <span class="op">-</span>(m <span class="op">+</span> <span class="dv">1</span> <span class="op">/</span> m), <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a><span class="bu">print</span>(<span class="ss">f"roots </span><span class="sc">{</span>roots[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> and </span><span class="sc">{</span>roots[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>roots 1.0000e+08 and 1.4901e-08</code></pre>
+</div>
+</div>
+<p>These values look reasonable, but let’s check the errors:</p>
+<div id="d35d791b" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="co"># absolute and relative errors</span></span>
+<span id="cb4-2"><a href=""></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a>abs_error <span class="op">=</span> (<span class="bu">abs</span>(roots[<span class="dv">0</span>] <span class="op">-</span> exact_roots[<span class="dv">0</span>]), <span class="bu">abs</span>(roots[<span class="dv">1</span>] <span class="op">-</span> exact_roots[<span class="dv">1</span>]))</span>
+<span id="cb4-5"><a href=""></a>rel_error <span class="op">=</span> (abs_error[<span class="dv">0</span>] <span class="op">/</span> m, abs_error[<span class="dv">1</span>] <span class="op">/</span> (<span class="dv">1</span> <span class="op">/</span> m))</span>
+<span id="cb4-6"><a href=""></a></span>
+<span id="cb4-7"><a href=""></a><span class="bu">print</span>(<span class="ss">f"abs errors </span><span class="sc">{</span>abs_error[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> </span><span class="sc">{</span>abs_error[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span>
+<span id="cb4-8"><a href=""></a><span class="bu">print</span>(<span class="ss">f"rel errors </span><span class="sc">{</span>rel_error[<span class="dv">0</span>]<span class="sc">:.4e}</span><span class="ss"> </span><span class="sc">{</span>rel_error[<span class="dv">1</span>]<span class="sc">:.4e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>abs errors 0.0000e+00 4.9012e-09
+rel errors 0.0000e+00 4.9012e-01</code></pre>
+</div>
+</div>
+<p>The absolute errors are quite small, but the relative error for the second root is huge - almost 50%!</p>
+</section>
+
+<section id="example-problems" class="title-slide slide level2 center">
+<h2>Example problems</h2>
+<p>We will test our methods on the following problems.</p>
+<div id="exm-sqrt" class="theorem example">
+<p><span class="theorem-title"><strong>Example 2 (Square root example)</strong></span> We want to find the value of the square root of 2. We can solve this by finding the (positive) root of <span class="math display">\[
+f(x) = x^2 - 2.
+\]</span> This problem is interesting in that we know there are two solutions, but we only want the positive one. Our algorithms should take that into account.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<div id="exm-kepler" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3 (Kepler’s equation, elliptic orbits)</strong></span> &nbsp;</p>
+<div class="columns">
+<div class="column">
+<div id="41bbc478" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-6-output-1.png" width="597" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p>Given <span class="math inline">\(e\)</span> (eccentricity) and <span class="math inline">\(M\)</span> (mean anomaly at a given time, in radians), find <span class="math inline">\(E^*\)</span> (eccentric anomaly). We can write this as a root finding problem with <span class="math display">\[
+f(E) = E - e \sin(E) - M.
+\]</span> We should be careful to find a solution only in <span class="math inline">\([0, 2\pi)\)</span>. In our tests we will use <span class="math inline">\(e = 0.7, M = 2.0\)</span>.</p>
+</div></div>
+</div>
+</section>
+
+<section id="iterative-methods" class="title-slide slide level2 center">
+<h2>Iterative methods</h2>
+<p>All our methods will use the idea of <strong>iteration</strong> (or <strong>iterative improvement</strong>). We saw this idea when we were using Jacobi and Gauss-Seidel iteration to solve systems of linear equations.</p>
+<ul>
+<li>Given an initial estimate of the root <span class="math inline">\(x^{(0)}\)</span>, try to generate a better approximate <span class="math inline">\(x^{(1)}\)</span> of the root.</li>
+<li>Once <span class="math inline">\(x^{(1)}\)</span> has been computed, it can be used to compute another estimate <span class="math inline">\(x^{(2)}\)</span> in the same way (and so on…).</li>
+<li>Generally, <span class="math inline">\(x^{(i)}\)</span> is used to compute <span class="math inline">\(x^{(i+1)}\)</span> (although other previous estimates may be used as well).</li>
+</ul>
+</section>
+<section class="slide level3">
+
+<p>There are a few issues we should consider with iterative methods:</p>
+<ol type="1">
+<li>Does the iteration converge?</li>
+<li>In other words, will <span class="math inline">\(x^{(i+1)}\)</span> be a better estimate than <span class="math inline">\(x^{(i)}\)</span>? In what sense – e.g.&nbsp;<span class="math inline">\(|f(x^{(i)})|\)</span> smaller or <span class="math inline">\(|x^{(i)} - x^*|\)</span> smaller?</li>
+<li>Is there a way to check this as part of the computation? Can we prove this?</li>
+<li>If the iteration does converge, then how quickly does this happen?</li>
+<li>How should we decide when to stop the iteration?</li>
+</ol>
+</section>
+<section class="slide level3">
+
+<div id="rem-iteration" class="proof remark">
+<p><span class="proof-title"><em>Remark 2</em>. </span>We briefly comment that iteration is <em>different</em> to the idea of time stepping we met when solving differential equations.</p>
+<p>The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criterion).</p>
+</div>
+</section>
+
+<section id="bisection-method" class="title-slide slide level2 center">
+<h2>Bisection method</h2>
+<div class="columns">
+<div class="column">
+<p>The first method that we introduce is the bisection method. If a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between.</p>
+</div><div class="column">
+<div id="75fe794d" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-7-output-1.png" width="783" height="407"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="the-algorithm" class="slide level3">
+<h3>The algorithm</h3>
+<ol type="1">
+<li>Suppose we <em>know</em> there is a root <span class="math inline">\(x^*\)</span> (i.e with <span class="math inline">\(f(x^*) = 0\)</span>) between two end points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> (we sometimes call <span class="math inline">\([a, b]\)</span> the <em>bracket</em>).</li>
+<li>Call <span class="math inline">\(c = \frac{a + b}{2}\)</span>, then the solution is either between <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span> or between <span class="math inline">\(c\)</span> and <span class="math inline">\(b\)</span>.</li>
+<li>If the solution is between <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span>:
+<ul>
+<li>then go to step 1 with the end points as <span class="math inline">\(a\)</span> and <span class="math inline">\(c\)</span>,</li>
+<li>otherwise, go to step 1 with the end points <span class="math inline">\(c\)</span> and <span class="math inline">\(b\)</span>.</li>
+</ul></li>
+</ol>
+<p>We repeat this process until <span class="math inline">\(b - a &lt; TOL\)</span></p>
+<aside class="notes">
+<p>We can check if the root is between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> by checking if the signs of <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> are different: i.e.&nbsp;<span class="math inline">\(f(a) f(b) &lt; 0\)</span>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="convergence-analysis" class="slide level3">
+<h3>Convergence analysis</h3>
+<p>Assume that <span class="math inline">\(k\)</span> steps have been taken from an initial bracket <span class="math inline">\((a, b)\)</span>. We notice that at each step, the bracket size is halved. This means after <span class="math inline">\(k\)</span> steps, the length of the interval will be <span class="math inline">\(\frac{b - a}{2^k}\)</span>.</p>
+<p>For large initial bracket size (i.e.&nbsp;large <span class="math inline">\(b - a\)</span>) or small <span class="math inline">\(TOL\)</span> (high accuracy requirement) <span class="math inline">\(k\)</span> will be large.</p>
+</section>
+<section id="examples" class="slide level3">
+<h3>Examples</h3>
+<div id="5f891958" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" data-code-line-numbers="1-5|6-7|11-22|13|14-15|16-20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="kw">def</span> bisection(f, a, b, tol):</span>
+<span id="cb6-2"><a href=""></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href=""></a><span class="co">    Apply the bisection method for the function f on the interval (a, b)</span></span>
+<span id="cb6-4"><a href=""></a><span class="co">    Stop when b - a &lt; tol</span></span>
+<span id="cb6-5"><a href=""></a><span class="co">    """</span></span>
+<span id="cb6-6"><a href=""></a>    <span class="co"># initial bracket check</span></span>
+<span id="cb6-7"><a href=""></a>    <span class="cf">assert</span> f(a) <span class="op">*</span> f(b) <span class="op">&lt;</span> <span class="fl">0.0</span>, <span class="ss">f"(</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">) does not bracket the root"</span></span>
+<span id="cb6-8"><a href=""></a></span>
+<span id="cb6-9"><a href=""></a>    data <span class="op">=</span> []</span>
+<span id="cb6-10"><a href=""></a></span>
+<span id="cb6-11"><a href=""></a>    <span class="co"># the iteration</span></span>
+<span id="cb6-12"><a href=""></a>    it <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="cf">while</span> b <span class="op">-</span> a <span class="op">&gt;=</span> tol:</span>
+<span id="cb6-14"><a href=""></a>        <span class="co"># find midpoint</span></span>
+<span id="cb6-15"><a href=""></a>        c <span class="op">=</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-16"><a href=""></a>        <span class="co"># update bracket</span></span>
+<span id="cb6-17"><a href=""></a>        <span class="cf">if</span> f(a) <span class="op">*</span> f(c) <span class="op">&gt;</span> <span class="fl">0.0</span>:</span>
+<span id="cb6-18"><a href=""></a>            a <span class="op">=</span> c</span>
+<span id="cb6-19"><a href=""></a>        <span class="cf">else</span>:</span>
+<span id="cb6-20"><a href=""></a>            b <span class="op">=</span> c</span>
+<span id="cb6-21"><a href=""></a></span>
+<span id="cb6-22"><a href=""></a>        it <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb6-23"><a href=""></a></span>
+<span id="cb6-24"><a href=""></a>        data.append({<span class="st">"it"</span>: it, <span class="st">"a"</span>: a, <span class="st">"b"</span>: b, <span class="st">"f(a)"</span>: f(a), <span class="st">"f(b)"</span>: f(b)})</span>
+<span id="cb6-25"><a href=""></a></span>
+<span id="cb6-26"><a href=""></a>    <span class="cf">return</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level3">
+
+<p><span class="math display">\[
+f(x) = x^2 - 2.
+\]</span></p>
+<div id="33619904" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-9-output-1.png" width="794" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that it takes 14 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
+</section>
+<section class="slide level3">
+
+<p><span class="math display">\[
+f(x) = x - 0.7 \sin(x) - 2.0
+\]</span></p>
+<div id="68b96b94" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-10-output-1.png" width="794" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that it takes 16 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
+</section>
+<section class="slide level3">
+
+<div id="exr-bisection" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1</strong></span> For the square root problem, for which of the following brackets do you expect the algorithm to find a solution? For cases where you expect the algorithm to find a solution, how many iterations do you expect for a tolerance of <span class="math inline">\(10^{-4}\)</span>?</p>
+<ol type="1">
+<li><span class="math inline">\((1.0, 1.5)\)</span></li>
+<li><span class="math inline">\((0.0, 4.0)\)</span></li>
+<li><span class="math inline">\((-4.0, 4.0)\)</span></li>
+<li><span class="math inline">\((-2.0, 0.0)\)</span></li>
+</ol>
+</div>
+</section>
+<section id="weaknesses-of-the-bisection-algorithm" class="slide level3">
+<h3>Weaknesses of the bisection algorithm</h3>
+<p>Bisection is a reliable method for finding solutions of <span class="math inline">\(f(x) = 0\)</span> provided an initial bracket can be found. It is far from perfect however:</p>
+<ul>
+<li>finding an initial bracket is not always easy;</li>
+<li>it can take a very large number of iterations to obtain an accurate answer;</li>
+<li>it can never find a solution of <span class="math inline">\(f(x)\)</span> for which <span class="math inline">\(f\)</span> does not change sign (e.g.&nbsp;<span class="math inline">\(f(x) = (x-1)^2\)</span>) since we cannot find a bracket for the root!</li>
+</ul>
+</section>
+
+<section id="newtons-method" class="title-slide slide level2 center">
+<h2>Newton’s method</h2>
+<div id="92a79309" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-11-output-1.png" width="949" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Newton’s method</strong> (or the Newton-Raphson iteration) is an alternative algorithm for solving <span class="math inline">\(f(x) = 0\)</span>. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).</p>
+<p>We start at our initial guess <span class="math inline">\(x^{(0)}\)</span> and find the corresponding point on the graph of the function <span class="math inline">\((x^{(0)}, f(x^{(0)}))\)</span>. We find the tangent to the graph at <span class="math inline">\((x^{(0)}, f(x^{(0)}))\)</span> and follow this line to the <span class="math inline">\(x\)</span>-axis. Where the tangent line intersects the <span class="math inline">\(x\)</span>-axis is our new value for <span class="math inline">\(x^{(1)}\)</span>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level3">
+
+<div class="columns">
+<div class="column">
+<div id="b31af78c" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-12-output-1.png" width="949" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+
+</div></div>
+<aside class="notes">
+<p>In the picture, we can see two ways to calculate the tangent:</p>
+<ol type="1">
+<li>We can use the derivative of <span class="math inline">\(f\)</span> to see that the slope of the tangent is <span class="math inline">\(f'(x^{(0)})\)</span>.</li>
+<li>We can see that we have a right-angled triangle with vertices at <span class="math inline">\((x^{(1)}, 0)\)</span>, <span class="math inline">\((x^{(0)}, 0)\)</span> and <span class="math inline">\((x^{(0)}, f(x^{(0)})\)</span> which has slope <span class="math display">\[
+\frac{\text{change in $y$}}{\text{change in $x$}} = \frac{f(x^{(0)}) - 0}{x^{(0)} - x^{(1)}}.
+\]</span></li>
+</ol>
+<p>Equating the two slopes, we see that <span class="math display">\[
+f'(x^{(0)}) = \frac{f(x^{(0)})}{x^{(0)} - x^{(1)}},
+\]</span> which we can rearrange to <span class="math display">\[
+x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
+\]</span> This is the formula for a single Newton update!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level3">
+
+<p>Update formula: <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
+\]</span></p>
+<div id="23a7a0a6" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-13-output-1.png" width="950" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is quite a messy plot but it appears the Newton’s method converges very quickly!</p>
+<div id="rem-newton" class="proof remark">
+<p><span class="proof-title"><em>Remark 3</em>. </span></p>
+<ol type="1">
+<li>The iteration formula requires an initial guess at the solution <span class="math inline">\(x^{(0)}\)</span>.</li>
+<li>In order to apply Newton’s method, we need to be able to compute an expression for the derivative of <span class="math inline">\(f(x)\)</span> - this may not always be possible or easy.</li>
+<li>You will see a variant of Newton’s method that allows the derivative to be approximated in the lab session.</li>
+<li>We typically use the absolute value of <span class="math inline">\(f(x^{(i)})\)</span> as the variable we compare against a tolerance in a stopping criteria.</li>
+</ol>
+</div>
+</section>
+<section id="examples-1" class="slide level3">
+<h3>Examples</h3>
+<div id="2ea19bec" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" data-code-line-numbers="1-4|7-9|12|13-16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="kw">def</span> newton(f, df, x0, tol, maxiter<span class="op">=</span><span class="dv">20</span>):</span>
+<span id="cb7-2"><a href=""></a>    <span class="co">"""</span></span>
+<span id="cb7-3"><a href=""></a><span class="co">    Find a root of a scalar function f using Newton's method starting at x0</span></span>
+<span id="cb7-4"><a href=""></a><span class="co">    """</span></span>
+<span id="cb7-5"><a href=""></a>    data <span class="op">=</span> []</span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a>    <span class="co"># the iteration</span></span>
+<span id="cb7-8"><a href=""></a>    it <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-9"><a href=""></a>    x <span class="op">=</span> x0</span>
+<span id="cb7-10"><a href=""></a>    data.append({<span class="st">"it"</span>: it, <span class="st">"x"</span>: x, <span class="st">"f(x)"</span>: f(x), <span class="st">"f'(x)"</span>: df(x)})</span>
+<span id="cb7-11"><a href=""></a></span>
+<span id="cb7-12"><a href=""></a>    <span class="cf">while</span> <span class="bu">abs</span>(f(x)) <span class="op">&gt;</span> tol <span class="kw">and</span> it <span class="op">&lt;</span> maxiter:</span>
+<span id="cb7-13"><a href=""></a>        x_new <span class="op">=</span> x <span class="op">-</span> f(x) <span class="op">/</span> df(x)</span>
+<span id="cb7-14"><a href=""></a></span>
+<span id="cb7-15"><a href=""></a>        x <span class="op">=</span> x_new</span>
+<span id="cb7-16"><a href=""></a>        it <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-17"><a href=""></a></span>
+<span id="cb7-18"><a href=""></a>        data.append({<span class="st">"it"</span>: it, <span class="st">"x"</span>: x, <span class="st">"f(x)"</span>: f(x), <span class="st">"f'(x)"</span>: df(x)})</span>
+<span id="cb7-19"><a href=""></a></span>
+<span id="cb7-20"><a href=""></a>    <span class="cf">return</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level3">
+
+<p><span class="math display">\[
+f(x) = x^2 - 2.
+\]</span></p>
+<div id="450c6e3c" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-15-output-1.png" width="814" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that it takes <em>only</em> 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the square root problem.</p>
+</section>
+<section class="slide level3">
+
+<p><span class="math display">\[
+f(x) = x - 0.7 \sin(x) - 2.0
+\]</span></p>
+<div id="43690ad3" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-16-output-1.png" width="814" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that it takes 3 iterations to find the solution to a tolerance of <span class="math inline">\(10^{-4}\)</span> for the Kepler problem</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-newton" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4</strong></span> Consider <span class="math inline">\(f(x) = x^2 - 5\)</span> and <span class="math inline">\(x^{(0)} = 2\)</span>.</p>
+</div>
+<aside class="notes">
+<p>This gives <span class="math inline">\(f'(x) = 2x\)</span> so the iterative formula is: <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^2 - 5}{2 x^{(i)}} = \frac{(x^{(i)})^2 + 5}{2 x^{(i)}}.
+\]</span> The iteration then proceeds as: <span class="math display">\[\begin{align*}
+x^{(1)} &amp; = \frac{(x^{(0)})^2 + 5}{2 x^{(0)}} = \frac{2^2 + 5}{2 \times 2} = \frac{9}{4} = 2.25. \\
+x^{(2)} &amp; = \frac{(x^{(1})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25} = \frac{161}{72} \approx 2.23611.
+\end{align*}\]</span> Note that <span class="math inline">\(\sqrt{5} = 2.23607\ldots\)</span>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level3">
+
+<div id="exr-newton" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 2</strong></span> Write down an expression for the Newton iteration formula for the following functions and then carry out 2 iterations using the resulting iteration and given initial value <span class="math inline">\(x^{(0)}\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(f(x) = x^3 - 2x - 5\)</span> with <span class="math inline">\(x^{(0)} = 2\)</span>.</li>
+<li><span class="math inline">\(f(x) = x^3 - 2\)</span> with <span class="math inline">\(x^{(0)} = 1\)</span>.</li>
+</ol>
+</div>
+</section>
+<section id="challenges-for-newtons-method" class="slide level3">
+<h3>Challenges for Newton’s method</h3>
+<p>The first obvious challenge for Newton’s method comes from the idea that we divide by something that might be zero in our update formula – what if <span class="math inline">\(f'(x^{(i)}) = 0\)</span>? In this case, there isn’t much we can do and Newton’s method will fail.</p>
+</section>
+<section class="slide level3">
+
+<div id="exm-newton-0" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5</strong></span> Consider applying Newton’s method to the function <span class="math inline">\(f(x) = x^3 + 2x^2 + x + 1\)</span> with <span class="math inline">\(x^{(0)} = 0\)</span>. This gives <span class="math inline">\(f'(x) = 3 x^2 + 4 x + 1\)</span>. Starting from <span class="math inline">\(x^{(0)} = 0\)</span>, we get: <span class="math display">\[\begin{align*}
+x^{(1)} &amp;= x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}
+= 0 - \frac{0^3 + 2 \times 0 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
+\end{align*}\]</span> But we see that <span class="math display">\[
+f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
+\]</span> So the iteration cannot proceed.</p>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Consider <span class="math inline">\(f(x) = (x-1)^2 = x^2 - 2x + 1\)</span>:</p>
+<div id="7e654048" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-17-output-1.png" width="814" height="429"></p>
+<figcaption>Example with slower convergence from <span class="math inline">\(f'(x^*) = 0\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It takes 7 iterations to find the root in this case (more than the other Newton examples).</p>
+<p>We note here also that the convergence criterion is <span class="math inline">\(|f(x^{(i)})| &lt; TOL\)</span> which does not guarantee that <span class="math inline">\(|x^* - x^{(i)}| &lt; TOL\)</span>!</p>
+</section>
+<section class="slide level3">
+
+<p>Consider the function <span class="math inline">\(f(x) = x^{1/3}\)</span>. Clearly <span class="math inline">\(f\)</span> has a root at <span class="math inline">\(x^* = 0\)</span> (<span class="math inline">\(f(0) = 0\)</span>).</p>
+<div id="fce1a84a" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-18-output-1.png" width="833" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The derivative is <span class="math inline">\(f'(x) = \frac{1}{3} x^{-2/3}\)</span> and the Newton iteration is <span class="math display">\[
+x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
+\]</span> We can see that the general term in this sequence is <span class="math inline">\(x^{(i)} = (-2)^i x^{(0)}\)</span> – this is clearly not going to converge to 0!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level3">
+
+<div id="c7771491" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-19-output-1.png" width="830" height="429"></p>
+<figcaption>Example of non-convergence</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>It is even possible for the iteration to simply cycle between two values repeatedly.</p>
+<div id="exm-newton-repeater" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6</strong></span> Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This has derivative <span class="math inline">\(f'(x) = 3 x^2 - 2\)</span>.</p>
+<div id="10789b5e" class="cell" data-execution_count="20">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec03a_files/figure-revealjs/cell-21-output-1.png" width="794" height="433"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="summary" class="title-slide slide level2 center">
+<h2>Summary</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Bisection</th>
+<th>Newton</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Simple algorithm</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>Starting values</td>
+<td>bracket</td>
+<td>one</td>
+</tr>
+<tr class="odd">
+<td>Iterations</td>
+<td>lots</td>
+<td>normally fewer</td>
+</tr>
+<tr class="even">
+<td>Convergence</td>
+<td>with good bracket</td>
+<td>not always</td>
+</tr>
+<tr class="odd">
+<td>Turning point roots</td>
+<td>no</td>
+<td>slower</td>
+</tr>
+<tr class="even">
+<td>Use derivative</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>There are many more methods available – you will see more on the lab exercise sheet.</p>
+
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec03a_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec03a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec03a_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec03a_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true,"theme":"whiteboard"},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W119
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../../..";
+    window._ojs.paths.docToRoot = "..";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

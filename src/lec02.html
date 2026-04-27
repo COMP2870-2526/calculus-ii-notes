@@ -534,7 +534,7 @@ t^{(i+1)} &amp;= t^{(i)} + h.
 <p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Compute two time steps of Euler’s method to approximate the solution of <span class="math inline">\(\eqref{eq:diff-eq}\)</span> at time <span class="math inline">\(T=2\)</span>. What is the error between your computed solution and the exact solution?</p>
 </div>
 <p>We can also implement Euler’s method in code:</p>
-<div id="09590b98" class="cell" data-execution_count="2">
+<div id="f78ade2d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>data <span class="op">=</span> {}</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>, <span class="dv">160</span>]:</span>
@@ -550,7 +550,7 @@ t^{(i+1)} &amp;= t^{(i)} + h.
 <span id="cb1-13"><a href="#cb1-13"></a>    <span class="co"># store solution</span></span>
 <span id="cb1-14"><a href="#cb1-14"></a>    data[n] <span class="op">=</span> (t, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="44bd39ec" class="cell" data-execution_count="3">
+<div id="e978e4a5" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -625,7 +625,7 @@ Table&nbsp;3.1: A convergence study for Euler’s method
 <p><span class="theorem-title"><strong>Exercise 3.2</strong></span> What might we expect the computed solution to be if we halved <span class="math inline">\(h\)</span> one more time?</p>
 </div>
 <p>Something interesting happens when we plot <span class="math inline">\(h\)</span> against the absolute error for Euler’s method - we see that the errors all fall on a straight line when we use a logarthmic scale for both axes. Perhaps this is not too strange since we think that the error is approximately proportional to step size, so this line should be straight either on a linear or log scale.</p>
-<div id="8db21894" class="cell" data-execution_count="5">
+<div id="23ecad12" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -637,7 +637,7 @@ Table&nbsp;3.1: A convergence study for Euler’s method
 </div>
 <div id="rem-log-scale" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>Using log scales is really important when considering variables like <span class="math inline">\(h\)</span> or error. Contrast the above nice plot, with nice evenly spread data points, with these linear scaled plots:</p>
-<div id="54a112f8" class="cell" data-execution_count="6">
+<div id="7438e1f1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -722,7 +722,7 @@ t^{(i+1)} &amp; = t^{(i)} + h.
 <p><span class="theorem-title"><strong>Example 3.3</strong></span> Take two steps of the midpoint rule to approximate the solution of <span class="math display">\[
 y'(t) = -y(t)^2 \quad\text{subject to the initial condition} \quad y(0) = 2,
 \]</span> for <span class="math inline">\(0 \le t \le 2\)</span>.</p>
-<div id="34a0833d" class="cell" data-execution_count="7">
+<div id="2bf16f62" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <p>In this example we have:</p>
 <ul>
@@ -778,7 +778,7 @@ y'(t) = -y(t)^2 \quad\text{subject to the initial condition} \quad y(0) = 2,
 <section id="numerical-results" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="numerical-results"><span class="header-section-number">3.3.1</span> Numerical results</h3>
 <p>We can also implement the method in code and explore how the error changes as we change the number of steps. For this test we use the same test as we did for Euler’s method <span class="math inline">\(\eqref{eq:diff-eq}\)</span>.</p>
-<div id="0e66853e" class="cell" data-execution_count="9">
+<div id="370ae1e1" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -850,7 +850,7 @@ Table&nbsp;3.2: A convergence study for the midpoint method
 <p>We now see that the error reduces by a <em>quarter</em> each time we reduce <span class="math inline">\(h\)</span> by half. This means that the error is approximately proportional to <span class="math inline">\(h^2\)</span>, or equivalently, we can say that the error is <span class="math inline">\(O(h^2)\)</span> as <span class="math inline">\(h \to 0\)</span>.</p>
 <p>This is a significant improvement on Euler’s method. We say that the midpoint method is <strong>second order</strong>, whereas Euler’s method is just <strong>first order</strong>.</p>
 <p>We can see the significant reduction in error by plotting the errors for both methods:</p>
-<div id="365ab2b5" class="cell" data-execution_count="11">
+<div id="92f8188e" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -896,37 +896,37 @@ Table&nbsp;3.3: A convergence study for Euler’s method with running costs
 <tr class="odd">
 <td style="text-align: right;">10</td>
 <td style="text-align: left;"><span class="math inline">\(1.000000e-01\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(8.550700e-06\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(8.551000e-06\)</span></td>
 <td style="text-align: right;">10</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td style="text-align: left;"><span class="math inline">\(5.000000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(1.462360e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(3.271710e-05\)</span></td>
 <td style="text-align: right;">20</td>
-<td style="text-align: left;"><span class="math inline">\(1.710223\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(3.826114\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">40</td>
 <td style="text-align: left;"><span class="math inline">\(2.500000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(3.037480e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.881780e-05\)</span></td>
 <td style="text-align: right;">40</td>
-<td style="text-align: left;"><span class="math inline">\(2.077108\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(0.880818\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">80</td>
 <td style="text-align: left;"><span class="math inline">\(1.250000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(5.711440e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(5.833690e-05\)</span></td>
 <td style="text-align: right;">80</td>
-<td style="text-align: left;"><span class="math inline">\(1.880322\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.024336\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">160</td>
 <td style="text-align: left;"><span class="math inline">\(6.250000e-03\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(1.142577e-04\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.143125e-04\)</span></td>
 <td style="text-align: right;">160</td>
-<td style="text-align: left;"><span class="math inline">\(2.000506\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.959523\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -960,44 +960,44 @@ Table&nbsp;3.4: A convergence study for Midpoint’s method with running costs
 <tr class="odd">
 <td style="text-align: right;">10</td>
 <td style="text-align: left;"><span class="math inline">\(1.000000e-01\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(1.373030e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.371960e-05\)</span></td>
 <td style="text-align: right;">20</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td style="text-align: left;"><span class="math inline">\(5.000000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(2.555870e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.634330e-05\)</span></td>
 <td style="text-align: right;">40</td>
-<td style="text-align: left;"><span class="math inline">\(1.861482\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.920122\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">40</td>
 <td style="text-align: left;"><span class="math inline">\(2.500000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(5.190160e-05\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(5.251210e-05\)</span></td>
 <td style="text-align: right;">80</td>
-<td style="text-align: left;"><span class="math inline">\(2.030682\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.993376\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">80</td>
 <td style="text-align: left;"><span class="math inline">\(1.250000e-02\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(1.018063e-04\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.027640e-04\)</span></td>
 <td style="text-align: right;">160</td>
-<td style="text-align: left;"><span class="math inline">\(1.961525\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.956958\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">160</td>
 <td style="text-align: left;"><span class="math inline">\(6.250000e-03\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(2.133679e-04\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.091908e-04\)</span></td>
 <td style="text-align: right;">320</td>
-<td style="text-align: left;"><span class="math inline">\(2.095822\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.035643\)</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 </figure>
 </div>
-<div id="aa2ec17a" class="cell" data-execution_count="16">
+<div id="7e156672" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1008,7 +1008,7 @@ Table&nbsp;3.4: A convergence study for Midpoint’s method with running costs
 </div>
 </div>
 <p>However, we can make this plot another way by plotting the cost against the error.</p>
-<div id="95a48817" class="cell" data-execution_count="17">
+<div id="cbe573bd" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

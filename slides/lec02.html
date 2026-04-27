@@ -262,7 +262,7 @@ y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
 <section class="slide level3">
 
 <p>We can also implement Euler’s method in code:</p>
-<div id="652b90fb" class="cell" data-execution_count="3">
+<div id="a37057d6" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -301,51 +301,51 @@ Table&nbsp;1
 <style type="text/css">
 </style>
 
-<table id="T_b994f" class="caption-top">
+<table id="T_b660f" class="caption-top">
 <thead>
 <tr class="header">
-<th id="T_b994f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_b994f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
-<th id="T_b994f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Solution</th>
-<th id="T_b994f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Abs. error</th>
-<th id="T_b994f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">ratio</th>
+<th id="T_b660f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_b660f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
+<th id="T_b660f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Solution</th>
+<th id="T_b660f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Abs. error</th>
+<th id="T_b660f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_b994f_row0_col0" class="data row0 col0">10</td>
-<td id="T_b994f_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
-<td id="T_b994f_row0_col2" class="data row0 col2">7.000000</td>
-<td id="T_b994f_row0_col3" class="data row0 col3">\(1.000\times 10^{0}\)</td>
-<td id="T_b994f_row0_col4" class="data row0 col4">---</td>
+<td id="T_b660f_row0_col0" class="data row0 col0">10</td>
+<td id="T_b660f_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
+<td id="T_b660f_row0_col2" class="data row0 col2">7.000000</td>
+<td id="T_b660f_row0_col3" class="data row0 col3">\(1.000\times 10^{0}\)</td>
+<td id="T_b660f_row0_col4" class="data row0 col4">---</td>
 </tr>
 <tr class="even">
-<td id="T_b994f_row1_col0" class="data row1 col0">20</td>
-<td id="T_b994f_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
-<td id="T_b994f_row1_col2" class="data row1 col2">7.454545</td>
-<td id="T_b994f_row1_col3" class="data row1 col3">\(5.455\times 10^{-1}\)</td>
-<td id="T_b994f_row1_col4" class="data row1 col4">0.545455</td>
+<td id="T_b660f_row1_col0" class="data row1 col0">20</td>
+<td id="T_b660f_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
+<td id="T_b660f_row1_col2" class="data row1 col2">7.454545</td>
+<td id="T_b660f_row1_col3" class="data row1 col3">\(5.455\times 10^{-1}\)</td>
+<td id="T_b660f_row1_col4" class="data row1 col4">0.545455</td>
 </tr>
 <tr class="odd">
-<td id="T_b994f_row2_col0" class="data row2 col0">40</td>
-<td id="T_b994f_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
-<td id="T_b994f_row2_col2" class="data row2 col2">7.714286</td>
-<td id="T_b994f_row2_col3" class="data row2 col3">\(2.857\times 10^{-1}\)</td>
-<td id="T_b994f_row2_col4" class="data row2 col4">0.523810</td>
+<td id="T_b660f_row2_col0" class="data row2 col0">40</td>
+<td id="T_b660f_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
+<td id="T_b660f_row2_col2" class="data row2 col2">7.714286</td>
+<td id="T_b660f_row2_col3" class="data row2 col3">\(2.857\times 10^{-1}\)</td>
+<td id="T_b660f_row2_col4" class="data row2 col4">0.523810</td>
 </tr>
 <tr class="even">
-<td id="T_b994f_row3_col0" class="data row3 col0">80</td>
-<td id="T_b994f_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
-<td id="T_b994f_row3_col2" class="data row3 col2">7.853659</td>
-<td id="T_b994f_row3_col3" class="data row3 col3">\(1.463\times 10^{-1}\)</td>
-<td id="T_b994f_row3_col4" class="data row3 col4">0.512195</td>
+<td id="T_b660f_row3_col0" class="data row3 col0">80</td>
+<td id="T_b660f_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
+<td id="T_b660f_row3_col2" class="data row3 col2">7.853659</td>
+<td id="T_b660f_row3_col3" class="data row3 col3">\(1.463\times 10^{-1}\)</td>
+<td id="T_b660f_row3_col4" class="data row3 col4">0.512195</td>
 </tr>
 <tr class="odd">
-<td id="T_b994f_row4_col0" class="data row4 col0">160</td>
-<td id="T_b994f_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
-<td id="T_b994f_row4_col2" class="data row4 col2">7.925926</td>
-<td id="T_b994f_row4_col3" class="data row4 col3">\(7.407\times 10^{-2}\)</td>
-<td id="T_b994f_row4_col4" class="data row4 col4">0.506173</td>
+<td id="T_b660f_row4_col0" class="data row4 col0">160</td>
+<td id="T_b660f_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
+<td id="T_b660f_row4_col2" class="data row4 col2">7.925926</td>
+<td id="T_b660f_row4_col3" class="data row4 col3">\(7.407\times 10^{-2}\)</td>
+<td id="T_b660f_row4_col4" class="data row4 col4">0.506173</td>
 </tr>
 </tbody>
 </table>
@@ -386,7 +386,7 @@ Table&nbsp;1
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<div id="dd5636b0" class="cell" data-execution_count="5">
+<div id="9f319f97" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -400,7 +400,7 @@ Table&nbsp;1
 
 <div id="rem-log-scale" class="proof remark">
 <p><span class="proof-title"><em>Remark 1</em>. </span>Using log scales is really important when considering variables like <span class="math inline">\(h\)</span> or error. Contrast the above nice plot, with nice evenly spread data points, with these linear scaled plots:</p>
-<div id="51a3a670" class="cell" data-execution_count="6">
+<div id="a58b4876" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -546,7 +546,7 @@ y'(t) = -y(t)^2 \\\text{subject to the initial condition} \quad y(0) = 2,
 
 </div></div>
 <aside class="notes">
-<div id="28400c6f" class="cell" data-execution_count="7">
+<div id="2e491013" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <p>In this example we have:</p>
 <ul>
@@ -639,7 +639,7 @@ y'(t) = \frac{3 y(t)}{t} \quad \text{subject to} \quad y(1) = 1.
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<div id="50bcbd08" class="cell" data-execution_count="9">
+<div id="11ea8d49" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -675,51 +675,51 @@ Table&nbsp;2: A convergence study for the midpoint method
 <style type="text/css">
 </style>
 
-<table id="T_57305" class="cell caption-top">
+<table id="T_d2ced" class="cell caption-top">
 <thead>
 <tr class="header">
-<th id="T_57305_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_57305_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
-<th id="T_57305_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Solution</th>
-<th id="T_57305_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Abs. error</th>
-<th id="T_57305_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">ratio</th>
+<th id="T_d2ced_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_d2ced_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
+<th id="T_d2ced_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Solution</th>
+<th id="T_d2ced_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Abs. error</th>
+<th id="T_d2ced_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_57305_row0_col0" class="data row0 col0">10</td>
-<td id="T_57305_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
-<td id="T_57305_row0_col2" class="data row0 col2">7.935060</td>
-<td id="T_57305_row0_col3" class="data row0 col3">\(6.494\times 10^{-2}\)</td>
-<td id="T_57305_row0_col4" class="data row0 col4">---</td>
+<td id="T_d2ced_row0_col0" class="data row0 col0">10</td>
+<td id="T_d2ced_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
+<td id="T_d2ced_row0_col2" class="data row0 col2">7.935060</td>
+<td id="T_d2ced_row0_col3" class="data row0 col3">\(6.494\times 10^{-2}\)</td>
+<td id="T_d2ced_row0_col4" class="data row0 col4">---</td>
 </tr>
 <tr class="even">
-<td id="T_57305_row1_col0" class="data row1 col0">20</td>
-<td id="T_57305_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
-<td id="T_57305_row1_col2" class="data row1 col2">7.982538</td>
-<td id="T_57305_row1_col3" class="data row1 col3">\(1.746\times 10^{-2}\)</td>
-<td id="T_57305_row1_col4" class="data row1 col4">0.268892</td>
+<td id="T_d2ced_row1_col0" class="data row1 col0">20</td>
+<td id="T_d2ced_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
+<td id="T_d2ced_row1_col2" class="data row1 col2">7.982538</td>
+<td id="T_d2ced_row1_col3" class="data row1 col3">\(1.746\times 10^{-2}\)</td>
+<td id="T_d2ced_row1_col4" class="data row1 col4">0.268892</td>
 </tr>
 <tr class="odd">
-<td id="T_57305_row2_col0" class="data row2 col0">40</td>
-<td id="T_57305_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
-<td id="T_57305_row2_col2" class="data row2 col2">7.995475</td>
-<td id="T_57305_row2_col3" class="data row2 col3">\(4.525\times 10^{-3}\)</td>
-<td id="T_57305_row2_col4" class="data row2 col4">0.259127</td>
+<td id="T_d2ced_row2_col0" class="data row2 col0">40</td>
+<td id="T_d2ced_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
+<td id="T_d2ced_row2_col2" class="data row2 col2">7.995475</td>
+<td id="T_d2ced_row2_col3" class="data row2 col3">\(4.525\times 10^{-3}\)</td>
+<td id="T_d2ced_row2_col4" class="data row2 col4">0.259127</td>
 </tr>
 <tr class="even">
-<td id="T_57305_row3_col0" class="data row3 col0">80</td>
-<td id="T_57305_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
-<td id="T_57305_row3_col2" class="data row3 col2">7.998849</td>
-<td id="T_57305_row3_col3" class="data row3 col3">\(1.151\times 10^{-3}\)</td>
-<td id="T_57305_row3_col4" class="data row3 col4">0.254473</td>
+<td id="T_d2ced_row3_col0" class="data row3 col0">80</td>
+<td id="T_d2ced_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
+<td id="T_d2ced_row3_col2" class="data row3 col2">7.998849</td>
+<td id="T_d2ced_row3_col3" class="data row3 col3">\(1.151\times 10^{-3}\)</td>
+<td id="T_d2ced_row3_col4" class="data row3 col4">0.254473</td>
 </tr>
 <tr class="odd">
-<td id="T_57305_row4_col0" class="data row4 col0">160</td>
-<td id="T_57305_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
-<td id="T_57305_row4_col2" class="data row4 col2">7.999710</td>
-<td id="T_57305_row4_col3" class="data row4 col3">\(2.904\times 10^{-4}\)</td>
-<td id="T_57305_row4_col4" class="data row4 col4">0.252212</td>
+<td id="T_d2ced_row4_col0" class="data row4 col0">160</td>
+<td id="T_d2ced_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
+<td id="T_d2ced_row4_col2" class="data row4 col2">7.999710</td>
+<td id="T_d2ced_row4_col3" class="data row4 col3">\(2.904\times 10^{-4}\)</td>
+<td id="T_d2ced_row4_col4" class="data row4 col4">0.252212</td>
 </tr>
 </tbody>
 </table>
@@ -746,7 +746,7 @@ Table&nbsp;2: A convergence study for the midpoint method
 <section class="slide level3">
 
 <p>We can see the significant reduction in error by plotting the errors for both methods:</p>
-<div id="3d7cf0e2" class="cell" data-execution_count="11">
+<div id="5f0989e4" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -813,51 +813,51 @@ Table&nbsp;3: A convergence study for Euler’s method with running costs
 <style type="text/css">
 </style>
 
-<table id="T_05019" class="cell caption-top">
+<table id="T_10fb6" class="cell caption-top">
 <thead>
 <tr class="header">
-<th id="T_05019_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_05019_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
-<th id="T_05019_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Run time</th>
-<th id="T_05019_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rhs evals</th>
-<th id="T_05019_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Run time ratio</th>
+<th id="T_10fb6_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_10fb6_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
+<th id="T_10fb6_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Run time</th>
+<th id="T_10fb6_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rhs evals</th>
+<th id="T_10fb6_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Run time ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_05019_row0_col0" class="data row0 col0">10</td>
-<td id="T_05019_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
-<td id="T_05019_row0_col2" class="data row0 col2">\(8.665\times 10^{-6}\)</td>
-<td id="T_05019_row0_col3" class="data row0 col3">10</td>
-<td id="T_05019_row0_col4" class="data row0 col4">---</td>
+<td id="T_10fb6_row0_col0" class="data row0 col0">10</td>
+<td id="T_10fb6_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
+<td id="T_10fb6_row0_col2" class="data row0 col2">\(8.627\times 10^{-6}\)</td>
+<td id="T_10fb6_row0_col3" class="data row0 col3">10</td>
+<td id="T_10fb6_row0_col4" class="data row0 col4">---</td>
 </tr>
 <tr class="even">
-<td id="T_05019_row1_col0" class="data row1 col0">20</td>
-<td id="T_05019_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
-<td id="T_05019_row1_col2" class="data row1 col2">\(1.608\times 10^{-5}\)</td>
-<td id="T_05019_row1_col3" class="data row1 col3">20</td>
-<td id="T_05019_row1_col4" class="data row1 col4">1.855519</td>
+<td id="T_10fb6_row1_col0" class="data row1 col0">20</td>
+<td id="T_10fb6_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
+<td id="T_10fb6_row1_col2" class="data row1 col2">\(1.458\times 10^{-5}\)</td>
+<td id="T_10fb6_row1_col3" class="data row1 col3">20</td>
+<td id="T_10fb6_row1_col4" class="data row1 col4">1.690046</td>
 </tr>
 <tr class="odd">
-<td id="T_05019_row2_col0" class="data row2 col0">40</td>
-<td id="T_05019_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
-<td id="T_05019_row2_col2" class="data row2 col2">\(2.857\times 10^{-5}\)</td>
-<td id="T_05019_row2_col3" class="data row2 col3">40</td>
-<td id="T_05019_row2_col4" class="data row2 col4">1.777002</td>
+<td id="T_10fb6_row2_col0" class="data row2 col0">40</td>
+<td id="T_10fb6_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
+<td id="T_10fb6_row2_col2" class="data row2 col2">\(2.944\times 10^{-5}\)</td>
+<td id="T_10fb6_row2_col3" class="data row2 col3">40</td>
+<td id="T_10fb6_row2_col4" class="data row2 col4">2.019046</td>
 </tr>
 <tr class="even">
-<td id="T_05019_row3_col0" class="data row3 col0">80</td>
-<td id="T_05019_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
-<td id="T_05019_row3_col2" class="data row3 col2">\(5.678\times 10^{-5}\)</td>
-<td id="T_05019_row3_col3" class="data row3 col3">80</td>
-<td id="T_05019_row3_col4" class="data row3 col4">1.987242</td>
+<td id="T_10fb6_row3_col0" class="data row3 col0">80</td>
+<td id="T_10fb6_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
+<td id="T_10fb6_row3_col2" class="data row3 col2">\(5.848\times 10^{-5}\)</td>
+<td id="T_10fb6_row3_col3" class="data row3 col3">80</td>
+<td id="T_10fb6_row3_col4" class="data row3 col4">1.986487</td>
 </tr>
 <tr class="odd">
-<td id="T_05019_row4_col0" class="data row4 col0">160</td>
-<td id="T_05019_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
-<td id="T_05019_row4_col2" class="data row4 col2">\(1.482\times 10^{-4}\)</td>
-<td id="T_05019_row4_col3" class="data row4 col3">160</td>
-<td id="T_05019_row4_col4" class="data row4 col4">2.609666</td>
+<td id="T_10fb6_row4_col0" class="data row4 col0">160</td>
+<td id="T_10fb6_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
+<td id="T_10fb6_row4_col2" class="data row4 col2">\(1.521\times 10^{-4}\)</td>
+<td id="T_10fb6_row4_col3" class="data row4 col3">160</td>
+<td id="T_10fb6_row4_col4" class="data row4 col4">2.600577</td>
 </tr>
 </tbody>
 </table>
@@ -880,51 +880,51 @@ Table&nbsp;4: A convergence study for Midpoint’s method with running costs
 <style type="text/css">
 </style>
 
-<table id="T_9cc5e" class="cell caption-top">
+<table id="T_255c0" class="cell caption-top">
 <thead>
 <tr class="header">
-<th id="T_9cc5e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_9cc5e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
-<th id="T_9cc5e_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Run time</th>
-<th id="T_9cc5e_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rhs evals</th>
-<th id="T_9cc5e_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Run time ratio</th>
+<th id="T_255c0_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_255c0_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">h</th>
+<th id="T_255c0_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Run time</th>
+<th id="T_255c0_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Rhs evals</th>
+<th id="T_255c0_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Run time ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_9cc5e_row0_col0" class="data row0 col0">10</td>
-<td id="T_9cc5e_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
-<td id="T_9cc5e_row0_col2" class="data row0 col2">\(1.333\times 10^{-5}\)</td>
-<td id="T_9cc5e_row0_col3" class="data row0 col3">20</td>
-<td id="T_9cc5e_row0_col4" class="data row0 col4">---</td>
+<td id="T_255c0_row0_col0" class="data row0 col0">10</td>
+<td id="T_255c0_row0_col1" class="data row0 col1">\(1.000\times 10^{-1}\)</td>
+<td id="T_255c0_row0_col2" class="data row0 col2">\(1.340\times 10^{-5}\)</td>
+<td id="T_255c0_row0_col3" class="data row0 col3">20</td>
+<td id="T_255c0_row0_col4" class="data row0 col4">---</td>
 </tr>
 <tr class="even">
-<td id="T_9cc5e_row1_col0" class="data row1 col0">20</td>
-<td id="T_9cc5e_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
-<td id="T_9cc5e_row1_col2" class="data row1 col2">\(2.630\times 10^{-5}\)</td>
-<td id="T_9cc5e_row1_col3" class="data row1 col3">40</td>
-<td id="T_9cc5e_row1_col4" class="data row1 col4">1.973248</td>
+<td id="T_255c0_row1_col0" class="data row1 col0">20</td>
+<td id="T_255c0_row1_col1" class="data row1 col1">\(5.000\times 10^{-2}\)</td>
+<td id="T_255c0_row1_col2" class="data row1 col2">\(2.490\times 10^{-5}\)</td>
+<td id="T_255c0_row1_col3" class="data row1 col3">40</td>
+<td id="T_255c0_row1_col4" class="data row1 col4">1.858489</td>
 </tr>
 <tr class="odd">
-<td id="T_9cc5e_row2_col0" class="data row2 col0">40</td>
-<td id="T_9cc5e_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
-<td id="T_9cc5e_row2_col2" class="data row2 col2">\(4.998\times 10^{-5}\)</td>
-<td id="T_9cc5e_row2_col3" class="data row2 col3">80</td>
-<td id="T_9cc5e_row2_col4" class="data row2 col4">1.900132</td>
+<td id="T_255c0_row2_col0" class="data row2 col0">40</td>
+<td id="T_255c0_row2_col1" class="data row2 col1">\(2.500\times 10^{-2}\)</td>
+<td id="T_255c0_row2_col2" class="data row2 col2">\(5.086\times 10^{-5}\)</td>
+<td id="T_255c0_row2_col3" class="data row2 col3">80</td>
+<td id="T_255c0_row2_col4" class="data row2 col4">2.042777</td>
 </tr>
 <tr class="even">
-<td id="T_9cc5e_row3_col0" class="data row3 col0">80</td>
-<td id="T_9cc5e_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
-<td id="T_9cc5e_row3_col2" class="data row3 col2">\(9.994\times 10^{-5}\)</td>
-<td id="T_9cc5e_row3_col3" class="data row3 col3">160</td>
-<td id="T_9cc5e_row3_col4" class="data row3 col4">1.999678</td>
+<td id="T_255c0_row3_col0" class="data row3 col0">80</td>
+<td id="T_255c0_row3_col1" class="data row3 col1">\(1.250\times 10^{-2}\)</td>
+<td id="T_255c0_row3_col2" class="data row3 col2">\(9.887\times 10^{-5}\)</td>
+<td id="T_255c0_row3_col3" class="data row3 col3">160</td>
+<td id="T_255c0_row3_col4" class="data row3 col4">1.943999</td>
 </tr>
 <tr class="odd">
-<td id="T_9cc5e_row4_col0" class="data row4 col0">160</td>
-<td id="T_9cc5e_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
-<td id="T_9cc5e_row4_col2" class="data row4 col2">\(2.075\times 10^{-4}\)</td>
-<td id="T_9cc5e_row4_col3" class="data row4 col3">320</td>
-<td id="T_9cc5e_row4_col4" class="data row4 col4">2.075825</td>
+<td id="T_255c0_row4_col0" class="data row4 col0">160</td>
+<td id="T_255c0_row4_col1" class="data row4 col1">\(6.250\times 10^{-3}\)</td>
+<td id="T_255c0_row4_col2" class="data row4 col2">\(1.983\times 10^{-4}\)</td>
+<td id="T_255c0_row4_col3" class="data row4 col3">320</td>
+<td id="T_255c0_row4_col4" class="data row4 col4">2.005329</td>
 </tr>
 </tbody>
 </table>
@@ -936,7 +936,7 @@ Table&nbsp;4: A convergence study for Midpoint’s method with running costs
 </section>
 <section class="slide level3">
 
-<div id="cadbda21" class="cell" data-execution_count="16">
+<div id="cce0900c" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -949,7 +949,7 @@ Table&nbsp;4: A convergence study for Midpoint’s method with running costs
 <section class="slide level3">
 
 <p>However, we can make this plot another way by plotting the cost against the error.</p>
-<div id="1bdf7b5b" class="cell" data-execution_count="17">
+<div id="1c42513e" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
