@@ -893,6 +893,13 @@ Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
 Consider applying Newton's method to the function $f(x) = x^3 + 2x^2 + x + 1$ with $x^{(0)} = 0$.
 This gives $f'(x) = 3 x^2 + 4 x + 1$.
 Starting from $x^{(0)} = 0$, we get:
+:::
+
+::: {.aside}
+Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
+:::
+
+::: {.notes}
 \begin{align*}
 x^{(1)} &= x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}
 = 0 - \frac{0^3 + 2 \times 0^2 + 0 + 1}{3 \times 0^2 + 4 \times 0 + 1} = 0 - \frac{1}{1} = -1.
@@ -902,10 +909,6 @@ $$
 f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 $$
 So the iteration cannot proceed.
-:::
-
-::: {.aside}
-Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
 :::
 
 ---

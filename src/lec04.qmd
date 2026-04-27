@@ -65,7 +65,7 @@ plt.show()
 
 ## Directional derivatives
 
-Somehow we want to use the idea that if you move away from the minimum in *any* direction then the function increases.
+Somehow we want to use the idea that if you move away from the minimum in *any* direction then the function increases, or at least doesn't decrease.
 Mathematically, we could write this as saying: A point $\vec{x}^*$ is a local minimum if, for *any* direction $\vec{v} \in \mathbb{R}^n$, the value $h = 0$ is a local minimum of:
 $$
 \gamma_{\vec{v}}(h) = F(\vec{x}^* + h \vec{v}) \ge F(\vec{x}^*) \quad\text{for all small}\quad h.
@@ -142,12 +142,12 @@ We saw that
 $$
 \gamma'_{(1, 1)^T}(h) = \gamma'_{(1, 0)^T}(h) + \gamma'_{(0, 1)^T}(h).
 $$
-This is also true in general: For directions $\vec{v}$ and $\vec{w}$ and a number $a$
+This is also true in general, but normally only at $h=0$: For directions $\vec{v}$ and $\vec{w}$ and a number $a$
 \begin{align*}
-\gamma'_{\vec{v} + \vec{w}}(h) = \gamma'_{\vec{v}}(h) + \gamma'_{\vec{w}}(h) \\
-\gamma'_{a \vec{v}}(h) = a \gamma'_{\vec{v}}(h).
+\gamma'_{\vec{v} + \vec{w}}(0) = \gamma'_{\vec{v}}(0) + \gamma'_{\vec{w}}(0) \\
+\gamma'_{a \vec{v}}(0) = a \gamma'_{\vec{v}}(0).
 \end{align*}
-So if we can find a basis (remember that term from semester 1?!?), we can write any directional derivative in terms of the basis vectors. We can make a simple choice for this: the coordinate axes!
+So if we can find a basis (remember that term from semester 1?!?), we can write any directional derivative (at $h=0$) in terms of the basis vectors. We can make a simple choice for this: the coordinate axes!
 
 Let $\vec{e}^{(j)}$ be the vector with $1$ in the $j$th place and $0$ in every other place for $j = 1, 2, \ldots n$.
 For example in $\mathbb{R}^2$, we have $\vec{e}^{(1)} = (1, 0)^T$ and $\vec{e}^{(2)} = (0, 1)^T$.
@@ -157,7 +157,7 @@ $$
 $$
 so that
 $$
-\gamma'_{\vec{v}}(h) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(h).
+\gamma'_{\vec{v}}(0) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(0).
 $$
 Then, using the fact that $\|\vec{e}^{(j)}\|=1$, we see that:
 $$
@@ -198,13 +198,13 @@ The definition tells us to compute:
 & = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(1)}) - F(\vec{x})}{h} \\
 & = \lim_{h\to 0} \frac{\big((x_1 + h)^4 - (x_1 + h)^2 + 2 (x_1 + h) + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
 & = \lim_{h\to 0} \frac{\big(x_1^4 + 4 x_1^3 h + 6 x_1^2 h^2 + 4 x_1 h^3 + h^4 - x_1^2 - 2 x_1 h - h^2 + 2 x_1 + 2 h + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
-& = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1)}{h} \\
-& = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) \\
+& = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1) + h^4}{h} \\
+& = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) + h^3 \\
 &= 4 x_1^3 - 2x_1 +2.
 \end{align*}
 But we notice that when we do this calculation, we are effectively finding the usual derivative with respect to $x_1$ but ignoring terms with $x_2$. This is an approach we can follow.
 
-Strictly, when computing partial derivatives with respect to a variable $x_j$, we compute the usual derivative with respect to $x_1$ and treat all other variables as *constants*: i.e. $\frac{\partial}{\partial x_1} x_2 = 0$.
+Strictly, when computing partial derivatives with respect to a variable $x_j$, we compute the usual derivative with respect to $x_j$ and treat all other variables as *constants*: i.e. $\frac{\partial}{\partial x_1} x_2 = 0$.
 
 In this example, we would compute
 \begin{align*}
@@ -269,7 +269,7 @@ The ideas in these examples let us see that many of the properties of usual deri
 
 1. sum rule:
    $$
-   \frac{\partial}{\partial x_j} (a F(\vec{x}) + b G(\vec{x}) = a \frac{\partial}{\partial x_j} F(\vec{x}) + b \frac{\partial}{\partial x_j} G(\vec{x})
+   \frac{\partial}{\partial x_j} \left(a F(\vec{x}) + b G(\vec{x})\right) = a \frac{\partial}{\partial x_j} F(\vec{x}) + b \frac{\partial}{\partial x_j} G(\vec{x})
    $$
 2. product rule:
    $$
@@ -404,7 +404,7 @@ We also have a geometric understanding of what the gradient is in a similar way 
 
 ::: {#lem-grad-slope-max}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
-The gradient of $F$ represents the direction in which $F$ increase the most rapidly.
+The gradient of $F$ represents the direction in which $F$ increases the most rapidly.
 :::
 
 ::: {.proof}
@@ -420,7 +420,7 @@ F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
 $$
 We can see that this is maximised for $\vec{v} = \nabla F(\vec{x})$ (e.g. using the dot product formula $\vec{a}\cdot\vec{b} = \|\vec{a}\| \|\vec{b}\| \cos\theta$) where
 $$
-F'_{\vec{v}}(\nabla F(\vec{x})) = \nabla F(\vec{x}) \cdot \frac{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
+F'_{\nabla F(\vec{x})}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
 $$
 In the final calculation we assume that $\|\nabla F(\vec{x})\| \neq 0$. Otherwise, $\nabla F(\vec{x}) = \vec{0}$ and all directional derivatives are zero so any $\vec{v}$ can maximise the expression.
 :::
@@ -508,7 +508,7 @@ One intuition comes from the idea of walking small steps on the graph of the fun
 ## What does this say about optimisation?
 
 We start with a definition of local minima here which matches the scalar domain case.
-To help writing definitions more compactly we introduce the idea of a ball. We use the notation $B(\vec{x}, R)$ to denote the ball of radius $R$ centered at $\vec{x}$ which is given by
+To help writing definitions more compactly we introduce the idea of a ball. We use the notation $B(\vec{x}, r)$ to denote the ball of radius $r$ centered at $\vec{x}$ which is given by
 $$
 B(\vec{x}, r) = \{ \vec{y} \in \mathbb{R}^n : \| \vec{y} - \vec{x} \| < r \}.
 $$
@@ -528,11 +528,11 @@ Comparing to @def-local-minimiser, we see that the biggest change is swapping th
 
 ::: {#lem-dir-deriv-minima}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
-Let $x^*$ be a local minimum of $F$, then we have
+Let $\vec{x}^*$ be a local minimum of $F$, then we have
 $$
-F'_{\vec{v}}(x^*) = 0 \quad\text{for all non-zero directions}\quad \vec{v}.
+F'_{\vec{v}}(\vec{x}^*) = 0 \quad\text{for all non-zero directions}\quad \vec{v}.
 $$
-and $\nabla F(x^*) = \vec{0}$.
+and $\nabla F(\vec{x}^*) = \vec{0}$.
 :::
 
 ::: {.proof}
@@ -853,7 +853,7 @@ J_{\vec{V}}
 $$
 That is the Jacobian is the matrix:
 
-- with the $j$th columns given by the partial derivative of $\vec{V}$ with respect to $x_j$
+- with the $j$th column given by the partial derivative of $\vec{V}$ with respect to $x_j$
 - with the $i$th row given by the transpose of the gradient of $V_i$
 - with the $(i, j)$ entry given by $\frac{\partial V_i}{\partial x_j}$.
 :::

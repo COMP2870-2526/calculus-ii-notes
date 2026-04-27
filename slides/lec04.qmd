@@ -36,18 +36,11 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
-::: {.callout-tip}
-## Module learning objective
-
-1. Compute directional derivatives, partial derivatives, gradients and Hessians of functions $F \colon \mathbb{R}^n \to \mathbb{R}$,
-2. Compute the Jacobian of a function $\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m$,
-3. Give and apply a condition that shows that a function $F \colon \mathbb{R}^n \to \mathbb{R}$ is convex.
-:::
-
 ---
 
+When working with functions $F \colon \mathbb{R}^n \to \mathbb{R}$ ($n \ge 2$), how do we compute derivatives?
 
-> When working with functions $F \colon \mathbb{R}^n \to \mathbb{R}$ ($n \ge 2$), how do we compute derivatives?
+> Compute directional derivatives, partial derivatives, gradients and Hessians of functions $F \colon \mathbb{R}^n \to \mathbb{R}$
 
 ---
 
@@ -85,7 +78,7 @@ plt.show()
 
 ## Directional derivatives
 
-Somehow we want to use the idea that if you move away from the minimum in *any* direction then the function increases.
+Somehow we want to use the idea that if you move away from the minimum in *any* direction then the function increases (or at least doesn't decrease).
 
 . . .
 
@@ -183,10 +176,10 @@ We saw that
 $$
 \gamma'_{(1, 1)^T}(h) = \gamma'_{(1, 0)^T}(h) + \gamma'_{(0, 1)^T}(h).
 $$
-This is also true in general: For directions $\vec{v}$ and $\vec{w}$ and a number $a$
+This is also true in general, but normally only at $h=0$: For directions $\vec{v}$ and $\vec{w}$ and a number $a$
 \begin{align*}
-\gamma'_{\vec{v} + \vec{w}}(h) = \gamma'_{\vec{v}}(h) + \gamma'_{\vec{w}}(h) \\
-\gamma'_{a \vec{v}}(h) = a \gamma'_{\vec{v}}(h).
+\gamma'_{\vec{v} + \vec{w}}(0) = \gamma'_{\vec{v}}(0) + \gamma'_{\vec{w}}(0) \\
+\gamma'_{a \vec{v}}(0) = a \gamma'_{\vec{v}}(0).
 \end{align*}
 
 ::: {.aside}
@@ -209,7 +202,7 @@ $$
 $$
 so that
 $$
-\gamma'_{\vec{v}}(h) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(h).
+\gamma'_{\vec{v}}(0) = \sum_{j=1}^n v_j \gamma'_{\vec{e}^{(j)}}(0).
 $$
 Then, using the fact that $\|\vec{e}^{(j)}\|=1$, we see that:
 $$
@@ -304,13 +297,13 @@ The definition tells us to compute:
 & = \lim_{h\to 0} \frac{F(\vec{x} + h \vec{e}^{(1)}) - F(\vec{x})}{h} \\
 & = \lim_{h\to 0} \frac{\big((x_1 + h)^4 - (x_1 + h)^2 + 2 (x_1 + h) + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
 & = \lim_{h\to 0} \frac{\big(x_1^4 + 4 x_1^3 h + 6 x_1^2 h^2 + 4 x_1 h^3 + h^4 - x_1^2 - 2 x_1 h - h^2 + 2 x_1 + 2 h + 4 x_2^2 + 2\big) - \big(x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2\big)}{h} \\
-& = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1)}{h} \\
-& = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) \\
+& = \lim_{h\to 0} \frac{h (4 x_1^3  -2 x_1 +2) + h^2(6 x_1^2 -1 ) + h^3 (4 x_1) + h^4}{h} \\
+& = \lim_{h \to 0} (4 x_1^3 - 2x_1 +2) + h (6x_1^2 - 1) + h^2 (4x_1) + h^3 \\
 &= 4 x_1^3 - 2x_1 +2.
 \end{align*}
 But we notice that when we do this calculation, we are effectively finding the usual derivative with respect to $x_1$ but ignoring terms with $x_2$. This is an approach we can follow.
 
-Strictly, when computing partial derivatives with respect to a variable $x_j$, we compute the usual derivative with respect to $x_1$ and treat all other variables as *constants*: i.e. $\frac{\partial}{\partial x_1} x_2 = 0$.
+Strictly, when computing partial derivatives with respect to a variable $x_j$, we compute the usual derivative with respect to $x_j$ and treat all other variables as *constants*: i.e. $\frac{\partial}{\partial x_1} x_2 = 0$.
 
 In this example, we would compute
 \begin{align*}
@@ -482,7 +475,7 @@ $$
 
 ::: {#lem-grad-slope-max}
 Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function.
-The gradient of $F$ represents the direction in which $F$ increase the most rapidly.
+The gradient of $F$ represents the direction in which $F$ increases the most rapidly.
 :::
 
 ::: {.notes}
@@ -501,7 +494,7 @@ F'_{\vec{v}}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\vec{v}}{\|\vec{v}\|}.
 $$
 We can see that this is maximised for $\vec{v} = \nabla F(\vec{x})$ (e.g. using the dot product formula $\vec{a}\cdot\vec{b} = \|\vec{a}\| \|\vec{b}\| \cos\theta$) where
 $$
-F'_{\vec{v}}(\nabla F(\vec{x})) = \nabla F(\vec{x}) \cdot \frac{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
+F'_{\nabla F(\vec{x})}(\vec{x}) = \nabla F(\vec{x}) \cdot \frac{\nabla F(\vec{x})}{\|\nabla F(\vec{x})\|} = \frac{\|\nabla F(\vec{x})\|^2}{\|\nabla F(\vec{x})\|} = \| \nabla F(\vec{x}) \|.
 $$
 In the final calculation we assume that $\|\nabla F(\vec{x})\| \neq 0$. Otherwise, $\nabla F(\vec{x}) = \vec{0}$ and all directional derivatives are zero so any $\vec{v}$ can maximise the expression.
 :::
@@ -561,7 +554,7 @@ $$
 :::
 
 ::: {.aside}
-$(\nabla F)_{ij} = \frac{\partial^2 F}{\partial x_i \partial x_j}$
+$(\nabla^2 F)_{ij} = \frac{\partial^2 F}{\partial x_i \partial x_j}$
 :::
 
 ::: {.notes}
@@ -588,7 +581,7 @@ $$
 :::
 
 ::: {.aside}
-$(\nabla F)_{ij} = \frac{\partial^2 F}{\partial x_i \partial x_j}$
+$(\nabla^2 F)_{ij} = \frac{\partial^2 F}{\partial x_i \partial x_j}$
 :::
 
 ---
@@ -605,7 +598,11 @@ hence the Hessian is a symmetric matrix.
 
 ## What does this say about optimisation?
 
-We use the notation $B(\vec{x}, R)$ to denote the ball of radius $R$ centered at $\vec{x}$ which is given by
+> Give and apply a condition that shows that a function $F \colon \mathbb{R}^n \to \mathbb{R}$ is convex
+
+---
+
+We use the notation $B(\vec{x}, r)$ to denote the ball of radius $r$ centered at $\vec{x}$ which is given by
 $$
 B(\vec{x}, r) = \{ \vec{y} \in \mathbb{R}^n : \| \vec{y} - \vec{x} \| < r \}.
 $$
@@ -704,6 +701,10 @@ $F$ is convex if eigenvalues of the Hessian of $F$ are non-negative for any $\ve
 :::
 
 ## What about a chain rule?
+
+> Compute the Jacobian of a function $\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m$,
+
+---
 
 ::: {#exm-chain-rule-0}
 Consider $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
@@ -854,7 +855,7 @@ J_{\vec{V}}
 $$
 That is the Jacobian is the matrix:
 
-- with the $j$th columns given by the partial derivative of $\vec{V}$ with respect to $x_j$
+- with the $j$th column given by the partial derivative of $\vec{V}$ with respect to $x_j$
 - with the $i$th row given by the transpose of the gradient of $V_i$
 - with the $(i, j)$ entry given by $\frac{\partial V_i}{\partial x_j}$.
 :::
