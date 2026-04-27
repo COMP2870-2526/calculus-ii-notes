@@ -66,7 +66,11 @@ We make a distinction between problems where the set of possible solutions (admi
 This part of the module will deal with **continuous optimisation problems**.
 
 
-### Mathematical formulation
+## Mathematical formulation
+
+> Give the definition of a minimum (minimal value) and minimiser of a function
+
+---
 
 The idea of optimisation is to find the best value $x^*$ in $\mathcal{A}$ which minimises $F$ and the value of $F^* = F(x^*)$ of the minimal cost.
 
@@ -88,7 +92,7 @@ In our examples, where we compute things, we will always have $\mathcal{A} = \ma
 
 ---
 
-::: {#rem-proofs}
+::: {.callout-important}
 In this section of the notes, we have included some proofs to demonstrate why many of the results are true.
 
 However, they will not be covered in the lectures and are not assessable (i.e. no questions on them will be in the exam).
@@ -98,13 +102,14 @@ However, we do expect you to understand the results and statements (without proo
 
 ## Some interesting examples
 
+> Understand some typical situations when finding the minimum/minima of functions
+
 It is sometimes easy to see where the minimum of a function is by plotting the function.
 
 In one dimension, we can simply plot the graph of the function...
 
 ---
 
-Let $F \colon \mathbb{R} \to \mathbb{R}$ be given by
 $$
 F(x) = x^2 - 2x + 2.
 $$
@@ -402,7 +407,7 @@ plt.colorbar(label="$F(x_1, x_2)$")
 
 y_ = np.linspace(-1.5, 1.5)
 x_ = y_**2
-plt.plot(x_, y_, "C2", label="minisers on $x_1 = x_2^2$")
+plt.plot(x_, y_, "C2", label="minimisers on $x_1 = x_2^2$")
 
 plt.xlabel("$x_1$")
 plt.ylabel("$x_2$")
@@ -417,6 +422,10 @@ plt.show()
 ```
 
 ## Global and local minimisers
+
+> Distinguish between local and global minimisers
+
+---
 
 $$
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
@@ -476,11 +485,14 @@ Our definitions in \eqref{eq:global-minimiser}, are **global** (i.e. a global mi
 
 ## How to determine a local minimiser in the scalar domain case
 
+> State and apply conditions to check a function $F \colon \mathbb{R} \to \mathbb{R}$ is convex
+
+---
 
 ::: {.notes}
 Looking again at the examples above, we can see that at all (local or global) minimisers the slope of $F$ is 0 (i.e. the graph is horizontal).
 We can express this mathematically by saying that the derivative of $F$ is zero or $F'(x_*) = 0$.
-However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!
+However, the converse is not true: we see points such as the local minimum where the slope is zero but also other points with zero derivative too!
 :::
 
 ::: {#prp-minimiser}
@@ -492,7 +504,6 @@ Then $F'(x^*) = 0$.
 
 ::: {#exm-local-minimiser}
 Let $F(x) = (x-3)^2 + 3 = x^2 - 6x + 12$. For the completed square form, we see that $F$ has a minimum at $x^* = 3$.
-
 :::
 
 ::: {.notes}
@@ -514,6 +525,10 @@ x & = \frac{6}{2} = 3.
 Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any potential local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
 :::
 
+::: {.aside}
+Remember @prp-minimiser says that if $x^*$ is a minimiser, then $F'(x^*) = 0$. The converse is not true.
+:::
+
 ---
 
 We next revisit the example from the start of this section
@@ -528,7 +543,7 @@ $$
 ---
 
 ::: {.notes}
-Looking at the graph, we can see the $F'$ is zero at three points, $x = -1, 1$ (orange and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (purple).
+Looking at the graph, we can see that $F'$ is zero at three points, $x = -1, 1$ (orange and green) which we have already identified as local minima, but also at $x = \frac{1}{4}$ (purple).
 :::
 
 ```{python}
@@ -627,6 +642,10 @@ F''(\tfrac{1}{4}) &= \phantom{3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \fra
 F''(1) & = \phantom{3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 > 0.}
 \end{align*}
 
+::: {.aside}
+$F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}$, $F'(x) = x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}$
+:::
+
 ---
 
 ::: {#prp-local-to-global}
@@ -680,7 +699,7 @@ plt.show()
 
 ::: {.notes}
 For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line).
-We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points.
+We see, in the left-hand side example, that sometimes the straight line is above the function (blue curve) and sometimes it's below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points.
 This idea is expressed mathematically through the idea of *convexity*.
 :::
 
@@ -706,7 +725,7 @@ Let $F \colon \mathbb{R} \to \mathbb{R}$ be a smooth function. Then the followin
     \label{eq:convex-diff}
     F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
     \end{equation}
-3. The second derivative of $F$ is positive in $B$:
+3. The second derivative of $F$ is non-negative in $B$:
    \begin{equation}
    \label{eq:convex-diff2}
    F''(x) \ge 0 \quad\text{for all}\quad x \in B.
@@ -733,13 +752,17 @@ Hence we can see that $F$ is convex.
 This example, is somewhat of a prototypical example. It is often helpful when thinking of convex functions to think of something like a quadratic function with positive leading coefficient.
 :::
 
+::: {.aside}
+$F$ is convex on $B$ iff $F''(x) \ge 0 \quad\text{for all}\quad x \in B$
+:::
+
 ---
 
 2.  (hard) Take $F(x) = \frac{1}{4} x^4 - 3 x^3 + 15 x^2 - 5 x + 4$
 
 ::: {.notes}
 \begin{align*}
-F'(x) & = x^3 - 9 x^2 + 30 x \\
+F'(x) & = x^3 - 9 x^2 + 30 x  -5.\\
 F''(x) & = 3 x^2 - 18 x + 30.
 \end{align*}
 We can complete the square to see that
@@ -750,6 +773,10 @@ We can see that $F''$ is in fact strictly positive.
 Hence, we can infer that $F$ is globally convex.
 :::
 
+::: {.aside}
+$F$ is convex on $B$ iff $F''(x) \ge 0 \quad\text{for all}\quad x \in B$
+:::
+
 ---
 
 ::: {#exr-convex-diff2}
@@ -757,6 +784,10 @@ Show that the following functions are or are not convex on $\mathbb{R}$:
 
 1. $F(x) = x^2 - 6x + 12$
 2. $F(x) = \frac{1}{6} x^4 - \frac{8}{3} x^3 + 15 x^2 + 6 x + 1$.
+:::
+
+::: {.aside}
+$F$ is convex on $B$ iff $F''(x) \ge 0 \quad\text{for all}\quad x \in B$
 :::
 
 ---
