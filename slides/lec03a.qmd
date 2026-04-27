@@ -1,4 +1,28 @@
 ---
+execute:
+  echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: Root finding methods for one dimensional optimisation
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+    chalkboard:
+      theme: whiteboard
+---
+
+---
 echo: false
 ---
 
@@ -9,7 +33,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from utils import table_styler
+plt.style.use("seaborn-v0_8-colorblind")
 
 
 ```
@@ -23,14 +47,15 @@ from utils import table_styler
 4. Apply Newton's method and understand its properties.
 :::
 
-In one dimension, we will proceed with a simple idea: to find candidate minima of functions $F \colon \mathbb{R} \to \mathbb{R}$, we will find points at which the derivative of $F$ is 0. To help us with notation, in this section we will write $f := F'$.
-The techniques developed in this section related to both optimisation of one dimensional optimisation problems, but also solving general scalar nonlinear equations.
+## A one dimensional problem
 
 > Given a smooth function $f(x)$, the problem is to find a point $x^*$ such that $f(x^*) = 0$. That is, $x^*$ is a solution of the equation $f(x) = 0$ and is called a **root of $f(x)$**.
 
 ::: {#rem-1d-opt}
 In one dimension, a local minimum occurs at point where $F'(x) = 0$, but not every root of $F'$ is a minimum. The focus on this lecture is finding possible minima.
 :::
+
+---
 
 ::: {#exm-root-finder}
 1. The linear equation $f(x) = ax + b = 0$ has a single solution at $x^* = \frac{-b}{a}$.
@@ -41,12 +66,15 @@ In one dimension, a local minimum occurs at point where $F'(x) = 0$, but not eve
 3. A general nonlinear equation $f(x) = 0$ rarely has a formula like those above which can be used to calculate its roots.
 :::
 
+---
+
 It is also sometimes better to use numerical methods to solve an equation even if an exact formula exists:
 
 - the exact formula may have difficulties due to rounding errors;
 - the exact formula may be more expensive to compute.
 
-::: {#exm-bad-quadratic}
+---
+
 We want to solve the quadratic equation
 $$
 f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
@@ -63,6 +91,13 @@ def quad(a, b, c):
     d = np.sqrt(b * b - 4 * a * c)
     return (-b + d) / (2 * a), (-b - d) / (2 * a)
 
+
+```
+
+---
+
+```{python}
+# | echo: True
 
 # test for m = 1e8
 m = 1e8
@@ -84,7 +119,6 @@ print(f"abs errors {abs_error[0]:.4e} {abs_error[1]:.4e}")
 print(f"rel errors {rel_error[0]:.4e} {rel_error[1]:.4e}")
 ```
 The absolute errors are quite small, but the relative error for the second root is huge - almost 50%!
-:::
 
 ## Example problems
 
@@ -100,19 +134,13 @@ $$
 This problem is interesting in that we know there are two solutions, but we only want the positive one. Our algorithms should take that into account.
 :::
 
+---
+
 ::: {#exm-kepler}
 ### Kepler's equation, elliptic orbits
 
-When an object moves under gravity around a planet or star, its path is often well-approximated by an ellipse. To work out where the object is at a given time, we use a standard relationship called Kepler's equation. The key point here is: it reduces to finding a root of a function $f(E) = 0$.
-
-An ellipse has two semi-axes $a$ and $b$ and we assume that $a > b$.
-We denote by $e = \sqrt{1 - \frac{b^2}{a^2}}$ the eccentricity of the ellipse.
-The closest point on the ellipse to the central body (i.e. planet or star, which is at one of the foci of the ellipse) of the object's trajectory is called the periapsis.
-
-To connect time to position, it's convenient to use an angle-like variable that increases at a constant rate - this variable is called the mean anomaly, $M$ (measured in radians). $M = 0$ corresponds to periapsis and $M = \pi$ corresponds to half an orbit later.
-
-There is a helpful intermediate angle called the eccentric anomaly which we write as $E$. Since $M$ is not the actual geometric angle around the ellipse, we use $E$ as a useful angle from which we can compute quantities such that the coordinates of the object.
-
+::: {.columns}
+:::: {.column}
 ```{python}
 
 # --- Choose orbit parameters (simple, typical values) ---
@@ -272,21 +300,17 @@ ax.set_ylim(-a - pad, a + pad)
 plt.tight_layout()
 plt.show()
 ```
+::::
 
-For an elliptic orbit with eccentricity $0 \le e < 1$, the mean anomaly $M$ is related to the eccentric anomaly $E$ by Kepler's equation:
-$$
-E - e \sin(E) = M.
-$$
-The problem is: Given $e$ (eccentricity) and $M$ (mean anomaly at a given time, in radians), find $E^*$ (eccentric anomaly).
+:::: {.column}
+Given $e$ (eccentricity) and $M$ (mean anomaly at a given time, in radians), find $E^*$ (eccentric anomaly).
 We can write this as a root finding problem with
 $$
 f(E) = E - e \sin(E) - M.
 $$
-We should be careful to find a solution only in $[0, 2\pi)$. In our tests we will use $e = 0.7, M = 2.0$. Note that
-$$
-f'(E) = 1 - e \cos E \ge 1 - e > 0,
-$$
-so $f$ is strictly increasing and we know we only have one solution.
+We should be careful to find a solution only in $[0, 2\pi)$. In our tests we will use $e = 0.7, M = 2.0$.
+::::
+:::
 :::
 
 ## Iterative methods
@@ -296,7 +320,8 @@ All our methods will use the idea of **iteration** (or **iterative improvement**
 - Given an initial estimate of the root $x^{(0)}$, try to generate a better approximate $x^{(1)}$ of the root.
 - Once $x^{(1)}$ has been computed, it can be used to compute another estimate $x^{(2)}$ in the same way (and so on...).
 - Generally, $x^{(i)}$ is used to compute $x^{(i+1)}$ (although other previous estimates may be used as well).
-- There are many methods for doing this!
+
+---
 
 There are a few issues we should consider with iterative methods:
 
@@ -306,14 +331,22 @@ There are a few issues we should consider with iterative methods:
 4. If the iteration does converge, then how quickly does this happen?
 5. How should we decide when to stop the iteration?
 
+---
+
 ::: {#rem-iteration}
-We briefly comment that iteration is *different* to the idea of time stepping we met when solving differential equations. The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criterion).
+We briefly comment that iteration is *different* to the idea of time stepping we met when solving differential equations.
+
+The number of time steps is a given parameter when solving a differential equation but we (normally) do not know how many iterations of a root finder are needed to find a solution (for a particular stopping criterion).
 :::
 
 ## Bisection method
 
-The first method that we introduce is the bisection method. This is a simple, slow but very robust method.
-It's based on a simple idea: if a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between. (There is a mathematical analysis theorem called the Intermediate Value Theorem that gives us this result).
+::: {.columns}
+:::: {.column}
+The first method that we introduce is the bisection method.
+If a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between.
+::::
+:::: {.column}
 
 ```{python}
 x = np.linspace(-1, 1)
@@ -331,9 +364,10 @@ plt.grid(True)
 
 
 ```
-### The algorithm
+::::
+:::
 
-The algorithm steps are:
+### The algorithm
 
 1. Suppose we *know* there is a root $x^*$ (i.e with $f(x^*) = 0$) between two end points $a$ and $b$ (we sometimes call $[a, b]$ the *bracket*).
 2. Call $c = \frac{a + b}{2}$, then the solution is either between $a$ and $c$ or between $c$ and $b$.
@@ -341,9 +375,11 @@ The algorithm steps are:
    - then go to step 1 with the end points as $a$ and $c$,
    - otherwise, go to step 1 with the end points $c$ and $b$.
 
-We repeat this process until $b - a < TOL$ where $TOL$ is a user-supplied value.
+We repeat this process until $b - a < TOL$
 
+::: {.notes}
 We can check if the root is between $a$ and $b$ by checking if the signs of $f(a)$ and $f(b)$ are different: i.e. $f(a) f(b) < 0$.
+:::
 
 ### Convergence analysis
 
@@ -355,41 +391,11 @@ For large initial bracket size (i.e. large $b - a$) or small $TOL$ (high accurac
 
 ```{python}
 # | echo: True
+# | code-line-numbers: "1-5|6-7|11-22|13|14-15|16-20"
 def bisection(f, a, b, tol):
     """
-    Find a root of a scalar function using the bisection method.
-
-    The bisection method is a bracketing root-finder. Given an interval
-    ``[a, b]`` such that ``f(a)`` and ``f(b)`` have opposite signs, the method
-    repeatedly halves the interval and selects the subinterval that still
-    brackets a root. The returned estimate is the midpoint of the final
-    interval once its width is less than ``tol``.
-
-    Parameters
-    ----------
-    f : callable
-        Scalar function of one variable, ``f(x)``, whose root is sought.
-        Must be defined and (ideally) continuous on the interval ``[a, b]``.
-    a : float
-        Left endpoint of the initial bracket.
-    b : float
-        Right endpoint of the initial bracket. Must satisfy ``b > a``.
-    tol : float
-        Absolute tolerance on the interval width. Iteration stops when
-        ``b - a <= tol``.
-
-    Returns
-    -------
-    data: list[dict]
-        Iteration data for analysing results
-
-    Raises
-    ------
-    AssertionError
-        If the initial interval does not bracket a root, i.e. if
-        ``f(a) * f(b) >= 0``. Note that with the current implementation this
-        also rejects cases where ``f(a) == 0`` or ``f(b) == 0`` (an endpoint is
-        exactly a root).
+    Apply the bisection method for the function f on the interval (a, b)
+    Stop when b - a < tol
     """
     # initial bracket check
     assert f(a) * f(b) < 0.0, f"({a}, {b}) does not bracket the root"
@@ -398,7 +404,7 @@ def bisection(f, a, b, tol):
 
     # the iteration
     it = 0
-    while b - a > tol:
+    while b - a >= tol:
         # find midpoint
         c = (a + b) / 2
         # update bracket
@@ -416,6 +422,8 @@ def bisection(f, a, b, tol):
 
 ```
 
+---
+
 $$
 f(x) = x^2 - 2.
 $$
@@ -425,13 +433,33 @@ def f1(x):
 
 
 data = bisection(f1, 1.0, 2.0, 1.0e-4)
+df = pd.DataFrame(data)
 
-table_styler(pd.DataFrame(data))
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["a"], ".-", label="$a$")
+axes[0].plot(df["b"], ".-", label="$b$")
+
+axes[0].set_xlabel("iterations")
+axes[0].legend()
+axes[0].grid(True)
+
+axes[1].semilogy(df["f(a)"], ".-", label="$f(a)$")
+axes[1].semilogy(df["f(b)"], ".-", label="$f(b)$")
+axes[1].semilogy(df["b"] - df["a"], ".-", label="$b-a$")
+
+axes[1].set_xlabel("iterations")
+axes[1].legend()
+axes[1].grid(True)
+
+plt.show()
 
 
 ```
 
 We see that it takes 14 iterations to find the solution to a tolerance of $10^{-4}$ for the square root problem.
+
+---
 
 $$
 f(x) = x - 0.7 \sin(x) - 2.0
@@ -442,11 +470,32 @@ def f2(x):
 
 
 data = bisection(f2, 0.0, 2.0 * np.pi, 1.0e-4)
+df = pd.DataFrame(data)
 
-table_styler(pd.DataFrame(data))
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["a"], ".-", label="$a$")
+axes[0].plot(df["b"], ".-", label="$b$")
+
+axes[0].set_xlabel("iterations")
+axes[0].legend()
+axes[0].grid(True)
+
+axes[1].semilogy(df["f(a)"], ".-", label="$f(a)$")
+axes[1].semilogy(df["f(b)"], ".-", label="$f(b)$")
+axes[1].semilogy(df["b"] - df["a"], ".-", label="$b-a$")
+
+axes[1].set_xlabel("iterations")
+axes[1].legend()
+axes[1].grid(True)
+
+plt.show()
+
 ```
 
 We see that it takes 16 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
+
+---
 
 ::: {#exr-bisection}
 For the square root problem, for which of the following brackets do you expect the algorithm to find a solution? For cases where you expect the algorithm to find a solution, how many iterations do you expect for a tolerance of $10^{-4}$?
@@ -466,8 +515,6 @@ Bisection is a reliable method for finding solutions of $f(x) = 0$ provided an i
 - it can never find a solution of $f(x)$ for which $f$ does not change sign (e.g. $f(x) = (x-1)^2$) since we cannot find a bracket for the root!
 
 ## Newton's method
-
-**Newton's method** (or the Newton-Raphson iteration) is an alternative algorithm for solving $f(x) = 0$. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).
 
 ```{python}
 x = np.linspace(-1, 1)
@@ -535,7 +582,73 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.notes}
+**Newton's method** (or the Newton-Raphson iteration) is an alternative algorithm for solving $f(x) = 0$. On the positive side, it does not need an initial bracket (just one initial value), it converges much more quickly than bisection and it can solve problems where the solution is also a turning point. On the negative side, it is not guaranteed to converge (unlike bisection with a good initial bracket).
+
 We start at our initial guess $x^{(0)}$ and find the corresponding point on the graph of the function $(x^{(0)}, f(x^{(0)}))$. We find the tangent to the graph at $(x^{(0)}, f(x^{(0)}))$ and follow this line to the $x$-axis. Where the tangent line intersects the $x$-axis is our new value for $x^{(1)}$.
+:::
+
+---
+
+::: {.columns}
+:::: {.column}
+```{python}
+
+plt.axhline(0, color="0")  # x-axis
+
+# Plot f(x)
+plt.plot(x, fx, "C0", label="$f(x)$")
+
+# Lines at x0
+plt.plot([x0, x0, -1], [-1, f3(x0), f3(x0)], "C1--")
+plt.plot(x0, f3(x0), "C1o")
+
+# Tangent line
+tangent_y = f3(x0) + (x - x0) * df3(x0)
+plt.plot(x, tangent_y, "C2", label="Tangent at $x^{(0)}$")
+plt.plot(x1, 0, "C2o")
+
+# Vertical at x1
+plt.plot([x1, x1], [-1, 0], "C3--")
+plt.plot(x1, f3(x1), "C3o")
+
+plt.xticks([x0, x1], ["$x^{(0)}$", "$x^{(1)}$"])
+plt.yticks([0, f3(x0)], ["0", "$f(x^{(0)})$"])
+
+# f(x0)
+plt.annotate(
+    "$f(x^{(0)})$",
+    xy=(x0, f3(x0)),
+    xytext=(x0 + 0.05, f3(x0) + 0.3),
+    arrowprops={"arrowstyle": "->", "color": "C1", "lw": 0.8},
+    fontsize=11,
+    color="C1",
+)
+
+# Newton update text
+plt.annotate(
+    "$x^{(1)} = x^{(0)} - \\frac{f(x^{(0)})}{f'(x^{(0)})}$",
+    xy=(x1, 0),
+    xytext=(x1 - 0.6, 0.1),
+    arrowprops={"arrowstyle": "->", "color": "C2", "lw": 0.8},
+    fontsize=11,
+    color="C2",
+)
+
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+```
+::::
+:::: {.column}
+::::
+:::
+
+::: {.notes}
 
 In the picture, we can see two ways to calculate the tangent:
 
@@ -554,8 +667,11 @@ $$
 x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
 $$
 This is the formula for a single Newton update!
+:::
 
-Once we have our updated estimate $x^{(1)}$, we can continue the iteration:
+---
+
+Update formula:
 $$
 x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 $$
@@ -623,36 +739,10 @@ This is quite a messy plot but it appears the Newton's method converges very qui
 
 ```{python}
 # | echo: True
+# | code-line-numbers: "1-4|7-9|12|13-16"
 def newton(f, df, x0, tol, maxiter=20):
     """
-    Find a root of a scalar function using Newton's method.
-
-    Newton's method (also called the Newton–Raphson method) generates a sequence
-    of iterates
-    ``x_{k+1} = x_k - f(x_k) / df(x_k)``
-    which (when it converges) typically converges rapidly to a root ``x*`` such
-    that ``f(x*) = 0``. This implementation stops when ``abs(f(x)) <= tol`` or
-    when ``maxiter`` iterations have been performed.
-
-    Parameters
-    ----------
-    f : callable
-        Scalar function of one variable, ``f(x)``, whose root is sought.
-    df : callable
-        Derivative of ``f``, i.e. ``df(x) = f'(x)``. Must be defined at each
-        iterate visited by the algorithm.
-    x0 : float
-        Initial guess for the root.
-    tol : float
-        Absolute tolerance on the residual. Iteration stops when
-        ``abs(f(x)) <= tol``.
-    maxiter : int, optional
-        Maximum number of iterations to perform. Default is 20.
-
-    Returns
-    -------
-    data: list[dict]
-        Iteration data for analysing results
+    Find a root of a scalar function f using Newton's method starting at x0
     """
     data = []
 
@@ -674,6 +764,8 @@ def newton(f, df, x0, tol, maxiter=20):
 
 ```
 
+---
+
 $$
 f(x) = x^2 - 2.
 $$
@@ -687,13 +779,29 @@ def df1(x):
 
 
 data = newton(f1, df1, 1.0, 1.0e-4)
+df = pd.DataFrame(data)
 
-table_styler(pd.DataFrame(data))
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["x"], ".-", label="$x$")
+
+axes[0].set_xlabel("iterations")
+axes[0].set_ylabel("$x^{(i)}$")
+axes[0].grid(True)
+
+axes[1].semilogy(abs(df["f(x)"]), ".-", label="$|f(x)|$")
+axes[1].set_xlabel("iterations")
+axes[1].set_ylabel("$|f(x^{(i)})|$")
+axes[1].grid(True)
+
+plt.show()
 
 
 ```
 
 We see that it takes *only* 3 iterations to find the solution to a tolerance of $10^{-4}$ for the square root problem.
+
+---
 
 $$
 f(x) = x - 0.7 \sin(x) - 2.0
@@ -708,16 +816,35 @@ def df2(x):
 
 
 data = newton(f2, df2, np.pi, 1.0e-4)
+df = pd.DataFrame(data)
 
-table_styler(pd.DataFrame(data))
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["x"], ".-", label="$x$")
+
+axes[0].set_xlabel("iterations")
+axes[0].set_ylabel("$x^{(i)}$")
+axes[0].grid(True)
+
+axes[1].semilogy(abs(df["f(x)"]), ".-", label="$|f(x)|$")
+axes[1].set_xlabel("iterations")
+axes[1].set_ylabel("$|f(x^{(i)})|$")
+axes[1].grid(True)
+
+plt.show()
 
 
 ```
 
 We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem
 
+---
+
 ::: {#exm-newton}
 Consider $f(x) = x^2 - 5$ and $x^{(0)} = 2$.
+:::
+
+::: {.notes}
 This gives $f'(x) = 2x$ so the iterative formula is:
 $$
 x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^2 - 5}{2 x^{(i)}} = \frac{(x^{(i)})^2 + 5}{2 x^{(i)}}.
@@ -730,6 +857,8 @@ x^{(2)} & = \frac{(x^{(1})^2 + 5}{2 x^{(1)}} = \frac{(2.25)^2 + 5}{2 \times 2.25
 Note that $\sqrt{5} = 2.23607\ldots$.
 :::
 
+---
+
 ::: {#exr-newton}
 Write down an expression for the Newton iteration formula for the following functions and then carry out 2 iterations using the resulting iteration and given initial value $x^{(0)}$.
 
@@ -741,6 +870,8 @@ Write down an expression for the Newton iteration formula for the following func
 
 The first obvious challenge for Newton's method comes from the idea that we divide by something that might be zero in our update formula -- what if $f'(x^{(i)}) = 0$?
 In this case, there isn't much we can do and Newton's method will fail.
+
+---
 
 ::: {#exm-newton-0}
 Consider applying Newton's method to the function $f(x) = x^3 + 2x^2 + x + 1$ with $x^{(0)} = 0$.
@@ -757,10 +888,11 @@ $$
 So the iteration cannot proceed.
 :::
 
-Another similar case is what if the derivative at the root is zero (i.e., $f'(x^*) = 0$), in this case the iteration can still proceed but the iteration is *slower*.
+---
 
 Consider $f(x) = (x-1)^2 = x^2 - 2x + 1$:
 ```{python}
+# | fig-cap: Example with slower convergence from $f'(x^*) = 0$
 def f4(x):
     return x**2 - 2 * x + 1
 
@@ -770,17 +902,32 @@ def df4(x):
 
 
 data = newton(f4, df4, 2, 1e-4)
+df = pd.DataFrame(data)
 
-table_styler(pd.DataFrame(data))
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["x"], ".-", label="$x$")
+
+axes[0].set_xlabel("iterations")
+axes[0].set_ylabel("$x^{(i)}$")
+axes[0].grid(True)
+
+axes[1].semilogy(abs(df["f(x)"]), ".-", label="$|f(x)|$")
+axes[1].set_xlabel("iterations")
+axes[1].set_ylabel("$|f(x^{(i)})|$")
+axes[1].grid(True)
+
+plt.show()
 
 
 ```
 
-It takes 7 iterations to find the root in this case (more than the other Newton examples). We note here also that the convergence criterion is $|f(x^{(i)})| < TOL$ which does not guarantee that $|x^* - x^{(i)}| < TOL$!
+It takes 7 iterations to find the root in this case (more than the other Newton examples).
 
-There are also cases where Newton's method does not converge even when a root exists!
+We note here also that the convergence criterion is $|f(x^{(i)})| < TOL$ which does not guarantee that $|x^* - x^{(i)}| < TOL$!
 
-::: {#exm-newton-non-convergence}
+---
+
 Consider the function $f(x) = x^{1/3}$. Clearly $f$ has a root at $x^* = 0$ ($f(0) = 0$).
 
 ```{python}
@@ -804,24 +951,44 @@ plt.show()
 
 ```
 
+::: {.notes}
 The derivative is $f'(x) = \frac{1}{3} x^{-2/3}$ and the Newton iteration is
 $$
 x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{(i)} - 3 x^{(i)} = -2 x^{(i)}.
 $$
 We can see that the general term in this sequence is $x^{(i)} = (-2)^i x^{(0)}$ -- this is clearly not going to converge to 0!
+:::
+
+---
 
 ```{python}
+# | fig-cap: Example of non-convergence
 def df5(x):
     return (1 / 3) * abs(x) ** (-2 / 3)
 
 
 data = newton(f5, df5, 1, 1e-4, maxiter=10)
 
-table_styler(pd.DataFrame(data))
+df = pd.DataFrame(data)
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(df["x"], ".-", label="$x$")
+
+axes[0].set_xlabel("iterations")
+axes[0].set_ylabel("$x^{(i)}$")
+axes[0].grid(True)
+
+axes[1].semilogy(abs(df["f(x)"]), ".-", label="$|f(x)|$")
+axes[1].set_xlabel("iterations")
+axes[1].set_ylabel("$|f(x^{(i)})|$")
+axes[1].grid(True)
+
+plt.show()
 
 
 ```
-:::
+
+---
 
 It is even possible for the iteration to simply cycle between two values repeatedly.
 
@@ -866,18 +1033,9 @@ plt.title("Newton's method with periodic solution")
 plt.grid(True)
 plt.show()
 ```
-
-Starting an iteration at $x^{(0)} = 1$ gives:
-```{python}
-data = newton(f6, df6, 1, 1e-4, maxiter=10)
-
-table_styler(pd.DataFrame(data))
-```
 :::
 
 ## Summary
-
-We have presented two methods for finding roots of nonlinear equations: the bisection method and Newton's method. We summarise their properties in the following table:
 
 |                     | Bisection         | Newton                     |
 |---------------------|-------------------|----------------------------|
@@ -888,4 +1046,4 @@ We have presented two methods for finding roots of nonlinear equations: the bise
 | Turning point roots | no                | slower                     |
 | Use derivative      | no                | yes                        |
 
-There are many more methods available - you will see more on the lab exercise sheet.
+There are many more methods available -- you will see more on the lab exercise sheet.
