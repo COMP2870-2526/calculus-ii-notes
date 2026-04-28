@@ -500,7 +500,7 @@ Let $F \colon \mathbb{R} \to \mathbb{R}$ and let $x^*$ be a local minimiser of $
 Then $F'(x^*) = 0$.
 :::
 
----
+### {.gridbg}
 
 ::: {#exm-local-minimiser}
 Let $F(x) = (x-3)^2 + 3 = x^2 - 6x + 12$. For the completed square form, we see that $F$ has a minimum at $x^* = 3$.
@@ -519,7 +519,7 @@ x & = \frac{6}{2} = 3.
 \end{align*}
 :::
 
----
+### {.gridbg}
 
 ::: {#exr-local-minimiser}
 Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any potential local minima by finding the derivative of $F$ and finding all points with $F'(x) = 0$.
@@ -529,7 +529,7 @@ Let $F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1$. Identify any 
 Remember @prp-minimiser says that if $x^*$ is a minimiser, then $F'(x^*) = 0$. The converse is not true.
 :::
 
----
+### {.gridbg}
 
 We next revisit the example from the start of this section
 $$
@@ -630,7 +630,7 @@ plt.show()
 We see that at the local minima (red and green points) the derivative is *increasing* but at the other point (orange), the derivative is decreasing. More formally, we can say that at local minima the second derivative is strictly positive. In this instance, we have
 :::
 
----
+### {.gridbg}
 
 $$
 F''(x) = \phantom{3 x^2 - \frac{1}{2} x - 1,}
@@ -738,7 +738,7 @@ Condition 2  can be expressed informally as saying that the graph of $F$ lies ab
 Condition 3 links directly to the idea of linking local and global minima through @prp-local-to-global.
 :::
 
----
+### {.gridbg}
 
 1.  Take for example $F(x) = x^2 - 4 x + 5$.
 
@@ -756,7 +756,7 @@ This example, is somewhat of a prototypical example. It is often helpful when th
 $F$ is convex on $B$ iff $F''(x) \ge 0 \quad\text{for all}\quad x \in B$
 :::
 
----
+### {.gridbg}
 
 2.  (hard) Take $F(x) = \frac{1}{4} x^4 - 3 x^3 + 15 x^2 - 5 x + 4$
 
