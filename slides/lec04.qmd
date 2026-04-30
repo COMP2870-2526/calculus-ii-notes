@@ -88,7 +88,7 @@ $$
 $$
 We could try to use our ideas from one dimension then by considering the function $\gamma_{\vec{v}} \colon \mathbb{R} \to \mathbb{R}$.
 
----
+### {.gridbg}
 
 ::: {#exm-directional-derivative}
 Consider the function
@@ -228,7 +228,7 @@ $$
 The notation we use includes the curved $\partial$ symbol which looks like a curvy "d" and is pronounced "partial".
 :::
 
----
+### {.gridbg}
 
 ::: {#exm-partial-derivative}
 Consider once more the function
@@ -539,7 +539,7 @@ $$
 to denote first taking the partial derivative with respect to $x_j$ and then the partial derivative with respect to $x_i$.
 :::
 
----
+### {.gridbg}
 
 ::: {#exm-hessian}
 We want to compute the Hessian of
@@ -657,7 +657,7 @@ Let $F \colon \mathbb{R}^n \to \mathbb{R}$ be a smooth function. Then the follow
 3. The eigenvalues of the Hessian of $F(\vec{x})$ are non-negative for any $\vec{x} \in B$. (This property is normally stated by writing that $\nabla^2 F$ is *positive semi-definite*).
 :::
 
----
+### {.gridbg}
 
 ::: {#exm-convexity-Rn}
 The function given by
@@ -704,7 +704,7 @@ $F$ is convex if eigenvalues of the Hessian of $F$ are non-negative for any $\ve
 
 > Compute the Jacobian of a function $\vec{V} \colon \mathbb{R}^n \to \mathbb{R}^m$,
 
----
+### {.gridbg}
 
 ::: {#exm-chain-rule-0}
 Consider $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
