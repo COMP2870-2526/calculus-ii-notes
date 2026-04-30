@@ -3,3 +3,9 @@
 - [Introduction to dynamical problems](lec01.html)
 - [Analysis of errors](lec02.html)
 - [Systems of differential equations](lec02a.html)
+
+- [Introduction to optimisation](lec03.html)
+- [Root finding methods for one dimensional optimisation](lec03a.html)
+- [What about functions with higher dimension domains?](lec04.html)
+- [Optimisation in $\mathbb{R}^n$](lec05.html)
+- [An introduction to training neural networks](lec06.html)
