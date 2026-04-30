@@ -218,9 +218,16 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <li>Choosing how much of a drug to give is a continuous problem that can be modelled using real numbers.</li>
 </ol>
 <p>This part of the module will deal with <strong>continuous optimisation problems</strong>.</p>
+</section></section>
+<section>
+<section id="mathematical-formulation" class="title-slide slide level2 center">
+<h2>Mathematical formulation</h2>
+<blockquote>
+<p>Give the definition of a minimum (minimal value) and minimiser of a function</p>
+</blockquote>
 </section>
-<section id="mathematical-formulation" class="slide level3">
-<h3>Mathematical formulation</h3>
+<section class="slide level3">
+
 <p>The idea of optimisation is to find the best value <span class="math inline">\(x^*\)</span> in <span class="math inline">\(\mathcal{A}\)</span> which minimises <span class="math inline">\(F\)</span> and the value of <span class="math inline">\(F^* = F(x^*)\)</span> of the minimal cost.</p>
 <div id="def-global-minimiser" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1</strong></span> We will write: <span class="math display">\[\begin{equation}
@@ -237,24 +244,37 @@ x^* = \mathop{\arg\min}\limits_{x \in \mathcal{A}} F(x).
 </div></aside></section>
 <section class="slide level3">
 
-<div id="rem-proofs" class="proof remark">
-<p><span class="proof-title"><em>Remark 1</em>. </span>In this section of the notes, we have included some proofs to demonstrate why many of the results are true.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>In this section of the notes, we have included some proofs to demonstrate why many of the results are true.</p>
 <p>However, they will not be covered in the lectures and are not assessable (i.e.&nbsp;no questions on them will be in the exam).</p>
 <p>However, we do expect you to understand the results and statements (without proofs).</p>
+</div>
+</div>
 </div>
 </section></section>
 <section>
 <section id="some-interesting-examples" class="title-slide slide level2 center">
 <h2>Some interesting examples</h2>
+<blockquote>
+<p>Understand some typical situations when finding the minimum/minima of functions</p>
+</blockquote>
 <p>It is sometimes easy to see where the minimum of a function is by plotting the function.</p>
 <p>In one dimension, we can simply plot the graph of the function…</p>
 </section>
 <section class="slide level3">
 
-<p>Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> be given by <span class="math display">\[
+<p><span class="math display">\[
 F(x) = x^2 - 2x + 2.
 \]</span></p>
-<div id="b541e969" class="cell" data-execution_count="2">
+<div id="7e5056b0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -284,7 +304,7 @@ F(x) = x^2 - 2x + 2.
 F(\vec{x}) = F(x_1, x_2)
 = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2
 \]</span></p>
-<div id="518a703f" class="cell" data-execution_count="3">
+<div id="fe60f891" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -310,7 +330,7 @@ F(\vec{x}) = F(x_1, x_2)
 </section>
 <section class="slide level3">
 
-<div id="17071d5a" class="cell" data-execution_count="4">
+<div id="8192984b" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -326,7 +346,7 @@ F(\vec{x}) = F(x_1, x_2)
 <p><span class="math display">\[
 F(x) = (x^2 - 1)^2
 \]</span></p>
-<div id="0176dfeb" class="cell" data-execution_count="5">
+<div id="9fa5bcba" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -342,7 +362,7 @@ F(x) = (x^2 - 1)^2
 <p><span class="math display">\[
 F(x) = 1 + \sin^2(x).
 \]</span></p>
-<div id="72c418c0" class="cell" data-execution_count="6">
+<div id="dc39fc72" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -355,7 +375,7 @@ F(x) = 1 + \sin^2(x).
 <p><span class="math display">\[
 F(x) = -x^2,
 \]</span></p>
-<div id="f28594f4" class="cell" data-execution_count="7">
+<div id="f2d0d237" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -371,7 +391,7 @@ F(x) = -x^2,
 <p><span class="math display">\[
 F(x_1, x_2) = (x_1 - x_2^2)^2
 \]</span></p>
-<div id="2b83445e" class="cell" data-execution_count="8">
+<div id="29641559" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -385,10 +405,16 @@ F(x_1, x_2) = (x_1 - x_2^2)^2
 <section>
 <section id="global-and-local-minimisers" class="title-slide slide level2 center">
 <h2>Global and local minimisers</h2>
+<blockquote>
+<p>Distinguish between local and global minimisers</p>
+</blockquote>
+</section>
+<section class="slide level3">
+
 <p><span class="math display">\[
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
-<div id="50722055" class="cell" data-execution_count="9">
+<div id="b5501523" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -423,8 +449,14 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 <section>
 <section id="how-to-determine-a-local-minimiser-in-the-scalar-domain-case" class="title-slide slide level2 center">
 <h2>How to determine a local minimiser in the scalar domain case</h2>
+<blockquote>
+<p>State and apply conditions to check a function <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> is convex</p>
+</blockquote>
+</section>
+<section class="slide level3">
+
 <aside class="notes">
-<p>Looking again at the examples above, we can see that at all (local or global) minimisers the slope of <span class="math inline">\(F\)</span> is 0 (i.e.&nbsp;the graph is horizontal). We can express this mathematically by saying that the derivative of <span class="math inline">\(F\)</span> is zero or <span class="math inline">\(F'(x_*) = 0\)</span>. However, the converse is not true: we see points such as the local minimal where the slope is zero but also other points with zero derivative too!</p>
+<p>Looking again at the examples above, we can see that at all (local or global) minimisers the slope of <span class="math inline">\(F\)</span> is 0 (i.e.&nbsp;the graph is horizontal). We can express this mathematically by saying that the derivative of <span class="math inline">\(F\)</span> is zero or <span class="math inline">\(F'(x_*) = 0\)</span>. However, the converse is not true: we see points such as the local minimum where the slope is zero but also other points with zero derivative too!</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -440,8 +472,8 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 <p><span class="theorem-title"><strong>Proposition 1</strong></span> Let <span class="math inline">\(F \colon \mathbb{R} \to \mathbb{R}\)</span> and let <span class="math inline">\(x^*\)</span> be a local minimiser of <span class="math inline">\(F\)</span>. Then <span class="math inline">\(F'(x^*) = 0\)</span>.</p>
 </div>
 </section>
-<section class="slide level3">
-
+<section id="section-1" class="slide level3 gridbg">
+<h3></h3>
 <div id="exm-local-minimiser" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1</strong></span> Let <span class="math inline">\(F(x) = (x-3)^2 + 3 = x^2 - 6x + 12\)</span>. For the completed square form, we see that <span class="math inline">\(F\)</span> has a minimum at <span class="math inline">\(x^* = 3\)</span>.</p>
 </div>
@@ -465,14 +497,17 @@ x &amp; = \frac{6}{2} = 3.
           display:block!important;
       }</style></aside>
 </section>
-<section class="slide level3">
-
+<section id="section-2" class="slide level3 gridbg">
+<h3></h3>
 <div id="exr-local-minimiser" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1</strong></span> Let <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 2 x^3 + \frac{11}{2} x^2 - 6 x + 1\)</span>. Identify any potential local minima by finding the derivative of <span class="math inline">\(F\)</span> and finding all points with <span class="math inline">\(F'(x) = 0\)</span>.</p>
 </div>
-</section>
-<section class="slide level3">
 
+<aside><div>
+<p>Remember <a href="#/prp-minimiser" class="quarto-xref">Proposition&nbsp;1</a> says that if <span class="math inline">\(x^*\)</span> is a minimiser, then <span class="math inline">\(F'(x^*) = 0\)</span>. The converse is not true.</p>
+</div></aside></section>
+<section id="section-3" class="slide level3 gridbg">
+<h3></h3>
 <p>We next revisit the example from the start of this section <span class="math display">\[
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span> We can compute the derivative as: <span class="math display">\[
@@ -482,7 +517,7 @@ F'(x) = \phantom{x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}}
 <section class="slide level3">
 
 <aside class="notes">
-<p>Looking at the graph, we can see the <span class="math inline">\(F'\)</span> is zero at three points, <span class="math inline">\(x = -1, 1\)</span> (orange and green) which we have already identified as local minima, but also at <span class="math inline">\(x = \frac{1}{4}\)</span> (purple).</p>
+<p>Looking at the graph, we can see that <span class="math inline">\(F'\)</span> is zero at three points, <span class="math inline">\(x = -1, 1\)</span> (orange and green) which we have already identified as local minima, but also at <span class="math inline">\(x = \frac{1}{4}\)</span> (purple).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -494,7 +529,7 @@ F'(x) = \phantom{x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}}
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<div id="f1a59f27" class="cell" data-execution_count="10">
+<div id="6ac2cdf4" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -518,8 +553,8 @@ F'(x) = \phantom{x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}}
           display:block!important;
       }</style></aside>
 </section>
-<section class="slide level3">
-
+<section id="section-4" class="slide level3 gridbg">
+<h3></h3>
 <p><span class="math display">\[
 F''(x) = \phantom{3 x^2 - \frac{1}{2} x - 1,}
 \]</span> so that <span class="math display">\[\begin{align*}
@@ -527,7 +562,10 @@ F''(-1) &amp;= \phantom{3 \times (-1)^2 - \frac{1}{2} \times (-1) - 1 = 3 + \fra
 F''(\tfrac{1}{4}) &amp;= \phantom{3 \times (\frac{1}{4})^2 - \frac{1}{2} \times \frac{1}{4} - 1 = \frac{3}{16} - \frac{1}{8} - 1 = -\frac{15}{16} = -0.9375 &lt; 0} \\
 F''(1) &amp; = \phantom{3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2} - 1 = \frac{3}{2} = 1.5 &gt; 0.}
 \end{align*}\]</span></p>
-</section>
+
+<aside><div>
+<p><span class="math inline">\(F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}\)</span>, <span class="math inline">\(F'(x) = x^3 - \frac{1}{4}x^2 - x + \frac{1}{4}\)</span></p>
+</div></aside></section>
 <section class="slide level3">
 
 <div id="prp-local-to-global" class="theorem proposition">
@@ -537,7 +575,7 @@ F''(1) &amp; = \phantom{3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2
 <section class="slide level3">
 
 <p>Next, let us compare two examples:</p>
-<div id="7e605d6e" class="cell" data-execution_count="11">
+<div id="6aa16c1c" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -548,7 +586,7 @@ F''(1) &amp; = \phantom{3 \times 1^2 - \frac{1}{2} \times 1 - 1 = 3 - \frac{1}{2
 </div>
 </div>
 <aside class="notes">
-<p>For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line). We see, in the left hand side example, that sometimes the straight line is above the function (blue curve) and sometimes its below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points. This idea is expressed mathematically through the idea of <em>convexity</em>.</p>
+<p>For each example, we have chosen different pairs of points and drawn a straight line between them (green dashed line). We see, in the left-hand side example, that sometimes the straight line is above the function (blue curve) and sometimes it’s below, whereas in the right hand side example, the straight line is above the function, and always will be for any pair of points. This idea is expressed mathematically through the idea of <em>convexity</em>.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -579,7 +617,7 @@ a F(x) + (1-a) F(y) \ge F(a x + (1-a) y) \quad \text{for all} \quad a \in [0, 1]
 \label{eq:convex-diff}
 F(x) \ge F(y) + F'(y) (x-y) \quad\text{for all}\quad x, y \in B.
 \end{equation}\]</span></li>
-<li>The second derivative of <span class="math inline">\(F\)</span> is positive in <span class="math inline">\(B\)</span>: <span class="math display">\[\begin{equation}
+<li>The second derivative of <span class="math inline">\(F\)</span> is non-negative in <span class="math inline">\(B\)</span>: <span class="math display">\[\begin{equation}
 \label{eq:convex-diff2}
 F''(x) \ge 0 \quad\text{for all}\quad x \in B.
 \end{equation}\]</span></li>
@@ -600,8 +638,8 @@ F''(x) \ge 0 \quad\text{for all}\quad x \in B.
           display:block!important;
       }</style></aside>
 </section>
-<section class="slide level3">
-
+<section id="section-5" class="slide level3 gridbg">
+<h3></h3>
 <ol type="1">
 <li>Take for example <span class="math inline">\(F(x) = x^2 - 4 x + 5\)</span>.</li>
 </ol>
@@ -621,15 +659,18 @@ F'(x) = 2 x - 4 \quad\text{and}\quad F''(x) = 2 &gt; 0.
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section class="slide level3">
 
+<aside><div>
+<p><span class="math inline">\(F\)</span> is convex on <span class="math inline">\(B\)</span> iff <span class="math inline">\(F''(x) \ge 0 \quad\text{for all}\quad x \in B\)</span></p>
+</div></aside></section>
+<section id="section-6" class="slide level3 gridbg">
+<h3></h3>
 <ol start="2" type="1">
 <li>(hard) Take <span class="math inline">\(F(x) = \frac{1}{4} x^4 - 3 x^3 + 15 x^2 - 5 x + 4\)</span></li>
 </ol>
 <aside class="notes">
 <p><span class="math display">\[\begin{align*}
-F'(x) &amp; = x^3 - 9 x^2 + 30 x \\
+F'(x) &amp; = x^3 - 9 x^2 + 30 x  -5.\\
 F''(x) &amp; = 3 x^2 - 18 x + 30.
 \end{align*}\]</span> We can complete the square to see that <span class="math display">\[
 F''(x) = 3 (x - 3)^2 + 3 \ge 3 &gt; 0.
@@ -645,7 +686,10 @@ F''(x) = 3 (x - 3)^2 + 3 \ge 3 &gt; 0.
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+
+<aside><div>
+<p><span class="math inline">\(F\)</span> is convex on <span class="math inline">\(B\)</span> iff <span class="math inline">\(F''(x) \ge 0 \quad\text{for all}\quad x \in B\)</span></p>
+</div></aside></section>
 <section class="slide level3">
 
 <div id="exr-convex-diff2" class="theorem exercise">
@@ -655,7 +699,10 @@ F''(x) = 3 (x - 3)^2 + 3 \ge 3 &gt; 0.
 <li><span class="math inline">\(F(x) = \frac{1}{6} x^4 - \frac{8}{3} x^3 + 15 x^2 + 6 x + 1\)</span>.</li>
 </ol>
 </div>
-</section>
+
+<aside><div>
+<p><span class="math inline">\(F\)</span> is convex on <span class="math inline">\(B\)</span> iff <span class="math inline">\(F''(x) \ge 0 \quad\text{for all}\quad x \in B\)</span></p>
+</div></aside></section>
 <section class="slide level3">
 
 <div id="prp-convexity" class="theorem proposition">
@@ -686,7 +733,7 @@ F(x) =
 (x-1)^4 &amp; \text{for}\quad x \ge 1.
 \end{cases}
 \]</span></p>
-<div id="f8b4cad6" class="cell" data-execution_count="12">
+<div id="f6fa1b0e" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
