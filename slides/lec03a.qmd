@@ -592,7 +592,7 @@ plt.show()
 We start at our initial guess $x^{(0)}$ and find the corresponding point on the graph of the function $(x^{(0)}, f(x^{(0)}))$. We find the tangent to the graph at $(x^{(0)}, f(x^{(0)}))$ and follow this line to the $x$-axis. Where the tangent line intersects the $x$-axis is our new value for $x^{(1)}$.
 :::
 
----
+### {.gridbg}
 
 ::: {.columns}
 :::: {.column}
@@ -842,7 +842,7 @@ plt.show()
 
 We see that it takes 3 iterations to find the solution to a tolerance of $10^{-4}$ for the Kepler problem.
 
----
+### {.gridbg}
 
 ::: {#exm-newton}
 Consider $f(x) = x^2 - 5$ and $x^{(0)} = 2$.
@@ -887,7 +887,7 @@ In this case, there isn't much we can do and Newton's method will fail.
 Update formula: $x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}$
 :::
 
----
+### {.gridbg}
 
 ::: {#exm-newton-0}
 Consider applying Newton's method to the function $f(x) = x^3 + 2x^2 + x + 1$ with $x^{(0)} = 0$.
