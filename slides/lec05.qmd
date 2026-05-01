@@ -324,7 +324,7 @@ axs[0].grid(True)
 
 axs[1].semilogy(df["it"], abs(df["x"] + 1), "o-")
 axs[1].set_xlabel("iteration, $i$")
-axs[1].set_ylabel("$x^{(i)} - x^*$ ($x^* = 1$)")
+axs[1].set_ylabel("$x^{(i)} - x^*$ ($x^* = -1$)")
 axs[1].grid(True)
 
 plt.show()
@@ -592,7 +592,7 @@ In words, these equations show that along solutions of the gradient flow equatio
 
 ---
 
-Now, if we take apply Euler's method to solve the gradient descent differential equation with step size $h = \alpha$, we arrive at the scheme:
+Now, if we apply Euler's method to solve the gradient descent differential equation with step size $h = \alpha$, we arrive at the scheme:
 $$
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}).
 $$
@@ -609,7 +609,7 @@ For example, one approach called the *heavy ball* method (or momentum approach),
 $$
 \vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)),
 $$
-subjecet to appropriate initial conditions.
+subject to appropriate initial conditions.
 :::
 
 ## Newton's method
@@ -685,7 +685,7 @@ The idea is to replace division by the second derivative in one dimension with t
 . . .
 
 $$
-(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
+(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}^{(i)}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
 $$
 
 ### {.gridbg}
@@ -698,7 +698,7 @@ $$
 :::
 
 ::: {.aside}
-$(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.$
+$(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}^{(i)}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.$
 :::
 
 ::: {.notes}
