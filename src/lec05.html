@@ -471,7 +471,7 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 \]</span> We will need the derivative of <span class="math inline">\(F\)</span> given by: <span class="math display">\[
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
-<div id="0e7c08ee" class="cell" data-execution_count="2">
+<div id="40194396" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
 F(x^{(0)}) = \frac{1}{4} \times \left(0\right)^4 - \frac{1}{12} \times \left(0\right)^3 - \frac{1}{2} \times \left(0\right)^2 + \frac{1}{4} \times \left(0\right) + \frac{1}{2} = \frac{1}{2}
@@ -508,7 +508,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 &amp;= \frac{5006632820723}{13194139533312} = 0.379458835347502.\end{align*}\]</span></p>
 </div>
 </div>
-<div id="dbaa0760" class="cell" data-execution_count="3">
+<div id="b6f3c1d0" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -518,7 +518,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 </div>
 </div>
 <p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="4f922bf0" class="cell" data-execution_count="4">
+<div id="f2ccc0e1" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <pre><code>'|   it |         x |      F(x) |\n|-----:|----------:|----------:|\n|    0 | -0.125    | 0.461161  |\n|    1 | -0.30957  | 0.379459  |\n|    2 | -0.562543 | 0.241008  |\n|    3 | -0.840248 | 0.11098   |\n|    4 | -1.00051  | 0.0833337 |\n|    5 | -0.999873 | 0.0833334 |\n|    6 | -1.00003  | 0.0833333 |\n|    7 | -0.999992 | 0.0833333 |\n|    8 | -1        | 0.0833333 |\n|    9 | -1        | 0.0833333 |\n|   10 | -1        | 0.0833333 |'</code></pre>
 </div>
@@ -546,11 +546,11 @@ x_1^{(i+1)} \\ x_2^{(i+1)}
 \begin{pmatrix}
 x_1^{(i)} \\ x_2^{(i)}
 \end{pmatrix} -
-h\begin{pmatrix}
+\alpha \begin{pmatrix}
 4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
 \end{pmatrix}.
 \]</span></p>
-<div id="baf7cec0" class="cell" data-execution_count="5">
+<div id="8654d9cc" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Let <span class="math inline">\(x^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span> and <span class="math inline">\(\alpha = 1/4\)</span>.</p>
 <p>Then we can compute that</p>
@@ -588,7 +588,7 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span> From the plots in <a href="lec04.html#fig-2d_func" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>, we can see we have a minimiser at <span class="math inline">\(\vec{x}^* = (-1, 0)^T\)</span> where <span class="math inline">\(F^* = 0\)</span>.</p>
 <p>We implement the iteration in code and plot the function values for different values of <span class="math inline">\(\alpha\)</span></p>
-<div id="c31f8973" class="cell" data-execution_count="6">
+<div id="0b2de69c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -653,7 +653,7 @@ x^{(i+1)} &amp;= x^{(i)} - \alpha F'(x^{(i)}) &amp;&amp; \text{(gradient descent
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
 <p>We can plot the value of <span class="math inline">\(|F'(x^{(i)}|\)</span> against the iteration count for the two methods we have written down here:</p>
-<div id="966ca1ba" class="cell" data-execution_count="7">
+<div id="24bfd585" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -677,7 +677,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 0 &amp; 8
 \end{pmatrix}.
 \]</span></p>
-<div id="fd9a645d" class="cell" data-execution_count="8">
+<div id="11c20821" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We start at <span class="math inline">\(\vec{x}^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span>.</p>
 <p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}
