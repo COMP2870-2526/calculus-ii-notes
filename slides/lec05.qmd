@@ -1,5 +1,25 @@
 ---
-echo: false
+execute:
+  echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: Optimisation in $\mathbb{R}^n$
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header:
+  - ../mathjax.html
+  - ../grid-background.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+    chalkboard:
+      theme: whiteboard
 ---
 
 # Optimisation in $\mathbb{R}^n$
@@ -11,8 +31,6 @@ import sympy as sp
 from IPython.display import Markdown, display
 from matplotlib import pyplot as plt
 
-from utils import table_styler
-
 
 def array_to_latex(array):
     base = sp.latex(array)
@@ -20,27 +38,25 @@ def array_to_latex(array):
 
 
 ```
-::: {.callout-tip}
-## Module learning objective
 
-1. Define and apply the gradient descent algorithm for functions $F \colon \mathbb{R}^n \to \mathbb{R}$,
-2. Explain some of the properties of the gradient descent algorithm,
-3. Relate the gradient descent algorithm to the gradient flow differential equation,
-4. Apply the Newton method to solve optimsation problems.
-:::
+> Define and apply the gradient descent algorithm for functions $F \colon \mathbb{R}^n \to \mathbb{R}$
+
+> Explain some of the properties of the gradient descent algorithm
+
+## The problem
 
 We return to our basic optimisation problem. We want to find a minimiser $x^*$ of the function $F \colon \mathbb{R}^n \to \mathbb{R}$:
 $$
 x^* = \mathop{\arg\min}\limits_{x \in \mathbb{R}^n} F(x).
 $$
+
 In this lecture, we are going to propose an iterative algorithm for approximating solutions called **gradient descent**.
-Roughly speaking, if $F$ is smooth and convex, then for a sufficiently small step size the method converges to a minimiser. If $F$ is not convex, gradient descent may still be useful, but in general it is only guaranteed to seek a point with $\nabla F = 0$; this may be a local minimiser but may not be!
 
 ::: {#rem-nn}
 The methods used to train neural network models are based on gradient descent. We will see an example of this later.
 :::
 
-We first illustrate the algorithm in one dimension:
+### {.gridbg}
 
 ::: {#exm-grad-descent-1d}
 Consider
@@ -51,6 +67,9 @@ We will need the derivative of $F$ given by:
 $$
 F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 $$
+:::
+
+::: {.notes}
 
 ```{python}
 def F1(x):
@@ -225,54 +244,117 @@ plt.grid(True)
 plt.show()
 ```
 
+:::
+
+---
+
+```{python}
+x = np.linspace(-1.5, 1.5, 1000)
+
+plt.plot(x, F1(x))
+
+plt.plot(x0, F1(x0), "C1o")
+plt.annotate(
+    r"$x^{(0)}$",
+    (x0, F1(x0)),
+    xytext=(-25, 10),
+    textcoords="offset points",
+    color="C1",
+)
+
+plt.plot(x1, F1(x1), "C2o")
+plt.annotate(
+    r"$x^{(1)}$",
+    (x1, F1(x1)),
+    xytext=(-25, 10),
+    textcoords="offset points",
+    color="C2",
+)
+
+
+h_max = 1.0 / dF1(x1)
+x2_max = x1 - h_max * dF1(x1)
+plt.plot([x1, x2_max], [F1(x1), F1(x1) + (x2_max - x1) * dF1(x1)], "C3--")
+
+x2 = x1 - h * dF1(x1)
+plt.plot([x2], [F1(x1) + (x2 - x1) * dF1(x1)], "C3o")
+plt.annotate(
+    rf"$x^{{(2)}}(\alpha={h})$",
+    (x2, F1(x1) + (x2 - x1) * dF1(x1)),
+    xytext=(10, -10),
+    textcoords="offset points",
+    color="C3",
+)
+
+plt.xlabel("$x$")
+plt.ylabel("$F(x)$")
+plt.grid(True)
+plt.show()
+```
+
+### {.smaller}
+
 Continuing the iteration, we see that the sequence converges to the minimiser.
 
 ```{python}
-_, axs = plt.subplots(1, 1)
-
-axs.plot(x, F1(x))
-
 data = []
 
 x = 0.0
 for i in range(11):
-    if i < 5:
-        axs.plot(x, F1(x), f"C{i}o")
-        axs.annotate(
-            rf"$x^{{({i})}}$",
-            (x, F1(x)),
-            xytext=(-25, 10),
-            textcoords="offset points",
-            color=f"C{i}",
-        )
-
     x = x - h * dF1(x)
 
     data.append({"it": i, "x": x, "F(x)": F1(x)})
 
-axs.set_xlabel("$x$")
-axs.set_ylabel("$F(x)$")
-axs.grid(True)
+df = pd.DataFrame(data)
+display(df.to_html(index=False))
+```
 
-display(table_styler(pd.DataFrame(data)))
+---
+
+```{python}
+_, axs = plt.subplots(1, 2)
+
+x = np.linspace(-1.5, 1.5)
+axs[0].plot(x, F1(x))
+axs[0].plot(df["x"], df["F(x)"], "o-")
+
+axs[0].set_xlabel("$x$")
+axs[0].set_ylabel("$F(x)$")
+axs[0].grid(True)
+
+axs[1].semilogy(df["it"], abs(df["x"] + 1), "o-")
+axs[1].set_xlabel("iteration, $i$")
+axs[1].set_ylabel("$x^{(i)} - x^*$ ($x^* = 1$)")
+axs[1].grid(True)
 
 plt.show()
 
 
 ```
-:::
 
-We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$ (@lem-grad-slope-max). So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $\alpha$, uses the update formula:
+
+---
+
+We can use a similar idea when working in $\mathbb{R}^n$. The key idea is to note that the gradient of $F \colon \mathbb{R}^n \to \mathbb{R}$ points in the direction of the steepest increase in $F$.
+
+. . .
+
+So, starting at a point $\vec{x}^{(0)}$, if we want to reduce $F$, we should take a small step in the direction $-\nabla F(\vec{x}^{(0)})$. This is the **gradient descent algorithm** which, for a given step size $\alpha$, uses the update formula:
 $$
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.
 $$
+
+### {.gridbg}
 
 ::: {#exm-gradient-descent}
 Consider the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
 $$
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 $$
-We previously computed (@exm-gradient) that
+:::
+
+::: {.notes}
+We previously computed that
 $$
 \nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2).
 $$
@@ -344,13 +426,22 @@ display(Markdown(s))
 
 ```
 
+:::
+
+---
+
 ::: {#exr-gradient-descent}
 Take two steps of gradient descent for $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
 $$
 F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 $$
 :::
+
+::: {.aside}
+$\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.$
 :::
+
+---
 
 ::: {#rem-starting-value}
 We always need an initial value for the gradient descent algorithm. If $F$ is convex, the choice of starting point does not affect whether we converge or not towards the global minimiser, although it does affect how many iterations are needed to reach it. In practice, a better initial guess usually leads to faster convergence.
@@ -360,16 +451,21 @@ However, in the non-convex case, different starting values converge to different
 
 ## Choice of the step size $\alpha$
 
-The choice of step size has a major effect on the performance of gradient descent. If $\alpha$ is too small, we do not make enough progress towards the minimiser, but if $\alpha$ is too large the iteration may overshoot the minimum and function value may increase (e.g., if the function wiggles up again!).
+The choice of step size has a major effect on the performance of gradient descent.
+
+- If $\alpha$ is too small, we do not make enough progress towards the minimiser, but  ...
+- if $\alpha$ is too large the iteration may overshoot the minimum and function value may increase
+
+::: {.aside}
+$\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.$
+:::
+
+---
 
 ::: {#exm-choosing-h}
-We consider again the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
 $$
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 $$
-From the plots in @fig-2d_func, we can see we have a minimiser at $\vec{x}^* = (-1, 0)^T$ where $F^* = 0$.
-
-We implement the iteration in code and plot the function values for different values of $\alpha$
 
 ```{python}
 def F3(x):
@@ -417,7 +513,9 @@ plt.show()
 
 
 ```
+:::
 
+::: {.notes}
 We see that:
 
 - for $\alpha = 10^{1}$ or $10^{0}$, the time step is too large and the iterations quickly diverge;
@@ -425,22 +523,38 @@ We see that:
 - for $\alpha = 10^{-1}$ or $10^{-2}$, we see a nice decrease in the function values and quick convergence to the minimum!
 :::
 
+---
+
 ::: {#exr-step-size}
 What would the *best* step size be? What if we know the second derivative of $F$ as well? (*Hint*: think of 1d first, then think how this might work in higher dimensions). More on this later!
+:::
+
+::: {.aside}
+$\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.$
 :::
 
 ## Stopping criteria
 
 There are several possible stopping criteria available, similar to those used for other iterative schemes:
 
+1. Stop after a fixed number of iterations
+
+2. Stop when things stop changing
+
+3. Stop if the function values are too large
+
+::: {.notes}
 1. **Stop after a fixed number of iterations**: This is the simplest option. This does not guarantee that we are close to the correct solution but does stop us from computing if the solution will never converge (e.g. if the step size is too large). But how do we know we aren't just converging slowly?
 
 2. **Stop when things stop changing**: We can monitor (i) the change in $\vec{x}^{(i)}$, (ii) the change in $F(\vec{x}^{(i)})$ or (iii) the magnitude of $\nabla F(\vec{x}^{(i)})$. All three can be used relatively straightforwardly to test if we have converged by comparing these values against a given tolerance $TOL$.
 
 3. **Stop if the function values are too large**: This again avoids us continuing to compute when the iteration will not converge. But how large is too large as part of an iteration?
+:::
 
 
 ## Relation to differential equations
+
+> Relate the gradient descent algorithm to the gradient flow differential equation
 
 There is another important way to derive the gradient descent algorithm: via a differential equation, often called the **gradient flow differential equation**:
 
@@ -448,6 +562,14 @@ Find $\vec{x}(t)$ such that
 $$
 \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
 $$
+
+### {.gridbg}
+
+::: {.aside}
+$\vec{x}'(t) = - \nabla F(\vec{x}(t))$
+:::
+
+::: {.notes}
 If we take the scalar product of this equation with $\vec{x}'(t)$, we see
 $$
 \vec{x}'(t) \cdot \vec{x}'(t) = - \nabla F(\vec{x}(t)) \vec{x}'(t).
@@ -466,6 +588,10 @@ F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le
 $$
 In words, these equations show that along solutions of the gradient flow equation, the quantity $F(\vec{x}(t))$ is non-increasing.
 
+:::
+
+---
+
 Now, if we take apply Euler's method to solve the gradient descent differential equation with step size $h = \alpha$, we arrive at the scheme:
 $$
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}).
@@ -474,16 +600,23 @@ So Euler's method applied to the gradient flow equation gives exactly the gradie
 
 Note there is no step size in the gradient flow differential equation: effectively, this is the case for $\alpha \to 0$, and we see that $\alpha$ is small enough for the function value to *always* decrease.
 
+---
+
 ::: {.remark}
 The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.
 
 For example, one approach called the *heavy ball* method (or momentum approach), uses a numerical method to solve the differential equation:
 $$
-\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to appropriate initial conditions}.
+\vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)),
 $$
+subjecet to appropriate initial conditions.
 :::
 
 ## Newton's method
+
+> Apply the Newton method to solve optimsation problems
+
+---
 
 In one dimension, we applied Newton's method to find a root of $F'$ which we hoped would be a minimiser.
 We can relate the gradient descent algorithm to Newton's method for $F'$:
@@ -493,13 +626,13 @@ x^{(i+1)} &= x^{(i)} - \alpha F'(x^{(i)}) && \text{(gradient descent)}.
 \end{align*}
 We saw that Newton's method seem to converge very quickly, even faster than gradient descent!
 
+---
+
 ::: {#exm-newton-vs-gradient}
-Consider the function from before:
 $$
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 $$
 
-We can plot the value of $|F'(x^{(i)}|$ against the iteration count for the two methods we have written down here:
 ```{python}
 def F1(x):
     return x**4 / 4 - x**3 / 12 - x**2 / 2 + x / 4 + 1 / 2
@@ -544,18 +677,31 @@ plt.show()
 ```
 :::
 
+---
+
 This can also be made to work for problems in $\mathbb{R}^n$ too.
 The idea is to replace division by the second derivative in one dimension with the solution of a linear system involving the Hessian in higher dimensions.
-More precisely, rather than finding the inverse of the Hessian, we solve a system of linear equations! At each step, we solve the system of linear equations:
+
+. . .
+
 $$
 (\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
 $$
+
+### {.gridbg}
 
 ::: {#exm-newton-Rn}
 Consider the function $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
 $$
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 $$
+:::
+
+::: {.aside}
+$(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.$
+:::
+
+::: {.notes}
 We previously computed (@exm-gradient) that
 $$
 \nabla F(x_1, x_2) = (4 x_1^3 - 2 x_1 + 2, 8 x_2),
