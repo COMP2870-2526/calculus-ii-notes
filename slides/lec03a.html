@@ -287,7 +287,7 @@ x^* = \frac{-b \pm \sqrt{b^2 - 4 a c}}{2a}.
 <p>We want to solve the quadratic equation <span class="math display">\[
 f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 \]</span> for large values of <span class="math inline">\(m\)</span>. The exact solutions are <span class="math inline">\(m\)</span> and <span class="math inline">\(\frac{1}{m}\)</span>.</p>
-<div id="246e40b3" class="cell" data-execution_count="2">
+<div id="5fad1491" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># implementation of quadratic formula</span></span>
 <span id="cb1-2"><a href=""></a><span class="kw">def</span> quad(a, b, c):</span>
 <span id="cb1-3"><a href=""></a>    <span class="co">"""</span></span>
@@ -299,7 +299,7 @@ f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 </section>
 <section class="slide level3">
 
-<div id="6b90689a" class="cell" data-execution_count="3">
+<div id="f5dd3557" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># test for m = 1e8</span></span>
 <span id="cb2-2"><a href=""></a>m <span class="op">=</span> <span class="fl">1e8</span></span>
 <span id="cb2-3"><a href=""></a>roots <span class="op">=</span> quad(<span class="dv">1</span>, <span class="op">-</span>(m <span class="op">+</span> <span class="dv">1</span> <span class="op">/</span> m), <span class="dv">1</span>)</span>
@@ -310,7 +310,7 @@ f(x) = x^2 - (m + \frac{1}{m}) x + 1 = 0,
 </div>
 </div>
 <p>These values look reasonable, but let’s check the errors:</p>
-<div id="2e83cdc4" class="cell" data-execution_count="4">
+<div id="04f32e91" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="co"># absolute and relative errors</span></span>
 <span id="cb4-2"><a href=""></a>exact_roots <span class="op">=</span> (m, <span class="dv">1</span> <span class="op">/</span> m)</span>
 <span id="cb4-3"><a href=""></a></span>
@@ -342,7 +342,7 @@ f(x) = x^2 - 2.
 <p><span class="theorem-title"><strong>Example 3 (Kepler’s equation, elliptic orbits)</strong></span> &nbsp;</p>
 <div class="columns">
 <div class="column">
-<div id="243c7c00" class="cell" data-execution_count="5">
+<div id="53e53a2b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -405,7 +405,7 @@ f(E) = E - e \sin(E) - M.
 <div class="column">
 <p>The first method that we introduce is the bisection method. If a function is smooth (continuous) on an interval and changes sign between the two end points (either positive to negative or negative to positive), then it must be zero some point in between.</p>
 </div><div class="column">
-<div id="7bb0175e" class="cell" data-execution_count="6">
+<div id="a4df24d3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -449,7 +449,7 @@ f(E) = E - e \sin(E) - M.
 </section>
 <section id="examples" class="slide level3">
 <h3>Examples</h3>
-<div id="9d1a5594" class="cell" data-execution_count="7">
+<div id="5ae25fa1" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" data-code-line-numbers="1-5|6-7|11-22|13|14-15|16-20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="kw">def</span> bisection(f, a, b, tol):</span>
 <span id="cb6-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href=""></a><span class="co">    Apply the bisection method for the function f on the interval (a, b)</span></span>
@@ -483,7 +483,7 @@ f(E) = E - e \sin(E) - M.
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="ac573989" class="cell" data-execution_count="8">
+<div id="1647abd8" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -499,7 +499,7 @@ f(x) = x^2 - 2.
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="2918dc13" class="cell" data-execution_count="9">
+<div id="2cdaa9b2" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -540,7 +540,7 @@ f(x) = x - 0.7 \sin(x) - 2.0
 </section>
 <section class="slide level3">
 
-<div id="88500ab1" class="cell" data-execution_count="10">
+<div id="29fe5726" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -568,7 +568,7 @@ f(x) = x - 0.7 \sin(x) - 2.0
 <h3></h3>
 <div class="columns">
 <div class="column">
-<div id="da53ec23" class="cell" data-execution_count="11">
+<div id="31658d7b" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -610,7 +610,7 @@ x^{(1)} = x^{(0)} - \frac{f(x^{(0)})}{f'(x^{(0)})}.
 <p>Update formula: <span class="math display">\[
 x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 \]</span></p>
-<div id="30b16ac4" class="cell" data-execution_count="12">
+<div id="448b978e" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -632,7 +632,7 @@ x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 </section>
 <section id="examples-1" class="slide level3">
 <h3>Examples</h3>
-<div id="68fdd532" class="cell" data-execution_count="13">
+<div id="84ed25bb" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" data-code-line-numbers="1-4|7-9|12|13-16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="kw">def</span> newton(f, df, x0, tol, maxiter<span class="op">=</span><span class="dv">20</span>):</span>
 <span id="cb7-2"><a href=""></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href=""></a><span class="co">    Find a root of a scalar function f using Newton's method starting at x0</span></span>
@@ -660,7 +660,7 @@ x^{(i+1)} = x^{(i)} - \frac{f(x^{(i)})}{f'(x^{(i)})}.
 <p><span class="math display">\[
 f(x) = x^2 - 2.
 \]</span></p>
-<div id="89f274f4" class="cell" data-execution_count="14">
+<div id="eb832c6e" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -676,7 +676,7 @@ f(x) = x^2 - 2.
 <p><span class="math display">\[
 f(x) = x - 0.7 \sin(x) - 2.0
 \]</span></p>
-<div id="54e991e6" class="cell" data-execution_count="15">
+<div id="8c450bb6" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -764,7 +764,7 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 <section class="slide level3">
 
 <p>Consider <span class="math inline">\(f(x) = (x-1)^2 = x^2 - 2x + 1\)</span>:</p>
-<div id="8b628172" class="cell" data-execution_count="16">
+<div id="2381181d" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -780,7 +780,7 @@ f'(x^{(1)}) = 3 \times (-1)^2 + 4 \times -1 + 1 = 0.
 <section class="slide level3">
 
 <p>Consider the function <span class="math inline">\(f(x) = x^{1/3}\)</span>. Clearly <span class="math inline">\(f\)</span> has a root at <span class="math inline">\(x^* = 0\)</span> (<span class="math inline">\(f(0) = 0\)</span>).</p>
-<div id="b1319eb2" class="cell" data-execution_count="17">
+<div id="946679dd" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -807,7 +807,7 @@ x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{
 </section>
 <section class="slide level3">
 
-<div id="1211a34b" class="cell" data-execution_count="18">
+<div id="e75bad29" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -823,7 +823,7 @@ x^{(i+1)} = x^{(i)} - \frac{(x^{(i)})^{1/3}}{\frac{1}{3} (x^{(i)})^{-2/3}} = x^{
 <p>It is even possible for the iteration to simply cycle between two values repeatedly.</p>
 <div id="exm-newton-repeater" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6</strong></span> Consider the function <span class="math inline">\(f(x) = x^3 - 2x + 2\)</span>. This has derivative <span class="math inline">\(f'(x) = 3 x^2 - 2\)</span>.</p>
-<div id="6278cb00" class="cell" data-execution_count="20">
+<div id="44d23abd" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div>
 <figure>

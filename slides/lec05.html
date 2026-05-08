@@ -209,7 +209,7 @@ F'(x) = x^3 - \frac{1}{4} x^2 - x + \frac{1}{4}.
 \]</span></p>
 </div>
 <aside class="notes">
-<div id="6d53adff" class="cell" data-execution_count="2">
+<div id="b3d0bec0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We will start from <span class="math inline">\(x^{(0)} = 0\)</span>. We note that <span class="math display">\[
 F(x^{(0)}) = \frac{1}{4} \times \left(0\right)^4 - \frac{1}{12} \times \left(0\right)^3 - \frac{1}{2} \times \left(0\right)^2 + \frac{1}{4} \times \left(0\right) + \frac{1}{2} = \frac{1}{2}
@@ -246,7 +246,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 &amp;= \frac{5006632820723}{13194139533312} = 0.379458835347502.\end{align*}\]</span></p>
 </div>
 </div>
-<div id="e01608e7" class="cell" data-execution_count="3">
+<div id="5bbe98ad" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -269,7 +269,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 </section>
 <section class="slide level3">
 
-<div id="7e20faf3" class="cell" data-execution_count="4">
+<div id="ef57142c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -282,7 +282,7 @@ F(x^{(2)}) &amp;= \frac{1}{4} \times \left(- \frac{317}{1024}\right)^4 - \frac{1
 <section id="section-1" class="slide level3 smaller">
 <h3></h3>
 <p>Continuing the iteration, we see that the sequence converges to the minimiser.</p>
-<div id="9e6cf048" class="cell" data-execution_count="5">
+<div id="4a51c67d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <table border="1" class="dataframe">
 
@@ -492,7 +492,7 @@ F(x)
 </section>
 <section class="slide level3">
 
-<div id="e69782a8" class="cell" data-execution_count="6">
+<div id="5ec817b6" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -532,7 +532,7 @@ x_1^{(i)} \\ x_2^{(i)}
 4 (x_1^{(i)})^3 - 2 x_1^{(i)} + 2 \\ 8 x_2^{(i)}
 \end{pmatrix}.
 \]</span></p>
-<div id="92d0e298" class="cell" data-execution_count="7">
+<div id="c289e8a6" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Let <span class="math inline">\(x^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span> and <span class="math inline">\(\alpha = 1/4\)</span>.</p>
 <p>Then we can compute that</p>
@@ -567,9 +567,9 @@ x_1^{(i)} \\ x_2^{(i)}
 <section class="slide level3">
 
 <div id="exr-gradient-descent" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1</strong></span> Take two steps of gradient descent for <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
-F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
-\]</span></p>
+<p><span class="theorem-title"><strong>Exercise 1</strong></span> Take two steps of gradient descent starting at <span class="math inline">\(\vec{x}^{(0)} = (2, 0)\)</span> for <span class="math inline">\(F \colon \mathbb{R}^2 \to \mathbb{R}\)</span> given by <span class="math display">\[
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2,
+\]</span> using <span class="math inline">\(\alpha = \frac{1}{4}\)</span>.</p>
 </div>
 
 <aside><div>
@@ -590,17 +590,14 @@ F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
 <li>If <span class="math inline">\(\alpha\)</span> is too small, we do not make enough progress towards the minimiser, but …</li>
 <li>if <span class="math inline">\(\alpha\)</span> is too large the iteration may overshoot the minimum and function value may increase</li>
 </ul>
-
-<aside><div>
-<p><span class="math inline">\(\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.\)</span></p>
-</div></aside></section>
+</section>
 <section class="slide level3">
 
 <div id="exm-choosing-h" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3</strong></span> <span class="math display">\[
 F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 \]</span></p>
-<div id="2ac39373" class="cell" data-execution_count="8">
+<div id="724da857" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -673,7 +670,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 </blockquote>
 <p>There is another important way to derive the gradient descent algorithm: via a differential equation, often called the <strong>gradient flow differential equation</strong>:</p>
 <p>Find <span class="math inline">\(\vec{x}(t)\)</span> such that <span class="math display">\[
-\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
+\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to}\quad \vec{x}(0) = \vec{x}^{(0)}.
 \]</span></p>
 </section>
 <section id="section-3" class="slide level3 gridbg">
@@ -705,7 +702,7 @@ F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le
 </div></aside></section>
 <section class="slide level3">
 
-<p>Now, if we take apply Euler’s method to solve the gradient descent differential equation with step size <span class="math inline">\(h = \alpha\)</span>, we arrive at the scheme: <span class="math display">\[
+<p>Now, if we apply Euler’s method to solve the gradient descent differential equation with step size <span class="math inline">\(h = \alpha\)</span>, we arrive at the scheme: <span class="math display">\[
 \vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}).
 \]</span> So Euler’s method applied to the gradient flow equation gives exactly the gradient descent algorithm!</p>
 <p>Note there is no step size in the gradient flow differential equation: effectively, this is the case for <span class="math inline">\(\alpha \to 0\)</span>, and we see that <span class="math inline">\(\alpha\)</span> is small enough for the function value to <em>always</em> decrease.</p>
@@ -716,7 +713,7 @@ F(\vec{x}(t)) = F(\vec{x}^{(0)}) - \int_0^t \|\vec{x}'(s)\|^2 \, \mathrm{d}s \le
 <p><span class="proof-title"><em>Remark</em>. </span>The idea to think of gradient descent as a numerical method to solve the gradient flow differential equation allows us to think of other ways to generalise gradient flow.</p>
 <p>For example, one approach called the <em>heavy ball</em> method (or momentum approach), uses a numerical method to solve the differential equation: <span class="math display">\[
 \vec{x}''(t) + \mu \vec{x}'(t) = - \nabla F(\vec{x}(t)),
-\]</span> subjecet to appropriate initial conditions.</p>
+\]</span> subject to appropriate initial conditions.</p>
 </div>
 </section>
 
@@ -739,7 +736,7 @@ x^{(i+1)} &amp;= x^{(i)} - \alpha F'(x^{(i)}) &amp;&amp; \text{(gradient descent
 <p><span class="theorem-title"><strong>Example 4</strong></span> <span class="math display">\[
 F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \frac{1}{2}.
 \]</span></p>
-<div id="9f160628" class="cell" data-execution_count="9">
+<div id="a686920d" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -755,7 +752,7 @@ F(x) = \frac{1}{4} x^4 - \frac{1}{12} x^3 - \frac{1}{2} x^2 + \frac{1}{4} x + \f
 <p>This can also be made to work for problems in <span class="math inline">\(\mathbb{R}^n\)</span> too. The idea is to replace division by the second derivative in one dimension with the solution of a linear system involving the Hessian in higher dimensions.</p>
 <div class="fragment">
 <p><span class="math display">\[
-(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
+(\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}^{(i)}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.
 \]</span></p>
 </div>
 </section>
@@ -776,7 +773,7 @@ F(x_1, x_2) = x_1^4 - x_1^2 + 2 x_1 + 4 x_2^2 + 2.
 0 &amp; 8
 \end{pmatrix}.
 \]</span></p>
-<div id="0459d1e3" class="cell" data-execution_count="10">
+<div id="827edbb7" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We start at <span class="math inline">\(\vec{x}^{(0)} = \left(\begin{matrix}1\\\frac{3}{4}\end{matrix}\right)\)</span>.</p>
 <p><strong>Iteration 1.</strong> We compute that <span class="math display">\[\begin{align*}
@@ -825,7 +822,7 @@ eyJjb250ZW50cyI6W119
 W10=
 </script>
 <aside><div>
-<p><span class="math inline">\((\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.\)</span></p>
+<p><span class="math inline">\((\nabla^2 F(\vec{x}^{(i)})) \vec{d} = - \nabla F(\vec{x}^{(i)}), \qquad \vec{x}^{(i+1)} = \vec{x}^{(i)} + \vec{d}.\)</span></p>
 </div></aside></section>
 </section>
     </div>

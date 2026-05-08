@@ -510,7 +510,7 @@ Important
 <p>We want to train a neural network to recognise handwritten digits 0-9.</p>
 <p>We will solve this using gradient descent to “train” the neural network. We will use the chain rule to find the gradient of a composite function.</p>
 <p>We will use a dataset to help us called the MNIST handwritten digit dataset. It contains 70,000 images all labelled with the correct digit. Each image is a <span class="math inline">\(28 \times 28\)</span> greyscale image, so each image contains 784 pixel values. The task is to assign the image to one of the ten classes <span class="math inline">\(\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}\)</span>.</p>
-<div id="4b3a7eb6" class="cell" data-execution_count="3">
+<div id="2051fbfc" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -525,14 +525,14 @@ Important
 \vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}
 \]</span></p>
 <p>The function, we want to optimise should capture the given labels for a subset of all images (called the training set). This will leave further sample labels to test to see how well our method is performing. The optimisation will be over some parameters (which we define shortly) in the function <span class="math inline">\(\vec{\mathcal{F}}\)</span>. We will call <span class="math inline">\(X\)</span> the set of training images (of size <span class="math inline">\(N\)</span>) and suppose we have a labelling function <span class="math inline">\(L \colon X \to \mathbb{R}^{10}\)</span> which takes an image in the training set and gives the correct label. We will use the notation <span class="math inline">\(L = (L_1, \ldots, L_10)\)</span>.</p>
-<div id="068d5aa9" class="cell" data-execution_count="4">
+<div id="fd040ea8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> indicator_matrix(targets, number_of_classes<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co"># convert one label per image to a 10 dimensional output for comparison</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>    matrix <span class="op">=</span> np.zeros((number_of_classes, targets.shape[<span class="dv">0</span>]), dtype<span class="op">=</span>np.float32)</span>
 <span id="cb1-4"><a href="#cb1-4"></a>    matrix[targets, np.arange(targets.shape[<span class="dv">0</span>])] <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a>    <span class="cf">return</span> matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ccf263b1" class="cell" data-execution_count="5">
+<div id="db243a72" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>image 0 has L = 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0
 image 1 has L = 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
@@ -545,7 +545,7 @@ image 4 has L = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0</code></pre>
 <section id="the-neural-network" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="the-neural-network"><span class="header-section-number">9.2</span> The neural network</h2>
 <p>We will work with what is called a dense neural network with one input layer, one output layer and one hidden layer. The input layer represents the pixel values in the flattened image (784 values) and the output layer represents the output prediction of the correct label (10 values). The hidden layer is what brings everything together and we will use <span class="math inline">\(64\)</span> values in this layer.</p>
-<div id="a35add36" class="cell" data-execution_count="6">
+<div id="8baa8057" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -567,7 +567,7 @@ image 4 has L = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0</code></pre>
 \vec{\mathcal{F}}(\vec{x}) = \vec{z}(\vec{s}(\vec{y}(\vec{r}(\vec{x}))))
 \]</span> This gives function <span class="math inline">\(\vec{\mathcal{F}} \colon \mathbb{R}^{784} \to \mathbb{R}^{10}\)</span>.</p>
 <p>In the mathematical discussion below, we first describe the network for a single image <span class="math inline">\(\vec{x} \in \mathbb{R}^{784}\)</span>. In the implementation, however, we process many images at once using matrix notation. We store all <span class="math inline">\(N\)</span> flattened training images as the columns of a matrix <span class="math inline">\(\mathbb{R}^{784 \times N}\)</span> and store the labels as <span class="math inline">\(\mathbb{R}^{10 \times N}\)</span>. The numpy code is therefore a <em>vectorised</em> version of the same formulas, applied to all the training samples simultaneously.</p>
-<div id="8a667e67" class="cell" data-execution_count="7">
+<div id="bd92061c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> sigma(t):</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="co"># sigmoid activation</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>    <span class="cf">return</span> <span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>t))</span>
@@ -592,7 +592,7 @@ J(\vec{x}) = \frac{1}{2} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2
 F = \frac{1}{N} \sum_{\vec{x} \in X} J(\vec{x}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{\mathcal{F}}(\vec{x}) \|^2.
 \]</span></p>
 <p>As we mentioned previously, we want to optimise for parameters in the function <span class="math inline">\(\vec{\mathcal{F}}\)</span>. Precisely, these are the values <span class="math inline">\(A\)</span> (size <span class="math inline">\(64 \times 784\)</span>), <span class="math inline">\(a\)</span> (size <span class="math inline">\(64\)</span>), <span class="math inline">\(B\)</span> (size <span class="math inline">\(10 \times 64\)</span>) and <span class="math inline">\(\vec{b}\)</span> (size <span class="math inline">\(10\)</span>). In total this corresponds to <span class="math inline">\(50,890\)</span> parameters so we can say that <span class="math inline">\(F \colon \mathbb{R}^{50\,890} \to \mathbb{R}\)</span>.</p>
-<div id="625b26af" class="cell" data-execution_count="8">
+<div id="942d5edb" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> objective(z, targets):</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="co"># objective function F</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>    L <span class="op">=</span> indicator_matrix(targets, number_of_classes<span class="op">=</span>z.shape[<span class="dv">0</span>])</span>
@@ -687,12 +687,12 @@ F(\vec{z}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{z} \|^
 </ol>
 <p>This can be implemented in code.</p>
 <p>We use one final helper function. The sigmoid function is often chosen to help simplify the calculation of the derivative of the <span class="math inline">\(\sigma\)</span> function. We can use this same trick here:</p>
-<div id="2fb5e24a" class="cell" data-execution_count="9">
+<div id="ac2ebee8" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> sigma_prime_from_value(sigma_value):</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># derivative of sigmoid when the sigmoid value is already known</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>    <span class="cf">return</span> sigma_value <span class="op">*</span> (<span class="fl">1.0</span> <span class="op">-</span> sigma_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8f6061b1" class="cell" data-execution_count="10">
+<div id="d7ebfe50" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># ----------------------------</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="co"># Parameter initialisation</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="co"># ----------------------------</span></span>
@@ -796,13 +796,13 @@ F(\vec{z}) = \frac{1}{2N} \sum_{\vec{x} \in X} \| \vec{L}(\vec{x}) - \vec{z} \|^
 <h2 data-number="9.5" class="anchored" data-anchor-id="testing-it-out"><span class="header-section-number">9.5</span> Testing it out</h2>
 <p>We set some important parameters for the algorithm</p>
 <p>We also use an extra function to pick out the output <span class="math inline">\(\vec{z}\)</span> with the highest value to make our prediction of the final output value:</p>
-<div id="0da4f2dc" class="cell" data-execution_count="12">
+<div id="9947b039" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> predict(x, A, a, B, b):</span>
 <span id="cb7-2"><a href="#cb7-2"></a>    _, _, _, z <span class="op">=</span> forward_map(x, A, a, B, b)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>    <span class="cf">return</span> np.argmax(z, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can now do the training:</p>
-<div id="bb8770e8" class="cell" data-execution_count="13">
+<div id="04dbcb63" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>training_inputs, training_targets, test_inputs, test_targets <span class="op">=</span> load_mnist()</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># take transpose so that each column is a flattened image</span></span>
@@ -833,11 +833,11 @@ training targets shape: (60000,)
 test inputs shape:     (784, 10000)
 test targets shape:    (10000,)
 
-completed 1000 iterations in time 188.3323s.</code></pre>
+completed 1000 iterations in time 197.8767s.</code></pre>
 </div>
 </div>
 <p>Let’s see how well we’ve done:</p>
-<div id="35beea23" class="cell" data-execution_count="14">
+<div id="98d8de50" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -853,7 +853,7 @@ Final test accuracy:   90.97%</code></pre>
 </div>
 <p>We see that we are achieving more than 90% accuracy within 1000 iterations and we have not converged to the best solution yet.</p>
 <p>Let’s see some examples of the classes and our predictions</p>
-<div id="cb49804a" class="cell" data-execution_count="15">
+<div id="d77b4720" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -864,7 +864,7 @@ Final test accuracy:   90.97%</code></pre>
 </div>
 <p>I don’t think this is too bad!</p>
 <p>For one incorrect prediction (predicted 6 instead of 5), we can also check all <span class="math inline">\(\vec{z}\)</span> values that have:</p>
-<div id="732aae90" class="cell" data-execution_count="16">
+<div id="a730b832" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>z values:
 0: 0.032788
