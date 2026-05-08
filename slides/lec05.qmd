@@ -431,10 +431,11 @@ display(Markdown(s))
 ---
 
 ::: {#exr-gradient-descent}
-Take two steps of gradient descent for $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
+Take two steps of gradient descent starting at $\vec{x}^{(0)} = (2, 0)$ for $F \colon \mathbb{R}^2 \to \mathbb{R}$ given by
 $$
-F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2.
+F(x_1, x_2) = 2 x_1^2 + 2 x_2^2 - 2 x_1 x_2,
 $$
+using $\alpha = \frac{1}{4}$.
 :::
 
 ::: {.aside}
@@ -455,10 +456,6 @@ The choice of step size has a major effect on the performance of gradient descen
 
 - If $\alpha$ is too small, we do not make enough progress towards the minimiser, but  ...
 - if $\alpha$ is too large the iteration may overshoot the minimum and function value may increase
-
-::: {.aside}
-$\vec{x}^{(i+1)} = \vec{x}^{(i)} - \alpha \nabla F(\vec{x}^{(i)}) \quad\text{for}\quad i = 0, 1, 2, \ldots.$
-:::
 
 ---
 
@@ -560,7 +557,7 @@ There is another important way to derive the gradient descent algorithm: via a d
 
 Find $\vec{x}(t)$ such that
 $$
-\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to the initial condition}\quad \vec{x}(0) = \vec{x}^{(0)}.
+\vec{x}'(t) = - \nabla F(\vec{x}(t)) \quad\text{subject to}\quad \vec{x}(0) = \vec{x}^{(0)}.
 $$
 
 ### {.gridbg}
